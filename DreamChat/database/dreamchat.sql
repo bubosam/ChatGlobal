@@ -42,7 +42,7 @@ CREATE TABLE IF NOT EXISTS `tokens` (
 CREATE TABLE IF NOT EXISTS `users` (
   `userID` int(5) NOT NULL AUTO_INCREMENT,
   `nickname` varchar(20) DEFAULT NULL,
-  `email` varchar(20) NOT NULL,
+  `email` varchar(254) NOT NULL,
   `password` varchar(16) NOT NULL,
   PRIMARY KEY (`userID`),
   UNIQUE KEY `email` (`email`),
