@@ -33,7 +33,11 @@ module.exports = {
 	
 	select: function(queryParam) {
 		var query = connection.query(queryParam, function (err, result) {
-			console.log(query.sql);
+			connection.end();
+			if (!err)
+				console.log('Results: ', result);
+			else
+				console.log('Error while performing Query.');
 		});
 	}
 };

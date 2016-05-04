@@ -7,7 +7,7 @@ var IndexComponent = React.createClass({
         return (
             <DefaultLayout title = {this.props.title}>
                  <div>
-                    <h1>Using ReactJS</h1>
+                    <h1>Welcome to {this.props.title}!!!</h1>
                  </div >
             </DefaultLayout>
          )

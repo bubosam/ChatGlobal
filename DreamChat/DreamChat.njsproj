@@ -30,9 +30,11 @@
     <DebugSymbols>true</DebugSymbols>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="API\DBconnect.js" />
+    <Compile Include="API\login.js" />
     <Compile Include="app.js" />
     <Compile Include="routes\index.js" />
-    <Compile Include="routes\users.js" />
+    <Compile Include="routes\test.js" />
     <Compile Include="bin\www" />
     <Content Include="package.json" />
     <Content Include="public\stylesheets\style.styl" />
@@ -42,6 +44,7 @@
     <Content Include="views\layout\master.jsx" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="API\" />
     <Folder Include="bin\" />
     <Folder Include="public\" />
     <Folder Include="public\images\" />
