@@ -32,6 +32,12 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import java.io.IOException;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.ProtocolException;
+import java.net.URL;
+import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -322,9 +328,26 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
             try {
                 // Simulate network access.
+                URL url = new URL("http://10.0.2.2:1337");
+                URLConnection urlConn = url.openConnection();
+
+                HttpURLConnection httpConn = (HttpURLConnection) urlConn;
+                httpConn.setAllowUserInteraction(false);
+                httpConn.setInstanceFollowRedirects(true);
+                httpConn.setRequestMethod("GET");
+                httpConn.connect();
+                int resCode = httpConn.getResponseCode();
+                //Toast.makeText(getApplicationContext(), "kod "+resCode, Toast.LENGTH_SHORT);
+
                 Thread.sleep(2000);
             } catch (InterruptedException e) {
                 return false;
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            } catch (ProtocolException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
             }
 
             for (String credential : DUMMY_CREDENTIALS) {
