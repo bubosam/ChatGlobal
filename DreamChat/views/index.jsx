@@ -6,7 +6,7 @@ var IndexComponent = React.createClass({
     render: function () {
         return (
 
-            <DefaultLayout name = {this.props.title}>
+            <DefaultLayout title = {this.props.title}>
                  <div>
                     <h1>Using ReactJS</h1>
                  </div >
