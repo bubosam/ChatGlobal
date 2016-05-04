@@ -37,6 +37,7 @@
     <Content Include="package.json" />
     <Content Include="public\stylesheets\style.styl" />
     <Content Include="README.md" />
+    <Content Include="views\error.jsx" />
     <Content Include="views\index.jsx" />
     <Content Include="views\layout\master.jsx" />
   </ItemGroup>

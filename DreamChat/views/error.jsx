@@ -2,16 +2,16 @@
 
 var DefaultLayout = require('./layout/master');
 
-var IndexComponent = React.createClass({
+var ErrorIndexComponent = React.createClass({
     render: function () {
         return (
             <DefaultLayout title = {this.props.title}>
                  <div>
-                    <h1>Using ReactJS</h1>
+                    <h1>ERROR</h1>
                  </div >
             </DefaultLayout>
          )
-    }
+}
 });
 
-module.exports = IndexComponent;
+module.exports = ErrorIndexComponent;
