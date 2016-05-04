@@ -58,7 +58,8 @@
             android:layout_alignParentRight="true"
             android:layout_alignParentEnd="true"
             android:height="20dp"
-            android:width="100dp" />
+            android:width="100dp"
+            android:onClick="Registration"/>
 
         <Button
             android:id="@+id/email_sign_in_button"
