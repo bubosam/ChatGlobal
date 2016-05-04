@@ -3,8 +3,6 @@ package com.example.boush.dreamchat;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.support.annotation.NonNull;
@@ -40,8 +38,6 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.List;
-
-import layout.Registration;
 
 import static android.Manifest.permission.READ_CONTACTS;
 
@@ -200,6 +196,8 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             showProgress(true);
             mAuthTask = new UserLoginTask(email, password);
             mAuthTask.execute((Void) null);
+            Intent intent = new Intent(LoginActivity.this,ChatActivity.class);
+            startActivity(intent);
         }
     }
 
