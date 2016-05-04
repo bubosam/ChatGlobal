@@ -33,23 +33,5 @@ public class PagerAdapter extends FragmentStatePagerAdapter {
     public int getCount() {
         return 3;
     }
-
-    @Override
-    public CharSequence getPageTitle(int position) {
-        String title=" ";
-        switch (position){
-            case 0:
-                title ="Me";
-                break;
-            case 1:
-                title="Conversations";
-                break;
-            case 2:
-                title="Friends";
-                break;
-        }
-
-        return title;
-    }
 }
 

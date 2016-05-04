@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">DreamChat</string>
+
+    <!-- Strings related to login -->
+    <string name="prompt_email">Email</string>
+    <string name="prompt_password">Heslo</string>
+    <string name="prompt_password2">Zopakuj heslo</string>
+    <string name="action_sign_in">Prihlásenie</string>
+    <string name="action_register">Registrácia</string>
+    <string name="action_sign_in_short">Prihlásenie</string>
+    <string name="error_invalid_email">Emailová sdresa neplatná</string>
+    <string name="error_invalid_password">Heslo je príliš krátke</string>
+    <string name="error_invalid_password2">Heslo je príliš dlhé</string>
+    <string name="error_incorrect_password">Heslo je nesprávne</string>
+    <string name="error_field_required">Toto pole je požadované</string>
+    <string name="permission_rationale">"Pre dopĺňanie emailov je potrebné povolenie pre prístup ku kontaktom."
+    </string>
+
+    <!-- Strings related to chat activity -->
+    <string name="tab_profile">O mne</string>
+    <string name="tab_conversations">Konverzácie</string>
+    <string name="tab_friends">Priatelia</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_activity_chat">ChatActivity</string>
+    <string name="action_settings">Nastavenia</string>
+    <string name="section_format">Hello World from section: %1$d</string>
+
+
+</resources>
