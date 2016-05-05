@@ -19,7 +19,7 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.ContactsContract;
-import android.text.TextUtils;
+import android.util.Patterns;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -38,6 +38,7 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Pattern;
 
 import static android.Manifest.permission.READ_CONTACTS;
 
@@ -166,23 +167,15 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         View focusView = null;
 
         // Check for a valid password, if the user entered one.
-        if (!TextUtils.isEmpty(password) && !isPasswordShort(password)) {
-            mPasswordView.setError(getString(R.string.error_invalid_password));
-            if(!isPasswordLong(password)){
-                mPasswordView.setError(getString(R.string.error_invalid_password2));
-            }
-            focusView = mPasswordView;
+        if(!isValidEmail(email)){
+            mEmailView.setError("Invalid email.");
+            focusView = mEmailView;
             cancel = true;
         }
 
-        // Check for a valid email address.
-        if (TextUtils.isEmpty(email)) {
-            mEmailView.setError(getString(R.string.error_field_required));
-            focusView = mEmailView;
-            cancel = true;
-        } else if (!isEmailValid(email)) {
-            mEmailView.setError(getString(R.string.error_invalid_email));
-            focusView = mEmailView;
+        if(!isValidPassword(password)){
+            mPasswordView.setError("Invalid password.");
+            focusView = mPasswordView;
             cancel = true;
         }
 
@@ -201,19 +194,15 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         }
     }
 
-    private boolean isEmailValid(String email) {
-
-        return email.contains("@");
+    private boolean isValidEmail(String email){
+        Pattern pattern = Patterns.EMAIL_ADDRESS;
+        return pattern.matcher(email).matches();
     }
 
-    private boolean isPasswordShort(String password) {
-
-        return password.length() > 8 && password.length() < 16;
-    }
-
-    private boolean isPasswordLong(String password) {
-
-        return password.length() < 16;
+    private boolean isValidPassword(String password){
+        String regex = "[\\w\\d]{8,16}";
+        Pattern pattern = Pattern.compile(regex, Pattern.CASE_INSENSITIVE);
+        return pattern.matcher(password).matches();
     }
 
     /**
