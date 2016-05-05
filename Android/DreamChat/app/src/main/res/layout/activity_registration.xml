@@ -81,10 +81,12 @@
         android:text="@string/action_register"
         android:id="@+id/b_register_confirm"
         android:layout_gravity="center_horizontal"
-        android:height="20dp"
-        android:width="100dp"
+        android:height="50dp"
+        android:width="150dp"
         android:layout_below="@+id/confirmPassword"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="49dp" />
+        android:layout_marginTop="49dp"
+        android:textColor="#ffffff"
+        android:textStyle="bold" />
 
 </RelativeLayout>
