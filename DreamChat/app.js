@@ -71,3 +71,5 @@ module.exports = app;
 var login = require(appRoot + "\\API\\login");
 login.login("zase@prace.com", "staralubovna");
 login.login("zase@prace.com", "starazalubovna");
+/*var register = require(appRoot + "\\API\\register");
+register.register("Emilko","emilko@mrkvicka.hu","Quatro123");*/
