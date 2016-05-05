@@ -19,7 +19,7 @@ module.exports = {
 			}
 			console.error(result);
         });
-        callback(result);
+        callback;
 	},
 	
 	insert: function(queryParam, callback) {
@@ -30,7 +30,7 @@ module.exports = {
 			}
 			console.error(result);
         });
-        callback(result);
+        callback;
 	},
 	
 	select: function(queryParam, callback) {
