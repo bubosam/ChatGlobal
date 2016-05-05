@@ -90,6 +90,7 @@ public class RegistrationActivity extends AppCompatActivity {
                         public void onClick(DialogInterface dialog, int which) {
                             Intent intent = new Intent(RegistrationActivity.this, ChatActivity.class);
                             startActivity(intent);
+                            finish();
                         }
                     })
                     .setIcon(android.R.drawable.ic_dialog_alert)
