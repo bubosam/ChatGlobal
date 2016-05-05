@@ -19,6 +19,7 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.ContactsContract;
+import android.util.Log;
 import android.util.Patterns;
 import android.view.KeyEvent;
 import android.view.View;
@@ -329,7 +330,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 httpConn.setRequestMethod("GET");
                 httpConn.connect();
                 int resCode = httpConn.getResponseCode();
-                //Toast.makeText(getApplicationContext(), "kod "+resCode, Toast.LENGTH_SHORT);
+                Log.d("Response kod: ", String.valueOf(resCode));
 
                 Thread.sleep(2000);
             } catch (InterruptedException e) {
