@@ -68,6 +68,12 @@ app.use(function (err, req, res, next) {
 module.exports = app;
 
 //TESTING BELOW THIS LINE
-var login = require(appRoot + "\\API\\login");
-login.login("zase@prace.com", "staralubovna");
-login.login("zase@prace.com", "starazalubovna");
+/*var login = require(appRoot + "\\API\\login");
+login.login("fake@donald.com", "amerikausa", function(success){
+	login.access(function (success){
+		console.log(success);
+	})
+});
+login.login("zase@prace.com", "starazalubovna", function (success) {
+	console.log(success);
+});*/
