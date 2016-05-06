@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.1.14
+-- version 4.5.2
 -- http://www.phpmyadmin.net
 --
 -- Hostiteľ: 127.0.0.1
--- Čas generovania: Út 03.Máj 2016, 22:36
--- Verzia serveru: 5.6.17
--- Verzia PHP: 5.5.12
+-- Čas generovania: Pi 06.Máj 2016, 10:06
+-- Verzia serveru: 5.7.9
+-- Verzia PHP: 5.6.16
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -14,7 +14,7 @@ SET time_zone = "+00:00";
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8 */;
+/*!40101 SET NAMES utf8mb4 */;
 
 --
 -- Databáza: `dreamchat`
@@ -26,12 +26,19 @@ SET time_zone = "+00:00";
 -- Štruktúra tabuľky pre tabuľku `tokens`
 --
 
+DROP TABLE IF EXISTS `tokens`;
 CREATE TABLE IF NOT EXISTS `tokens` (
   `userID` int(5) NOT NULL,
   `token` char(32) NOT NULL,
-  PRIMARY KEY (`userID`),
   UNIQUE KEY `token` (`token`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+--
+-- Sťahujem dáta pre tabuľku `tokens`
+--
+
+INSERT INTO `tokens` (`userID`, `token`) VALUES
+(3, 'a019ed400268a575b4638727d8f2b4');
 
 -- --------------------------------------------------------
 
@@ -39,6 +46,7 @@ CREATE TABLE IF NOT EXISTS `tokens` (
 -- Štruktúra tabuľky pre tabuľku `users`
 --
 
+DROP TABLE IF EXISTS `users`;
 CREATE TABLE IF NOT EXISTS `users` (
   `userID` int(5) NOT NULL AUTO_INCREMENT,
   `nickname` varchar(20) DEFAULT NULL,
@@ -47,7 +55,7 @@ CREATE TABLE IF NOT EXISTS `users` (
   PRIMARY KEY (`userID`),
   UNIQUE KEY `email` (`email`),
   UNIQUE KEY `email_2` (`email`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=6 ;
+) ENGINE=MyISAM AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
 
 --
 -- Sťahujem dáta pre tabuľku `users`
