@@ -19,6 +19,7 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.ContactsContract;
+import android.util.Base64;
 import android.util.Log;
 import android.util.Patterns;
 import android.view.KeyEvent;
@@ -37,9 +38,14 @@ import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.net.URL;
 import java.net.URLConnection;
+import java.security.KeyManagementException;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
+
+import javax.net.ssl.HttpsURLConnection;
+import javax.net.ssl.SSLContext;
 
 import static android.Manifest.permission.READ_CONTACTS;
 
@@ -321,24 +327,20 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
             try {
                 // Simulate network access.
-                URL url = new URL("http://10.0.2.2:1337");
-                URLConnection urlConn = url.openConnection();
-
-                HttpURLConnection httpConn = (HttpURLConnection) urlConn;
-                httpConn.setAllowUserInteraction(false);
-                httpConn.setInstanceFollowRedirects(true);
-                httpConn.setRequestMethod("GET");
-                httpConn.connect();
-                int resCode = httpConn.getResponseCode();
+                String mail="nejakyemail";
+                String password="nejakeheslo";
+                HttpURLConnection connection = (HttpURLConnection) new URL("http://10.0.2.2:1337").openConnection();
+                String encoded = Base64.encodeToString((mail + ":" + password).getBytes("UTF-8"), Base64.NO_WRAP);
+                connection.setRequestProperty("Authorization", "Basic " + encoded);
+                connection.setRequestMethod("GET");
+                connection.setInstanceFollowRedirects(true);
+                connection.connect();
+                int resCode = connection.getResponseCode();
                 Log.d("Response kod: ", String.valueOf(resCode));
 
                 Thread.sleep(2000);
             } catch (InterruptedException e) {
                 return false;
-            } catch (MalformedURLException e) {
-                e.printStackTrace();
-            } catch (ProtocolException e) {
-                e.printStackTrace();
             } catch (IOException e) {
                 e.printStackTrace();
             }
