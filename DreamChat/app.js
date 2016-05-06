@@ -68,8 +68,10 @@ app.use(function (err, req, res, next) {
 module.exports = app;
 
 //TESTING BELOW THIS LINE
-<<<<<<< HEAD
-/*var login = require(appRoot + "\\API\\login");
+
+
+/*<<<<<<< HEAD
+var login = require(appRoot + "\\API\\login");
 login.login("fake@donald.com", "amerikausa", function(success){
 	login.access(function (success){
 		console.log(success);
@@ -77,11 +79,11 @@ login.login("fake@donald.com", "amerikausa", function(success){
 });
 login.login("zase@prace.com", "starazalubovna", function (success) {
 	console.log(success);
-});*/
+});
 =======
 var login = require(appRoot + "\\API\\login");
 login.login("zase@prace.com", "staralubovna");
 login.login("zase@prace.com", "starazalubovna");
-/*var register = require(appRoot + "\\API\\register");
-register.register("Emilko","emilko@mrkvicka.hu","Quatro123");*/
->>>>>>> a195637d16f3cebb71275b9eba5f8119b9fc2033
+var register = require(appRoot + "\\API\\register");
+register.register("Emilko","emilko@mrkvicka.hu","Quatro123");
+>>>>>>> a195637d16f3cebb71275b9eba5f8119b9fc2033*/
