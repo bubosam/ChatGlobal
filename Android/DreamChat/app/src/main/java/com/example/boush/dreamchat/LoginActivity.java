@@ -338,7 +338,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 int resCode = connection.getResponseCode();
                 Log.d("Response kod: ", String.valueOf(resCode));
 
-                Thread.sleep(2000);
+                Thread.sleep(5000);
             } catch (InterruptedException e) {
                 return false;
             } catch (IOException e) {

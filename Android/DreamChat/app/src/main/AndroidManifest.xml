@@ -27,7 +27,9 @@
             android:name=".ChatActivity"
             android:label="@string/title_activity_chat"
             android:theme="@style/AppTheme" />
-        <activity android:name=".RegistrationActivity"></activity>
+        <activity android:name=".RegistrationActivity" />
+        <activity android:name=".Login_Activity_Connect" />
+        <activity android:name=".Register_Activity_Connect"></activity>
     </application>
 
 </manifest>
