@@ -12,15 +12,19 @@ module.exports = {
 					require('crypto').randomBytes(15, function (err, buffer) {
 						token = buffer.toString('hex');
 						console.log(token);
-						db.insert("INSERT INTO tokens VALUES(" + userid + ", '" + token + "')",
-							callback(userid, token)
+                        db.insert("INSERT INTO tokens VALUES(" + userid + ", '" + token + "')", function(userid,token) {
+                            if (callback != undefined) {
+                                callback(userid, token);
+                            }}
 						);
 					});               
                 }
                 else {
                     console.log("login failed");
                     token = undefined;
-					callback(0,"");
+                if (callback != undefined) {
+                    callback(0,"");
+                }
                 }
         });
 	},
@@ -31,19 +35,26 @@ module.exports = {
 			var access;
 			if (result != undefined && result[0].count == 1) {
 				console.log("access");
-				callback(true);
+                if (callback != undefined) {
+                    callback(true);
+                }
 			}
 			else {
 				console.log("access forbidden");
-				callback(false);
+                if (callback != undefined) {
+                    callback(false);
+                }
 			}
 		});
 	},
 
-	logout: function (userid, token) {
+	logout: function (userid, token, callback) {
 		db.insert("DELETE FROM tokens WHERE userid = " + userid + " AND token LIKE '" + token + "'", 
             function() {
 			console.log("user logged out");
-		});
+        });
+        if (callback != undefined) {
+            callback();
+        }
 	}
 };

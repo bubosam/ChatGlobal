@@ -6,5 +6,8 @@ module.exports = {
         function (err, res){
             if (err) throw err;
         });
+        if (callback != undefined) {
+            callback();
+        }
     }
 };
