@@ -5,12 +5,21 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
+import org.apache.http.NameValuePair;
+import org.apache.http.message.BasicNameValuePair;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.List;
 import java.util.regex.Pattern;
 
 
@@ -20,6 +29,9 @@ public class RegistrationActivity extends AppCompatActivity {
     private EditText password;
     private EditText confirmPassword;
     private Button register;
+    private String emailTxt;
+    private String passwordTxt;
+    List<NameValuePair> params;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,18 +95,53 @@ public class RegistrationActivity extends AppCompatActivity {
             // form field with an error.
             focusView.requestFocus();
         } else {
-            new AlertDialog.Builder(this)
-                    .setTitle("Registration")
-                    .setMessage("You have been successfully registered, now you will be logged in.")
-                    .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int which) {
-                            Intent intent = new Intent(RegistrationActivity.this, ChatActivity.class);
-                            startActivity(intent);
-                            finish();
-                        }
-                    })
-                    .setIcon(android.R.drawable.ic_dialog_alert)
-                    .show();
+            emailTxt=email.getText().toString();
+            passwordTxt=password.getText().toString();
+            params = new ArrayList<NameValuePair>();
+            params.add(new BasicNameValuePair("email", emailTxt));
+            params.add(new BasicNameValuePair("password", passwordTxt));
+            ServerRequest sr = new ServerRequest();
+            JSONObject json = sr.getJSON("http://10.0.2.2:1337/register", params);
+            //JSONObject json = sr.getJSON("http://192.168.56.1:8080/register",params);
+            if (json != null) {
+                try {
+                    String jsonstr = json.getString("response");
+
+                    Toast.makeText(getApplication(), jsonstr, Toast.LENGTH_LONG).show();
+
+                    Log.d("Hello", jsonstr);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+                new AlertDialog.Builder(this)
+                        .setTitle("Registration")
+                        .setMessage("You have been successfully registered, now you will be logged in.")
+                        .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                Intent intent = new Intent(RegistrationActivity.this, ChatActivity.class);
+                                startActivity(intent);
+                                finish();
+                            }
+                        })
+                        .setIcon(android.R.drawable.ic_dialog_alert)
+                        .show();
+            }
+            else if (json == null){
+                new AlertDialog.Builder(this)
+                        .setTitle("Error")
+                        .setMessage("There was problem with registration, check your internet connection and try it again.")
+                        .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                Intent intent = new Intent(RegistrationActivity.this, ChatActivity.class);
+                                startActivity(intent);
+                                finish();
+                            }
+                        })
+                        .setIcon(android.R.drawable.ic_dialog_alert)
+                        .show();
+            }
+
 
         }
     }

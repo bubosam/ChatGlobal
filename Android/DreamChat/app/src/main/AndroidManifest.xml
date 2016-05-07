@@ -29,7 +29,6 @@
             android:theme="@style/AppTheme" />
         <activity android:name=".RegistrationActivity" />
         <activity android:name=".Login_Activity_Connect" />
-        <activity android:name=".Register_Activity_Connect"></activity>
     </application>
 
 </manifest>
