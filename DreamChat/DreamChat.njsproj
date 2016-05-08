@@ -43,6 +43,7 @@
     <Content Include="views\error.jsx" />
     <Content Include="views\index.jsx" />
     <Content Include="views\layout\master.jsx" />
+    <Content Include="views\layout\register.jsx" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="API\" />

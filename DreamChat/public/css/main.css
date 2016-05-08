@@ -14,7 +14,7 @@
 }
 
 .app-bar{
-  background-color: #673ab7 !important;
+  background-color: #EF6C00 !important;
 }
 
 .login{
@@ -27,4 +27,11 @@
 .login-content{
      font-weight: 400;
      color: #ffffff !important;
+}
+
+.register{
+    height:126px;
+    background-image: url("logo_register.png");
+    background-repeat: no-repeat;
+    background-position: center; 
 }
