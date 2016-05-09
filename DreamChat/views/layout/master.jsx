@@ -1,7 +1,10 @@
 ﻿import React from 'react';
-import AppBar from 'material-ui/lib/app-bar';
 import injectTapEventPlugin from 'react-tap-event-plugin';
 injectTapEventPlugin();
+
+var AppBar = require('material-ui/lib/app-bar');
+var TextField = require('material-ui//lib/text-field');
+var RaisedButton = require('material-ui/lib/raised-button');
 
 var MasterLayout = React.createClass({
 
@@ -17,26 +20,55 @@ var MasterLayout = React.createClass({
                 <title>{this.props.title}</title>
             </head>
             <body>
-
+                <form method="post" action="/signup">
                 <div className='header'>
                     <span className='logo'></span>
                 </div>
-
                 <div className='menu'>
                     <AppBar title="Dream Chat"
-                        iconClassNameRight="muidocs-icon-navigation-expand-more"
-                        className="app-bar" />
+                            iconClassNameRight="muidocs-icon-navigation-expand-more"
+                            className="app-bar" />
                 </div>
 
                 <div className='login'>
-
-
-
                 </div>
+<div>
+                  <br /><br />
+<center>
+     <TextField name="username" id="username"
+                placeholder="e-mail" required="true" />
+</center>
+<br />
+</div>
 
-                {this.props.children}
+                <center>
+<TextField type="password" name="password" id="password"
+           placeholder="password" required="true" />
+                </center>
+             <br />
+                    <center>
+  <div>
+<RaisedButton label="Login" secondary={true} type="submit" name="signup" id="signin" value="register" style={{
+              margin: 3,
+              display: 'block' ,
+              width: 10 + '%' ,
+              float: 'center'
+              }} />
+  </div>
+                    </center>
+         <center>
+         <div>
+    <RaisedButton label="Register" secondary={true} type="submit" name="signup" id="signup" value="register" style={{
+                  margin: 3,
+              display: 'block' ,
+              width: 10 + '%' ,
+              float: 'center'
+                  }} /><a href= "./register"></a>
+         </div>
+         </center>
 
-            </body>
+                </form>
+</body>
             </html>
 
             );

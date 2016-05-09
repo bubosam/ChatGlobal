@@ -61,9 +61,12 @@ var MasterLayout = React.createClass({
 </center>
          <center>
          <div>
-    <RaisedButton label="Cancel" secondary={true} 
-                  style={{margin: 3, display: 'block', width: 10 + '%',float: 'center'}} />
-             <a href="/master" ></a>
+    <RaisedButton label="Cancel" secondary={true} style={{
+    margin: 3,
+    display: 'block',
+    width: 10 + '%',
+    float: 'center'
+}}/><a href="/master" ></a>
          </div>
          </center>
 

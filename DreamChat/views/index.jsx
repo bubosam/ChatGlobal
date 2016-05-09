@@ -1,6 +1,7 @@
 ﻿var React = require('react');
 
-var DefaultLayout = require('./layout/register');
+var DefaultLayout = require('./layout/master');
+
 
 var IndexComponent = React.createClass({
     render: function () {
