@@ -10,6 +10,8 @@ var bodyParser = require('body-parser');
 var routes = require('./routes/index');
 var test = require('./routes/test');
 var login = require('./routes/login');
+var register = require('./routes/register');
+var logout = require('./routes/logout');
 
 var app = express();
 
@@ -31,6 +33,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', routes);
 app.use('/test', test);
 app.use('/login', login);
+app.use('/register', register);
+app.use('/logout', logout);
 
 
 // catch 404 and forward to error handler
@@ -70,22 +74,3 @@ app.use(function (err, req, res, next) {
 module.exports = app;
 
 //TESTING BELOW THIS LINE
-/*
-var login = require(appRoot + "\\API\\login");
-login.login("fake@donald.com", "amerikausa", function(success){
-	login.access(function (success){
-		console.log(success);
-	})
-}); 
-var login = require(appRoot + "\\API\\login");
-login.access(3, "ba5364740c82656d6c58e81df4321a", function(success){
-    console.log(success);
-});
-
-
-=======
-var login = require(appRoot + "\\API\\login");
-login.login("zase@prace.com", "staralubovna");
-login.login("zase@prace.com", "starazalubovna");
-var register = require(appRoot + "\\API\\register");
-register.register("Vlagenta","iloveputin@russia.ru","vlakystoja");*/

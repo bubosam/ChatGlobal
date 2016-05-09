@@ -2,12 +2,11 @@
 
 module.exports = {
     register: function (nickname, email, password, callback) {
-        db.insert("INSERT INTO users(nickname,email,password) VALUES ('" + nickname + "','" + email + "','" + password + "')",
-        function (err, res){
-            if (err) throw err;
-        });
-        if (callback != undefined) {
-            callback();
-        }
+        db.nonQuery("INSERT INTO users(nickname,email,password) VALUES ('" + nickname + "','" + email + "','" + password + "')",
+        function (success){
+			if (typeof callback === "function") {
+				callback(success);
+			}
+        });		
     }
 };
