@@ -30,20 +30,22 @@
     <DebugSymbols>true</DebugSymbols>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="API\db.js" />
     <Compile Include="API\DBconnect.js" />
+    <Compile Include="API\model.js" />
     <Compile Include="API\register.js" />
     <Compile Include="API\login.js" />
     <Compile Include="app.js" />
-    <Compile Include="routes\index.js" />
+    <Compile Include="routes\route.js" />
     <Compile Include="routes\test.js" />
     <Compile Include="bin\www" />
     <Content Include="package.json" />
     <Content Include="public\stylesheets\style.styl" />
     <Content Include="README.md" />
-    <Content Include="views\error.jsx" />
-    <Content Include="views\index.jsx" />
-    <Content Include="views\layout\master.jsx" />
-    <Content Include="views\layout\register.jsx" />
+    <Content Include="views\404.ejs" />
+    <Content Include="views\index.ejs" />
+    <Content Include="views\signin.ejs" />
+    <Content Include="views\signup.ejs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="API\" />
@@ -54,7 +56,6 @@
     <Folder Include="public\stylesheets\" />
     <Folder Include="routes\" />
     <Folder Include="views\" />
-    <Folder Include="views\layout\" />
   </ItemGroup>
   <!-- Do not delete the following Import Project.  While this appears to do nothing it is a marker for setting TypeScript properties before our import that depends on them. -->
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.targets" Condition="False" />

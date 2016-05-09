@@ -51,7 +51,7 @@ CREATE TABLE IF NOT EXISTS `users` (
   `userID` int(5) NOT NULL AUTO_INCREMENT,
   `nickname` varchar(20) DEFAULT NULL,
   `email` varchar(254) NOT NULL,
-  `password` varchar(16) NOT NULL,
+  `password` varchar(128) NOT NULL,
   PRIMARY KEY (`userID`),
   UNIQUE KEY `email` (`email`),
   UNIQUE KEY `email_2` (`email`)
