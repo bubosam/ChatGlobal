@@ -1,2 +1,0 @@
-D:\TOP SECRET\ChatGlobal\DreamChat\obj\Debug\DreamChat.njsprojResolveAssemblyReference.cache
-D:\TOP SECRET\ChatGlobal\DreamChat\bin\Microsoft.NodejsTools.WebRole.dll
