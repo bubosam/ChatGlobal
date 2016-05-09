@@ -35,6 +35,7 @@
     <Compile Include="API\login.js" />
     <Compile Include="app.js" />
     <Compile Include="routes\index.js" />
+    <Compile Include="routes\login.js" />
     <Compile Include="routes\test.js" />
     <Compile Include="bin\www" />
     <Content Include="package.json" />
