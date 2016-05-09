@@ -5,7 +5,7 @@ var AppBar = require('material-ui/lib/app-bar');
 var TextField = require('material-ui//lib/text-field');
 var RaisedButton = require('material-ui/lib/raised-button');
 
-var RegisterLayout = React.createClass({
+var RegisterComponent = React.createClass({
     render: function () {
         return (      
 

@@ -1,12 +1,9 @@
 ﻿//imports
 var React = require('react');
 var InjectTapEventPlugin = require('react-tap-event-plugin');
-
 var AppBar = require('material-ui/lib/app-bar');
 var TextField = require('material-ui//lib/text-field');
 var RaisedButton = require('material-ui/lib/raised-button');
-
-injectTapEventPlugin();
 
 var MasterLayout = React.createClass({
     render: function () {
