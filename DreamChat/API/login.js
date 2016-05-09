@@ -1,5 +1,6 @@
 ﻿var db = require('./DBconnect.js');
 
+
 module.exports = {
 	login: function (email, password, callback){
         db.query("SELECT userid, COUNT(*) AS count FROM users WHERE email LIKE '" + email + "' AND password LIKE '" + password + "'", function(result) {
