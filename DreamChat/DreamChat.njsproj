@@ -31,6 +31,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="API\DBconnect.js" />
+    <Compile Include="API\regex.js" />
     <Compile Include="API\register.js" />
     <Compile Include="API\login.js" />
     <Compile Include="app.js" />
