@@ -8,6 +8,7 @@ export default React.createClass({
 
   propTypes: {
     name: PropTypes.string.isRequired,
+    type: PropTypes.string,
     placeholder: PropTypes.string,
     label: PropTypes.string,
     validate: PropTypes.arrayOf(PropTypes.string)
@@ -76,6 +77,7 @@ export default React.createClass({
       <div>
       <TextField
         hintText={this.props.placeholder}
+       type={this.props.type}
         floatingLabelText={this.props.label}
         value={this.context.values[this.props.name]}
         onChange={this.onChange}

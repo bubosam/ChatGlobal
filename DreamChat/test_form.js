@@ -1,4 +1,3 @@
-// demo.js
 import React from 'react';
 import ReactDOM from 'react-dom';
 import Form, {AppBar, Text, SubmitButton} from './src/index';
@@ -11,20 +10,23 @@ ReactDOM.render((
 title="Dream Chat"/>
 
     <Text
-      name="name"
+      name="nickname"
       validate={['required']}
-      placeholder="Type your name here"
-      label="Your name"/>
+      placeholder="Type your nickname here"
+      label="Your nickname"/>
+
+    <Text
+        name="password"
+        type="password"
+        validate={['required']}
+        placeholder="Type your password here"
+        label="Your password"/>
+
     <Text
       name="email"
       validate={['required', 'email']}
       placeholder="Type your email here"
-      label="E-mail"/>
-    <Text
-      name="website"
-      validate={['url']}
-      placeholder="Type your website url here"
-label="Website"/>
+      label="E-mail"/>   
     
     <SubmitButton/>
   </Form>

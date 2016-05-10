@@ -52,7 +52,9 @@
     <Compile Include="src\index.js" />
     <Compile Include="src\store.js" />
     <Compile Include="src\validators.js" />
-    <Content Include="views\test_form.html" />
+    <Compile Include="views\test_form.js" />
+    <Content Include="views\error.html" />
+    <Content Include="views\index.html" />
     <Content Include="package.json" />
     <Content Include="public\stylesheets\style.styl" />
     <Content Include="README.md" />
