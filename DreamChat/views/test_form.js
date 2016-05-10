@@ -71,22 +71,23 @@
 	  _react2.default.createElement(_index.AppBar, {
 	    title: 'Dream Chat' }),
 	  _react2.default.createElement(_index.Text, {
-	    name: 'name',
+	    name: 'nickname',
 	    validate: ['required'],
-	    placeholder: 'Type your name here',
-	    label: 'Your name' }),
+	    placeholder: 'Type your nickname here',
+	    label: 'Your nickname' }),
+	  _react2.default.createElement(_index.Text, {
+	    name: 'password',
+	    type: 'password',
+	    validate: ['required'],
+	    placeholder: 'Type your password here',
+	    label: 'Your password' }),
 	  _react2.default.createElement(_index.Text, {
 	    name: 'email',
 	    validate: ['required', 'email'],
 	    placeholder: 'Type your email here',
 	    label: 'E-mail' }),
-	  _react2.default.createElement(_index.Text, {
-	    name: 'website',
-	    validate: ['url'],
-	    placeholder: 'Type your website url here',
-	    label: 'Website' }),
 	  _react2.default.createElement(_index.SubmitButton, null)
-	), document.getElementById('container')); // demo.js
+	), document.getElementById('container'));
 
 /***/ },
 /* 1 */
@@ -354,6 +355,7 @@
 
 	  propTypes: {
 	    name: _react.PropTypes.string.isRequired,
+	    type: _react.PropTypes.string,
 	    placeholder: _react.PropTypes.string,
 	    label: _react.PropTypes.string,
 	    validate: _react.PropTypes.arrayOf(_react.PropTypes.string)
@@ -422,6 +424,7 @@
 	      null,
 	      _react2.default.createElement(_textField2.default, {
 	        hintText: this.props.placeholder,
+	        type: this.props.type,
 	        floatingLabelText: this.props.label,
 	        value: this.context.values[this.props.name],
 	        onChange: this.onChange,
@@ -1218,8 +1221,8 @@
 
 	'use strict';
 
-	var DOMProperty = require(72);
-	var ReactDOMComponentFlags = require(73);
+	var DOMProperty = require(54);
+	var ReactDOMComponentFlags = require(55);
 
 	var invariant = require(101);
 
@@ -1410,25 +1413,25 @@
 
 	'use strict';
 
-	var BeforeInputEventPlugin = require(54);
-	var ChangeEventPlugin = require(55);
-	var DefaultEventPluginOrder = require(56);
-	var EnterLeaveEventPlugin = require(57);
+	var BeforeInputEventPlugin = require(56);
+	var ChangeEventPlugin = require(57);
+	var DefaultEventPluginOrder = require(58);
+	var EnterLeaveEventPlugin = require(59);
 	var ExecutionEnvironment = require(100);
-	var HTMLDOMPropertyConfig = require(58);
-	var ReactComponentBrowserEnvironment = require(59);
-	var ReactDOMComponent = require(60);
+	var HTMLDOMPropertyConfig = require(60);
+	var ReactComponentBrowserEnvironment = require(61);
+	var ReactDOMComponent = require(62);
 	var ReactDOMComponentTree = require(19);
-	var ReactDOMEmptyComponent = require(61);
-	var ReactDOMTreeTraversal = require(62);
-	var ReactDOMTextComponent = require(63);
-	var ReactDefaultBatchingStrategy = require(64);
-	var ReactEventListener = require(65);
-	var ReactInjection = require(66);
-	var ReactReconcileTransaction = require(67);
-	var SVGDOMPropertyConfig = require(68);
-	var SelectEventPlugin = require(69);
-	var SimpleEventPlugin = require(70);
+	var ReactDOMEmptyComponent = require(63);
+	var ReactDOMTreeTraversal = require(64);
+	var ReactDOMTextComponent = require(65);
+	var ReactDefaultBatchingStrategy = require(66);
+	var ReactEventListener = require(67);
+	var ReactInjection = require(68);
+	var ReactReconcileTransaction = require(69);
+	var SVGDOMPropertyConfig = require(70);
+	var SelectEventPlugin = require(71);
+	var SimpleEventPlugin = require(72);
 
 	var alreadyInjected = false;
 
@@ -1481,7 +1484,7 @@
 	  if (process.env.NODE_ENV !== 'production') {
 	    var url = ExecutionEnvironment.canUseDOM && window.location.href || '';
 	    if (/[?&]react_perf\b/.test(url)) {
-	      var ReactDefaultPerf = require(71);
+	      var ReactDefaultPerf = require(73);
 	      ReactDefaultPerf.start();
 	    }
 	  }
@@ -1510,7 +1513,7 @@
 	'use strict';
 
 	var DOMLazyTree = require(74);
-	var DOMProperty = require(72);
+	var DOMProperty = require(54);
 	var ReactBrowserEventEmitter = require(75);
 	var ReactCurrentOwner = require(76);
 	var ReactDOMComponentTree = require(19);
@@ -2095,7 +2098,7 @@
 
 	'use strict';
 
-	var ReactRef = require(89);
+	var ReactRef = require(86);
 	var ReactInstrumentation = require(80);
 
 	/**
@@ -2233,12 +2236,12 @@
 
 	var _assign = require(52);
 
-	var CallbackQueue = require(86);
-	var PooledClass = require(87);
+	var CallbackQueue = require(87);
+	var PooledClass = require(88);
 	var ReactFeatureFlags = require(79);
 	var ReactPerf = require(22);
 	var ReactReconciler = require(23);
-	var Transaction = require(88);
+	var Transaction = require(89);
 
 	var invariant = require(101);
 
@@ -2615,11 +2618,11 @@
 
 	'use strict';
 
-	var PooledClass = require(87);
+	var PooledClass = require(88);
 	var ReactElement = require(33);
 
 	var emptyFunction = require(103);
-	var traverseAllChildren = require(93);
+	var traverseAllChildren = require(95);
 
 	var twoArgumentPooler = PooledClass.twoArgumentPooler;
 	var fourArgumentPooler = PooledClass.fourArgumentPooler;
@@ -2803,10 +2806,10 @@
 
 	'use strict';
 
-	var ReactNoopUpdateQueue = require(94);
+	var ReactNoopUpdateQueue = require(93);
 	var ReactInstrumentation = require(80);
 
-	var canDefineProperty = require(95);
+	var canDefineProperty = require(94);
 	var emptyObject = require(102);
 	var invariant = require(101);
 	var warning = require(99);
@@ -2936,7 +2939,7 @@
 	var ReactElement = require(33);
 	var ReactPropTypeLocations = require(96);
 	var ReactPropTypeLocationNames = require(97);
-	var ReactNoopUpdateQueue = require(94);
+	var ReactNoopUpdateQueue = require(93);
 
 	var emptyObject = require(102);
 	var invariant = require(101);
@@ -3846,7 +3849,7 @@
 	var ReactCurrentOwner = require(76);
 
 	var warning = require(99);
-	var canDefineProperty = require(95);
+	var canDefineProperty = require(94);
 
 	// The Symbol used to tag the ReactElement type. If there is no native Symbol
 	// nor polyfill, then a plain number is used for performance.
@@ -4146,7 +4149,7 @@
 	var ReactPropTypeLocationNames = require(97);
 	var ReactCurrentOwner = require(76);
 
-	var canDefineProperty = require(95);
+	var canDefineProperty = require(94);
 	var getIteratorFn = require(98);
 	var invariant = require(101);
 	var warning = require(99);
@@ -5240,7 +5243,7 @@
 	 * Copyright 2009-2016 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
 	 * Available under MIT license <https://lodash.com/license>
 	 */
-	var baseDifference = require(188),
+	var baseDifference = require(189),
 	    rest = require(187);
 
 	/** Used as references for various `Number` constants. */
@@ -6764,7 +6767,7 @@
 
 	var _iconButton2 = _interopRequireDefault(_iconButton);
 
-	var _menu = require(189);
+	var _menu = require(188);
 
 	var _menu2 = _interopRequireDefault(_menu);
 
@@ -7909,6 +7912,248 @@
 /* 54 */
 /***/ function(module, exports, require) {
 
+	/* WEBPACK VAR INJECTION */(function(require, process) {/**
+	 * Copyright 2013-present, Facebook, Inc.
+	 * All rights reserved.
+	 *
+	 * This source code is licensed under the BSD-style license found in the
+	 * LICENSE file in the root directory of this source tree. An additional grant
+	 * of patent rights can be found in the PATENTS file in the same directory.
+	 *
+	 * @providesModule DOMProperty
+	 */
+
+	'use strict';
+
+	var invariant = require(101);
+
+	function checkMask(value, bitmask) {
+	  return (value & bitmask) === bitmask;
+	}
+
+	var DOMPropertyInjection = {
+	  /**
+	   * Mapping from normalized, camelcased property names to a configuration that
+	   * specifies how the associated DOM property should be accessed or rendered.
+	   */
+	  MUST_USE_PROPERTY: 0x1,
+	  HAS_SIDE_EFFECTS: 0x2,
+	  HAS_BOOLEAN_VALUE: 0x4,
+	  HAS_NUMERIC_VALUE: 0x8,
+	  HAS_POSITIVE_NUMERIC_VALUE: 0x10 | 0x8,
+	  HAS_OVERLOADED_BOOLEAN_VALUE: 0x20,
+
+	  /**
+	   * Inject some specialized knowledge about the DOM. This takes a config object
+	   * with the following properties:
+	   *
+	   * isCustomAttribute: function that given an attribute name will return true
+	   * if it can be inserted into the DOM verbatim. Useful for data-* or aria-*
+	   * attributes where it's impossible to enumerate all of the possible
+	   * attribute names,
+	   *
+	   * Properties: object mapping DOM property name to one of the
+	   * DOMPropertyInjection constants or null. If your attribute isn't in here,
+	   * it won't get written to the DOM.
+	   *
+	   * DOMAttributeNames: object mapping React attribute name to the DOM
+	   * attribute name. Attribute names not specified use the **lowercase**
+	   * normalized name.
+	   *
+	   * DOMAttributeNamespaces: object mapping React attribute name to the DOM
+	   * attribute namespace URL. (Attribute names not specified use no namespace.)
+	   *
+	   * DOMPropertyNames: similar to DOMAttributeNames but for DOM properties.
+	   * Property names not specified use the normalized name.
+	   *
+	   * DOMMutationMethods: Properties that require special mutation methods. If
+	   * `value` is undefined, the mutation method should unset the property.
+	   *
+	   * @param {object} domPropertyConfig the config as described above.
+	   */
+	  injectDOMPropertyConfig: function (domPropertyConfig) {
+	    var Injection = DOMPropertyInjection;
+	    var Properties = domPropertyConfig.Properties || {};
+	    var DOMAttributeNamespaces = domPropertyConfig.DOMAttributeNamespaces || {};
+	    var DOMAttributeNames = domPropertyConfig.DOMAttributeNames || {};
+	    var DOMPropertyNames = domPropertyConfig.DOMPropertyNames || {};
+	    var DOMMutationMethods = domPropertyConfig.DOMMutationMethods || {};
+
+	    if (domPropertyConfig.isCustomAttribute) {
+	      DOMProperty._isCustomAttributeFunctions.push(domPropertyConfig.isCustomAttribute);
+	    }
+
+	    for (var propName in Properties) {
+	      !!DOMProperty.properties.hasOwnProperty(propName) ? process.env.NODE_ENV !== 'production' ? invariant(false, 'injectDOMPropertyConfig(...): You\'re trying to inject DOM property ' + '\'%s\' which has already been injected. You may be accidentally ' + 'injecting the same DOM property config twice, or you may be ' + 'injecting two configs that have conflicting property names.', propName) : invariant(false) : void 0;
+
+	      var lowerCased = propName.toLowerCase();
+	      var propConfig = Properties[propName];
+
+	      var propertyInfo = {
+	        attributeName: lowerCased,
+	        attributeNamespace: null,
+	        propertyName: propName,
+	        mutationMethod: null,
+
+	        mustUseProperty: checkMask(propConfig, Injection.MUST_USE_PROPERTY),
+	        hasSideEffects: checkMask(propConfig, Injection.HAS_SIDE_EFFECTS),
+	        hasBooleanValue: checkMask(propConfig, Injection.HAS_BOOLEAN_VALUE),
+	        hasNumericValue: checkMask(propConfig, Injection.HAS_NUMERIC_VALUE),
+	        hasPositiveNumericValue: checkMask(propConfig, Injection.HAS_POSITIVE_NUMERIC_VALUE),
+	        hasOverloadedBooleanValue: checkMask(propConfig, Injection.HAS_OVERLOADED_BOOLEAN_VALUE)
+	      };
+
+	      !(propertyInfo.mustUseProperty || !propertyInfo.hasSideEffects) ? process.env.NODE_ENV !== 'production' ? invariant(false, 'DOMProperty: Properties that have side effects must use property: %s', propName) : invariant(false) : void 0;
+	      !(propertyInfo.hasBooleanValue + propertyInfo.hasNumericValue + propertyInfo.hasOverloadedBooleanValue <= 1) ? process.env.NODE_ENV !== 'production' ? invariant(false, 'DOMProperty: Value can be one of boolean, overloaded boolean, or ' + 'numeric value, but not a combination: %s', propName) : invariant(false) : void 0;
+
+	      if (process.env.NODE_ENV !== 'production') {
+	        DOMProperty.getPossibleStandardName[lowerCased] = propName;
+	      }
+
+	      if (DOMAttributeNames.hasOwnProperty(propName)) {
+	        var attributeName = DOMAttributeNames[propName];
+	        propertyInfo.attributeName = attributeName;
+	        if (process.env.NODE_ENV !== 'production') {
+	          DOMProperty.getPossibleStandardName[attributeName] = propName;
+	        }
+	      }
+
+	      if (DOMAttributeNamespaces.hasOwnProperty(propName)) {
+	        propertyInfo.attributeNamespace = DOMAttributeNamespaces[propName];
+	      }
+
+	      if (DOMPropertyNames.hasOwnProperty(propName)) {
+	        propertyInfo.propertyName = DOMPropertyNames[propName];
+	      }
+
+	      if (DOMMutationMethods.hasOwnProperty(propName)) {
+	        propertyInfo.mutationMethod = DOMMutationMethods[propName];
+	      }
+
+	      DOMProperty.properties[propName] = propertyInfo;
+	    }
+	  }
+	};
+
+	/* eslint-disable max-len */
+	var ATTRIBUTE_NAME_START_CHAR = ':A-Z_a-z\\u00C0-\\u00D6\\u00D8-\\u00F6\\u00F8-\\u02FF\\u0370-\\u037D\\u037F-\\u1FFF\\u200C-\\u200D\\u2070-\\u218F\\u2C00-\\u2FEF\\u3001-\\uD7FF\\uF900-\\uFDCF\\uFDF0-\\uFFFD';
+	/* eslint-enable max-len */
+
+	/**
+	 * DOMProperty exports lookup objects that can be used like functions:
+	 *
+	 *   > DOMProperty.isValid['id']
+	 *   true
+	 *   > DOMProperty.isValid['foobar']
+	 *   undefined
+	 *
+	 * Although this may be confusing, it performs better in general.
+	 *
+	 * @see http://jsperf.com/key-exists
+	 * @see http://jsperf.com/key-missing
+	 */
+	var DOMProperty = {
+
+	  ID_ATTRIBUTE_NAME: 'data-reactid',
+	  ROOT_ATTRIBUTE_NAME: 'data-reactroot',
+
+	  ATTRIBUTE_NAME_START_CHAR: ATTRIBUTE_NAME_START_CHAR,
+	  ATTRIBUTE_NAME_CHAR: ATTRIBUTE_NAME_START_CHAR + '\\-.0-9\\uB7\\u0300-\\u036F\\u203F-\\u2040',
+
+	  /**
+	   * Map from property "standard name" to an object with info about how to set
+	   * the property in the DOM. Each object contains:
+	   *
+	   * attributeName:
+	   *   Used when rendering markup or with `*Attribute()`.
+	   * attributeNamespace
+	   * propertyName:
+	   *   Used on DOM node instances. (This includes properties that mutate due to
+	   *   external factors.)
+	   * mutationMethod:
+	   *   If non-null, used instead of the property or `setAttribute()` after
+	   *   initial render.
+	   * mustUseProperty:
+	   *   Whether the property must be accessed and mutated as an object property.
+	   * hasSideEffects:
+	   *   Whether or not setting a value causes side effects such as triggering
+	   *   resources to be loaded or text selection changes. If true, we read from
+	   *   the DOM before updating to ensure that the value is only set if it has
+	   *   changed.
+	   * hasBooleanValue:
+	   *   Whether the property should be removed when set to a falsey value.
+	   * hasNumericValue:
+	   *   Whether the property must be numeric or parse as a numeric and should be
+	   *   removed when set to a falsey value.
+	   * hasPositiveNumericValue:
+	   *   Whether the property must be positive numeric or parse as a positive
+	   *   numeric and should be removed when set to a falsey value.
+	   * hasOverloadedBooleanValue:
+	   *   Whether the property can be used as a flag as well as with a value.
+	   *   Removed when strictly equal to false; present without a value when
+	   *   strictly equal to true; present with a value otherwise.
+	   */
+	  properties: {},
+
+	  /**
+	   * Mapping from lowercase property names to the properly cased version, used
+	   * to warn in the case of missing properties. Available only in __DEV__.
+	   * @type {Object}
+	   */
+	  getPossibleStandardName: process.env.NODE_ENV !== 'production' ? {} : null,
+
+	  /**
+	   * All of the isCustomAttribute() functions that have been injected.
+	   */
+	  _isCustomAttributeFunctions: [],
+
+	  /**
+	   * Checks whether a property name is a custom attribute.
+	   * @method
+	   */
+	  isCustomAttribute: function (attributeName) {
+	    for (var i = 0; i < DOMProperty._isCustomAttributeFunctions.length; i++) {
+	      var isCustomAttributeFn = DOMProperty._isCustomAttributeFunctions[i];
+	      if (isCustomAttributeFn(attributeName)) {
+	        return true;
+	      }
+	    }
+	    return false;
+	  },
+
+	  injection: DOMPropertyInjection
+	};
+
+	module.exports = DOMProperty;
+	/* WEBPACK VAR INJECTION */}.call(exports, require, require(92)))
+
+/***/ },
+/* 55 */
+/***/ function(module, exports, require) {
+
+	/**
+	 * Copyright 2015-present, Facebook, Inc.
+	 * All rights reserved.
+	 *
+	 * This source code is licensed under the BSD-style license found in the
+	 * LICENSE file in the root directory of this source tree. An additional grant
+	 * of patent rights can be found in the PATENTS file in the same directory.
+	 *
+	 * @providesModule ReactDOMComponentFlags
+	 */
+
+	'use strict';
+
+	var ReactDOMComponentFlags = {
+	  hasCachedChildNodes: 1 << 0
+	};
+
+	module.exports = ReactDOMComponentFlags;
+
+/***/ },
+/* 56 */
+/***/ function(module, exports, require) {
+
 	/**
 	 * Copyright 2013-present Facebook, Inc.
 	 * All rights reserved.
@@ -8299,7 +8544,7 @@
 	module.exports = BeforeInputEventPlugin;
 
 /***/ },
-/* 55 */
+/* 57 */
 /***/ function(module, exports, require) {
 
 	/**
@@ -8321,11 +8566,11 @@
 	var ExecutionEnvironment = require(100);
 	var ReactDOMComponentTree = require(19);
 	var ReactUpdates = require(24);
-	var SyntheticEvent = require(138);
+	var SyntheticEvent = require(137);
 
-	var getEventTarget = require(139);
-	var isEventSupported = require(140);
-	var isTextInputElement = require(141);
+	var getEventTarget = require(138);
+	var isEventSupported = require(139);
+	var isTextInputElement = require(140);
 	var keyOf = require(105);
 
 	var topLevelTypes = EventConstants.topLevelTypes;
@@ -8629,7 +8874,7 @@
 	module.exports = ChangeEventPlugin;
 
 /***/ },
-/* 56 */
+/* 58 */
 /***/ function(module, exports, require) {
 
 	/**
@@ -8661,7 +8906,7 @@
 	module.exports = DefaultEventPluginOrder;
 
 /***/ },
-/* 57 */
+/* 59 */
 /***/ function(module, exports, require) {
 
 	/**
@@ -8680,7 +8925,7 @@
 	var EventConstants = require(109);
 	var EventPropagators = require(111);
 	var ReactDOMComponentTree = require(19);
-	var SyntheticMouseEvent = require(137);
+	var SyntheticMouseEvent = require(141);
 
 	var keyOf = require(105);
 
@@ -8771,7 +9016,7 @@
 	module.exports = EnterLeaveEventPlugin;
 
 /***/ },
-/* 58 */
+/* 60 */
 /***/ function(module, exports, require) {
 
 	/**
@@ -8787,7 +9032,7 @@
 
 	'use strict';
 
-	var DOMProperty = require(72);
+	var DOMProperty = require(54);
 
 	var MUST_USE_PROPERTY = DOMProperty.injection.MUST_USE_PROPERTY;
 	var HAS_BOOLEAN_VALUE = DOMProperty.injection.HAS_BOOLEAN_VALUE;
@@ -8985,7 +9230,7 @@
 	module.exports = HTMLDOMPropertyConfig;
 
 /***/ },
-/* 59 */
+/* 61 */
 /***/ function(module, exports, require) {
 
 	/**
@@ -9034,7 +9279,7 @@
 	module.exports = ReactComponentBrowserEnvironment;
 
 /***/ },
-/* 60 */
+/* 62 */
 /***/ function(module, exports, require) {
 
 	/* WEBPACK VAR INJECTION */(function(require, process) {/**
@@ -9058,15 +9303,15 @@
 	var CSSPropertyOperations = require(145);
 	var DOMLazyTree = require(74);
 	var DOMNamespaces = require(146);
-	var DOMProperty = require(72);
+	var DOMProperty = require(54);
 	var DOMPropertyOperations = require(147);
 	var EventConstants = require(109);
 	var EventPluginHub = require(53);
 	var EventPluginRegistry = require(122);
 	var ReactBrowserEventEmitter = require(75);
-	var ReactComponentBrowserEnvironment = require(59);
+	var ReactComponentBrowserEnvironment = require(61);
 	var ReactDOMButton = require(148);
-	var ReactDOMComponentFlags = require(73);
+	var ReactDOMComponentFlags = require(55);
 	var ReactDOMComponentTree = require(19);
 	var ReactDOMInput = require(149);
 	var ReactDOMOption = require(150);
@@ -9077,7 +9322,7 @@
 
 	var escapeTextContentForBrowser = require(154);
 	var invariant = require(101);
-	var isEventSupported = require(140);
+	var isEventSupported = require(139);
 	var keyOf = require(105);
 	var shallowEqual = require(155);
 	var validateDOMNesting = require(156);
@@ -9949,7 +10194,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, require, require(92)))
 
 /***/ },
-/* 61 */
+/* 63 */
 /***/ function(module, exports, require) {
 
 	/**
@@ -10014,7 +10259,7 @@
 	module.exports = ReactDOMEmptyComponent;
 
 /***/ },
-/* 62 */
+/* 64 */
 /***/ function(module, exports, require) {
 
 	/* WEBPACK VAR INJECTION */(function(require, process) {/**
@@ -10154,7 +10399,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, require, require(92)))
 
 /***/ },
-/* 63 */
+/* 65 */
 /***/ function(module, exports, require) {
 
 	/* WEBPACK VAR INJECTION */(function(require, process) {/**
@@ -10329,7 +10574,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, require, require(92)))
 
 /***/ },
-/* 64 */
+/* 66 */
 /***/ function(module, exports, require) {
 
 	/**
@@ -10348,7 +10593,7 @@
 	var _assign = require(52);
 
 	var ReactUpdates = require(24);
-	var Transaction = require(88);
+	var Transaction = require(89);
 
 	var emptyFunction = require(103);
 
@@ -10402,7 +10647,7 @@
 	module.exports = ReactDefaultBatchingStrategy;
 
 /***/ },
-/* 65 */
+/* 67 */
 /***/ function(module, exports, require) {
 
 	/**
@@ -10422,11 +10667,11 @@
 
 	var EventListener = require(157);
 	var ExecutionEnvironment = require(100);
-	var PooledClass = require(87);
+	var PooledClass = require(88);
 	var ReactDOMComponentTree = require(19);
 	var ReactUpdates = require(24);
 
-	var getEventTarget = require(139);
+	var getEventTarget = require(138);
 	var getUnboundedScrollPosition = require(158);
 
 	/**
@@ -10564,7 +10809,7 @@
 	module.exports = ReactEventListener;
 
 /***/ },
-/* 66 */
+/* 68 */
 /***/ function(module, exports, require) {
 
 	/**
@@ -10580,7 +10825,7 @@
 
 	'use strict';
 
-	var DOMProperty = require(72);
+	var DOMProperty = require(54);
 	var EventPluginHub = require(53);
 	var EventPluginUtils = require(110);
 	var ReactComponentEnvironment = require(159);
@@ -10607,7 +10852,7 @@
 	module.exports = ReactInjection;
 
 /***/ },
-/* 67 */
+/* 69 */
 /***/ function(module, exports, require) {
 
 	/**
@@ -10625,11 +10870,11 @@
 
 	var _assign = require(52);
 
-	var CallbackQueue = require(86);
-	var PooledClass = require(87);
+	var CallbackQueue = require(87);
+	var PooledClass = require(88);
 	var ReactBrowserEventEmitter = require(75);
 	var ReactInputSelection = require(162);
-	var Transaction = require(88);
+	var Transaction = require(89);
 
 	/**
 	 * Ensures that, when possible, the selection range (currently selected text
@@ -10774,7 +11019,7 @@
 	module.exports = ReactReconcileTransaction;
 
 /***/ },
-/* 68 */
+/* 70 */
 /***/ function(module, exports, require) {
 
 	/**
@@ -11079,7 +11324,7 @@
 	module.exports = SVGDOMPropertyConfig;
 
 /***/ },
-/* 69 */
+/* 71 */
 /***/ function(module, exports, require) {
 
 	/**
@@ -11100,10 +11345,10 @@
 	var ExecutionEnvironment = require(100);
 	var ReactDOMComponentTree = require(19);
 	var ReactInputSelection = require(162);
-	var SyntheticEvent = require(138);
+	var SyntheticEvent = require(137);
 
 	var getActiveElement = require(163);
-	var isTextInputElement = require(141);
+	var isTextInputElement = require(140);
 	var keyOf = require(105);
 	var shallowEqual = require(155);
 
@@ -11280,7 +11525,7 @@
 	module.exports = SelectEventPlugin;
 
 /***/ },
-/* 70 */
+/* 72 */
 /***/ function(module, exports, require) {
 
 	/* WEBPACK VAR INJECTION */(function(require, process) {/**
@@ -11302,10 +11547,10 @@
 	var ReactDOMComponentTree = require(19);
 	var SyntheticAnimationEvent = require(164);
 	var SyntheticClipboardEvent = require(165);
-	var SyntheticEvent = require(138);
+	var SyntheticEvent = require(137);
 	var SyntheticFocusEvent = require(166);
 	var SyntheticKeyboardEvent = require(167);
-	var SyntheticMouseEvent = require(137);
+	var SyntheticMouseEvent = require(141);
 	var SyntheticDragEvent = require(168);
 	var SyntheticTouchEvent = require(169);
 	var SyntheticTransitionEvent = require(170);
@@ -11913,7 +12158,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, require, require(92)))
 
 /***/ },
-/* 71 */
+/* 73 */
 /***/ function(module, exports, require) {
 
 	/* WEBPACK VAR INJECTION */(function(require, process) {/**
@@ -11929,7 +12174,7 @@
 
 	'use strict';
 
-	var DOMProperty = require(72);
+	var DOMProperty = require(54);
 	var ReactDOMComponentTree = require(19);
 	var ReactDefaultPerfAnalysis = require(173);
 	var ReactMount = require(21);
@@ -12235,248 +12480,6 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, require, require(92)))
 
 /***/ },
-/* 72 */
-/***/ function(module, exports, require) {
-
-	/* WEBPACK VAR INJECTION */(function(require, process) {/**
-	 * Copyright 2013-present, Facebook, Inc.
-	 * All rights reserved.
-	 *
-	 * This source code is licensed under the BSD-style license found in the
-	 * LICENSE file in the root directory of this source tree. An additional grant
-	 * of patent rights can be found in the PATENTS file in the same directory.
-	 *
-	 * @providesModule DOMProperty
-	 */
-
-	'use strict';
-
-	var invariant = require(101);
-
-	function checkMask(value, bitmask) {
-	  return (value & bitmask) === bitmask;
-	}
-
-	var DOMPropertyInjection = {
-	  /**
-	   * Mapping from normalized, camelcased property names to a configuration that
-	   * specifies how the associated DOM property should be accessed or rendered.
-	   */
-	  MUST_USE_PROPERTY: 0x1,
-	  HAS_SIDE_EFFECTS: 0x2,
-	  HAS_BOOLEAN_VALUE: 0x4,
-	  HAS_NUMERIC_VALUE: 0x8,
-	  HAS_POSITIVE_NUMERIC_VALUE: 0x10 | 0x8,
-	  HAS_OVERLOADED_BOOLEAN_VALUE: 0x20,
-
-	  /**
-	   * Inject some specialized knowledge about the DOM. This takes a config object
-	   * with the following properties:
-	   *
-	   * isCustomAttribute: function that given an attribute name will return true
-	   * if it can be inserted into the DOM verbatim. Useful for data-* or aria-*
-	   * attributes where it's impossible to enumerate all of the possible
-	   * attribute names,
-	   *
-	   * Properties: object mapping DOM property name to one of the
-	   * DOMPropertyInjection constants or null. If your attribute isn't in here,
-	   * it won't get written to the DOM.
-	   *
-	   * DOMAttributeNames: object mapping React attribute name to the DOM
-	   * attribute name. Attribute names not specified use the **lowercase**
-	   * normalized name.
-	   *
-	   * DOMAttributeNamespaces: object mapping React attribute name to the DOM
-	   * attribute namespace URL. (Attribute names not specified use no namespace.)
-	   *
-	   * DOMPropertyNames: similar to DOMAttributeNames but for DOM properties.
-	   * Property names not specified use the normalized name.
-	   *
-	   * DOMMutationMethods: Properties that require special mutation methods. If
-	   * `value` is undefined, the mutation method should unset the property.
-	   *
-	   * @param {object} domPropertyConfig the config as described above.
-	   */
-	  injectDOMPropertyConfig: function (domPropertyConfig) {
-	    var Injection = DOMPropertyInjection;
-	    var Properties = domPropertyConfig.Properties || {};
-	    var DOMAttributeNamespaces = domPropertyConfig.DOMAttributeNamespaces || {};
-	    var DOMAttributeNames = domPropertyConfig.DOMAttributeNames || {};
-	    var DOMPropertyNames = domPropertyConfig.DOMPropertyNames || {};
-	    var DOMMutationMethods = domPropertyConfig.DOMMutationMethods || {};
-
-	    if (domPropertyConfig.isCustomAttribute) {
-	      DOMProperty._isCustomAttributeFunctions.push(domPropertyConfig.isCustomAttribute);
-	    }
-
-	    for (var propName in Properties) {
-	      !!DOMProperty.properties.hasOwnProperty(propName) ? process.env.NODE_ENV !== 'production' ? invariant(false, 'injectDOMPropertyConfig(...): You\'re trying to inject DOM property ' + '\'%s\' which has already been injected. You may be accidentally ' + 'injecting the same DOM property config twice, or you may be ' + 'injecting two configs that have conflicting property names.', propName) : invariant(false) : void 0;
-
-	      var lowerCased = propName.toLowerCase();
-	      var propConfig = Properties[propName];
-
-	      var propertyInfo = {
-	        attributeName: lowerCased,
-	        attributeNamespace: null,
-	        propertyName: propName,
-	        mutationMethod: null,
-
-	        mustUseProperty: checkMask(propConfig, Injection.MUST_USE_PROPERTY),
-	        hasSideEffects: checkMask(propConfig, Injection.HAS_SIDE_EFFECTS),
-	        hasBooleanValue: checkMask(propConfig, Injection.HAS_BOOLEAN_VALUE),
-	        hasNumericValue: checkMask(propConfig, Injection.HAS_NUMERIC_VALUE),
-	        hasPositiveNumericValue: checkMask(propConfig, Injection.HAS_POSITIVE_NUMERIC_VALUE),
-	        hasOverloadedBooleanValue: checkMask(propConfig, Injection.HAS_OVERLOADED_BOOLEAN_VALUE)
-	      };
-
-	      !(propertyInfo.mustUseProperty || !propertyInfo.hasSideEffects) ? process.env.NODE_ENV !== 'production' ? invariant(false, 'DOMProperty: Properties that have side effects must use property: %s', propName) : invariant(false) : void 0;
-	      !(propertyInfo.hasBooleanValue + propertyInfo.hasNumericValue + propertyInfo.hasOverloadedBooleanValue <= 1) ? process.env.NODE_ENV !== 'production' ? invariant(false, 'DOMProperty: Value can be one of boolean, overloaded boolean, or ' + 'numeric value, but not a combination: %s', propName) : invariant(false) : void 0;
-
-	      if (process.env.NODE_ENV !== 'production') {
-	        DOMProperty.getPossibleStandardName[lowerCased] = propName;
-	      }
-
-	      if (DOMAttributeNames.hasOwnProperty(propName)) {
-	        var attributeName = DOMAttributeNames[propName];
-	        propertyInfo.attributeName = attributeName;
-	        if (process.env.NODE_ENV !== 'production') {
-	          DOMProperty.getPossibleStandardName[attributeName] = propName;
-	        }
-	      }
-
-	      if (DOMAttributeNamespaces.hasOwnProperty(propName)) {
-	        propertyInfo.attributeNamespace = DOMAttributeNamespaces[propName];
-	      }
-
-	      if (DOMPropertyNames.hasOwnProperty(propName)) {
-	        propertyInfo.propertyName = DOMPropertyNames[propName];
-	      }
-
-	      if (DOMMutationMethods.hasOwnProperty(propName)) {
-	        propertyInfo.mutationMethod = DOMMutationMethods[propName];
-	      }
-
-	      DOMProperty.properties[propName] = propertyInfo;
-	    }
-	  }
-	};
-
-	/* eslint-disable max-len */
-	var ATTRIBUTE_NAME_START_CHAR = ':A-Z_a-z\\u00C0-\\u00D6\\u00D8-\\u00F6\\u00F8-\\u02FF\\u0370-\\u037D\\u037F-\\u1FFF\\u200C-\\u200D\\u2070-\\u218F\\u2C00-\\u2FEF\\u3001-\\uD7FF\\uF900-\\uFDCF\\uFDF0-\\uFFFD';
-	/* eslint-enable max-len */
-
-	/**
-	 * DOMProperty exports lookup objects that can be used like functions:
-	 *
-	 *   > DOMProperty.isValid['id']
-	 *   true
-	 *   > DOMProperty.isValid['foobar']
-	 *   undefined
-	 *
-	 * Although this may be confusing, it performs better in general.
-	 *
-	 * @see http://jsperf.com/key-exists
-	 * @see http://jsperf.com/key-missing
-	 */
-	var DOMProperty = {
-
-	  ID_ATTRIBUTE_NAME: 'data-reactid',
-	  ROOT_ATTRIBUTE_NAME: 'data-reactroot',
-
-	  ATTRIBUTE_NAME_START_CHAR: ATTRIBUTE_NAME_START_CHAR,
-	  ATTRIBUTE_NAME_CHAR: ATTRIBUTE_NAME_START_CHAR + '\\-.0-9\\uB7\\u0300-\\u036F\\u203F-\\u2040',
-
-	  /**
-	   * Map from property "standard name" to an object with info about how to set
-	   * the property in the DOM. Each object contains:
-	   *
-	   * attributeName:
-	   *   Used when rendering markup or with `*Attribute()`.
-	   * attributeNamespace
-	   * propertyName:
-	   *   Used on DOM node instances. (This includes properties that mutate due to
-	   *   external factors.)
-	   * mutationMethod:
-	   *   If non-null, used instead of the property or `setAttribute()` after
-	   *   initial render.
-	   * mustUseProperty:
-	   *   Whether the property must be accessed and mutated as an object property.
-	   * hasSideEffects:
-	   *   Whether or not setting a value causes side effects such as triggering
-	   *   resources to be loaded or text selection changes. If true, we read from
-	   *   the DOM before updating to ensure that the value is only set if it has
-	   *   changed.
-	   * hasBooleanValue:
-	   *   Whether the property should be removed when set to a falsey value.
-	   * hasNumericValue:
-	   *   Whether the property must be numeric or parse as a numeric and should be
-	   *   removed when set to a falsey value.
-	   * hasPositiveNumericValue:
-	   *   Whether the property must be positive numeric or parse as a positive
-	   *   numeric and should be removed when set to a falsey value.
-	   * hasOverloadedBooleanValue:
-	   *   Whether the property can be used as a flag as well as with a value.
-	   *   Removed when strictly equal to false; present without a value when
-	   *   strictly equal to true; present with a value otherwise.
-	   */
-	  properties: {},
-
-	  /**
-	   * Mapping from lowercase property names to the properly cased version, used
-	   * to warn in the case of missing properties. Available only in __DEV__.
-	   * @type {Object}
-	   */
-	  getPossibleStandardName: process.env.NODE_ENV !== 'production' ? {} : null,
-
-	  /**
-	   * All of the isCustomAttribute() functions that have been injected.
-	   */
-	  _isCustomAttributeFunctions: [],
-
-	  /**
-	   * Checks whether a property name is a custom attribute.
-	   * @method
-	   */
-	  isCustomAttribute: function (attributeName) {
-	    for (var i = 0; i < DOMProperty._isCustomAttributeFunctions.length; i++) {
-	      var isCustomAttributeFn = DOMProperty._isCustomAttributeFunctions[i];
-	      if (isCustomAttributeFn(attributeName)) {
-	        return true;
-	      }
-	    }
-	    return false;
-	  },
-
-	  injection: DOMPropertyInjection
-	};
-
-	module.exports = DOMProperty;
-	/* WEBPACK VAR INJECTION */}.call(exports, require, require(92)))
-
-/***/ },
-/* 73 */
-/***/ function(module, exports, require) {
-
-	/**
-	 * Copyright 2015-present, Facebook, Inc.
-	 * All rights reserved.
-	 *
-	 * This source code is licensed under the BSD-style license found in the
-	 * LICENSE file in the root directory of this source tree. An additional grant
-	 * of patent rights can be found in the PATENTS file in the same directory.
-	 *
-	 * @providesModule ReactDOMComponentFlags
-	 */
-
-	'use strict';
-
-	var ReactDOMComponentFlags = {
-	  hasCachedChildNodes: 1 << 0
-	};
-
-	module.exports = ReactDOMComponentFlags;
-
-/***/ },
 /* 74 */
 /***/ function(module, exports, require) {
 
@@ -12611,7 +12614,7 @@
 	var ViewportMetrics = require(114);
 
 	var getVendorPrefixedEventName = require(178);
-	var isEventSupported = require(140);
+	var isEventSupported = require(139);
 
 	/**
 	 * Summary of `ReactBrowserEventEmitter` event handling:
@@ -13584,6 +13587,89 @@
 /* 86 */
 /***/ function(module, exports, require) {
 
+	/**
+	 * Copyright 2013-present, Facebook, Inc.
+	 * All rights reserved.
+	 *
+	 * This source code is licensed under the BSD-style license found in the
+	 * LICENSE file in the root directory of this source tree. An additional grant
+	 * of patent rights can be found in the PATENTS file in the same directory.
+	 *
+	 * @providesModule ReactRef
+	 */
+
+	'use strict';
+
+	var ReactOwner = require(182);
+
+	var ReactRef = {};
+
+	function attachRef(ref, component, owner) {
+	  if (typeof ref === 'function') {
+	    ref(component.getPublicInstance());
+	  } else {
+	    // Legacy ref
+	    ReactOwner.addComponentAsRefTo(component, ref, owner);
+	  }
+	}
+
+	function detachRef(ref, component, owner) {
+	  if (typeof ref === 'function') {
+	    ref(null);
+	  } else {
+	    // Legacy ref
+	    ReactOwner.removeComponentAsRefFrom(component, ref, owner);
+	  }
+	}
+
+	ReactRef.attachRefs = function (instance, element) {
+	  if (element === null || element === false) {
+	    return;
+	  }
+	  var ref = element.ref;
+	  if (ref != null) {
+	    attachRef(ref, instance, element._owner);
+	  }
+	};
+
+	ReactRef.shouldUpdateRefs = function (prevElement, nextElement) {
+	  // If either the owner or a `ref` has changed, make sure the newest owner
+	  // has stored a reference to `this`, and the previous owner (if different)
+	  // has forgotten the reference to `this`. We use the element instead
+	  // of the public this.props because the post processing cannot determine
+	  // a ref. The ref conceptually lives on the element.
+
+	  // TODO: Should this even be possible? The owner cannot change because
+	  // it's forbidden by shouldUpdateReactComponent. The ref can change
+	  // if you swap the keys of but not the refs. Reconsider where this check
+	  // is made. It probably belongs where the key checking and
+	  // instantiateReactComponent is done.
+
+	  var prevEmpty = prevElement === null || prevElement === false;
+	  var nextEmpty = nextElement === null || nextElement === false;
+
+	  return(
+	    // This has a few false positives w/r/t empty components.
+	    prevEmpty || nextEmpty || nextElement._owner !== prevElement._owner || nextElement.ref !== prevElement.ref
+	  );
+	};
+
+	ReactRef.detachRefs = function (instance, element) {
+	  if (element === null || element === false) {
+	    return;
+	  }
+	  var ref = element.ref;
+	  if (ref != null) {
+	    detachRef(ref, instance, element._owner);
+	  }
+	};
+
+	module.exports = ReactRef;
+
+/***/ },
+/* 87 */
+/***/ function(module, exports, require) {
+
 	/* WEBPACK VAR INJECTION */(function(require, process) {/**
 	 * Copyright 2013-present, Facebook, Inc.
 	 * All rights reserved.
@@ -13599,7 +13685,7 @@
 
 	var _assign = require(52);
 
-	var PooledClass = require(87);
+	var PooledClass = require(88);
 
 	var invariant = require(101);
 
@@ -13692,7 +13778,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, require, require(92)))
 
 /***/ },
-/* 87 */
+/* 88 */
 /***/ function(module, exports, require) {
 
 	/* WEBPACK VAR INJECTION */(function(require, process) {/**
@@ -13817,7 +13903,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, require, require(92)))
 
 /***/ },
-/* 88 */
+/* 89 */
 /***/ function(module, exports, require) {
 
 	/* WEBPACK VAR INJECTION */(function(require, process) {/**
@@ -14054,89 +14140,6 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, require, require(92)))
 
 /***/ },
-/* 89 */
-/***/ function(module, exports, require) {
-
-	/**
-	 * Copyright 2013-present, Facebook, Inc.
-	 * All rights reserved.
-	 *
-	 * This source code is licensed under the BSD-style license found in the
-	 * LICENSE file in the root directory of this source tree. An additional grant
-	 * of patent rights can be found in the PATENTS file in the same directory.
-	 *
-	 * @providesModule ReactRef
-	 */
-
-	'use strict';
-
-	var ReactOwner = require(182);
-
-	var ReactRef = {};
-
-	function attachRef(ref, component, owner) {
-	  if (typeof ref === 'function') {
-	    ref(component.getPublicInstance());
-	  } else {
-	    // Legacy ref
-	    ReactOwner.addComponentAsRefTo(component, ref, owner);
-	  }
-	}
-
-	function detachRef(ref, component, owner) {
-	  if (typeof ref === 'function') {
-	    ref(null);
-	  } else {
-	    // Legacy ref
-	    ReactOwner.removeComponentAsRefFrom(component, ref, owner);
-	  }
-	}
-
-	ReactRef.attachRefs = function (instance, element) {
-	  if (element === null || element === false) {
-	    return;
-	  }
-	  var ref = element.ref;
-	  if (ref != null) {
-	    attachRef(ref, instance, element._owner);
-	  }
-	};
-
-	ReactRef.shouldUpdateRefs = function (prevElement, nextElement) {
-	  // If either the owner or a `ref` has changed, make sure the newest owner
-	  // has stored a reference to `this`, and the previous owner (if different)
-	  // has forgotten the reference to `this`. We use the element instead
-	  // of the public this.props because the post processing cannot determine
-	  // a ref. The ref conceptually lives on the element.
-
-	  // TODO: Should this even be possible? The owner cannot change because
-	  // it's forbidden by shouldUpdateReactComponent. The ref can change
-	  // if you swap the keys of but not the refs. Reconsider where this check
-	  // is made. It probably belongs where the key checking and
-	  // instantiateReactComponent is done.
-
-	  var prevEmpty = prevElement === null || prevElement === false;
-	  var nextEmpty = nextElement === null || nextElement === false;
-
-	  return(
-	    // This has a few false positives w/r/t empty components.
-	    prevEmpty || nextEmpty || nextElement._owner !== prevElement._owner || nextElement.ref !== prevElement.ref
-	  );
-	};
-
-	ReactRef.detachRefs = function (instance, element) {
-	  if (element === null || element === false) {
-	    return;
-	  }
-	  var ref = element.ref;
-	  if (ref != null) {
-	    detachRef(ref, instance, element._owner);
-	  }
-	};
-
-	module.exports = ReactRef;
-
-/***/ },
 /* 90 */
 /***/ function(module, exports, require) {
 
@@ -14308,6 +14311,137 @@
 /***/ function(module, exports, require) {
 
 	/* WEBPACK VAR INJECTION */(function(require, process) {/**
+	 * Copyright 2015-present, Facebook, Inc.
+	 * All rights reserved.
+	 *
+	 * This source code is licensed under the BSD-style license found in the
+	 * LICENSE file in the root directory of this source tree. An additional grant
+	 * of patent rights can be found in the PATENTS file in the same directory.
+	 *
+	 * @providesModule ReactNoopUpdateQueue
+	 */
+
+	'use strict';
+
+	var warning = require(99);
+
+	function warnTDZ(publicInstance, callerName) {
+	  if (process.env.NODE_ENV !== 'production') {
+	    process.env.NODE_ENV !== 'production' ? warning(false, '%s(...): Can only update a mounted or mounting component. ' + 'This usually means you called %s() on an unmounted component. ' + 'This is a no-op. Please check the code for the %s component.', callerName, callerName, publicInstance.constructor && publicInstance.constructor.displayName || '') : void 0;
+	  }
+	}
+
+	/**
+	 * This is the abstract API for an update queue.
+	 */
+	var ReactNoopUpdateQueue = {
+
+	  /**
+	   * Checks whether or not this composite component is mounted.
+	   * @param {ReactClass} publicInstance The instance we want to test.
+	   * @return {boolean} True if mounted, false otherwise.
+	   * @protected
+	   * @final
+	   */
+	  isMounted: function (publicInstance) {
+	    return false;
+	  },
+
+	  /**
+	   * Enqueue a callback that will be executed after all the pending updates
+	   * have processed.
+	   *
+	   * @param {ReactClass} publicInstance The instance to use as `this` context.
+	   * @param {?function} callback Called after state is updated.
+	   * @internal
+	   */
+	  enqueueCallback: function (publicInstance, callback) {},
+
+	  /**
+	   * Forces an update. This should only be invoked when it is known with
+	   * certainty that we are **not** in a DOM transaction.
+	   *
+	   * You may want to call this when you know that some deeper aspect of the
+	   * component's state has changed but `setState` was not called.
+	   *
+	   * This will not invoke `shouldComponentUpdate`, but it will invoke
+	   * `componentWillUpdate` and `componentDidUpdate`.
+	   *
+	   * @param {ReactClass} publicInstance The instance that should rerender.
+	   * @internal
+	   */
+	  enqueueForceUpdate: function (publicInstance) {
+	    warnTDZ(publicInstance, 'forceUpdate');
+	  },
+
+	  /**
+	   * Replaces all of the state. Always use this or `setState` to mutate state.
+	   * You should treat `this.state` as immutable.
+	   *
+	   * There is no guarantee that `this.state` will be immediately updated, so
+	   * accessing `this.state` after calling this method may return the old value.
+	   *
+	   * @param {ReactClass} publicInstance The instance that should rerender.
+	   * @param {object} completeState Next state.
+	   * @internal
+	   */
+	  enqueueReplaceState: function (publicInstance, completeState) {
+	    warnTDZ(publicInstance, 'replaceState');
+	  },
+
+	  /**
+	   * Sets a subset of the state. This only exists because _pendingState is
+	   * internal. This provides a merging strategy that is not available to deep
+	   * properties which is confusing. TODO: Expose pendingState or don't use it
+	   * during the merge.
+	   *
+	   * @param {ReactClass} publicInstance The instance that should rerender.
+	   * @param {object} partialState Next partial state to be merged with state.
+	   * @internal
+	   */
+	  enqueueSetState: function (publicInstance, partialState) {
+	    warnTDZ(publicInstance, 'setState');
+	  }
+	};
+
+	module.exports = ReactNoopUpdateQueue;
+	/* WEBPACK VAR INJECTION */}.call(exports, require, require(92)))
+
+/***/ },
+/* 94 */
+/***/ function(module, exports, require) {
+
+	/* WEBPACK VAR INJECTION */(function(require, process) {/**
+	 * Copyright 2013-present, Facebook, Inc.
+	 * All rights reserved.
+	 *
+	 * This source code is licensed under the BSD-style license found in the
+	 * LICENSE file in the root directory of this source tree. An additional grant
+	 * of patent rights can be found in the PATENTS file in the same directory.
+	 *
+	 * @providesModule canDefineProperty
+	 */
+
+	'use strict';
+
+	var canDefineProperty = false;
+	if (process.env.NODE_ENV !== 'production') {
+	  try {
+	    Object.defineProperty({}, 'x', { get: function () {} });
+	    canDefineProperty = true;
+	  } catch (x) {
+	    // IE will fail on defineProperty
+	  }
+	}
+
+	module.exports = canDefineProperty;
+	/* WEBPACK VAR INJECTION */}.call(exports, require, require(92)))
+
+/***/ },
+/* 95 */
+/***/ function(module, exports, require) {
+
+	/* WEBPACK VAR INJECTION */(function(require, process) {/**
 	 * Copyright 2013-present, Facebook, Inc.
 	 * All rights reserved.
 	 *
@@ -14465,137 +14599,6 @@
 	}
 
 	module.exports = traverseAllChildren;
-	/* WEBPACK VAR INJECTION */}.call(exports, require, require(92)))
-
-/***/ },
-/* 94 */
-/***/ function(module, exports, require) {
-
-	/* WEBPACK VAR INJECTION */(function(require, process) {/**
-	 * Copyright 2015-present, Facebook, Inc.
-	 * All rights reserved.
-	 *
-	 * This source code is licensed under the BSD-style license found in the
-	 * LICENSE file in the root directory of this source tree. An additional grant
-	 * of patent rights can be found in the PATENTS file in the same directory.
-	 *
-	 * @providesModule ReactNoopUpdateQueue
-	 */
-
-	'use strict';
-
-	var warning = require(99);
-
-	function warnTDZ(publicInstance, callerName) {
-	  if (process.env.NODE_ENV !== 'production') {
-	    process.env.NODE_ENV !== 'production' ? warning(false, '%s(...): Can only update a mounted or mounting component. ' + 'This usually means you called %s() on an unmounted component. ' + 'This is a no-op. Please check the code for the %s component.', callerName, callerName, publicInstance.constructor && publicInstance.constructor.displayName || '') : void 0;
-	  }
-	}
-
-	/**
-	 * This is the abstract API for an update queue.
-	 */
-	var ReactNoopUpdateQueue = {
-
-	  /**
-	   * Checks whether or not this composite component is mounted.
-	   * @param {ReactClass} publicInstance The instance we want to test.
-	   * @return {boolean} True if mounted, false otherwise.
-	   * @protected
-	   * @final
-	   */
-	  isMounted: function (publicInstance) {
-	    return false;
-	  },
-
-	  /**
-	   * Enqueue a callback that will be executed after all the pending updates
-	   * have processed.
-	   *
-	   * @param {ReactClass} publicInstance The instance to use as `this` context.
-	   * @param {?function} callback Called after state is updated.
-	   * @internal
-	   */
-	  enqueueCallback: function (publicInstance, callback) {},
-
-	  /**
-	   * Forces an update. This should only be invoked when it is known with
-	   * certainty that we are **not** in a DOM transaction.
-	   *
-	   * You may want to call this when you know that some deeper aspect of the
-	   * component's state has changed but `setState` was not called.
-	   *
-	   * This will not invoke `shouldComponentUpdate`, but it will invoke
-	   * `componentWillUpdate` and `componentDidUpdate`.
-	   *
-	   * @param {ReactClass} publicInstance The instance that should rerender.
-	   * @internal
-	   */
-	  enqueueForceUpdate: function (publicInstance) {
-	    warnTDZ(publicInstance, 'forceUpdate');
-	  },
-
-	  /**
-	   * Replaces all of the state. Always use this or `setState` to mutate state.
-	   * You should treat `this.state` as immutable.
-	   *
-	   * There is no guarantee that `this.state` will be immediately updated, so
-	   * accessing `this.state` after calling this method may return the old value.
-	   *
-	   * @param {ReactClass} publicInstance The instance that should rerender.
-	   * @param {object} completeState Next state.
-	   * @internal
-	   */
-	  enqueueReplaceState: function (publicInstance, completeState) {
-	    warnTDZ(publicInstance, 'replaceState');
-	  },
-
-	  /**
-	   * Sets a subset of the state. This only exists because _pendingState is
-	   * internal. This provides a merging strategy that is not available to deep
-	   * properties which is confusing. TODO: Expose pendingState or don't use it
-	   * during the merge.
-	   *
-	   * @param {ReactClass} publicInstance The instance that should rerender.
-	   * @param {object} partialState Next partial state to be merged with state.
-	   * @internal
-	   */
-	  enqueueSetState: function (publicInstance, partialState) {
-	    warnTDZ(publicInstance, 'setState');
-	  }
-	};
-
-	module.exports = ReactNoopUpdateQueue;
-	/* WEBPACK VAR INJECTION */}.call(exports, require, require(92)))
-
-/***/ },
-/* 95 */
-/***/ function(module, exports, require) {
-
-	/* WEBPACK VAR INJECTION */(function(require, process) {/**
-	 * Copyright 2013-present, Facebook, Inc.
-	 * All rights reserved.
-	 *
-	 * This source code is licensed under the BSD-style license found in the
-	 * LICENSE file in the root directory of this source tree. An additional grant
-	 * of patent rights can be found in the PATENTS file in the same directory.
-	 *
-	 * @providesModule canDefineProperty
-	 */
-
-	'use strict';
-
-	var canDefineProperty = false;
-	if (process.env.NODE_ENV !== 'production') {
-	  try {
-	    Object.defineProperty({}, 'x', { get: function () {} });
-	    canDefineProperty = true;
-	  } catch (x) {
-	    // IE will fail on defineProperty
-	  }
-	}
-
-	module.exports = canDefineProperty;
 	/* WEBPACK VAR INJECTION */}.call(exports, require, require(92)))
 
 /***/ },
@@ -15763,9 +15766,9 @@
 
 	'use strict';
 
-	var SyntheticEvent = require(138);
+	var SyntheticEvent = require(137);
 
-	var getEventTarget = require(139);
+	var getEventTarget = require(138);
 
 	/**
 	 * @interface UIEvent
@@ -17989,7 +17992,7 @@
 
 	var _assign = require(52);
 
-	var PooledClass = require(87);
+	var PooledClass = require(88);
 
 	var getTextContentAccessor = require(210);
 
@@ -18087,7 +18090,7 @@
 
 	'use strict';
 
-	var SyntheticEvent = require(138);
+	var SyntheticEvent = require(137);
 
 	/**
 	 * @interface Event
@@ -18128,7 +18131,7 @@
 
 	'use strict';
 
-	var SyntheticEvent = require(138);
+	var SyntheticEvent = require(137);
 
 	/**
 	 * @interface Event
@@ -18157,83 +18160,6 @@
 /* 137 */
 /***/ function(module, exports, require) {
 
-	/**
-	 * Copyright 2013-present, Facebook, Inc.
-	 * All rights reserved.
-	 *
-	 * This source code is licensed under the BSD-style license found in the
-	 * LICENSE file in the root directory of this source tree. An additional grant
-	 * of patent rights can be found in the PATENTS file in the same directory.
-	 *
-	 * @providesModule SyntheticMouseEvent
-	 */
-
-	'use strict';
-
-	var SyntheticUIEvent = require(112);
-	var ViewportMetrics = require(114);
-
-	var getEventModifierState = require(211);
-
-	/**
-	 * @interface MouseEvent
-	 * @see http://www.w3.org/TR/DOM-Level-3-Events/
-	 */
-	var MouseEventInterface = {
-	  screenX: null,
-	  screenY: null,
-	  clientX: null,
-	  clientY: null,
-	  ctrlKey: null,
-	  shiftKey: null,
-	  altKey: null,
-	  metaKey: null,
-	  getModifierState: getEventModifierState,
-	  button: function (event) {
-	    // Webkit, Firefox, IE9+
-	    // which:  1 2 3
-	    // button: 0 1 2 (standard)
-	    var button = event.button;
-	    if ('which' in event) {
-	      return button;
-	    }
-	    // IE<9
-	    // which:  undefined
-	    // button: 0 0 0
-	    // button: 1 4 2 (onmouseup)
-	    return button === 2 ? 2 : button === 4 ? 1 : 0;
-	  },
-	  buttons: null,
-	  relatedTarget: function (event) {
-	    return event.relatedTarget || (event.fromElement === event.srcElement ? event.toElement : event.fromElement);
-	  },
-	  // "Proprietary" Interface.
-	  pageX: function (event) {
-	    return 'pageX' in event ? event.pageX : event.clientX + ViewportMetrics.currentScrollLeft;
-	  },
-	  pageY: function (event) {
-	    return 'pageY' in event ? event.pageY : event.clientY + ViewportMetrics.currentScrollTop;
-	  }
-	};
-
-	/**
-	 * @param {object} dispatchConfig Configuration used to dispatch this event.
-	 * @param {string} dispatchMarker Marker identifying the event target.
-	 * @param {object} nativeEvent Native browser event.
-	 * @extends {SyntheticUIEvent}
-	 */
-	function SyntheticMouseEvent(dispatchConfig, dispatchMarker, nativeEvent, nativeEventTarget) {
-	  return SyntheticUIEvent.call(this, dispatchConfig, dispatchMarker, nativeEvent, nativeEventTarget);
-	}
-
-	SyntheticUIEvent.augmentClass(SyntheticMouseEvent, MouseEventInterface);
-
-	module.exports = SyntheticMouseEvent;
-
-/***/ },
-/* 138 */
-/***/ function(module, exports, require) {
-
 	/* WEBPACK VAR INJECTION */(function(require, process) {/**
 	 * Copyright 2013-present, Facebook, Inc.
 	 * All rights reserved.
@@ -18249,7 +18175,7 @@
 
 	var _assign = require(52);
 
-	var PooledClass = require(87);
+	var PooledClass = require(88);
 
 	var emptyFunction = require(103);
 	var warning = require(99);
@@ -18498,7 +18424,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, require, require(92)))
 
 /***/ },
-/* 139 */
+/* 138 */
 /***/ function(module, exports, require) {
 
 	/**
@@ -18538,7 +18464,7 @@
 	module.exports = getEventTarget;
 
 /***/ },
-/* 140 */
+/* 139 */
 /***/ function(module, exports, require) {
 
 	/**
@@ -18603,7 +18529,7 @@
 	module.exports = isEventSupported;
 
 /***/ },
-/* 141 */
+/* 140 */
 /***/ function(module, exports, require) {
 
 	/**
@@ -18649,6 +18575,83 @@
 	module.exports = isTextInputElement;
 
 /***/ },
+/* 141 */
+/***/ function(module, exports, require) {
+
+	/**
+	 * Copyright 2013-present, Facebook, Inc.
+	 * All rights reserved.
+	 *
+	 * This source code is licensed under the BSD-style license found in the
+	 * LICENSE file in the root directory of this source tree. An additional grant
+	 * of patent rights can be found in the PATENTS file in the same directory.
+	 *
+	 * @providesModule SyntheticMouseEvent
+	 */
+
+	'use strict';
+
+	var SyntheticUIEvent = require(112);
+	var ViewportMetrics = require(114);
+
+	var getEventModifierState = require(213);
+
+	/**
+	 * @interface MouseEvent
+	 * @see http://www.w3.org/TR/DOM-Level-3-Events/
+	 */
+	var MouseEventInterface = {
+	  screenX: null,
+	  screenY: null,
+	  clientX: null,
+	  clientY: null,
+	  ctrlKey: null,
+	  shiftKey: null,
+	  altKey: null,
+	  metaKey: null,
+	  getModifierState: getEventModifierState,
+	  button: function (event) {
+	    // Webkit, Firefox, IE9+
+	    // which:  1 2 3
+	    // button: 0 1 2 (standard)
+	    var button = event.button;
+	    if ('which' in event) {
+	      return button;
+	    }
+	    // IE<9
+	    // which:  undefined
+	    // button: 0 0 0
+	    // button: 1 4 2 (onmouseup)
+	    return button === 2 ? 2 : button === 4 ? 1 : 0;
+	  },
+	  buttons: null,
+	  relatedTarget: function (event) {
+	    return event.relatedTarget || (event.fromElement === event.srcElement ? event.toElement : event.fromElement);
+	  },
+	  // "Proprietary" Interface.
+	  pageX: function (event) {
+	    return 'pageX' in event ? event.pageX : event.clientX + ViewportMetrics.currentScrollLeft;
+	  },
+	  pageY: function (event) {
+	    return 'pageY' in event ? event.pageY : event.clientY + ViewportMetrics.currentScrollTop;
+	  }
+	};
+
+	/**
+	 * @param {object} dispatchConfig Configuration used to dispatch this event.
+	 * @param {string} dispatchMarker Marker identifying the event target.
+	 * @param {object} nativeEvent Native browser event.
+	 * @extends {SyntheticUIEvent}
+	 */
+	function SyntheticMouseEvent(dispatchConfig, dispatchMarker, nativeEvent, nativeEventTarget) {
+	  return SyntheticUIEvent.call(this, dispatchConfig, dispatchMarker, nativeEvent, nativeEventTarget);
+	}
+
+	SyntheticUIEvent.augmentClass(SyntheticMouseEvent, MouseEventInterface);
+
+	module.exports = SyntheticMouseEvent;
+
+/***/ },
 /* 142 */
 /***/ function(module, exports, require) {
 
@@ -18666,8 +18669,8 @@
 	'use strict';
 
 	var DOMLazyTree = require(74);
-	var Danger = require(212);
-	var ReactMultiChildUpdateTypes = require(213);
+	var Danger = require(211);
+	var ReactMultiChildUpdateTypes = require(212);
 	var ReactPerf = require(22);
 
 	var createMicrosoftUnsafeLocalFunction = require(175);
@@ -19138,7 +19141,7 @@
 
 	'use strict';
 
-	var DOMProperty = require(72);
+	var DOMProperty = require(54);
 	var ReactDOMInstrumentation = require(220);
 	var ReactPerf = require(22);
 
@@ -20079,7 +20082,7 @@
 	'use strict';
 
 	var ReactComponentEnvironment = require(159);
-	var ReactMultiChildUpdateTypes = require(213);
+	var ReactMultiChildUpdateTypes = require(212);
 
 	var ReactCurrentOwner = require(76);
 	var ReactReconciler = require(23);
@@ -21468,7 +21471,7 @@
 
 	'use strict';
 
-	var SyntheticEvent = require(138);
+	var SyntheticEvent = require(137);
 
 	/**
 	 * @interface Event
@@ -21512,7 +21515,7 @@
 
 	'use strict';
 
-	var SyntheticEvent = require(138);
+	var SyntheticEvent = require(137);
 
 	/**
 	 * @interface Event
@@ -21600,7 +21603,7 @@
 
 	var getEventCharCode = require(172);
 	var getEventKey = require(228);
-	var getEventModifierState = require(211);
+	var getEventModifierState = require(213);
 
 	/**
 	 * @interface KeyboardEvent
@@ -21685,7 +21688,7 @@
 
 	'use strict';
 
-	var SyntheticMouseEvent = require(137);
+	var SyntheticMouseEvent = require(141);
 
 	/**
 	 * @interface DragEvent
@@ -21728,7 +21731,7 @@
 
 	var SyntheticUIEvent = require(112);
 
-	var getEventModifierState = require(211);
+	var getEventModifierState = require(213);
 
 	/**
 	 * @interface TouchEvent
@@ -21776,7 +21779,7 @@
 
 	'use strict';
 
-	var SyntheticEvent = require(138);
+	var SyntheticEvent = require(137);
 
 	/**
 	 * @interface Event
@@ -21820,7 +21823,7 @@
 
 	'use strict';
 
-	var SyntheticMouseEvent = require(137);
+	var SyntheticMouseEvent = require(141);
 
 	/**
 	 * @interface WheelEvent
@@ -24096,6 +24099,47 @@
 /* 188 */
 /***/ function(module, exports, require) {
 
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _react = require(3);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _reactAddonsPureRenderMixin = require(238);
+
+	var _reactAddonsPureRenderMixin2 = _interopRequireDefault(_reactAddonsPureRenderMixin);
+
+	var _svgIcon = require(234);
+
+	var _svgIcon2 = _interopRequireDefault(_svgIcon);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var NavigationMenu = _react2.default.createClass({
+	  displayName: 'NavigationMenu',
+
+	  mixins: [_reactAddonsPureRenderMixin2.default],
+
+	  render: function render() {
+	    return _react2.default.createElement(
+	      _svgIcon2.default,
+	      this.props,
+	      _react2.default.createElement('path', { d: 'M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z' })
+	    );
+	  }
+	});
+
+	exports.default = NavigationMenu;
+	module.exports = exports['default'];
+
+/***/ },
+/* 189 */
+/***/ function(module, exports, require) {
+
 	/**
 	 * lodash 4.4.1 (Custom Build) <https://lodash.com/>
 	 * Build: `lodash modularize exports="npm" -o ./`
@@ -24104,7 +24148,7 @@
 	 * Copyright 2009-2016 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
 	 * Available under MIT license <https://lodash.com/license>
 	 */
-	var SetCache = require(254);
+	var SetCache = require(258);
 
 	/** Used as the size to enable large array optimizations. */
 	var LARGE_ARRAY_SIZE = 200;
@@ -24314,47 +24358,6 @@
 
 	module.exports = baseDifference;
 
-
-/***/ },
-/* 189 */
-/***/ function(module, exports, require) {
-
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-
-	var _react = require(3);
-
-	var _react2 = _interopRequireDefault(_react);
-
-	var _reactAddonsPureRenderMixin = require(238);
-
-	var _reactAddonsPureRenderMixin2 = _interopRequireDefault(_reactAddonsPureRenderMixin);
-
-	var _svgIcon = require(234);
-
-	var _svgIcon2 = _interopRequireDefault(_svgIcon);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	var NavigationMenu = _react2.default.createClass({
-	  displayName: 'NavigationMenu',
-
-	  mixins: [_reactAddonsPureRenderMixin2.default],
-
-	  render: function render() {
-	    return _react2.default.createElement(
-	      _svgIcon2.default,
-	      this.props,
-	      _react2.default.createElement('path', { d: 'M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z' })
-	    );
-	  }
-	});
-
-	exports.default = NavigationMenu;
-	module.exports = exports['default'];
 
 /***/ },
 /* 190 */
@@ -26622,7 +26625,7 @@
 
 	var _autoPrefix2 = _interopRequireDefault(_autoPrefix);
 
-	var _reactAddonsUpdate = require(271);
+	var _reactAddonsUpdate = require(270);
 
 	var _reactAddonsUpdate2 = _interopRequireDefault(_reactAddonsUpdate);
 
@@ -27134,15 +27137,15 @@
 
 	var _stylePropable2 = _interopRequireDefault(_stylePropable);
 
-	var _dom = require(255);
+	var _dom = require(254);
 
 	var _dom2 = _interopRequireDefault(_dom);
 
-	var _circleRipple = require(256);
+	var _circleRipple = require(255);
 
 	var _circleRipple2 = _interopRequireDefault(_circleRipple);
 
-	var _reactAddonsUpdate = require(271);
+	var _reactAddonsUpdate = require(270);
 
 	var _reactAddonsUpdate2 = _interopRequireDefault(_reactAddonsUpdate);
 
@@ -27359,54 +27362,6 @@
 /* 211 */
 /***/ function(module, exports, require) {
 
-	/**
-	 * Copyright 2013-present, Facebook, Inc.
-	 * All rights reserved.
-	 *
-	 * This source code is licensed under the BSD-style license found in the
-	 * LICENSE file in the root directory of this source tree. An additional grant
-	 * of patent rights can be found in the PATENTS file in the same directory.
-	 *
-	 * @providesModule getEventModifierState
-	 */
-
-	'use strict';
-
-	/**
-	 * Translation from modifier key to the associated property in the event.
-	 * @see http://www.w3.org/TR/DOM-Level-3-Events/#keys-Modifiers
-	 */
-
-	var modifierKeyToProp = {
-	  'Alt': 'altKey',
-	  'Control': 'ctrlKey',
-	  'Meta': 'metaKey',
-	  'Shift': 'shiftKey'
-	};
-
-	// IE8 does not implement getModifierState so we simply map it to the only
-	// modifier keys exposed by the event itself, does not support Lock-keys.
-	// Currently, all major browsers except Chrome seems to support Lock-keys.
-	function modifierStateGetter(keyArg) {
-	  var syntheticEvent = this;
-	  var nativeEvent = syntheticEvent.nativeEvent;
-	  if (nativeEvent.getModifierState) {
-	    return nativeEvent.getModifierState(keyArg);
-	  }
-	  var keyProp = modifierKeyToProp[keyArg];
-	  return keyProp ? !!nativeEvent[keyProp] : false;
-	}
-
-	function getEventModifierState(nativeEvent) {
-	  return modifierStateGetter;
-	}
-
-	module.exports = getEventModifierState;
-
-/***/ },
-/* 212 */
-/***/ function(module, exports, require) {
-
 	/* WEBPACK VAR INJECTION */(function(require, process) {/**
 	 * Copyright 2013-present, Facebook, Inc.
 	 * All rights reserved.
@@ -27423,9 +27378,9 @@
 	var DOMLazyTree = require(74);
 	var ExecutionEnvironment = require(100);
 
-	var createNodesFromMarkup = require(257);
+	var createNodesFromMarkup = require(256);
 	var emptyFunction = require(103);
-	var getMarkupWrap = require(258);
+	var getMarkupWrap = require(257);
 	var invariant = require(101);
 
 	var OPEN_TAG_NAME_EXP = /^(<[^ \/>]+)/;
@@ -27554,7 +27509,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, require, require(92)))
 
 /***/ },
-/* 213 */
+/* 212 */
 /***/ function(module, exports, require) {
 
 	/**
@@ -27589,6 +27544,54 @@
 	});
 
 	module.exports = ReactMultiChildUpdateTypes;
+
+/***/ },
+/* 213 */
+/***/ function(module, exports, require) {
+
+	/**
+	 * Copyright 2013-present, Facebook, Inc.
+	 * All rights reserved.
+	 *
+	 * This source code is licensed under the BSD-style license found in the
+	 * LICENSE file in the root directory of this source tree. An additional grant
+	 * of patent rights can be found in the PATENTS file in the same directory.
+	 *
+	 * @providesModule getEventModifierState
+	 */
+
+	'use strict';
+
+	/**
+	 * Translation from modifier key to the associated property in the event.
+	 * @see http://www.w3.org/TR/DOM-Level-3-Events/#keys-Modifiers
+	 */
+
+	var modifierKeyToProp = {
+	  'Alt': 'altKey',
+	  'Control': 'ctrlKey',
+	  'Meta': 'metaKey',
+	  'Shift': 'shiftKey'
+	};
+
+	// IE8 does not implement getModifierState so we simply map it to the only
+	// modifier keys exposed by the event itself, does not support Lock-keys.
+	// Currently, all major browsers except Chrome seems to support Lock-keys.
+	function modifierStateGetter(keyArg) {
+	  var syntheticEvent = this;
+	  var nativeEvent = syntheticEvent.nativeEvent;
+	  if (nativeEvent.getModifierState) {
+	    return nativeEvent.getModifierState(keyArg);
+	  }
+	  var keyProp = modifierKeyToProp[keyArg];
+	  return keyProp ? !!nativeEvent[keyProp] : false;
+	}
+
+	function getEventModifierState(nativeEvent) {
+	  return modifierStateGetter;
+	}
+
+	module.exports = getEventModifierState;
 
 /***/ },
 /* 214 */
@@ -28248,7 +28251,7 @@
 	var instantiateReactComponent = require(83);
 	var KeyEscapeUtils = require(184);
 	var shouldUpdateReactComponent = require(85);
-	var traverseAllChildren = require(93);
+	var traverseAllChildren = require(95);
 	var warning = require(99);
 
 	function instantiateChild(childInstances, child, name) {
@@ -28375,7 +28378,7 @@
 	'use strict';
 
 	var KeyEscapeUtils = require(184);
-	var traverseAllChildren = require(93);
+	var traverseAllChildren = require(95);
 	var warning = require(99);
 
 	/**
@@ -29898,14 +29901,14 @@
 	 * Copyright 2009-2015 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
 	 * Available under MIT license <https://lodash.com/license>
 	 */
-	var arrayCopy = require(282),
-	    arrayEach = require(280),
-	    createAssigner = require(281),
+	var arrayCopy = require(280),
+	    arrayEach = require(281),
+	    createAssigner = require(282),
 	    isArguments = require(283),
 	    isArray = require(284),
 	    isPlainObject = require(285),
 	    isTypedArray = require(286),
-	    keys = require(270),
+	    keys = require(271),
 	    toPlainObject = require(287);
 
 	/**
@@ -30919,6 +30922,405 @@
 /* 254 */
 /***/ function(module, exports, require) {
 
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	exports.default = {
+	  isDescendant: function isDescendant(parent, child) {
+	    var node = child.parentNode;
+
+	    while (node !== null) {
+	      if (node === parent) return true;
+	      node = node.parentNode;
+	    }
+
+	    return false;
+	  },
+	  offset: function offset(el) {
+	    var rect = el.getBoundingClientRect();
+	    return {
+	      top: rect.top + document.body.scrollTop,
+	      left: rect.left + document.body.scrollLeft
+	    };
+	  },
+
+	  getStyleAttributeAsNumber: function getStyleAttributeAsNumber(el, attr) {
+	    var attrStyle = el.style[attr];
+	    var attrNum = 0;
+	    if (attrStyle && attrStyle.length) {
+	      attrNum = parseInt(attrStyle);
+	    }
+
+	    return attrNum;
+	  },
+
+	  addClass: function addClass(el, className) {
+	    if (el.classList) el.classList.add(className);else el.className += ' ' + className;
+	  },
+	  removeClass: function removeClass(el, className) {
+	    if (el.classList) {
+	      el.classList.remove(className);
+	    } else {
+	      el.className = el.className.replace(new RegExp('(^|\\b)' + className.split(' ').join('|') + '(\\b|$)', 'gi'), ' ');
+	    }
+	  },
+	  hasClass: function hasClass(el, className) {
+	    if (el.classList) return el.classList.contains(className);else return new RegExp('(^| )' + className + '( |$)', 'gi').test(el.className);
+	  },
+	  toggleClass: function toggleClass(el, className) {
+	    if (this.hasClass(el, className)) this.removeClass(el, className);else this.addClass(el, className);
+	  },
+	  forceRedraw: function forceRedraw(el) {
+	    var originalDisplay = el.style.display;
+
+	    el.style.display = 'none';
+	    el.style.display = originalDisplay;
+	  },
+	  withoutTransition: function withoutTransition(el, callback) {
+	    var originalTransition = el.style.transition;
+
+	    //turn off transition
+	    el.style.transition = null;
+
+	    callback();
+
+	    //force a redraw
+	    this.forceRedraw(el);
+
+	    //put the transition back
+	    el.style.transition = originalTransition;
+	  }
+	};
+	module.exports = exports['default'];
+
+/***/ },
+/* 255 */
+/***/ function(module, exports, require) {
+
+	'use strict';
+
+	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _react = require(3);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _reactDom = require(2);
+
+	var _reactDom2 = _interopRequireDefault(_reactDom);
+
+	var _reactAddonsPureRenderMixin = require(238);
+
+	var _reactAddonsPureRenderMixin2 = _interopRequireDefault(_reactAddonsPureRenderMixin);
+
+	var _stylePropable = require(127);
+
+	var _stylePropable2 = _interopRequireDefault(_stylePropable);
+
+	var _autoPrefix = require(206);
+
+	var _autoPrefix2 = _interopRequireDefault(_autoPrefix);
+
+	var _transitions = require(130);
+
+	var _transitions2 = _interopRequireDefault(_transitions);
+
+	var _colors = require(199);
+
+	var _colors2 = _interopRequireDefault(_colors);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _objectWithoutProperties(obj, keys) { var target = {}; for (var i in obj) { if (keys.indexOf(i) >= 0) continue; if (!Object.prototype.hasOwnProperty.call(obj, i)) continue; target[i] = obj[i]; } return target; }
+
+	var CircleRipple = _react2.default.createClass({
+	  displayName: 'CircleRipple',
+
+	  propTypes: {
+	    color: _react2.default.PropTypes.string,
+
+	    /**
+	     * The material-ui theme applied to this component.
+	     */
+	    muiTheme: _react2.default.PropTypes.object.isRequired,
+
+	    opacity: _react2.default.PropTypes.number,
+
+	    /**
+	     * Override the inline-styles of the root element.
+	     */
+	    style: _react2.default.PropTypes.object
+	  },
+
+	  mixins: [_reactAddonsPureRenderMixin2.default, _stylePropable2.default],
+
+	  getDefaultProps: function getDefaultProps() {
+	    return {
+	      color: _colors2.default.darkBlack,
+	      opacity: 0.16
+	    };
+	  },
+	  componentWillAppear: function componentWillAppear(callback) {
+	    this._initializeAnimation(callback);
+	  },
+	  componentWillEnter: function componentWillEnter(callback) {
+	    this._initializeAnimation(callback);
+	  },
+	  componentDidAppear: function componentDidAppear() {
+	    this._animate();
+	  },
+	  componentDidEnter: function componentDidEnter() {
+	    this._animate();
+	  },
+	  componentWillLeave: function componentWillLeave(callback) {
+	    var _this = this;
+
+	    var style = _reactDom2.default.findDOMNode(this).style;
+	    style.opacity = 0;
+	    setTimeout(function () {
+	      if (_this.isMounted()) callback();
+	    }, 2000);
+	  },
+	  _animate: function _animate() {
+	    var style = _reactDom2.default.findDOMNode(this).style;
+	    var transitionValue = _transitions2.default.easeOut('2s', 'opacity') + ',' + _transitions2.default.easeOut('1s', 'transform');
+	    _autoPrefix2.default.set(style, 'transition', transitionValue, this.props.muiTheme);
+	    _autoPrefix2.default.set(style, 'transform', 'scale(1)', this.props.muiTheme);
+	  },
+	  _initializeAnimation: function _initializeAnimation(callback) {
+	    var _this2 = this;
+
+	    var style = _reactDom2.default.findDOMNode(this).style;
+	    style.opacity = this.props.opacity;
+	    _autoPrefix2.default.set(style, 'transform', 'scale(0)', this.props.muiTheme);
+	    setTimeout(function () {
+	      if (_this2.isMounted()) callback();
+	    }, 0);
+	  },
+	  render: function render() {
+	    var _props = this.props;
+	    var color = _props.color;
+	    var opacity = _props.opacity;
+	    var style = _props.style;
+
+	    var other = _objectWithoutProperties(_props, ['color', 'opacity', 'style']);
+
+	    var mergedStyles = this.mergeStyles({
+	      position: 'absolute',
+	      top: 0,
+	      left: 0,
+	      height: '100%',
+	      width: '100%',
+	      borderRadius: '50%',
+	      backgroundColor: color
+	    }, style);
+
+	    return _react2.default.createElement('div', _extends({}, other, { style: this.prepareStyles(mergedStyles) }));
+	  }
+	});
+
+	exports.default = CircleRipple;
+	module.exports = exports['default'];
+
+/***/ },
+/* 256 */
+/***/ function(module, exports, require) {
+
+	/* WEBPACK VAR INJECTION */(function(require, process) {'use strict';
+
+	/**
+	 * Copyright (c) 2013-present, Facebook, Inc.
+	 * All rights reserved.
+	 *
+	 * This source code is licensed under the BSD-style license found in the
+	 * LICENSE file in the root directory of this source tree. An additional grant
+	 * of patent rights can be found in the PATENTS file in the same directory.
+	 *
+	 * @typechecks
+	 */
+
+	/*eslint-disable fb-www/unsafe-html*/
+
+	var ExecutionEnvironment = require(100);
+
+	var createArrayFromMixed = require(274);
+	var getMarkupWrap = require(257);
+	var invariant = require(101);
+
+	/**
+	 * Dummy container used to render all markup.
+	 */
+	var dummyNode = ExecutionEnvironment.canUseDOM ? document.createElement('div') : null;
+
+	/**
+	 * Pattern used by `getNodeName`.
+	 */
+	var nodeNamePattern = /^\s*<(\w+)/;
+
+	/**
+	 * Extracts the `nodeName` of the first element in a string of markup.
+	 *
+	 * @param {string} markup String of markup.
+	 * @return {?string} Node name of the supplied markup.
+	 */
+	function getNodeName(markup) {
+	  var nodeNameMatch = markup.match(nodeNamePattern);
+	  return nodeNameMatch && nodeNameMatch[1].toLowerCase();
+	}
+
+	/**
+	 * Creates an array containing the nodes rendered from the supplied markup. The
+	 * optionally supplied `handleScript` function will be invoked once for each
+	 * <script> element that is rendered. If no `handleScript` function is supplied,
+	 * an exception is thrown if any <script> elements are rendered.
+	 *
+	 * @param {string} markup A string of valid HTML markup.
+	 * @param {?function} handleScript Invoked once for each rendered <script>.
+	 * @return {array<DOMElement|DOMTextNode>} An array of rendered nodes.
+	 */
+	function createNodesFromMarkup(markup, handleScript) {
+	  var node = dummyNode;
+	  !!!dummyNode ? process.env.NODE_ENV !== 'production' ? invariant(false, 'createNodesFromMarkup dummy not initialized') : invariant(false) : void 0;
+	  var nodeName = getNodeName(markup);
+
+	  var wrap = nodeName && getMarkupWrap(nodeName);
+	  if (wrap) {
+	    node.innerHTML = wrap[1] + markup + wrap[2];
+
+	    var wrapDepth = wrap[0];
+	    while (wrapDepth--) {
+	      node = node.lastChild;
+	    }
+	  } else {
+	    node.innerHTML = markup;
+	  }
+
+	  var scripts = node.getElementsByTagName('script');
+	  if (scripts.length) {
+	    !handleScript ? process.env.NODE_ENV !== 'production' ? invariant(false, 'createNodesFromMarkup(...): Unexpected <script> element rendered.') : invariant(false) : void 0;
+	    createArrayFromMixed(scripts).forEach(handleScript);
+	  }
+
+	  var nodes = Array.from(node.childNodes);
+	  while (node.lastChild) {
+	    node.removeChild(node.lastChild);
+	  }
+	  return nodes;
+	}
+
+	module.exports = createNodesFromMarkup;
+	/* WEBPACK VAR INJECTION */}.call(exports, require, require(92)))
+
+/***/ },
+/* 257 */
+/***/ function(module, exports, require) {
+
+	/* WEBPACK VAR INJECTION */(function(require, process) {'use strict';
+
+	/**
+	 * Copyright (c) 2013-present, Facebook, Inc.
+	 * All rights reserved.
+	 *
+	 * This source code is licensed under the BSD-style license found in the
+	 * LICENSE file in the root directory of this source tree. An additional grant
+	 * of patent rights can be found in the PATENTS file in the same directory.
+	 *
+	 */
+
+	/*eslint-disable fb-www/unsafe-html */
+
+	var ExecutionEnvironment = require(100);
+
+	var invariant = require(101);
+
+	/**
+	 * Dummy container used to detect which wraps are necessary.
+	 */
+	var dummyNode = ExecutionEnvironment.canUseDOM ? document.createElement('div') : null;
+
+	/**
+	 * Some browsers cannot use `innerHTML` to render certain elements standalone,
+	 * so we wrap them, render the wrapped nodes, then extract the desired node.
+	 *
+	 * In IE8, certain elements cannot render alone, so wrap all elements ('*').
+	 */
+
+	var shouldWrap = {};
+
+	var selectWrap = [1, '<select multiple="true">', '</select>'];
+	var tableWrap = [1, '<table>', '</table>'];
+	var trWrap = [3, '<table><tbody><tr>', '</tr></tbody></table>'];
+
+	var svgWrap = [1, '<svg xmlns="http://www.w3.org/2000/svg">', '</svg>'];
+
+	var markupWrap = {
+	  '*': [1, '?<div>', '</div>'],
+
+	  'area': [1, '<map>', '</map>'],
+	  'col': [2, '<table><tbody></tbody><colgroup>', '</colgroup></table>'],
+	  'legend': [1, '<fieldset>', '</fieldset>'],
+	  'param': [1, '<object>', '</object>'],
+	  'tr': [2, '<table><tbody>', '</tbody></table>'],
+
+	  'optgroup': selectWrap,
+	  'option': selectWrap,
+
+	  'caption': tableWrap,
+	  'colgroup': tableWrap,
+	  'tbody': tableWrap,
+	  'tfoot': tableWrap,
+	  'thead': tableWrap,
+
+	  'td': trWrap,
+	  'th': trWrap
+	};
+
+	// Initialize the SVG elements since we know they'll always need to be wrapped
+	// consistently. If they are created inside a <div> they will be initialized in
+	// the wrong namespace (and will not display).
+	var svgElements = ['circle', 'clipPath', 'defs', 'ellipse', 'g', 'image', 'line', 'linearGradient', 'mask', 'path', 'pattern', 'polygon', 'polyline', 'radialGradient', 'rect', 'stop', 'text', 'tspan'];
+	svgElements.forEach(function (nodeName) {
+	  markupWrap[nodeName] = svgWrap;
+	  shouldWrap[nodeName] = true;
+	});
+
+	/**
+	 * Gets the markup wrap configuration for the supplied `nodeName`.
+	 *
+	 * NOTE: This lazily detects which wraps are necessary for the current browser.
+	 *
+	 * @param {string} nodeName Lowercase `nodeName`.
+	 * @return {?array} Markup wrap configuration, if applicable.
+	 */
+	function getMarkupWrap(nodeName) {
+	  !!!dummyNode ? process.env.NODE_ENV !== 'production' ? invariant(false, 'Markup wrapping node not initialized') : invariant(false) : void 0;
+	  if (!markupWrap.hasOwnProperty(nodeName)) {
+	    nodeName = '*';
+	  }
+	  if (!shouldWrap.hasOwnProperty(nodeName)) {
+	    if (nodeName === '*') {
+	      dummyNode.innerHTML = '<link />';
+	    } else {
+	      dummyNode.innerHTML = '<' + nodeName + '></' + nodeName + '>';
+	    }
+	    shouldWrap[nodeName] = !dummyNode.firstChild;
+	  }
+	  return shouldWrap[nodeName] ? markupWrap[nodeName] : null;
+	}
+
+	module.exports = getMarkupWrap;
+	/* WEBPACK VAR INJECTION */}.call(exports, require, require(92)))
+
+/***/ },
+/* 258 */
+/***/ function(module, exports, require) {
+
 	/* WEBPACK VAR INJECTION */(function(require, module, global) {/**
 	 * lodash 4.1.3 (Custom Build) <https://lodash.com/>
 	 * Build: `lodash modularize exports="npm" -o ./`
@@ -31509,405 +31911,6 @@
 	module.exports = SetCache;
 	
 	/* WEBPACK VAR INJECTION */}.call(exports, require, require(292)(module), (function() { return this; }())))
-
-/***/ },
-/* 255 */
-/***/ function(module, exports, require) {
-
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	exports.default = {
-	  isDescendant: function isDescendant(parent, child) {
-	    var node = child.parentNode;
-
-	    while (node !== null) {
-	      if (node === parent) return true;
-	      node = node.parentNode;
-	    }
-
-	    return false;
-	  },
-	  offset: function offset(el) {
-	    var rect = el.getBoundingClientRect();
-	    return {
-	      top: rect.top + document.body.scrollTop,
-	      left: rect.left + document.body.scrollLeft
-	    };
-	  },
-
-	  getStyleAttributeAsNumber: function getStyleAttributeAsNumber(el, attr) {
-	    var attrStyle = el.style[attr];
-	    var attrNum = 0;
-	    if (attrStyle && attrStyle.length) {
-	      attrNum = parseInt(attrStyle);
-	    }
-
-	    return attrNum;
-	  },
-
-	  addClass: function addClass(el, className) {
-	    if (el.classList) el.classList.add(className);else el.className += ' ' + className;
-	  },
-	  removeClass: function removeClass(el, className) {
-	    if (el.classList) {
-	      el.classList.remove(className);
-	    } else {
-	      el.className = el.className.replace(new RegExp('(^|\\b)' + className.split(' ').join('|') + '(\\b|$)', 'gi'), ' ');
-	    }
-	  },
-	  hasClass: function hasClass(el, className) {
-	    if (el.classList) return el.classList.contains(className);else return new RegExp('(^| )' + className + '( |$)', 'gi').test(el.className);
-	  },
-	  toggleClass: function toggleClass(el, className) {
-	    if (this.hasClass(el, className)) this.removeClass(el, className);else this.addClass(el, className);
-	  },
-	  forceRedraw: function forceRedraw(el) {
-	    var originalDisplay = el.style.display;
-
-	    el.style.display = 'none';
-	    el.style.display = originalDisplay;
-	  },
-	  withoutTransition: function withoutTransition(el, callback) {
-	    var originalTransition = el.style.transition;
-
-	    //turn off transition
-	    el.style.transition = null;
-
-	    callback();
-
-	    //force a redraw
-	    this.forceRedraw(el);
-
-	    //put the transition back
-	    el.style.transition = originalTransition;
-	  }
-	};
-	module.exports = exports['default'];
-
-/***/ },
-/* 256 */
-/***/ function(module, exports, require) {
-
-	'use strict';
-
-	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-
-	var _react = require(3);
-
-	var _react2 = _interopRequireDefault(_react);
-
-	var _reactDom = require(2);
-
-	var _reactDom2 = _interopRequireDefault(_reactDom);
-
-	var _reactAddonsPureRenderMixin = require(238);
-
-	var _reactAddonsPureRenderMixin2 = _interopRequireDefault(_reactAddonsPureRenderMixin);
-
-	var _stylePropable = require(127);
-
-	var _stylePropable2 = _interopRequireDefault(_stylePropable);
-
-	var _autoPrefix = require(206);
-
-	var _autoPrefix2 = _interopRequireDefault(_autoPrefix);
-
-	var _transitions = require(130);
-
-	var _transitions2 = _interopRequireDefault(_transitions);
-
-	var _colors = require(199);
-
-	var _colors2 = _interopRequireDefault(_colors);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	function _objectWithoutProperties(obj, keys) { var target = {}; for (var i in obj) { if (keys.indexOf(i) >= 0) continue; if (!Object.prototype.hasOwnProperty.call(obj, i)) continue; target[i] = obj[i]; } return target; }
-
-	var CircleRipple = _react2.default.createClass({
-	  displayName: 'CircleRipple',
-
-	  propTypes: {
-	    color: _react2.default.PropTypes.string,
-
-	    /**
-	     * The material-ui theme applied to this component.
-	     */
-	    muiTheme: _react2.default.PropTypes.object.isRequired,
-
-	    opacity: _react2.default.PropTypes.number,
-
-	    /**
-	     * Override the inline-styles of the root element.
-	     */
-	    style: _react2.default.PropTypes.object
-	  },
-
-	  mixins: [_reactAddonsPureRenderMixin2.default, _stylePropable2.default],
-
-	  getDefaultProps: function getDefaultProps() {
-	    return {
-	      color: _colors2.default.darkBlack,
-	      opacity: 0.16
-	    };
-	  },
-	  componentWillAppear: function componentWillAppear(callback) {
-	    this._initializeAnimation(callback);
-	  },
-	  componentWillEnter: function componentWillEnter(callback) {
-	    this._initializeAnimation(callback);
-	  },
-	  componentDidAppear: function componentDidAppear() {
-	    this._animate();
-	  },
-	  componentDidEnter: function componentDidEnter() {
-	    this._animate();
-	  },
-	  componentWillLeave: function componentWillLeave(callback) {
-	    var _this = this;
-
-	    var style = _reactDom2.default.findDOMNode(this).style;
-	    style.opacity = 0;
-	    setTimeout(function () {
-	      if (_this.isMounted()) callback();
-	    }, 2000);
-	  },
-	  _animate: function _animate() {
-	    var style = _reactDom2.default.findDOMNode(this).style;
-	    var transitionValue = _transitions2.default.easeOut('2s', 'opacity') + ',' + _transitions2.default.easeOut('1s', 'transform');
-	    _autoPrefix2.default.set(style, 'transition', transitionValue, this.props.muiTheme);
-	    _autoPrefix2.default.set(style, 'transform', 'scale(1)', this.props.muiTheme);
-	  },
-	  _initializeAnimation: function _initializeAnimation(callback) {
-	    var _this2 = this;
-
-	    var style = _reactDom2.default.findDOMNode(this).style;
-	    style.opacity = this.props.opacity;
-	    _autoPrefix2.default.set(style, 'transform', 'scale(0)', this.props.muiTheme);
-	    setTimeout(function () {
-	      if (_this2.isMounted()) callback();
-	    }, 0);
-	  },
-	  render: function render() {
-	    var _props = this.props;
-	    var color = _props.color;
-	    var opacity = _props.opacity;
-	    var style = _props.style;
-
-	    var other = _objectWithoutProperties(_props, ['color', 'opacity', 'style']);
-
-	    var mergedStyles = this.mergeStyles({
-	      position: 'absolute',
-	      top: 0,
-	      left: 0,
-	      height: '100%',
-	      width: '100%',
-	      borderRadius: '50%',
-	      backgroundColor: color
-	    }, style);
-
-	    return _react2.default.createElement('div', _extends({}, other, { style: this.prepareStyles(mergedStyles) }));
-	  }
-	});
-
-	exports.default = CircleRipple;
-	module.exports = exports['default'];
-
-/***/ },
-/* 257 */
-/***/ function(module, exports, require) {
-
-	/* WEBPACK VAR INJECTION */(function(require, process) {'use strict';
-
-	/**
-	 * Copyright (c) 2013-present, Facebook, Inc.
-	 * All rights reserved.
-	 *
-	 * This source code is licensed under the BSD-style license found in the
-	 * LICENSE file in the root directory of this source tree. An additional grant
-	 * of patent rights can be found in the PATENTS file in the same directory.
-	 *
-	 * @typechecks
-	 */
-
-	/*eslint-disable fb-www/unsafe-html*/
-
-	var ExecutionEnvironment = require(100);
-
-	var createArrayFromMixed = require(274);
-	var getMarkupWrap = require(258);
-	var invariant = require(101);
-
-	/**
-	 * Dummy container used to render all markup.
-	 */
-	var dummyNode = ExecutionEnvironment.canUseDOM ? document.createElement('div') : null;
-
-	/**
-	 * Pattern used by `getNodeName`.
-	 */
-	var nodeNamePattern = /^\s*<(\w+)/;
-
-	/**
-	 * Extracts the `nodeName` of the first element in a string of markup.
-	 *
-	 * @param {string} markup String of markup.
-	 * @return {?string} Node name of the supplied markup.
-	 */
-	function getNodeName(markup) {
-	  var nodeNameMatch = markup.match(nodeNamePattern);
-	  return nodeNameMatch && nodeNameMatch[1].toLowerCase();
-	}
-
-	/**
-	 * Creates an array containing the nodes rendered from the supplied markup. The
-	 * optionally supplied `handleScript` function will be invoked once for each
-	 * <script> element that is rendered. If no `handleScript` function is supplied,
-	 * an exception is thrown if any <script> elements are rendered.
-	 *
-	 * @param {string} markup A string of valid HTML markup.
-	 * @param {?function} handleScript Invoked once for each rendered <script>.
-	 * @return {array<DOMElement|DOMTextNode>} An array of rendered nodes.
-	 */
-	function createNodesFromMarkup(markup, handleScript) {
-	  var node = dummyNode;
-	  !!!dummyNode ? process.env.NODE_ENV !== 'production' ? invariant(false, 'createNodesFromMarkup dummy not initialized') : invariant(false) : void 0;
-	  var nodeName = getNodeName(markup);
-
-	  var wrap = nodeName && getMarkupWrap(nodeName);
-	  if (wrap) {
-	    node.innerHTML = wrap[1] + markup + wrap[2];
-
-	    var wrapDepth = wrap[0];
-	    while (wrapDepth--) {
-	      node = node.lastChild;
-	    }
-	  } else {
-	    node.innerHTML = markup;
-	  }
-
-	  var scripts = node.getElementsByTagName('script');
-	  if (scripts.length) {
-	    !handleScript ? process.env.NODE_ENV !== 'production' ? invariant(false, 'createNodesFromMarkup(...): Unexpected <script> element rendered.') : invariant(false) : void 0;
-	    createArrayFromMixed(scripts).forEach(handleScript);
-	  }
-
-	  var nodes = Array.from(node.childNodes);
-	  while (node.lastChild) {
-	    node.removeChild(node.lastChild);
-	  }
-	  return nodes;
-	}
-
-	module.exports = createNodesFromMarkup;
-	/* WEBPACK VAR INJECTION */}.call(exports, require, require(92)))
-
-/***/ },
-/* 258 */
-/***/ function(module, exports, require) {
-
-	/* WEBPACK VAR INJECTION */(function(require, process) {'use strict';
-
-	/**
-	 * Copyright (c) 2013-present, Facebook, Inc.
-	 * All rights reserved.
-	 *
-	 * This source code is licensed under the BSD-style license found in the
-	 * LICENSE file in the root directory of this source tree. An additional grant
-	 * of patent rights can be found in the PATENTS file in the same directory.
-	 *
-	 */
-
-	/*eslint-disable fb-www/unsafe-html */
-
-	var ExecutionEnvironment = require(100);
-
-	var invariant = require(101);
-
-	/**
-	 * Dummy container used to detect which wraps are necessary.
-	 */
-	var dummyNode = ExecutionEnvironment.canUseDOM ? document.createElement('div') : null;
-
-	/**
-	 * Some browsers cannot use `innerHTML` to render certain elements standalone,
-	 * so we wrap them, render the wrapped nodes, then extract the desired node.
-	 *
-	 * In IE8, certain elements cannot render alone, so wrap all elements ('*').
-	 */
-
-	var shouldWrap = {};
-
-	var selectWrap = [1, '<select multiple="true">', '</select>'];
-	var tableWrap = [1, '<table>', '</table>'];
-	var trWrap = [3, '<table><tbody><tr>', '</tr></tbody></table>'];
-
-	var svgWrap = [1, '<svg xmlns="http://www.w3.org/2000/svg">', '</svg>'];
-
-	var markupWrap = {
-	  '*': [1, '?<div>', '</div>'],
-
-	  'area': [1, '<map>', '</map>'],
-	  'col': [2, '<table><tbody></tbody><colgroup>', '</colgroup></table>'],
-	  'legend': [1, '<fieldset>', '</fieldset>'],
-	  'param': [1, '<object>', '</object>'],
-	  'tr': [2, '<table><tbody>', '</tbody></table>'],
-
-	  'optgroup': selectWrap,
-	  'option': selectWrap,
-
-	  'caption': tableWrap,
-	  'colgroup': tableWrap,
-	  'tbody': tableWrap,
-	  'tfoot': tableWrap,
-	  'thead': tableWrap,
-
-	  'td': trWrap,
-	  'th': trWrap
-	};
-
-	// Initialize the SVG elements since we know they'll always need to be wrapped
-	// consistently. If they are created inside a <div> they will be initialized in
-	// the wrong namespace (and will not display).
-	var svgElements = ['circle', 'clipPath', 'defs', 'ellipse', 'g', 'image', 'line', 'linearGradient', 'mask', 'path', 'pattern', 'polygon', 'polyline', 'radialGradient', 'rect', 'stop', 'text', 'tspan'];
-	svgElements.forEach(function (nodeName) {
-	  markupWrap[nodeName] = svgWrap;
-	  shouldWrap[nodeName] = true;
-	});
-
-	/**
-	 * Gets the markup wrap configuration for the supplied `nodeName`.
-	 *
-	 * NOTE: This lazily detects which wraps are necessary for the current browser.
-	 *
-	 * @param {string} nodeName Lowercase `nodeName`.
-	 * @return {?array} Markup wrap configuration, if applicable.
-	 */
-	function getMarkupWrap(nodeName) {
-	  !!!dummyNode ? process.env.NODE_ENV !== 'production' ? invariant(false, 'Markup wrapping node not initialized') : invariant(false) : void 0;
-	  if (!markupWrap.hasOwnProperty(nodeName)) {
-	    nodeName = '*';
-	  }
-	  if (!shouldWrap.hasOwnProperty(nodeName)) {
-	    if (nodeName === '*') {
-	      dummyNode.innerHTML = '<link />';
-	    } else {
-	      dummyNode.innerHTML = '<' + nodeName + '></' + nodeName + '>';
-	    }
-	    shouldWrap[nodeName] = !dummyNode.firstChild;
-	  }
-	  return shouldWrap[nodeName] ? markupWrap[nodeName] : null;
-	}
-
-	module.exports = getMarkupWrap;
-	/* WEBPACK VAR INJECTION */}.call(exports, require, require(92)))
 
 /***/ },
 /* 259 */
@@ -32513,6 +32516,12 @@
 /* 270 */
 /***/ function(module, exports, require) {
 
+	module.exports = require(290);
+
+/***/ },
+/* 271 */
+/***/ function(module, exports, require) {
+
 	/**
 	 * lodash 3.1.2 (Custom Build) <https://lodash.com/>
 	 * Build: `lodash modern modularize exports="npm" -o ./`
@@ -32752,12 +32761,6 @@
 
 
 /***/ },
-/* 271 */
-/***/ function(module, exports, require) {
-
-	module.exports = require(290);
-
-/***/ },
 /* 272 */
 /***/ function(module, exports, require) {
 
@@ -32982,7 +32985,7 @@
 
 	'use strict';
 
-	var DOMProperty = require(72);
+	var DOMProperty = require(54);
 	var EventPluginRegistry = require(122);
 
 	var warning = require(99);
@@ -34071,6 +34074,41 @@
 	 */
 
 	/**
+	 * Copies the values of `source` to `array`.
+	 *
+	 * @private
+	 * @param {Array} source The array to copy values from.
+	 * @param {Array} [array=[]] The array to copy values to.
+	 * @returns {Array} Returns `array`.
+	 */
+	function arrayCopy(source, array) {
+	  var index = -1,
+	      length = source.length;
+
+	  array || (array = Array(length));
+	  while (++index < length) {
+	    array[index] = source[index];
+	  }
+	  return array;
+	}
+
+	module.exports = arrayCopy;
+
+
+/***/ },
+/* 281 */
+/***/ function(module, exports, require) {
+
+	/**
+	 * lodash 3.0.0 (Custom Build) <https://lodash.com/>
+	 * Build: `lodash modern modularize exports="npm" -o ./`
+	 * Copyright 2012-2015 The Dojo Foundation <http://dojofoundation.org/>
+	 * Based on Underscore.js 1.7.0 <http://underscorejs.org/LICENSE>
+	 * Copyright 2009-2015 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
+	 * Available under MIT license <https://lodash.com/license>
+	 */
+
+	/**
 	 * A specialized version of `_.forEach` for arrays without support for callback
 	 * shorthands or `this` binding.
 	 *
@@ -34095,7 +34133,7 @@
 
 
 /***/ },
-/* 281 */
+/* 282 */
 /***/ function(module, exports, require) {
 
 	/**
@@ -34106,9 +34144,9 @@
 	 * Copyright 2009-2015 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
 	 * Available under MIT license <https://lodash.com/license>
 	 */
-	var bindCallback = require(304),
-	    isIterateeCall = require(305),
-	    restParam = require(306);
+	var bindCallback = require(312),
+	    isIterateeCall = require(313),
+	    restParam = require(314);
 
 	/**
 	 * Creates a function that assigns properties of source object(s) to a given
@@ -34150,41 +34188,6 @@
 	}
 
 	module.exports = createAssigner;
-
-
-/***/ },
-/* 282 */
-/***/ function(module, exports, require) {
-
-	/**
-	 * lodash 3.0.0 (Custom Build) <https://lodash.com/>
-	 * Build: `lodash modern modularize exports="npm" -o ./`
-	 * Copyright 2012-2015 The Dojo Foundation <http://dojofoundation.org/>
-	 * Based on Underscore.js 1.7.0 <http://underscorejs.org/LICENSE>
-	 * Copyright 2009-2015 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
-	 * Available under MIT license <https://lodash.com/license>
-	 */
-
-	/**
-	 * Copies the values of `source` to `array`.
-	 *
-	 * @private
-	 * @param {Array} source The array to copy values from.
-	 * @param {Array} [array=[]] The array to copy values to.
-	 * @returns {Array} Returns `array`.
-	 */
-	function arrayCopy(source, array) {
-	  var index = -1,
-	      length = source.length;
-
-	  array || (array = Array(length));
-	  while (++index < length) {
-	    array[index] = source[index];
-	  }
-	  return array;
-	}
-
-	module.exports = arrayCopy;
 
 
 /***/ },
@@ -34634,9 +34637,9 @@
 	 * Copyright 2009-2015 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
 	 * Available under MIT license <https://lodash.com/license>
 	 */
-	var baseFor = require(307),
+	var baseFor = require(315),
 	    isArguments = require(283),
-	    keysIn = require(309);
+	    keysIn = require(316);
 
 	/** `Object#toString` result references. */
 	var objectTag = '[object Object]';
@@ -34897,8 +34900,8 @@
 	 * Copyright 2009-2015 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
 	 * Available under MIT license <https://lodash.com/license>
 	 */
-	var baseCopy = require(308),
-	    keysIn = require(309);
+	var baseCopy = require(317),
+	    keysIn = require(316);
 
 	/**
 	 * Converts `value` to a plain object flattening inherited enumerable
@@ -35673,37 +35676,37 @@
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
-	var _pluginsCalc = require(310);
+	var _pluginsCalc = require(304);
 
 	var _pluginsCalc2 = _interopRequireDefault(_pluginsCalc);
 
-	var _pluginsCursor = require(311);
+	var _pluginsCursor = require(305);
 
 	var _pluginsCursor2 = _interopRequireDefault(_pluginsCursor);
 
-	var _pluginsFlex = require(312);
+	var _pluginsFlex = require(306);
 
 	var _pluginsFlex2 = _interopRequireDefault(_pluginsFlex);
 
-	var _pluginsSizing = require(313);
+	var _pluginsSizing = require(307);
 
 	var _pluginsSizing2 = _interopRequireDefault(_pluginsSizing);
 
-	var _pluginsGradient = require(314);
+	var _pluginsGradient = require(308);
 
 	var _pluginsGradient2 = _interopRequireDefault(_pluginsGradient);
 
-	var _pluginsTransition = require(315);
+	var _pluginsTransition = require(309);
 
 	var _pluginsTransition2 = _interopRequireDefault(_pluginsTransition);
 
 	// special flexbox specifications
 
-	var _pluginsFlexboxIE = require(316);
+	var _pluginsFlexboxIE = require(310);
 
 	var _pluginsFlexboxIE2 = _interopRequireDefault(_pluginsFlexboxIE);
 
-	var _pluginsFlexboxOld = require(317);
+	var _pluginsFlexboxOld = require(311);
 
 	var _pluginsFlexboxOld2 = _interopRequireDefault(_pluginsFlexboxOld);
 
@@ -36245,6 +36248,436 @@
 /* 304 */
 /***/ function(module, exports, require) {
 
+	'use strict';
+
+	Object.defineProperty(exports, '__esModule', {
+	  value: true
+	});
+	exports['default'] = calc;
+
+	function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+	function calc(pluginInterface) {
+	  var property = pluginInterface.property;
+	  var value = pluginInterface.value;
+	  var browserInfo = pluginInterface.browserInfo;
+	  var prefix = pluginInterface.prefix;
+	  var keepUnprefixed = pluginInterface.keepUnprefixed;
+	  var forceRun = pluginInterface.forceRun;
+	  var browser = browserInfo.browser;
+	  var version = browserInfo.version;
+
+	  if (typeof value === 'string' && value.indexOf('calc(') > -1 && (forceRun || browser === 'firefox' && version < 15 || browser === 'chrome' && version < 25 || browser === 'safari' && version < 6.1 || browser === 'ios_saf' && version < 7)) {
+	    var newValue = forceRun ?
+	    // prefix all
+	    ['-webkit-', '-moz-'].map(function (prefix) {
+	      return value.replace(/calc\(/g, prefix + 'calc(');
+	    }).join(';' + property + ':') :
+	    // default
+	    value.replace(/calc\(/g, prefix.css + 'calc(');
+	    return _defineProperty({}, property, newValue + (keepUnprefixed ? ';' + property + ':' + value : ''));
+	  }
+	}
+
+	module.exports = exports['default'];
+
+/***/ },
+/* 305 */
+/***/ function(module, exports, require) {
+
+	'use strict';
+
+	Object.defineProperty(exports, '__esModule', {
+	  value: true
+	});
+	exports['default'] = cursor;
+	var values = {
+	  'zoom-in': true,
+	  'zoom-out': true,
+	  grab: true,
+	  grabbing: true
+	};
+
+	function cursor(pluginInterface) {
+	  var property = pluginInterface.property;
+	  var value = pluginInterface.value;
+	  var browserInfo = pluginInterface.browserInfo;
+	  var prefix = pluginInterface.prefix;
+	  var keepUnprefixed = pluginInterface.keepUnprefixed;
+	  var forceRun = pluginInterface.forceRun;
+	  var browser = browserInfo.browser;
+	  var version = browserInfo.version;
+
+	  if (property === 'cursor' && values[value] && (forceRun || browser === 'firefox' && version < 24 || browser === 'chrome' && version < 37 || browser === 'safari' && version < 9 || browser === 'opera' && version < 24)) {
+	    var newValue = forceRun ?
+	    // prefix all
+	    ['-webkit-', '-moz-'].map(function (prefix) {
+	      return prefix + value;
+	    }).join(';' + property + ':') :
+	    // default
+	    prefix.css + value;
+	    return {
+	      cursor: newValue + (keepUnprefixed ? ';' + property + ':' + value : '')
+	    };
+	  }
+	}
+
+	module.exports = exports['default'];
+
+/***/ },
+/* 306 */
+/***/ function(module, exports, require) {
+
+	'use strict';
+
+	Object.defineProperty(exports, '__esModule', {
+	  value: true
+	});
+	exports['default'] = flex;
+	var values = { flex: true, 'inline-flex': true };
+
+	function flex(pluginInterface) {
+	  var property = pluginInterface.property;
+	  var value = pluginInterface.value;
+	  var browserInfo = pluginInterface.browserInfo;
+	  var prefix = pluginInterface.prefix;
+	  var keepUnprefixed = pluginInterface.keepUnprefixed;
+	  var forceRun = pluginInterface.forceRun;
+	  var browser = browserInfo.browser;
+	  var version = browserInfo.version;
+
+	  if (property === 'display' && values[value] && (forceRun || browser === 'chrome' && version < 29 && version > 20 || (browser === 'safari' || browser === 'ios_saf') && version < 9 && version > 6 || browser === 'opera' && (version == 15 || version == 16))) {
+	    var newValue = forceRun ?
+	    // prefix all
+	    ['-webkit-box', '-moz-box', '-ms-' + value + 'box', '-webkit-' + value].join(';' + property + ':') :
+	    // default
+	    '-webkit-' + value;
+	    return {
+	      display: newValue + (keepUnprefixed ? ';' + property + ':' + value : '')
+	    };
+	  }
+	}
+
+	module.exports = exports['default'];
+
+/***/ },
+/* 307 */
+/***/ function(module, exports, require) {
+
+	'use strict';
+
+	Object.defineProperty(exports, '__esModule', {
+	  value: true
+	});
+	exports['default'] = sizing;
+
+	function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+	var properties = {
+	  maxHeight: true,
+	  maxWidth: true,
+	  width: true,
+	  height: true,
+	  columnWidth: true,
+	  minWidth: true,
+	  minHeight: true
+	};
+	var values = {
+	  'min-content': true,
+	  'max-content': true,
+	  'fill-available': true,
+	  'fit-content': true,
+	  'contain-floats': true
+	};
+
+	function sizing(pluginInterface) {
+	  var property = pluginInterface.property;
+	  var value = pluginInterface.value;
+	  var browserInfo = pluginInterface.browserInfo;
+	  var prefix = pluginInterface.prefix;
+	  var keepUnprefixed = pluginInterface.keepUnprefixed;
+	  var forceRun = pluginInterface.forceRun;
+	  var browser = browserInfo.browser;
+	  var version = browserInfo.version;
+
+	  // This might change in the future
+	  // Keep an eye on it
+	  if (properties[property] && values[value]) {
+	    var newValue = forceRun ?
+	    // prefix all
+	    ['-webkit-', '-moz-'].map(function (prefix) {
+	      return prefix + value;
+	    }).join(';' + property + ':') :
+	    // default
+	    prefix.css + value;
+	    return _defineProperty({}, property, newValue + (keepUnprefixed ? ';' + property + ':' + value : ''));
+	  }
+	}
+
+	module.exports = exports['default'];
+
+/***/ },
+/* 308 */
+/***/ function(module, exports, require) {
+
+	'use strict';
+
+	Object.defineProperty(exports, '__esModule', {
+	  value: true
+	});
+	exports['default'] = gradient;
+
+	function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+	var values = /linear-gradient|radial-gradient|repeating-linear-gradient|repeating-radial-gradient/;
+
+	function gradient(pluginInterface) {
+	  var property = pluginInterface.property;
+	  var value = pluginInterface.value;
+	  var browserInfo = pluginInterface.browserInfo;
+	  var prefix = pluginInterface.prefix;
+	  var keepUnprefixed = pluginInterface.keepUnprefixed;
+	  var forceRun = pluginInterface.forceRun;
+	  var browser = browserInfo.browser;
+	  var version = browserInfo.version;
+
+	  if (typeof value === 'string' && value.match(values) !== null && (forceRun || browser === 'firefox' && version < 16 || browser === 'chrome' && version < 26 || (browser === 'safari' || browser === 'ios_saf') && version < 7 || (browser === 'opera' || browser === 'op_mini') && version < 12.1 || browser === 'android' && version < 4.4 || browser === 'and_uc')) {
+	    var newValue = forceRun ?
+	    // prefix all
+	    ['-webkit-', '-moz-'].map(function (prefix) {
+	      return prefix + value;
+	    }).join(';' + property + ':') :
+	    // default
+	    prefix.css + value;
+	    return _defineProperty({}, property, newValue + (keepUnprefixed ? ';' + property + ':' + value : ''));
+	  }
+	}
+
+	module.exports = exports['default'];
+
+/***/ },
+/* 309 */
+/***/ function(module, exports, require) {
+
+	'use strict';
+
+	Object.defineProperty(exports, '__esModule', {
+	  value: true
+	});
+	exports['default'] = calc;
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+
+	function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+	var _utilsCamelToDashCase = require(319);
+
+	var _utilsCamelToDashCase2 = _interopRequireDefault(_utilsCamelToDashCase);
+
+	var _utilsCapitalizeString = require(297);
+
+	var _utilsCapitalizeString2 = _interopRequireDefault(_utilsCapitalizeString);
+
+	function calc(pluginInterface) {
+	  var property = pluginInterface.property;
+	  var value = pluginInterface.value;
+	  var browserInfo = pluginInterface.browserInfo;
+	  var prefix = pluginInterface.prefix;
+	  var keepUnprefixed = pluginInterface.keepUnprefixed;
+	  var forceRun = pluginInterface.forceRun;
+	  var requiresPrefix = pluginInterface.requiresPrefix;
+	  var browser = browserInfo.browser;
+	  var version = browserInfo.version;
+
+	  if (
+	  // also check for already prefixed transitions
+	  typeof value === 'string' && (property.toLowerCase().indexOf('transition') > -1 || property.toLowerCase().indexOf('transitionproperty') > -1)) {
+	    var _ref;
+
+	    var _ret = (function () {
+	      var requiresPrefixDashCased = Object.keys(requiresPrefix).map(function (property) {
+	        return (0, _utilsCamelToDashCase2['default'])(property);
+	      });
+	      var newValue = value;
+
+	      // only split multi values, not cubic beziers
+	      var multipleValues = newValue.split(/,(?![^()]*(?:\([^()]*\))?\))/g);
+
+	      requiresPrefixDashCased.forEach(function (property) {
+	        multipleValues.forEach(function (val, index) {
+	          if (val.indexOf(property) > -1) {
+	            var newVal = forceRun ?
+	            // prefix all
+	            ['-webkit-', '-moz-', '-ms-'].map(function (prefix) {
+	              return val.replace(property, prefix + property);
+	            }).join(',') :
+	            // default
+	            val.replace(property, prefix.css + property);
+	            multipleValues[index] = newVal + (keepUnprefixed ? ',' + val : '');
+	          }
+	        });
+	      });
+	      var outputValue = multipleValues.join(',');
+	      if (forceRun) {
+	        return {
+	          v: (_ref = {}, _defineProperty(_ref, 'Webkit' + (0, _utilsCapitalizeString2['default'])(property), outputValue), _defineProperty(_ref, 'Moz' + (0, _utilsCapitalizeString2['default'])(property), outputValue), _defineProperty(_ref, 'ms' + (0, _utilsCapitalizeString2['default'])(property), outputValue), _defineProperty(_ref, property, outputValue), _ref)
+	        };
+	      }
+	      return {
+	        v: _defineProperty({}, property, outputValue)
+	      };
+	    })();
+
+	    if (typeof _ret === 'object') return _ret.v;
+	  }
+	}
+
+	module.exports = exports['default'];
+
+/***/ },
+/* 310 */
+/***/ function(module, exports, require) {
+
+	'use strict';
+
+	Object.defineProperty(exports, '__esModule', {
+	  value: true
+	});
+
+	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+	exports['default'] = flexboxIE;
+
+	function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+	var alternativeValues = {
+	  'space-around': 'distribute',
+	  'space-between': 'justify',
+	  'flex-start': 'start',
+	  'flex-end': 'end',
+	  flex: '-ms-flexbox',
+	  'inline-flex': '-ms-inline-flexbox'
+	};
+	var alternativeProps = {
+	  alignContent: 'msFlexLinePack',
+	  alignSelf: 'msFlexItemAlign',
+	  alignItems: 'msFlexAlign',
+	  justifyContent: 'msFlexPack',
+	  order: 'msFlexOrder',
+	  flexGrow: 'msFlexPositive',
+	  flexShrink: 'msFlexNegative',
+	  flexBasis: 'msPreferredSize'
+	};
+
+	var properties = Object.keys(alternativeProps).concat('display').reduce(function (result, prop) {
+	  return _extends({}, result, _defineProperty({}, prop, true));
+	}, {});
+
+	function flexboxIE(pluginInterface) {
+	  var property = pluginInterface.property;
+	  var value = pluginInterface.value;
+	  var styles = pluginInterface.styles;
+	  var browserInfo = pluginInterface.browserInfo;
+	  var prefix = pluginInterface.prefix;
+	  var keepUnprefixed = pluginInterface.keepUnprefixed;
+	  var forceRun = pluginInterface.forceRun;
+	  var browser = browserInfo.browser;
+	  var version = browserInfo.version;
+
+	  if (properties[property] && (forceRun || (browser === 'ie_mob' || browser === 'ie') && version == 10)) {
+	    if (!keepUnprefixed) {
+	      delete styles[property];
+	    }
+
+	    if (alternativeProps[property]) {
+	      return _defineProperty({}, alternativeProps[property], alternativeValues[value] || value);
+	    }
+	    if (alternativeValues[value]) {
+	      return _defineProperty({}, property, alternativeValues[value] + (keepUnprefixed ? ';' + property + ':' + value : ''));
+	    }
+	  }
+	}
+
+	module.exports = exports['default'];
+
+/***/ },
+/* 311 */
+/***/ function(module, exports, require) {
+
+	'use strict';
+
+	Object.defineProperty(exports, '__esModule', {
+	  value: true
+	});
+
+	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+	exports['default'] = flexboxOld;
+
+	function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+	var alternativeValues = {
+	  'space-around': 'justify',
+	  'space-between': 'justify',
+	  'flex-start': 'start',
+	  'flex-end': 'end',
+	  'wrap-reverse': 'multiple',
+	  wrap: 'multiple',
+	  flex: 'box',
+	  'inline-flex': 'inline-box'
+	};
+
+	var alternativeProps = {
+	  alignItems: 'WebkitBoxAlign',
+	  justifyContent: 'WebkitBoxPack',
+	  flexWrap: 'WebkitBoxLines'
+	};
+
+	var properties = Object.keys(alternativeProps).concat(['alignContent', 'alignSelf', 'display', 'order', 'flexGrow', 'flexShrink', 'flexBasis', 'flexDirection']).reduce(function (result, prop) {
+	  return _extends({}, result, _defineProperty({}, prop, true));
+	}, {});
+
+	function flexboxOld(pluginInterface) {
+	  var property = pluginInterface.property;
+	  var value = pluginInterface.value;
+	  var styles = pluginInterface.styles;
+	  var browserInfo = pluginInterface.browserInfo;
+	  var prefix = pluginInterface.prefix;
+	  var keepUnprefixed = pluginInterface.keepUnprefixed;
+	  var forceRun = pluginInterface.forceRun;
+	  var browser = browserInfo.browser;
+	  var version = browserInfo.version;
+
+	  if (properties[property] && (forceRun || browser === 'firefox' && version < 22 || browser === 'chrome' && version < 21 || (browser === 'safari' || browser === 'ios_saf') && version <= 6.1 || browser === 'android' && version < 4.4 || browser === 'and_uc')) {
+	    if (!keepUnprefixed) {
+	      delete styles[property];
+	    }
+	    if (property === 'flexDirection') {
+	      return {
+	        WebkitBoxOrient: value.indexOf('column') > -1 ? 'vertical' : 'horizontal',
+	        WebkitBoxDirection: value.indexOf('reverse') > -1 ? 'reverse' : 'normal'
+	      };
+	    }
+	    if (property === 'display' && alternativeValues[value]) {
+	      return {
+	        display: prefix.css + alternativeValues[value] + (keepUnprefixed ? ';' + property + ':' + value : '')
+	      };
+	    }
+	    if (alternativeProps[property]) {
+	      return _defineProperty({}, alternativeProps[property], alternativeValues[value] || value);
+	    }
+	    if (alternativeValues[value]) {
+	      return _defineProperty({}, property, alternativeValues[value] + (keepUnprefixed ? ';' + property + ':' + value : ''));
+	    }
+	  }
+	}
+
+	module.exports = exports['default'];
+
+/***/ },
+/* 312 */
+/***/ function(module, exports, require) {
+
 	/**
 	 * lodash 3.0.1 (Custom Build) <https://lodash.com/>
 	 * Build: `lodash modern modularize exports="npm" -o ./`
@@ -36313,7 +36746,7 @@
 
 
 /***/ },
-/* 305 */
+/* 313 */
 /***/ function(module, exports, require) {
 
 	/**
@@ -36451,7 +36884,7 @@
 
 
 /***/ },
-/* 306 */
+/* 314 */
 /***/ function(module, exports, require) {
 
 	/**
@@ -36524,7 +36957,7 @@
 
 
 /***/ },
-/* 307 */
+/* 315 */
 /***/ function(module, exports, require) {
 
 	/**
@@ -36578,45 +37011,7 @@
 
 
 /***/ },
-/* 308 */
-/***/ function(module, exports, require) {
-
-	/**
-	 * lodash 3.0.1 (Custom Build) <https://lodash.com/>
-	 * Build: `lodash modern modularize exports="npm" -o ./`
-	 * Copyright 2012-2015 The Dojo Foundation <http://dojofoundation.org/>
-	 * Based on Underscore.js 1.8.3 <http://underscorejs.org/LICENSE>
-	 * Copyright 2009-2015 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
-	 * Available under MIT license <https://lodash.com/license>
-	 */
-
-	/**
-	 * Copies properties of `source` to `object`.
-	 *
-	 * @private
-	 * @param {Object} source The object to copy properties from.
-	 * @param {Array} props The property names to copy.
-	 * @param {Object} [object={}] The object to copy properties to.
-	 * @returns {Object} Returns `object`.
-	 */
-	function baseCopy(source, props, object) {
-	  object || (object = {});
-
-	  var index = -1,
-	      length = props.length;
-
-	  while (++index < length) {
-	    var key = props[index];
-	    object[key] = source[key];
-	  }
-	  return object;
-	}
-
-	module.exports = baseCopy;
-
-
-/***/ },
-/* 309 */
+/* 316 */
 /***/ function(module, exports, require) {
 
 	/**
@@ -36754,434 +37149,42 @@
 
 
 /***/ },
-/* 310 */
-/***/ function(module, exports, require) {
-
-	'use strict';
-
-	Object.defineProperty(exports, '__esModule', {
-	  value: true
-	});
-	exports['default'] = calc;
-
-	function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
-	function calc(pluginInterface) {
-	  var property = pluginInterface.property;
-	  var value = pluginInterface.value;
-	  var browserInfo = pluginInterface.browserInfo;
-	  var prefix = pluginInterface.prefix;
-	  var keepUnprefixed = pluginInterface.keepUnprefixed;
-	  var forceRun = pluginInterface.forceRun;
-	  var browser = browserInfo.browser;
-	  var version = browserInfo.version;
-
-	  if (typeof value === 'string' && value.indexOf('calc(') > -1 && (forceRun || browser === 'firefox' && version < 15 || browser === 'chrome' && version < 25 || browser === 'safari' && version < 6.1 || browser === 'ios_saf' && version < 7)) {
-	    var newValue = forceRun ?
-	    // prefix all
-	    ['-webkit-', '-moz-'].map(function (prefix) {
-	      return value.replace(/calc\(/g, prefix + 'calc(');
-	    }).join(';' + property + ':') :
-	    // default
-	    value.replace(/calc\(/g, prefix.css + 'calc(');
-	    return _defineProperty({}, property, newValue + (keepUnprefixed ? ';' + property + ':' + value : ''));
-	  }
-	}
-
-	module.exports = exports['default'];
-
-/***/ },
-/* 311 */
-/***/ function(module, exports, require) {
-
-	'use strict';
-
-	Object.defineProperty(exports, '__esModule', {
-	  value: true
-	});
-	exports['default'] = cursor;
-	var values = {
-	  'zoom-in': true,
-	  'zoom-out': true,
-	  grab: true,
-	  grabbing: true
-	};
-
-	function cursor(pluginInterface) {
-	  var property = pluginInterface.property;
-	  var value = pluginInterface.value;
-	  var browserInfo = pluginInterface.browserInfo;
-	  var prefix = pluginInterface.prefix;
-	  var keepUnprefixed = pluginInterface.keepUnprefixed;
-	  var forceRun = pluginInterface.forceRun;
-	  var browser = browserInfo.browser;
-	  var version = browserInfo.version;
-
-	  if (property === 'cursor' && values[value] && (forceRun || browser === 'firefox' && version < 24 || browser === 'chrome' && version < 37 || browser === 'safari' && version < 9 || browser === 'opera' && version < 24)) {
-	    var newValue = forceRun ?
-	    // prefix all
-	    ['-webkit-', '-moz-'].map(function (prefix) {
-	      return prefix + value;
-	    }).join(';' + property + ':') :
-	    // default
-	    prefix.css + value;
-	    return {
-	      cursor: newValue + (keepUnprefixed ? ';' + property + ':' + value : '')
-	    };
-	  }
-	}
-
-	module.exports = exports['default'];
-
-/***/ },
-/* 312 */
-/***/ function(module, exports, require) {
-
-	'use strict';
-
-	Object.defineProperty(exports, '__esModule', {
-	  value: true
-	});
-	exports['default'] = flex;
-	var values = { flex: true, 'inline-flex': true };
-
-	function flex(pluginInterface) {
-	  var property = pluginInterface.property;
-	  var value = pluginInterface.value;
-	  var browserInfo = pluginInterface.browserInfo;
-	  var prefix = pluginInterface.prefix;
-	  var keepUnprefixed = pluginInterface.keepUnprefixed;
-	  var forceRun = pluginInterface.forceRun;
-	  var browser = browserInfo.browser;
-	  var version = browserInfo.version;
-
-	  if (property === 'display' && values[value] && (forceRun || browser === 'chrome' && version < 29 && version > 20 || (browser === 'safari' || browser === 'ios_saf') && version < 9 && version > 6 || browser === 'opera' && (version == 15 || version == 16))) {
-	    var newValue = forceRun ?
-	    // prefix all
-	    ['-webkit-box', '-moz-box', '-ms-' + value + 'box', '-webkit-' + value].join(';' + property + ':') :
-	    // default
-	    '-webkit-' + value;
-	    return {
-	      display: newValue + (keepUnprefixed ? ';' + property + ':' + value : '')
-	    };
-	  }
-	}
-
-	module.exports = exports['default'];
-
-/***/ },
-/* 313 */
-/***/ function(module, exports, require) {
-
-	'use strict';
-
-	Object.defineProperty(exports, '__esModule', {
-	  value: true
-	});
-	exports['default'] = sizing;
-
-	function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
-	var properties = {
-	  maxHeight: true,
-	  maxWidth: true,
-	  width: true,
-	  height: true,
-	  columnWidth: true,
-	  minWidth: true,
-	  minHeight: true
-	};
-	var values = {
-	  'min-content': true,
-	  'max-content': true,
-	  'fill-available': true,
-	  'fit-content': true,
-	  'contain-floats': true
-	};
-
-	function sizing(pluginInterface) {
-	  var property = pluginInterface.property;
-	  var value = pluginInterface.value;
-	  var browserInfo = pluginInterface.browserInfo;
-	  var prefix = pluginInterface.prefix;
-	  var keepUnprefixed = pluginInterface.keepUnprefixed;
-	  var forceRun = pluginInterface.forceRun;
-	  var browser = browserInfo.browser;
-	  var version = browserInfo.version;
-
-	  // This might change in the future
-	  // Keep an eye on it
-	  if (properties[property] && values[value]) {
-	    var newValue = forceRun ?
-	    // prefix all
-	    ['-webkit-', '-moz-'].map(function (prefix) {
-	      return prefix + value;
-	    }).join(';' + property + ':') :
-	    // default
-	    prefix.css + value;
-	    return _defineProperty({}, property, newValue + (keepUnprefixed ? ';' + property + ':' + value : ''));
-	  }
-	}
-
-	module.exports = exports['default'];
-
-/***/ },
-/* 314 */
-/***/ function(module, exports, require) {
-
-	'use strict';
-
-	Object.defineProperty(exports, '__esModule', {
-	  value: true
-	});
-	exports['default'] = gradient;
-
-	function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
-	var values = /linear-gradient|radial-gradient|repeating-linear-gradient|repeating-radial-gradient/;
-
-	function gradient(pluginInterface) {
-	  var property = pluginInterface.property;
-	  var value = pluginInterface.value;
-	  var browserInfo = pluginInterface.browserInfo;
-	  var prefix = pluginInterface.prefix;
-	  var keepUnprefixed = pluginInterface.keepUnprefixed;
-	  var forceRun = pluginInterface.forceRun;
-	  var browser = browserInfo.browser;
-	  var version = browserInfo.version;
-
-	  if (typeof value === 'string' && value.match(values) !== null && (forceRun || browser === 'firefox' && version < 16 || browser === 'chrome' && version < 26 || (browser === 'safari' || browser === 'ios_saf') && version < 7 || (browser === 'opera' || browser === 'op_mini') && version < 12.1 || browser === 'android' && version < 4.4 || browser === 'and_uc')) {
-	    var newValue = forceRun ?
-	    // prefix all
-	    ['-webkit-', '-moz-'].map(function (prefix) {
-	      return prefix + value;
-	    }).join(';' + property + ':') :
-	    // default
-	    prefix.css + value;
-	    return _defineProperty({}, property, newValue + (keepUnprefixed ? ';' + property + ':' + value : ''));
-	  }
-	}
-
-	module.exports = exports['default'];
-
-/***/ },
-/* 315 */
-/***/ function(module, exports, require) {
-
-	'use strict';
-
-	Object.defineProperty(exports, '__esModule', {
-	  value: true
-	});
-	exports['default'] = calc;
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
-
-	function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
-	var _utilsCamelToDashCase = require(319);
-
-	var _utilsCamelToDashCase2 = _interopRequireDefault(_utilsCamelToDashCase);
-
-	var _utilsCapitalizeString = require(297);
-
-	var _utilsCapitalizeString2 = _interopRequireDefault(_utilsCapitalizeString);
-
-	function calc(pluginInterface) {
-	  var property = pluginInterface.property;
-	  var value = pluginInterface.value;
-	  var browserInfo = pluginInterface.browserInfo;
-	  var prefix = pluginInterface.prefix;
-	  var keepUnprefixed = pluginInterface.keepUnprefixed;
-	  var forceRun = pluginInterface.forceRun;
-	  var requiresPrefix = pluginInterface.requiresPrefix;
-	  var browser = browserInfo.browser;
-	  var version = browserInfo.version;
-
-	  if (
-	  // also check for already prefixed transitions
-	  typeof value === 'string' && (property.toLowerCase().indexOf('transition') > -1 || property.toLowerCase().indexOf('transitionproperty') > -1)) {
-	    var _ref;
-
-	    var _ret = (function () {
-	      var requiresPrefixDashCased = Object.keys(requiresPrefix).map(function (property) {
-	        return (0, _utilsCamelToDashCase2['default'])(property);
-	      });
-	      var newValue = value;
-
-	      // only split multi values, not cubic beziers
-	      var multipleValues = newValue.split(/,(?![^()]*(?:\([^()]*\))?\))/g);
-
-	      requiresPrefixDashCased.forEach(function (property) {
-	        multipleValues.forEach(function (val, index) {
-	          if (val.indexOf(property) > -1) {
-	            var newVal = forceRun ?
-	            // prefix all
-	            ['-webkit-', '-moz-', '-ms-'].map(function (prefix) {
-	              return val.replace(property, prefix + property);
-	            }).join(',') :
-	            // default
-	            val.replace(property, prefix.css + property);
-	            multipleValues[index] = newVal + (keepUnprefixed ? ',' + val : '');
-	          }
-	        });
-	      });
-	      var outputValue = multipleValues.join(',');
-	      if (forceRun) {
-	        return {
-	          v: (_ref = {}, _defineProperty(_ref, 'Webkit' + (0, _utilsCapitalizeString2['default'])(property), outputValue), _defineProperty(_ref, 'Moz' + (0, _utilsCapitalizeString2['default'])(property), outputValue), _defineProperty(_ref, 'ms' + (0, _utilsCapitalizeString2['default'])(property), outputValue), _defineProperty(_ref, property, outputValue), _ref)
-	        };
-	      }
-	      return {
-	        v: _defineProperty({}, property, outputValue)
-	      };
-	    })();
-
-	    if (typeof _ret === 'object') return _ret.v;
-	  }
-	}
-
-	module.exports = exports['default'];
-
-/***/ },
-/* 316 */
-/***/ function(module, exports, require) {
-
-	'use strict';
-
-	Object.defineProperty(exports, '__esModule', {
-	  value: true
-	});
-
-	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
-
-	exports['default'] = flexboxIE;
-
-	function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
-	var alternativeValues = {
-	  'space-around': 'distribute',
-	  'space-between': 'justify',
-	  'flex-start': 'start',
-	  'flex-end': 'end',
-	  flex: '-ms-flexbox',
-	  'inline-flex': '-ms-inline-flexbox'
-	};
-	var alternativeProps = {
-	  alignContent: 'msFlexLinePack',
-	  alignSelf: 'msFlexItemAlign',
-	  alignItems: 'msFlexAlign',
-	  justifyContent: 'msFlexPack',
-	  order: 'msFlexOrder',
-	  flexGrow: 'msFlexPositive',
-	  flexShrink: 'msFlexNegative',
-	  flexBasis: 'msPreferredSize'
-	};
-
-	var properties = Object.keys(alternativeProps).concat('display').reduce(function (result, prop) {
-	  return _extends({}, result, _defineProperty({}, prop, true));
-	}, {});
-
-	function flexboxIE(pluginInterface) {
-	  var property = pluginInterface.property;
-	  var value = pluginInterface.value;
-	  var styles = pluginInterface.styles;
-	  var browserInfo = pluginInterface.browserInfo;
-	  var prefix = pluginInterface.prefix;
-	  var keepUnprefixed = pluginInterface.keepUnprefixed;
-	  var forceRun = pluginInterface.forceRun;
-	  var browser = browserInfo.browser;
-	  var version = browserInfo.version;
-
-	  if (properties[property] && (forceRun || (browser === 'ie_mob' || browser === 'ie') && version == 10)) {
-	    if (!keepUnprefixed) {
-	      delete styles[property];
-	    }
-
-	    if (alternativeProps[property]) {
-	      return _defineProperty({}, alternativeProps[property], alternativeValues[value] || value);
-	    }
-	    if (alternativeValues[value]) {
-	      return _defineProperty({}, property, alternativeValues[value] + (keepUnprefixed ? ';' + property + ':' + value : ''));
-	    }
-	  }
-	}
-
-	module.exports = exports['default'];
-
-/***/ },
 /* 317 */
 /***/ function(module, exports, require) {
 
-	'use strict';
+	/**
+	 * lodash 3.0.1 (Custom Build) <https://lodash.com/>
+	 * Build: `lodash modern modularize exports="npm" -o ./`
+	 * Copyright 2012-2015 The Dojo Foundation <http://dojofoundation.org/>
+	 * Based on Underscore.js 1.8.3 <http://underscorejs.org/LICENSE>
+	 * Copyright 2009-2015 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
+	 * Available under MIT license <https://lodash.com/license>
+	 */
 
-	Object.defineProperty(exports, '__esModule', {
-	  value: true
-	});
+	/**
+	 * Copies properties of `source` to `object`.
+	 *
+	 * @private
+	 * @param {Object} source The object to copy properties from.
+	 * @param {Array} props The property names to copy.
+	 * @param {Object} [object={}] The object to copy properties to.
+	 * @returns {Object} Returns `object`.
+	 */
+	function baseCopy(source, props, object) {
+	  object || (object = {});
 
-	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+	  var index = -1,
+	      length = props.length;
 
-	exports['default'] = flexboxOld;
-
-	function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
-	var alternativeValues = {
-	  'space-around': 'justify',
-	  'space-between': 'justify',
-	  'flex-start': 'start',
-	  'flex-end': 'end',
-	  'wrap-reverse': 'multiple',
-	  wrap: 'multiple',
-	  flex: 'box',
-	  'inline-flex': 'inline-box'
-	};
-
-	var alternativeProps = {
-	  alignItems: 'WebkitBoxAlign',
-	  justifyContent: 'WebkitBoxPack',
-	  flexWrap: 'WebkitBoxLines'
-	};
-
-	var properties = Object.keys(alternativeProps).concat(['alignContent', 'alignSelf', 'display', 'order', 'flexGrow', 'flexShrink', 'flexBasis', 'flexDirection']).reduce(function (result, prop) {
-	  return _extends({}, result, _defineProperty({}, prop, true));
-	}, {});
-
-	function flexboxOld(pluginInterface) {
-	  var property = pluginInterface.property;
-	  var value = pluginInterface.value;
-	  var styles = pluginInterface.styles;
-	  var browserInfo = pluginInterface.browserInfo;
-	  var prefix = pluginInterface.prefix;
-	  var keepUnprefixed = pluginInterface.keepUnprefixed;
-	  var forceRun = pluginInterface.forceRun;
-	  var browser = browserInfo.browser;
-	  var version = browserInfo.version;
-
-	  if (properties[property] && (forceRun || browser === 'firefox' && version < 22 || browser === 'chrome' && version < 21 || (browser === 'safari' || browser === 'ios_saf') && version <= 6.1 || browser === 'android' && version < 4.4 || browser === 'and_uc')) {
-	    if (!keepUnprefixed) {
-	      delete styles[property];
-	    }
-	    if (property === 'flexDirection') {
-	      return {
-	        WebkitBoxOrient: value.indexOf('column') > -1 ? 'vertical' : 'horizontal',
-	        WebkitBoxDirection: value.indexOf('reverse') > -1 ? 'reverse' : 'normal'
-	      };
-	    }
-	    if (property === 'display' && alternativeValues[value]) {
-	      return {
-	        display: prefix.css + alternativeValues[value] + (keepUnprefixed ? ';' + property + ':' + value : '')
-	      };
-	    }
-	    if (alternativeProps[property]) {
-	      return _defineProperty({}, alternativeProps[property], alternativeValues[value] || value);
-	    }
-	    if (alternativeValues[value]) {
-	      return _defineProperty({}, property, alternativeValues[value] + (keepUnprefixed ? ';' + property + ':' + value : ''));
-	    }
+	  while (++index < length) {
+	    var key = props[index];
+	    object[key] = source[key];
 	  }
+	  return object;
 	}
 
-	module.exports = exports['default'];
+	module.exports = baseCopy;
+
 
 /***/ },
 /* 318 */
