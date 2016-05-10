@@ -30,9 +30,11 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.JsonObjectRequest;
 
 import org.json.JSONObject;
@@ -41,7 +43,9 @@ import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.regex.Pattern;
 
 import static android.Manifest.permission.READ_CONTACTS;
@@ -78,6 +82,9 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     private String email;
     private String password;
 
+    private static final String loginUrl = "http://10.0.2.2:1337/login";
+    private static final String registerUrl = "http://10.0.2.2:1337/register";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -103,8 +110,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             @Override
             public void onClick(View view) {
                 attemptLogin();
-                String url = "http://10.0.2.2:1337/login";
-                JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, url, (String) null,
+                /*JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, loginUrl, (String) null,
                         new Response.Listener<JSONObject>() {
                             @Override
                             public void onResponse(JSONObject response) {
@@ -120,7 +126,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
                 //add request to queue
                 //queue.add(jsonObjectRequest);
-                AppController.getInstance().addToRequestQueue(jsonObjectRequest, tag_json_obj);
+                AppController.getInstance().addToRequestQueue(jsonObjectRequest, tag_json_obj);*/
             }
         });
 
@@ -349,20 +355,55 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
             try {
                 // Simulate network access.
-                HttpURLConnection connection = (HttpURLConnection) new URL("http://10.0.2.2:1337/login").openConnection();
+                Map<String, String> postParam= new HashMap<String, String>();
+                postParam.put("email", email);
+                postParam.put("password", password);
+                Log.d("Volley JSON to send ", new JSONObject(postParam).toString());
+
+                JsonObjectRequest jsonObjReq = new JsonObjectRequest(Request.Method.POST,
+                            loginUrl, new JSONObject(postParam),
+                            new Response.Listener<JSONObject>() {
+
+                                @Override
+                                public void onResponse(JSONObject response) {
+                                    Log.d("Volley ", response.toString());
+                                }
+                            }, new Response.ErrorListener() {
+
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            VolleyLog.d("Volley ", "Error: " + error.getMessage());
+                        }
+                    })
+
+                    {
+                        /**
+                         * Passing some request headers
+                         * */
+                        @Override
+                        public Map<String, String> getHeaders() throws AuthFailureError {
+                            HashMap<String, String> headers = new HashMap<String, String>();
+                            headers.put("Content-Type", "application/json; charset=utf-8");
+                            return headers;
+                        }
+                    };
+
+                    // Adding request to request queue
+                    AppController.getInstance().addToRequestQueue(jsonObjReq,tag_json_obj);
+
+
+                /*HttpURLConnection connection = (HttpURLConnection) new URL(loginUrl).openConnection();
                 String encoded = Base64.encodeToString((email + ":" + password).getBytes("UTF-8"), Base64.NO_WRAP);
                 connection.setRequestProperty("Authorization", "Basic " + encoded);
                 connection.setRequestMethod("POST");
                 connection.setInstanceFollowRedirects(true);
                 connection.connect();
                 int resCode = connection.getResponseCode();
-                Log.d("Response kod: ", String.valueOf(resCode));
+                Log.d("Response kod: ", String.valueOf(resCode));*/
 
                 Thread.sleep(5000);
             } catch (InterruptedException e) {
                 return false;
-            } catch (IOException e) {
-                e.printStackTrace();
             }
 
             for (String credential : DUMMY_CREDENTIALS) {
