@@ -36,7 +36,7 @@
     <Compile Include="API\login.js" />
     <Compile Include="app.js" />
     <Compile Include="build.config.js" />
-    <Compile Include="test_form.js" />
+    <Compile Include="src\register_form_generator.js" />
     <Compile Include="routes\index.js" />
     <Compile Include="routes\login.js" />
     <Compile Include="routes\logout.js" />
@@ -52,7 +52,8 @@
     <Compile Include="src\index.js" />
     <Compile Include="src\store.js" />
     <Compile Include="src\validators.js" />
-    <Compile Include="views\test_form.js" />
+    <Compile Include="views\register_form.js" />
+    <Content Include="public\css\main.css" />
     <Content Include="views\error.html" />
     <Content Include="views\index.html" />
     <Content Include="package.json" />
@@ -63,6 +64,7 @@
     <Folder Include="API\" />
     <Folder Include="bin\" />
     <Folder Include="public\" />
+    <Folder Include="public\css\" />
     <Folder Include="public\images\" />
     <Folder Include="public\javascripts\" />
     <Folder Include="public\stylesheets\" />
