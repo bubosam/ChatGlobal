@@ -15,10 +15,17 @@ var logout = require('./routes/logout');
 
 var app = express();
 
+
+app.use(express.static('./views'))
+app.use('/', function (req, res) {
+    res.sendFile(path.resolve('./views/test_form.html'));
+});
+
+
 // view engine setup
-app.set('views', path.join(__dirname, '/views'));
+/*app.set('views', path.join(__dirname, '/views'));
 app.set('view engine', 'jsx');
-app.engine('jsx', require('express-react-views').createEngine());
+app.engine('jsx', require('express-react-views').createEngine());*/
 
 
 // uncomment after placing your favicon in /public
@@ -36,15 +43,12 @@ app.use('/login', login);
 app.use('/register', register);
 app.use('/logout', logout);
 
-
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
     var err = new Error('Not Found');
     err.status = 404;
     next(err);
 });
-
-
 
 // error handlers
 
@@ -69,7 +73,6 @@ app.use(function (err, req, res, next) {
         error: {}
     });
 });
-
 
 module.exports = app;
 
