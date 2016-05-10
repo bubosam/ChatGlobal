@@ -7,17 +7,18 @@ import android.app.LoaderManager.LoaderCallbacks;
 import android.content.CursorLoader;
 import android.content.Intent;
 import android.content.Loader;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.provider.ContactsContract;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Base64;
 import android.util.Log;
 import android.util.Patterns;
 import android.view.KeyEvent;
@@ -37,11 +38,9 @@ import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.JsonObjectRequest;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.IOException;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -82,8 +81,10 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     private String email;
     private String password;
 
+    private int userid;
+    private String token;
+
     private static final String loginUrl = "http://10.0.2.2:1337/login";
-    private static final String registerUrl = "http://10.0.2.2:1337/register";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -110,23 +111,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             @Override
             public void onClick(View view) {
                 attemptLogin();
-                /*JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, loginUrl, (String) null,
-                        new Response.Listener<JSONObject>() {
-                            @Override
-                            public void onResponse(JSONObject response) {
-                                Log.d("Volley JSON response: ", response.toString());
-                            }
-                        },
-                        new Response.ErrorListener() {
-                            @Override
-                            public void onErrorResponse(VolleyError error) {
-                                Log.d("Volley JSON: ", "error");
-                            }
-                        });
-
-                //add request to queue
-                //queue.add(jsonObjectRequest);
-                AppController.getInstance().addToRequestQueue(jsonObjectRequest, tag_json_obj);*/
             }
         });
 
@@ -367,6 +351,23 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                                 @Override
                                 public void onResponse(JSONObject response) {
                                     Log.d("Volley ", response.toString());
+                                    String token = null;
+                                    int userid;
+                                    try {
+                                        token = response.getString("token");
+                                        userid = response.getInt("userid");
+                                        Log.d("Volley token", token);
+                                        Log.d("Volley userid", String.valueOf(userid));
+                                        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+                                        SharedPreferences.Editor editor = sharedPref.edit();
+                                        editor.clear();
+                                        editor.apply();
+                                        editor.putInt("userid", userid);
+                                        editor.putString("token", token);
+                                        editor.apply();
+                                    } catch (JSONException e) {
+                                        e.printStackTrace();
+                                    }
                                 }
                             }, new Response.ErrorListener() {
 
