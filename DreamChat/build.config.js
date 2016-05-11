@@ -4,11 +4,11 @@ var webpack = require('webpack');
 module.exports = {
   context: __dirname, //current folder as the reference to the other paths
   entry: {
-    test_form: './test_form.js' //entry point for building scripts
+        register_form_generator: './src/register_form_generator.js' //entry point for building scripts
   },
   output: {
     path: path.resolve('./views'), //save result in 'dist' folder
-    filename: 'test_form.js'
+    filename: 'register_form.js'
   },
   module: {
     loaders: [

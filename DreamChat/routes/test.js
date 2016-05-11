@@ -4,14 +4,13 @@ var router = express.Router();
 
 /* GET users listing. */
 router.get('/', function (req, res) {
-	res.json({"text": "lalalallacjwsuifewiufhwiufhe3iuwfheiuwf"});
+	res.json({"text": "test"});
 
 });
 
 router.post('/', function (req, res) {
-	console.log(req.body.password);
-	res.json({"key": "value"});
-
+	console.log(req.body);
+	res.json(req.body);
 });
 
 module.exports = router;
