@@ -1,5 +1,6 @@
 package com.example.boush.dreamchat;
 
+
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.FragmentManager;
@@ -32,7 +33,7 @@ public class ChatActivity extends AppCompatActivity {
         tabLayout.addTab(friends, 2);
 
         FragmentManager manager=getSupportFragmentManager();
-        com.example.boush.dreamchat.PagerAdapter adapter = new com.example.boush.dreamchat.PagerAdapter(manager) ;
+        PagerAdapter adapter = new PagerAdapter(manager) ;
         pager.setAdapter(adapter);
 
         pager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));

@@ -3,6 +3,8 @@ package com.example.boush.dreamchat;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -13,13 +15,22 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.VolleyLog;
+import com.android.volley.toolbox.JsonObjectRequest;
+
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.regex.Pattern;
 
 
@@ -29,9 +40,10 @@ public class RegistrationActivity extends AppCompatActivity {
     private EditText password;
     private EditText confirmPassword;
     private Button register;
-    private String emailTxt;
-    private String passwordTxt;
-    List<NameValuePair> params;
+
+
+    private static final String registerUrl = "http://10.0.2.2:1337/register";
+    String tag_json_obj = "json_obj_req";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,25 +78,25 @@ public class RegistrationActivity extends AppCompatActivity {
         boolean cancel = false;
         View focusView = null;
 
-        if(!isValidUsername(usernameStr)){
+        if (!isValidUsername(usernameStr)) {
             username.setError("Invalid username. Username must contains 3 - 16 characters.");
             focusView = username;
             cancel = true;
         }
 
-        if(!isValidEmail(emailStr)){
+        if (!isValidEmail(emailStr)) {
             email.setError("Invalid email.");
             focusView = email;
             cancel = true;
         }
 
-        if(!isValidPassword(passwordStr)){
+        if (!isValidPassword(passwordStr)) {
             password.setError("Invalid password. Password must contains 8 - 16 characters.");
             focusView = password;
             cancel = true;
         }
 
-        if(!confirmPassStr.equals(passwordStr)){
+        if (!confirmPassStr.equals(passwordStr)) {
             confirmPassword.setError("Passwords are not equal.");
             password.setError("Passwords are not equal.");
             focusView = confirmPassword;
@@ -95,50 +107,65 @@ public class RegistrationActivity extends AppCompatActivity {
             // form field with an error.
             focusView.requestFocus();
         } else {
-            params = new ArrayList<NameValuePair>();
-            params.add(new BasicNameValuePair("username",usernameStr));
-            params.add(new BasicNameValuePair("email", emailStr));
-            params.add(new BasicNameValuePair("password", passwordStr));
-            ServerRequest sr = new ServerRequest();
-            JSONObject json = sr.getJSON("http://10.0.2.2:1337/register", params);
-            //JSONObject json = sr.getJSON("http://192.168.56.1:8080/register",params);
-            if (json != null) {
-                try {
-                    String jsonstr = json.getString("response");
+            try {
+                // Simulate network access.
+                Map<String, String> postParam = new HashMap<String, String>();
+                postParam.put("username", usernameStr);
+                postParam.put("email", emailStr);
+                postParam.put("password", passwordStr);
+                Log.d("Volley JSON to send ", new JSONObject(postParam).toString());
 
-                    Toast.makeText(getApplication(), jsonstr, Toast.LENGTH_LONG).show();
+                JsonObjectRequest jsonObjReq = new JsonObjectRequest(Request.Method.POST,
+                        registerUrl, new JSONObject(postParam),
+                        new Response.Listener<JSONObject>() {
 
-                    Log.d("Hello", jsonstr);
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-
-                new AlertDialog.Builder(this)
-                        .setTitle("Registration")
-                        .setMessage("You have been successfully registered, now you will be logged in.")
-                        .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int which) {
-                                Intent intent = new Intent(RegistrationActivity.this, ChatActivity.class);
-                                startActivity(intent);
-                                finish();
+                            @Override
+                            public void onResponse(JSONObject response) {
+                                Log.d("Volley ", response.toString());
+                                String token = null;
+                                int userid;
+                                try {
+                                    token = response.getString("token");
+                                    userid = response.getInt("userid");
+                                    Log.d("Volley token", token);
+                                    Log.d("Volley userid", String.valueOf(userid));
+                                    SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+                                    SharedPreferences.Editor editor = sharedPref.edit();
+                                    editor.clear();
+                                    editor.apply();
+                                    editor.putInt("userid", userid);
+                                    editor.putString("token", token);
+                                    editor.apply();
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
                             }
-                        })
-                        .setIcon(android.R.drawable.ic_dialog_alert)
-                        .show();
-            }
-            else if (json == null){
-                new AlertDialog.Builder(this)
-                        .setTitle("Error")
-                        .setMessage("There was problem with registration, check your internet connection and try it again.")
-                        .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int which) {
-                                Intent intent = new Intent(RegistrationActivity.this, ChatActivity.class);
-                                startActivity(intent);
-                                finish();
-                            }
-                        })
-                        .setIcon(android.R.drawable.ic_dialog_alert)
-                        .show();
+                        }, new Response.ErrorListener() {
+
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        VolleyLog.d("Volley ", "Error: " + error.getMessage());
+                    }
+                })
+
+                {
+                    /**
+                     * Passing some request headers
+                     */
+                    @Override
+                    public Map<String, String> getHeaders() throws AuthFailureError {
+                        HashMap<String, String> headers = new HashMap<String, String>();
+                        headers.put("Content-Type", "application/json; charset=utf-8");
+                        return headers;
+                    }
+                };
+
+                // Adding request to request queue
+                AppController.getInstance().addToRequestQueue(jsonObjReq, tag_json_obj);
+
+
+            } catch (Exception e) {
+                VolleyLog.d("Volley ", "Error: "+e.toString());
             }
 
 
