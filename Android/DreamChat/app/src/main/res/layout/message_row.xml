@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:focusable="true"
+    android:paddingLeft="16dp"
+    android:paddingRight="16dp"
+    android:paddingTop="10dp"
+    android:paddingBottom="10dp"
+    android:clickable="true"
+    android:background="?android:attr/selectableItemBackground"
+    android:orientation="vertical">
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/mAvatar"
+        android:src="@drawable/ic_person"
+        android:layout_marginLeft="26dp"
+        android:layout_marginStart="26dp"
+        android:layout_alignBottom="@+id/mName"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:id="@+id/mName"
+        android:textColor="@color/colorAccent"
+        android:textSize="16dp"
+        android:textStyle="bold"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Noro Kanalos"
+        android:layout_marginTop="35dp"
+        android:layout_alignParentTop="true"
+        android:layout_toRightOf="@+id/mAvatar"
+        android:layout_toEndOf="@+id/mAvatar"
+        android:layout_marginLeft="35dp"
+        android:layout_marginStart="35dp" />
+
+    <TextView
+        android:id="@+id/mText"
+        android:textColor="#FFFFFF"
+        android:textSize="16dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Bla bla bla bla"
+        android:layout_below="@+id/mName"
+        android:layout_alignLeft="@+id/mName"
+        android:layout_alignStart="@+id/mName" />
+
+</RelativeLayout>
