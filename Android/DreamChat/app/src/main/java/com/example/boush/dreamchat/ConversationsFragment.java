@@ -1,7 +1,10 @@
 package com.example.boush.dreamchat;
 
 import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
@@ -51,13 +54,20 @@ public class ConversationsFragment extends Fragment {
             @Override
             public void onClick(View view, int position) {
                 Message message = messagesList.get(position);
-                Toast.makeText(getActivity().getApplicationContext(), message.getMessageText()
-                        + " is selected!", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getActivity().getApplicationContext(), message.getName()
+                //        + " is selected!", Toast.LENGTH_SHORT).show();
+                SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(getActivity());
+                SharedPreferences.Editor editor = pref.edit();
+                editor.putString("Name",message.getName());
+                editor.commit();
+                Intent intent = new Intent(getActivity(),ChatActivity.class);
+                startActivity(intent);
             }
 
             @Override
             public void onLongClick(View view, int position) {
-
+                Toast.makeText(getActivity().getApplicationContext(),
+                        "Work in progress.", Toast.LENGTH_SHORT).show();
             }
         }));
 

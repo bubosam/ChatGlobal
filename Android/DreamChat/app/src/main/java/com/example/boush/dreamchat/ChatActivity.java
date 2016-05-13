@@ -1,44 +1,56 @@
 package com.example.boush.dreamchat;
 
-
-import android.content.Intent;
-import android.os.Bundle;
-import android.support.design.widget.TabLayout;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.view.ViewPager;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
+import android.util.Log;
+import android.view.KeyEvent;
+import android.view.View;
+import android.view.inputmethod.EditorInfo;
+import android.widget.EditText;
+import android.widget.TextView;
+import android.widget.Toast;
 
 public class ChatActivity extends AppCompatActivity {
-
-    ViewPager pager;
-    TabLayout tabLayout;
+    private String name;
+    private TextView txtName;
+    private EditText etxtSendMsg;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat);
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        name = prefs.getString("Name",null);
+        //Log.d("BULLSHIT", "onCreate: "+name);
+        txtName = (TextView) findViewById(R.id.txtName);
+        txtName.setText(name);
+        etxtSendMsg = (EditText) findViewById(R.id.etxtSendMsg);
+        etxtSendMsg.setOnKeyListener(new View.OnKeyListener()
+        {
+            public boolean onKey(View v, int keyCode, KeyEvent event)
+            {
+                if (event.getAction() == KeyEvent.ACTION_DOWN)
+                {
+                    switch (keyCode)
+                    {
+                        case KeyEvent.KEYCODE_DPAD_CENTER:
+                        case KeyEvent.KEYCODE_ENTER:
+                            sendMessage();
+                            etxtSendMsg.setText("");
+                            return true;
+                        default:
+                            break;
+                    }
+                }
+                return false;
+            }
+        });
 
-        pager = (ViewPager) findViewById(R.id.view_pager);
-        tabLayout= (TabLayout) findViewById(R.id.tab_layout);
-
-        final TabLayout.Tab me = tabLayout.newTab();
-        final TabLayout.Tab conversations = tabLayout.newTab();
-        final TabLayout.Tab friends = tabLayout.newTab();
-
-        me.setText(getString(R.string.tab_profile));
-        conversations.setText((getString(R.string.tab_conversations)));
-        friends.setText((getString(R.string.tab_friends)));
-
-        tabLayout.addTab(me, 0);
-        tabLayout.addTab(conversations, 1);
-        tabLayout.addTab(friends, 2);
-
-        FragmentManager manager=getSupportFragmentManager();
-        PagerAdapter adapter = new PagerAdapter(manager) ;
-        pager.setAdapter(adapter);
-
-        pager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
     }
 
-
+    public void sendMessage(){
+        Log.d("THIS IS SPARTAAAAA", "sendMessage: "+etxtSendMsg.getText());
+    }
 }
