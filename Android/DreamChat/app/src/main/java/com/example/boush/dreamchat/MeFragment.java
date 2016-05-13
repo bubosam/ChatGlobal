@@ -21,6 +21,7 @@ import android.view.ViewGroup;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -31,7 +32,7 @@ import android.widget.Toast;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class MeFragment extends Fragment implements View.OnClickListener {
+public class MeFragment extends Fragment {
 
 
     private static int RESULT_LOAD_IMAGE = 1;
@@ -44,6 +45,8 @@ public class MeFragment extends Fragment implements View.OnClickListener {
     private String password;
     private Button submit;
 
+    private ImageButton rotatePicture;
+
     public MeFragment() {
         // Required empty public constructor
     }
@@ -54,7 +57,21 @@ public class MeFragment extends Fragment implements View.OnClickListener {
         View view = inflater.inflate(R.layout.fragment_me, container, false);
         Select = (Button) view.findViewById(R.id.selectPhoto);
         imageView = (ImageView) view.findViewById(R.id.ImageView);
-        Select.setOnClickListener(this);
+        rotatePicture = (ImageButton) view.findViewById(R.id.imageButton);
+        Select.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                startActivityForResult(i, RESULT_LOAD_IMAGE);
+            }
+        });
+
+        rotatePicture.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                rotate();
+            }
+        });
 
         context= getActivity();
 
@@ -62,11 +79,7 @@ public class MeFragment extends Fragment implements View.OnClickListener {
 
     }
 
-    @Override
-    public void onClick(View v) {
-        Intent i = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-        startActivityForResult(i, RESULT_LOAD_IMAGE);
-    }
+
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -88,18 +101,6 @@ public class MeFragment extends Fragment implements View.OnClickListener {
     }
 
     public enum Direction { VERTICAL, HORIZONTAL };
-
-    /**
-     Creates a new bitmap by flipping the specified bitmap
-     vertically or horizontally.
-     @param src        Bitmap to flip
-     @param type       Flip direction (horizontal or vertical)
-     @return           New bitmap created by flipping the given one
-     vertically or horizontally as specified by
-     the <code>type</code> parameter or
-     the original bitmap if an unknown type
-     is specified.
-     **/
     public static Bitmap flip(Bitmap src, Direction type) {
         Matrix matrix = new Matrix();
 
@@ -108,12 +109,17 @@ public class MeFragment extends Fragment implements View.OnClickListener {
 
         }
         else if(type == Direction.HORIZONTAL) {
-
+                matrix.setRotate(240);
         } else {
             return src;
         }
 
         return Bitmap.createBitmap(src, 0, 0, src.getWidth(), src.getHeight(), matrix, true);
+    }
+
+    public void rotate(){
+        Matrix matrix = new Matrix();
+        matrix.setRotate(180);
     }
 
     public boolean updateUser(){

@@ -83,9 +83,20 @@
             android:layout_height="wrap_content"
             android:id="@+id/button3"
 
-            android:layout_below="@+id/editText2"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true" />
+            android:layout_alignParentBottom="true"
+            android:layout_toLeftOf="@+id/upload"
+            android:layout_toStartOf="@+id/upload" />
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/imageButton"
+            android:src="@drawable/ic_rotate_profile_picture"
+            android:background="@null"
+            android:layout_alignBottom="@+id/ImageView"
+            android:layout_alignRight="@+id/upload"
+            android:layout_alignEnd="@+id/upload"
+            android:onClick="rotate" />
     </RelativeLayout>
 
 </FrameLayout>
