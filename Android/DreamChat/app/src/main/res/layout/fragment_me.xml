@@ -46,7 +46,8 @@
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
             android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true" />
+            android:layout_alignParentEnd="true"
+            android:freezesText="true"/>
 
         <AutoCompleteTextView
             android:id="@+id/emailUpdate"
@@ -59,7 +60,8 @@
             android:singleLine="true"
             android:layout_below="@+id/userNameUpdate"
             android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true" />
+            android:layout_alignParentStart="true"
+            android:freezesText="true"/>
 
         <EditText
             android:id="@+id/passwordUpadte"
@@ -75,7 +77,8 @@
             android:singleLine="true"
             android:layout_below="@+id/emailUpdate"
             android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true" />
+            android:layout_alignParentEnd="true"
+            android:freezesText="true"/>
 
         <Button
             android:text="Submit Changes"
