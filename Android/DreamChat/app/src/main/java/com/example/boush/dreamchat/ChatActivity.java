@@ -10,6 +10,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -27,6 +28,7 @@ public class ChatActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private List<Message> messagesList = new ArrayList<>();
     private MessageAdapter mAdapter;
+    private ImageButton send;
 
     private Calendar c = Calendar.getInstance();
     private SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
@@ -60,24 +62,11 @@ public class ChatActivity extends AppCompatActivity {
         loadHistory();
         txtName.setText(firstName+" "+lastName);
 
-        etxtSendMsg.setOnKeyListener(new View.OnKeyListener()
-        {
-            public boolean onKey(View v, int keyCode, KeyEvent event)
-            {
-                if (event.getAction() == KeyEvent.ACTION_DOWN)
-                {
-                    switch (keyCode)
-                    {
-                        case KeyEvent.KEYCODE_DPAD_CENTER:
-                        case KeyEvent.KEYCODE_ENTER:
-
-                            sendMessage();
-                            return true;
-                        default:
-                            break;
-                    }
-                }
-                return false;
+        send = (ImageButton) findViewById(R.id.btn_sendMessage);
+        send.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                sendMessage();
             }
         });
 
