@@ -52,19 +52,6 @@ public class FriendsFragment extends Fragment {
 
         recyclerView.setAdapter(mAdapter);
 
-        recyclerView.addOnItemTouchListener(new RecyclerTouchListener(context, recyclerView, new ClickListener() {
-            @Override
-            public void onClick(View view, int position) {
-                Friend friend = friendList.get(position);
-                Toast.makeText(context, friend.getTitle() + " is selected!", Toast.LENGTH_SHORT).show();
-            }
-
-            @Override
-            public void onLongClick(View view, int position) {
-
-            }
-        }));
-
         prepareFriendData();
 
         search = (SearchView) view.findViewById(R.id.searchView);
