@@ -70,6 +70,7 @@ public class ChatActivity extends AppCompatActivity {
                     {
                         case KeyEvent.KEYCODE_DPAD_CENTER:
                         case KeyEvent.KEYCODE_ENTER:
+
                             sendMessage();
                             return true;
                         default:
