@@ -1,6 +1,7 @@
 package com.example.boush.dreamchat;
 
-import android.graphics.drawable.Drawable;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 
 /**
  * Created by Okay-PC on 11.5.2016.
@@ -8,15 +9,24 @@ import android.graphics.drawable.Drawable;
 public class Message {
     private int avatarId;
     private String messageText;
-    private String name;
+    private String firstName;
+    private String lastName;
+    private String date;
 
-    public Message(int avatarId, String name, String messageText){
+    public Message(int avatarId, String firstName, String lastName, String messageText){
         this.avatarId = avatarId;
-        this.name = name;
+        this.firstName = firstName;
+        this.lastName = lastName;
         this.messageText = messageText;
     }
-    public String getName() { return name; }
-    public void setName(String name) { this.name = name; }
+
+    public Message(){}
+
+    public String getFirstName() { return firstName; }
+    public void setFirstName(String firstName) { this.firstName = firstName; }
+
+    public String getLastName() { return lastName; }
+    public void setLastName(String lastName) { this.lastName = lastName; }
 
     public String getMessageText() {
         return messageText;
@@ -28,7 +38,8 @@ public class Message {
     public int getAvatarId(){
         return avatarId;
     }
-    public void setAvatarId(int avatarID){
-        this.avatarId=avatarID;
-    }
+    public void setAvatarId(int avatarID){ this.avatarId=avatarID; }
+
+    public String getDate(){ return date; }
+    public void setDate(String date){ this.date = date; }
 }

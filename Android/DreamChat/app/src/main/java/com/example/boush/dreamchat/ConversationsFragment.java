@@ -16,7 +16,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 
@@ -27,6 +29,9 @@ public class ConversationsFragment extends Fragment {
     private RecyclerView recyclerView;
     private List<Message> messagesList = new ArrayList<>();
     private MessageAdapter mAdapter;
+
+    private Calendar c = Calendar.getInstance();
+    private SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
 
     public ConversationsFragment() {
         // Required empty public constructor
@@ -54,12 +59,15 @@ public class ConversationsFragment extends Fragment {
             @Override
             public void onClick(View view, int position) {
                 Message message = messagesList.get(position);
-                //Toast.makeText(getActivity().getApplicationContext(), message.getName()
-                //        + " is selected!", Toast.LENGTH_SHORT).show();
+
                 SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(getActivity());
                 SharedPreferences.Editor editor = pref.edit();
-                editor.putString("Name",message.getName());
+                editor.putString("firstName",message.getFirstName());
+                editor.putString("lastName",message.getLastName());
+                editor.putString("message",message.getMessageText());
+                editor.putString("date",message.getDate());
                 editor.commit();
+
                 Intent intent = new Intent(getActivity(),ChatActivity.class);
                 startActivity(intent);
             }
@@ -76,22 +84,33 @@ public class ConversationsFragment extends Fragment {
     }
 
     private void prepareMessages() {
-        Message msg = new Message(R.drawable.ic_person,"Noro Kanalos", "Ahoj");
+        Message msg = new Message(R.drawable.ic_person,"Noro","Kanalos", "Ahoj");
+        msg.setDate(sdf.format(c.getTime()));
         messagesList.add(msg);
 
-        msg = new Message(R.drawable.ic_person,"Brano Mojsej", "Ahoj more");
+        msg = new Message(R.drawable.ic_person,"Brano","Mojsej", "Ahoj more");
+        msg.setDate(sdf.format(c.getTime()));
         messagesList.add(msg);
 
-        msg = new Message(R.drawable.ic_person,"Brano David", "Neviem programovat");
+        msg = new Message(R.drawable.ic_person,"David", "Golias", "Neviem programovat");
+        msg.setDate(sdf.format(c.getTime()));
         messagesList.add(msg);
 
-        msg = new Message(R.drawable.ic_person,"Laci Strike", "Lets dance!");
+        msg = new Message(R.drawable.ic_person,"Laci", "Strike", "Lets dance!");
+        msg.setDate(sdf.format(c.getTime()));
         messagesList.add(msg);
 
-        msg = new Message(R.drawable.ic_person,"Cyka Blyat", "Why this shit is not working.");
+        msg = new Message(R.drawable.ic_person,"Oskar", "Kode", "Kral Ifov.");
+        msg.setDate("16:18");
         messagesList.add(msg);
 
-        msg = new Message(R.drawable.ic_person,"Oskar Kode", "Kral Ifov.");
+        msg = new Message(R.drawable.ic_person,"Patrik", "Vrbovsky", "Lorem ipsum dolor sit amet, " +
+                "consectetuer adipiscing elit. Nulla pulvinar eleifend sem. Maecenas fermentum," +
+                " sem in pharetra pellentesque, velit turpis volutpat ante, in pharetra metus odio a lectus. " +
+                "Quisque porta. Nullam lectus justo, vulputate eget mollis sed, tempor sed magna. Nulla quis diam. " +
+                "Nunc tincidunt ante vitae massa. Vivamus luctus egestas leo. Suspendisse sagittis ultrices augue. " +
+                "Nullam sit amet magna in magna gravida vehicula.");
+        msg.setDate(sdf.format(c.getTime()));
         messagesList.add(msg);
 
         mAdapter.notifyDataSetChanged();
