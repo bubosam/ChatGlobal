@@ -68,7 +68,7 @@ public class MeFragment extends Fragment {
 
     float deg;
 
-    private static final String updateUrl = "http://10.0.2.2:1337/u[date";
+    private static final String updateUrl = "http://10.0.2.2:1337/update";
     String tag_json_obj = "json_obj_req";
 
     public MeFragment() {
