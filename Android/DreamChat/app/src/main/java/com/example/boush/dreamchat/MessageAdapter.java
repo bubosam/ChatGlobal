@@ -31,8 +31,9 @@ public class MessageAdapter  extends RecyclerView.Adapter<MessageAdapter.MyViewH
     public void onBindViewHolder(MyViewHolder holder, int position) {
         Message message = messagesList.get(position);
         holder.mAvatar.setImageResource(message.getAvatarId());
-        holder.mName.setText(message.getName());
+        holder.mName.setText(message.getFirstName()+" "+message.getLastName());
         holder.mText.setText(message.getMessageText());
+        holder.mDate.setText(message.getDate());
     }
 
     @Override
@@ -44,12 +45,14 @@ public class MessageAdapter  extends RecyclerView.Adapter<MessageAdapter.MyViewH
         public ImageView mAvatar;
         public TextView mName;
         public TextView mText;
+        public TextView mDate;
 
         public MyViewHolder(View view) {
             super(view);
             mAvatar = (ImageView) view.findViewById(R.id.mAvatar);
             mName = (TextView) view.findViewById(R.id.mName);
             mText = (TextView) view.findViewById(R.id.mText);
+            mDate = (TextView) view.findViewById(R.id.mDate);
         }
     }
 }
