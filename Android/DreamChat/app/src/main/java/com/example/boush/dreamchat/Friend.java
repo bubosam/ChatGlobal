@@ -6,13 +6,15 @@ package com.example.boush.dreamchat;
 public class Friend {
     private String firstName;
     private String lastName;
-    private String group;
+    private String nickname;
+    //private String group;
     private String date;
 
-    public Friend(String firstName, String lastName, String group, String date) {
+    public Friend(String firstName, String lastName, String nickname, String date) {
         this.firstName = firstName;
         this.lastName = lastName;
-        this.group = group;
+        this.nickname = nickname;
+        //this.group = group;
         this.date = date;
     }
 
@@ -32,13 +34,13 @@ public class Friend {
         this.lastName = lastName;
     }
 
-    public String getGroup() {
+    /*public String getGroup() {
         return group;
-    }
+    }*/
 
-    public void setGroup(String group) {
+    /*public void setGroup(String group) {
         this.group = group;
-    }
+    }*/
 
     public String getTitle() {
         return firstName +" "+ lastName;
@@ -50,5 +52,13 @@ public class Friend {
 
     public void setDate(String date) {
         this.date = date;
+    }
+
+    public String getNickname() {
+        return nickname;
+    }
+
+    public void setNickname(String nickname) {
+        this.nickname = nickname;
     }
 }

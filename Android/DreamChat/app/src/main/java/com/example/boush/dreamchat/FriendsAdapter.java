@@ -7,6 +7,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.List;
@@ -16,13 +17,14 @@ public class FriendsAdapter extends RecyclerView.Adapter<FriendsAdapter.MyViewHo
     private List<Friend> friendsList;
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
-        public TextView title, date, group;
+        public TextView title, nickname;
+        public ImageView avatar;
 
         public MyViewHolder(View view) {
             super(view);
             title = (TextView) view.findViewById(R.id.title);
-            group = (TextView) view.findViewById(R.id.group);
-            date = (TextView) view.findViewById(R.id.date);
+            nickname = (TextView) view.findViewById(R.id.nickname);
+            avatar = (ImageView) view.findViewById(R.id.fAvatar);
         }
     }
 
@@ -43,8 +45,9 @@ public class FriendsAdapter extends RecyclerView.Adapter<FriendsAdapter.MyViewHo
     public void onBindViewHolder(MyViewHolder holder, int position) {
         Friend friend = friendsList.get(position);
         holder.title.setText(friend.getTitle());
-        holder.group.setText(friend.getGroup());
-        holder.date.setText(friend.getDate());
+        holder.nickname.setText(friend.getNickname());
+        holder.avatar.setImageResource(R.drawable.ic_person);
+        //holder.date.setText(friend.getDate());
     }
 
     @Override

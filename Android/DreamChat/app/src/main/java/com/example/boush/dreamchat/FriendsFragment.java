@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.SearchView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -32,6 +33,7 @@ public class FriendsFragment extends Fragment {
     private List<Friend> friendList = new ArrayList<>();
     private RecyclerView recyclerView;
     private FriendsAdapter mAdapter;
+    private SearchView search;
 
 
     @Override
@@ -64,23 +66,57 @@ public class FriendsFragment extends Fragment {
         }));
 
         prepareFriendData();
+
+        search = (SearchView) view.findViewById(R.id.searchView);
+        search.setOnQueryTextListener(listener); // call the QuerytextListner.
+
         return view;
     }
 
+    SearchView.OnQueryTextListener listener = new SearchView.OnQueryTextListener() {
+        @Override
+        public boolean onQueryTextChange(String query) {
+            query = query.toLowerCase();
+
+            final List<Friend> filteredList = new ArrayList<>();
+
+            for (int i = 0; i < friendList.size(); i++) {
+
+                final String text1 = friendList.get(i).getNickname().toLowerCase();
+                final String text2 = friendList.get(i).getFirstName().toLowerCase();
+                final String text3 = friendList.get(i).getLastName().toLowerCase();
+                if (text1.contains(query) || text2.contains(query) || text3.contains(query)) {
+
+                    filteredList.add(friendList.get(i));
+                }
+            }
+
+            recyclerView.setLayoutManager(new LinearLayoutManager(context));
+            mAdapter = new FriendsAdapter(filteredList);
+            recyclerView.setAdapter(mAdapter);
+            mAdapter.notifyDataSetChanged();  // data set changed
+            return true;
+
+        }
+        public boolean onQueryTextSubmit(String query) {
+            return false;
+        }
+    };
+
     private void prepareFriendData() {
-        Friend friend = new Friend("Iba", "Meliško", "Slovensko", "11.5.2016");
+        Friend friend = new Friend("Iba", "Meliško", "Meliško", "11.5.2016");
         friendList.add(friend);
 
-        friend = new Friend("Patres", "Patinák", "DreamTeam", "12.5.2016");
+        friend = new Friend("Patrik", "Patinák", "Patres", "12.5.2016");
         friendList.add(friend);
 
-        friend = new Friend("Martin", "Tarhanič", "Global Logic", "10.5.2016");
+        friend = new Friend("Martin", "Tarhanič", "Matolator", "10.5.2016");
         friendList.add(friend);
 
-        friend = new Friend("Monika", "Jaššová", "DreamTeam", "12.5.2016");
+        friend = new Friend("Monika", "Jaššová", "monikka", "12.5.2016");
         friendList.add(friend);
 
-        friend = new Friend("Michal", "Borovský", "DreamTeam", "12.5.2016");
+        friend = new Friend("Michal", "Borovský", "Michaljevič", "12.5.2016");
         friendList.add(friend);
 
         friend = new Friend("Matúš", "Kokoška", "DreamTeam", "11.5.2016");
@@ -92,7 +128,7 @@ public class FriendsFragment extends Fragment {
         friend = new Friend("X", "Y", "Slovensko", "12.5.2016");
         friendList.add(friend);
 
-        friend = new Friend("Meno", "Priezvisko", "Skupina", "10.5.2016");
+        friend = new Friend("Meno", "Priezvisko", "Nick", "10.5.2016");
         friendList.add(friend);
 
         mAdapter.notifyDataSetChanged();
