@@ -19,7 +19,7 @@
             android:layout_alignParentEnd="true"
             android:layout_alignParentTop="true"
             android:layout_above="@+id/selectPhoto"
-            />
+            android:maxHeight="50dp" />
 
         <Button android:text="Select a photo" android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -29,7 +29,7 @@
             android:layout_alignParentStart="true" />
         <Button android:text="Upload photo" android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/upload"
+            android:id="@+id/uploadPhoto"
             android:layout_alignTop="@+id/selectPhoto"
             android:layout_alignParentRight="true"
             android:layout_alignParentEnd="true" />
@@ -46,7 +46,8 @@
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
             android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true" />
+            android:layout_alignParentEnd="true"
+            android:freezesText="true"/>
 
         <AutoCompleteTextView
             android:id="@+id/emailUpdate"
@@ -59,7 +60,8 @@
             android:singleLine="true"
             android:layout_below="@+id/userNameUpdate"
             android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true" />
+            android:layout_alignParentStart="true"
+            android:freezesText="true"/>
 
         <EditText
             android:id="@+id/passwordUpadte"
@@ -75,17 +77,19 @@
             android:singleLine="true"
             android:layout_below="@+id/emailUpdate"
             android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true" />
+            android:layout_alignParentEnd="true"
+            android:freezesText="true"/>
 
         <Button
             android:text="Submit Changes"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/button3"
+            android:id="@+id/submitUpdate"
 
+            android:height="50dp"
+            android:width="150dp"
             android:layout_alignParentBottom="true"
-            android:layout_toLeftOf="@+id/upload"
-            android:layout_toStartOf="@+id/upload" />
+            android:layout_centerHorizontal="true" />
 
         <ImageButton
             android:layout_width="wrap_content"
@@ -94,8 +98,8 @@
             android:src="@drawable/ic_rotate_profile_picture"
             android:background="@null"
             android:layout_alignBottom="@+id/ImageView"
-            android:layout_alignRight="@+id/upload"
-            android:layout_alignEnd="@+id/upload"
+            android:layout_alignRight="@+id/uploadPhoto"
+            android:layout_alignEnd="@+id/uploadPhoto"
             android:onClick="rotate" />
     </RelativeLayout>
 

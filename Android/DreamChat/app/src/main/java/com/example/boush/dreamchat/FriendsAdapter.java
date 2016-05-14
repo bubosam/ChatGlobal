@@ -3,18 +3,21 @@ package com.example.boush.dreamchat;
 /**
  * Created by Client on 12.5.2016.
  */
+import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.List;
 
 public class FriendsAdapter extends RecyclerView.Adapter<FriendsAdapter.MyViewHolder> {
 
     private List<Friend> friendsList;
+    private Context context;
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
         public TextView title, nickname;
@@ -25,6 +28,7 @@ public class FriendsAdapter extends RecyclerView.Adapter<FriendsAdapter.MyViewHo
             title = (TextView) view.findViewById(R.id.title);
             nickname = (TextView) view.findViewById(R.id.nickname);
             avatar = (ImageView) view.findViewById(R.id.fAvatar);
+            context=view.getContext();
         }
     }
 
@@ -48,6 +52,23 @@ public class FriendsAdapter extends RecyclerView.Adapter<FriendsAdapter.MyViewHo
         holder.nickname.setText(friend.getNickname());
         holder.avatar.setImageResource(R.drawable.ic_person);
         //holder.date.setText(friend.getDate());
+        final int pos = position;
+
+        holder.title.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Friend friend = friendsList.get(pos);
+                    Toast.makeText(context, friend.getTitle(), Toast.LENGTH_SHORT).show();
+                }
+        });
+
+        holder.nickname.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Friend friend = friendsList.get(pos);
+                Toast.makeText(context, friend.getTitle(), Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     @Override
