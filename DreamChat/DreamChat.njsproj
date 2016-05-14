@@ -36,6 +36,7 @@
     <Compile Include="API\login.js" />
     <Compile Include="app.js" />
     <Compile Include="build.config.js" />
+    <Compile Include="routes\requests.js" />
     <Compile Include="src\register_form_generator.js" />
     <Compile Include="routes\index.js" />
     <Compile Include="routes\login.js" />
