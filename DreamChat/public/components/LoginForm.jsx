@@ -12,7 +12,7 @@ var LoginForm = React.createClass({
             <input type="password" placeholder="please enter password"/>
             <button className="button expanded">LOGIN</button>
           </form>
-                  <h5 className="text-center"><Link to="/register" activeClassName="active" activeStyle={{fontWeight: 'bold'}}>SIGN UP</Link></h5>
+          <div><h5 className="text-center"><Link to="/register" activeClassName="active" activeStyle={{fontWeight: 'bold'}}>SIGN UP</Link></h5></div>
       </div>
     );
   }

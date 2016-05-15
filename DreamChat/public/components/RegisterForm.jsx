@@ -1,5 +1,6 @@
 var React = require('react');
 var PropTypes = React.PropTypes;
+var {Link, IndexLink} = require('react-router');
 
 var RegisterForm = React.createClass({
 
@@ -12,6 +13,7 @@ var RegisterForm = React.createClass({
             <input type="password" placeholder="please enter password"/>
             <button className="button expanded">SIGN UP</button>
           </form>
+          <div><h5 className="text-center"><IndexLink to="/" activeClassName="active" activeStyle={{fontWeight: 'bold'}}>BACK TO HOME</IndexLink></h5></div>
       </div>
     );
   }

@@ -25912,12 +25912,16 @@
 	        )
 	      ),
 	      React.createElement(
-	        'h5',
-	        { className: 'text-center' },
+	        'div',
+	        null,
 	        React.createElement(
-	          Link,
-	          { to: '/register', activeClassName: 'active', activeStyle: { fontWeight: 'bold' } },
-	          'SIGN UP'
+	          'h5',
+	          { className: 'text-center' },
+	          React.createElement(
+	            Link,
+	            { to: '/register', activeClassName: 'active', activeStyle: { fontWeight: 'bold' } },
+	            'SIGN UP'
+	          )
 	        )
 	      )
 	    );
@@ -25998,29 +26002,48 @@
 /* 242 */
 /***/ function(module, exports, __webpack_require__) {
 
-	"use strict";
+	'use strict';
 
 	var React = __webpack_require__(8);
 	var PropTypes = React.PropTypes;
 
+	var _require = __webpack_require__(175);
+
+	var Link = _require.Link;
+	var IndexLink = _require.IndexLink;
+
+
 	var RegisterForm = React.createClass({
-	  displayName: "RegisterForm",
+	  displayName: 'RegisterForm',
 
 
 	  render: function render() {
 	    return React.createElement(
-	      "div",
+	      'div',
 	      null,
 	      React.createElement(
-	        "form",
+	        'form',
 	        null,
-	        React.createElement("input", { type: "text", placeholder: "please enter your username" }),
-	        React.createElement("input", { type: "email", placeholder: "please enter e-mail adress" }),
-	        React.createElement("input", { type: "password", placeholder: "please enter password" }),
+	        React.createElement('input', { type: 'text', placeholder: 'please enter your username' }),
+	        React.createElement('input', { type: 'email', placeholder: 'please enter e-mail adress' }),
+	        React.createElement('input', { type: 'password', placeholder: 'please enter password' }),
 	        React.createElement(
-	          "button",
-	          { className: "button expanded" },
-	          "SIGN UP"
+	          'button',
+	          { className: 'button expanded' },
+	          'SIGN UP'
+	        )
+	      ),
+	      React.createElement(
+	        'div',
+	        null,
+	        React.createElement(
+	          'h5',
+	          { className: 'text-center' },
+	          React.createElement(
+	            IndexLink,
+	            { to: '/', activeClassName: 'active', activeStyle: { fontWeight: 'bold' } },
+	            'BACK TO HOME'
+	          )
 	        )
 	      )
 	    );
