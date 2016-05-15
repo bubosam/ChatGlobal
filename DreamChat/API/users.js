@@ -19,5 +19,14 @@ module.exports = {
                 callback(success);
             }
         });
-    },
+	},
+
+	searchUser: function (name, callback) {
+		db.Query("SELECT * FROM users WHERE name LIKE '%"+name+"%' OR surname LIKE '%" + name + "%' OR nickname LIKE '%" + name + "%' OR email LIKE '%" + name + "%'",
+        function (results) {
+			if (typeof callback === "function") {
+				callback(results);
+			}
+		});
+	},
 };

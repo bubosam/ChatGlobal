@@ -90,3 +90,5 @@ app.use(function (err, req, res, next) {
 module.exports = app;
 
 //TESTING BELOW THIS LINE
+var hash = require('password-hash');
+console.log(hash.generate('hesloheslo'));
