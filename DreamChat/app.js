@@ -14,13 +14,27 @@ var register = require('./routes/register');
 var logout = require('./routes/logout');
 
 var app = express();
+const PORT = process.env.PORT || 1337;
+
+app.use(function (req, res, next){
+  if (req.headers['x-forwarded-proto'] === 'https') {
+    res.redirect('http://' + req.hostname + req.url);
+  }else{
+    next();
+  }
+});
+
+
+app.listen(PORT, function (){
+  console.log('Server is Up on Port ' + PORT);
+});
 
 // view engine setup
-app.set('views', path.join(__dirname, 'views'));
+app.set('views', path.join(__dirname, 'public'));
 app.engine('html', require('ejs').renderFile);
 app.set('view engine', 'html');
 
-app.use(express.static('./views'));
+app.use(express.static('./public'));
 
 
 // uncomment after placing your favicon in /public
