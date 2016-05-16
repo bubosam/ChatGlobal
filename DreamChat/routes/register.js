@@ -13,7 +13,7 @@ router.post('/', function (req, res) {
     /*regex.controlEmail(email, function (s) {
         success1=s;
     });*/
-    
+
     /*regex.controlPassword(password, function (s) {
         success2 = s;
     });*/

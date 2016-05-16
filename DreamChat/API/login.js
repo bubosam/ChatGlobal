@@ -18,7 +18,7 @@ module.exports = {
                                 callback(userid, token);
                             }}
 						);
-					});               
+					});
                 }
                 else {
                     console.log("login failed");
@@ -54,6 +54,6 @@ module.exports = {
 				console.log("user " + userid + " has logged out");
 				callback(success);
 			}
-		});		
+		});
 	}
 };
