@@ -2,17 +2,24 @@ package com.example.boush.dreamchat;
 
 
 import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
+import android.view.ContextMenu;
 import android.view.GestureDetector;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.SearchView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -34,6 +41,7 @@ public class FriendsFragment extends Fragment {
     private RecyclerView recyclerView;
     private FriendsAdapter mAdapter;
     private SearchView search;
+    View rootView;
 
 
     @Override
@@ -41,6 +49,7 @@ public class FriendsFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_friends, container, false);
         context = getActivity();
+        rootView=view;
 
         recyclerView = (RecyclerView) view.findViewById(R.id.recycler_view_friends);
 
@@ -51,6 +60,27 @@ public class FriendsFragment extends Fragment {
         recyclerView.addItemDecoration(new DividerItemDecoration(context, LinearLayoutManager.VERTICAL));
 
         recyclerView.setAdapter(mAdapter);
+        registerForContextMenu(recyclerView);
+        /*recyclerView.addOnItemTouchListener(new RecyclerTouchListener(context, recyclerView, new ClickListener() {
+            @Override
+            public void onClick(View view, int position) {
+                Friend friend = friendList.get(getAdapterPosition());
+
+                SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(context);
+                SharedPreferences.Editor editor = pref.edit();
+                editor.putString("firstName", friend.getFirstName());
+                editor.putString("lastName", friend.getLastName());
+                editor.apply();
+
+                Intent intent = new Intent(context, ChatActivity.class);
+                startActivity(intent);
+            }
+
+            @Override
+            public void onLongClick(View view, int position) {
+
+            }
+        }));*/
 
         prepareFriendData();
 
@@ -58,6 +88,39 @@ public class FriendsFragment extends Fragment {
         search.setOnQueryTextListener(listener); // call the QuerytextListner.
 
         return view;
+    }
+
+    public boolean onContextItemSelected(MenuItem item) {
+        int position = -1;
+        try {
+            position = ((FriendsAdapter)recyclerView.getAdapter()).getPosition();
+        } catch (Exception e) {
+            Log.d("onContextItemSelected", e.getLocalizedMessage(), e);
+            return super.onContextItemSelected(item);
+        }
+        switch (item.getItemId()) {
+            case R.id.menu_friend_message:
+
+                Friend friend = friendList.get(position);
+
+                SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(context);
+                SharedPreferences.Editor editor = pref.edit();
+                editor.putString("firstName", friend.getFirstName());
+                editor.putString("lastName", friend.getLastName());
+                editor.apply();
+
+                Intent intent = new Intent(context, ChatActivity.class);
+                startActivity(intent);
+                break;
+            case R.id.menu_friend_profile:
+                Toast.makeText(context,"You have clicked profile",Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.menu_friend_remove:
+                Toast.makeText(context,"You have clicked remove",Toast.LENGTH_SHORT).show();
+                break;
+
+        }
+        return super.onContextItemSelected(item);
     }
 
     SearchView.OnQueryTextListener listener = new SearchView.OnQueryTextListener() {
@@ -144,7 +207,7 @@ public class FriendsFragment extends Fragment {
                 public void onLongPress(MotionEvent e) {
                     View child = recyclerView.findChildViewUnder(e.getX(), e.getY());
                     if (child != null && clickListener != null) {
-                        clickListener.onLongClick(child, recyclerView.getChildPosition(child));
+                        clickListener.onLongClick(child, recyclerView.getChildLayoutPosition(child));
                     }
                 }
             });
@@ -155,7 +218,7 @@ public class FriendsFragment extends Fragment {
 
             View child = rv.findChildViewUnder(e.getX(), e.getY());
             if (child != null && clickListener != null && gestureDetector.onTouchEvent(e)) {
-                clickListener.onClick(child, rv.getChildPosition(child));
+                clickListener.onClick(child, rv.getChildLayoutPosition(child));
             }
             return false;
         }

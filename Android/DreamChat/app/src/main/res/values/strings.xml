@@ -16,6 +16,16 @@
     <string name="permission_rationale">"Contacts permissions are needed for providing email
         completions."
     </string>
+    <string name="phone_update">Phone</string>
+    <string name="first_name_update">First name</string>
+    <string name="last_name_update">Last name</string>
+
+    <string name="infoContactUs">
+        Monika Jaššová - monika.jassova@akademiasovy.sk
+        \nPatrik Patinák - patri.patinak@akademiasovy.sk
+        \nMichal Borovský - michal.borovsky@akademiasovy.sk
+    </string>
+    <string name="contactUs">Contact us</string>
 
     <!-- Strings related to menu activity -->
     <string name="tab_profile">Me</string>
@@ -29,4 +39,6 @@
     <string name="section_format">Hello World from section: %1$d</string>
     <string name="username">Username</string>
     <string name="searchview">Type search query...</string>
-</resources>
+    <string name="menu_friend_message">Write a Message</string>
+    <string name="menu_friend_profile">View Profile</string>
+    <string name="menu_friend_remove">Remove Person from Friends</string></resources>

@@ -13,7 +13,7 @@ var login = require('./routes/login');
 var register = require('./routes/register');
 var logout = require('./routes/logout');
 var requests = require('./routes/requests');
-var users = require('./routes/users');
+var userss = require('./routes/users');
 
 var app = express();
 const PORT = process.env.PORT || 1337;
