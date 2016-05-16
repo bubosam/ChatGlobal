@@ -10,7 +10,7 @@ module.exports = {
         });
     },
 
-    updateName: function (user,callback) {
+    update: function (user,callback) {
         db.nonQuery("UPDATE users SET nickname:'" + user.nickname + "', password:'" + user.password +
                     "', email:'" + user.email + "', phone:'" + user.phone + "', name:'" + user.name +
                     "', surname:'" + user.surname + "', ",
