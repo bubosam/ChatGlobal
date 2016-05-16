@@ -34,6 +34,8 @@
     <Compile Include="API\regex.js" />
     <Compile Include="API\register.js" />
     <Compile Include="API\login.js" />
+    <Compile Include="API\requests.js" />
+    <Compile Include="API\users.js" />
     <Compile Include="app.js" />
     <Compile Include="build.config.js" />
     <Compile Include="routes\requests.js" />

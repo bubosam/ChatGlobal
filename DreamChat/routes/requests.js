@@ -1,60 +1,51 @@
 ﻿var express = require('express');
 var router = express.Router();
 var bodyParser = require("body-parser");
+var requests = require(appRoot + "/API/requests");
 
 
 //sending sender id and receiver id to database and creating row with requestid information
-router.post('/', function (req, res) {
+router.post('/send', function (req, res) {
     var sender = req.body.userid;
     var receiver = req.body.receiver;
-    var sendReq = require(appRoot + "/API/requests");
-    var data = {
-        "sender": 0,
-        "receiver": 0
-    };
-    sendReq.sendRequest(sender, receiver, function (sender, receiver) {
-        data["sender"] = sender;
-        data["receiver"] = receiver;
-        console.log(data);
-        res.json(data);
+
+    requests.sendRequest(sender, receiver, function (success) {
+        console.log(success);
+        res.json(success);
     });	
 });
 
 //delete row from database where there is a requestid
-router.post('/', function (req, res) {
+router.delete('/cancel', function (req, res) {
     var requestid = req.body.requestid;
-    var cancelReq = require(appRoot + "/API/requests");
-    cancelReq.cancelRequest(requestid, function (success) {
+    requests.cancelRequest(requestid, function (success) {
         console.log(success);
         res.json(success);
     });
 });
 
 //adding friend to table friendships and deleting request from friend_requests
-router.post('/', function (req, res) {
+router.post('/accept', function (req, res) {
     var requestid = req.body.requestid;
-    var acceptReq = require(appRoot + "/API/requests");
-    acceptReq.acceptRequest(requestid, function (success) {
+    requests.acceptRequest(requestid, function (success) {
         console.log(success);
         res.json(success);
     });
 });
 
 //delete request from table friend_requests
-router.post('/', function (req, res) {
+router.delete('/decline', function (req, res) {
     var requestid = req.body.requestid;
-    var declineReq = require(appRoot + "/API/requests");
-    declineReq.declineRequest(requestid, function (success) {
+    requests.cancelRequest(requestid, function (success) {
         console.log(success);
         res.json(success);
     });
 });
 
 //load pending requests from table friend_requests
-router.get('/', function (req, res) {
+router.post('/load', function (req, res) {
     var userid = req.body.userid;
-    var loadReq = require(appRoot + "/API/requests");
-    loadReq.loadRequests(requestid, function (success) {
+    requests.loadRequests(userid, function (results) {
         res.json(results);
     });
 });
