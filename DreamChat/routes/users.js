@@ -23,3 +23,5 @@ router.post('/search', function (req, res) {
         res.json(results);
     });
 });
+
+module.exports = router;
