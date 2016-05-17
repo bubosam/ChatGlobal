@@ -103,7 +103,7 @@
 	var Route = _require.Route;
 	var Router = _require.Router;
 	var IndexRoute = _require.IndexRoute;
-	var hashHistory = _require.hashHistory;
+	var browserHistory = _require.browserHistory;
 
 	var Main = __webpack_require__(236);
 	var Login = __webpack_require__(238);
@@ -116,7 +116,7 @@
 
 	ReactDOM.render(React.createElement(
 	  Router,
-	  { history: hashHistory },
+	  { history: browserHistory },
 	  React.createElement(
 	    Route,
 	    { path: '/', component: Main },
@@ -25902,12 +25902,12 @@
 	      null,
 	      React.createElement(
 	        'form',
-	        null,
-	        React.createElement('input', { type: 'email', placeholder: 'please enter e-mail adress' }),
-	        React.createElement('input', { type: 'password', placeholder: 'please enter password' }),
+	        { method: 'post', action: '/login' },
+	        React.createElement('input', { type: 'email', placeholder: 'please enter e-mail adress', name: 'email', id: 'email', required: 'true' }),
+	        React.createElement('input', { type: 'password', placeholder: 'please enter password', name: 'password', id: 'password', required: 'true' }),
 	        React.createElement(
 	          'button',
-	          { className: 'button expanded' },
+	          { type: 'submit', className: 'button expanded' },
 	          'LOGIN'
 	        )
 	      ),
@@ -26023,13 +26023,13 @@
 	      null,
 	      React.createElement(
 	        'form',
-	        null,
-	        React.createElement('input', { type: 'text', placeholder: 'please enter your username' }),
-	        React.createElement('input', { type: 'email', placeholder: 'please enter e-mail adress' }),
-	        React.createElement('input', { type: 'password', placeholder: 'please enter password' }),
+	        { method: 'post', action: '/register' },
+	        React.createElement('input', { type: 'text', placeholder: 'please enter your nickname', name: 'nickname', id: 'nickname', required: 'true' }),
+	        React.createElement('input', { type: 'text', placeholder: 'please enter e-mail adress', name: 'email', id: 'email', required: 'true' }),
+	        React.createElement('input', { type: 'password', placeholder: 'please enter password', name: 'password', id: 'password', required: 'true' }),
 	        React.createElement(
 	          'button',
-	          { className: 'button expanded' },
+	          { type: 'submit', className: 'button expanded' },
 	          'SIGN UP'
 	        )
 	      ),

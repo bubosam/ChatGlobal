@@ -13,7 +13,7 @@ var login = require('./routes/login');
 var register = require('./routes/register');
 var logout = require('./routes/logout');
 var requests = require('./routes/requests');
-var userss = require('./routes/users');
+var users = require('./routes/users');
 
 var app = express();
 const PORT = process.env.PORT || 1337;
@@ -94,5 +94,4 @@ app.use(function (err, req, res, next) {
 module.exports = app;
 
 //TESTING BELOW THIS LINE
-var hash = require('password-hash');
-console.log(hash.generate('hesloheslo'));
+

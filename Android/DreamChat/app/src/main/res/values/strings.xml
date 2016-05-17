@@ -39,5 +39,6 @@
     <string name="section_format">Hello World from section: %1$d</string>
     <string name="username">Username</string>
     <string name="searchview">Type search query...</string>
-
-</resources>
+    <string name="menu_friend_message">Write a Message</string>
+    <string name="menu_friend_profile">View Profile</string>
+    <string name="menu_friend_remove">Remove Person from Friends</string></resources>

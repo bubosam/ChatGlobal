@@ -19,9 +19,6 @@ import android.support.v4.app.Fragment;
 
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AccelerateDecelerateInterpolator;
@@ -31,7 +28,6 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.PopupMenu;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
@@ -70,9 +66,6 @@ public class MeFragment extends Fragment {
 
     private ImageButton rotatePicture;
 
-
-
-
     float deg;
 
     private static final String updateUrl = "http://10.0.2.2:1337/update";
@@ -94,9 +87,7 @@ public class MeFragment extends Fragment {
         password = (EditText) view.findViewById(R.id.passwordUpadte);
         submit = (Button) view.findViewById(R.id.submitUpdate);
         Upload = (Button) view.findViewById(R.id.uploadPhoto);
-
         deg = imageView.getRotation();
-
 
         Select.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -130,14 +121,9 @@ public class MeFragment extends Fragment {
             }
         });
 
-
-
         return view;
 
-
-
     }
-
 
 
     @Override

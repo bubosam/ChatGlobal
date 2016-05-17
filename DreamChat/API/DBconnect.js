@@ -27,7 +27,7 @@ module.exports = {
 			console.error(result);
 		});
 	},
-	
+
 	nonQuery: function(queryParam, callback) {
 		var query = connection.query(queryParam, function (err, result) {
 			if (err) {
@@ -43,9 +43,9 @@ module.exports = {
 			}
 			console.error(result);
         });
-		
+
 	},
-	
+
 	query: function(queryParam, callback) {
         var query = connection.query(queryParam, function (err, result) {
             if (!err && result !== undefined) {
@@ -53,14 +53,14 @@ module.exports = {
 				if (typeof callback === "function") {
 					callback(result);
 				}
-            }                
+            }
             else {
 				console.log('Error while performing Query.');
 				if (typeof callback === "function") {
 					callback(undefined);
-				}         
+				}
             }
-			
+
         });
 	}
 };

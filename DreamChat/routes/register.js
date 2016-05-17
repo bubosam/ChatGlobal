@@ -4,16 +4,16 @@ var bodyParser = require("body-parser");
 //var regex = require(appRoot + '/API/regex.js');
 
 router.post('/', function (req, res) {
-	var email = req.query.email;
-	var password = req.query.password;
-    var nickname = req.query.nickname;
+	var email = req.body.email;
+	var password = req.body.password;
+    var nickname = req.body.nickname;
     //var success1;
 //var success2;
 
     /*regex.controlEmail(email, function (s) {
         success1=s;
     });*/
-    
+
     /*regex.controlPassword(password, function (s) {
         success2 = s;
     });*/
