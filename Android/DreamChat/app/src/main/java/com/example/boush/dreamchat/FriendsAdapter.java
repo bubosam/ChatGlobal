@@ -112,6 +112,7 @@ public class FriendsAdapter extends RecyclerView.Adapter<FriendsAdapter.MyViewHo
         holder.avatar.setImageResource(R.drawable.ic_person);
         //holder.date.setText(friend.getDate());
         final int pos = position;
+        setPosition(position);
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
