@@ -23,14 +23,17 @@ public class MenuActivity extends AppCompatActivity {
         final TabLayout.Tab me = tabLayout.newTab();
         final TabLayout.Tab conversations = tabLayout.newTab();
         final TabLayout.Tab friends = tabLayout.newTab();
+        final TabLayout.Tab groups = tabLayout.newTab();
 
         me.setText(getString(R.string.tab_profile));
         conversations.setText((getString(R.string.tab_conversations)));
         friends.setText((getString(R.string.tab_friends)));
+        groups.setText("Groups");
 
         tabLayout.addTab(me, 0);
         tabLayout.addTab(conversations, 1);
         tabLayout.addTab(friends, 2);
+        tabLayout.addTab(groups,3);
 
         FragmentManager manager=getSupportFragmentManager();
         PagerAdapter adapter = new PagerAdapter(manager) ;
