@@ -38,6 +38,8 @@ public class FriendsFragment extends Fragment {
 
     Context context;
     private List<Friend> friendList = new ArrayList<>();
+    private List<Friend> filteredL = new ArrayList<>();
+    private boolean isFiltered=false;
     private RecyclerView recyclerView;
     private FriendsAdapter mAdapter;
     private SearchView search;
@@ -100,8 +102,15 @@ public class FriendsFragment extends Fragment {
         }
         switch (item.getItemId()) {
             case R.id.menu_friend_message:
+                Friend friend;
 
-                Friend friend = friendList.get(position);
+                if (isFiltered){
+                    friend = filteredL.get(position);
+                }
+                else{
+                    friend = friendList.get(position);
+                }
+
 
                 SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(context);
                 SharedPreferences.Editor editor = pref.edit();
@@ -129,6 +138,7 @@ public class FriendsFragment extends Fragment {
             query = query.toLowerCase();
 
             final List<Friend> filteredList = new ArrayList<>();
+            filteredL=filteredList;
 
             for (int i = 0; i < friendList.size(); i++) {
 
@@ -136,7 +146,6 @@ public class FriendsFragment extends Fragment {
                 final String text2 = friendList.get(i).getFirstName().toLowerCase();
                 final String text3 = friendList.get(i).getLastName().toLowerCase();
                 if (text1.contains(query) || text2.contains(query) || text3.contains(query)) {
-
                     filteredList.add(friendList.get(i));
                 }
             }
@@ -145,6 +154,7 @@ public class FriendsFragment extends Fragment {
             mAdapter = new FriendsAdapter(filteredList);
             recyclerView.setAdapter(mAdapter);
             mAdapter.notifyDataSetChanged();  // data set changed
+            isFiltered=true;
             return true;
 
         }
