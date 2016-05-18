@@ -108,11 +108,11 @@
 	var Main = __webpack_require__(236);
 	var Login = __webpack_require__(238);
 	var About = __webpack_require__(240);
-	var Dash = __webpack_require__(247);
-	var Register = __webpack_require__(241);
+	var Dash = __webpack_require__(241);
+	var Register = __webpack_require__(243);
 
 	//Load foundation
-	__webpack_require__(243);
+	__webpack_require__(245);
 	$(document).foundation();
 
 	ReactDOM.render(React.createElement(
@@ -25986,7 +25986,62 @@
 	'use strict';
 
 	var React = __webpack_require__(8);
-	var RegisterForm = __webpack_require__(242);
+	var DashBoardComp = __webpack_require__(242);
+
+	var Dash = React.createClass({
+	  displayName: 'Dash',
+
+
+	  render: function render() {
+	    return React.createElement(
+	      'div',
+	      null,
+	      React.createElement(
+	        'h1',
+	        { className: 'text-center' },
+	        'Dashboard'
+	      ),
+	      React.createElement(DashBoardComp, null)
+	    );
+	  }
+
+	});
+
+	module.exports = Dash;
+
+/***/ },
+/* 242 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var React = __webpack_require__(8);
+	var PropTypes = React.PropTypes;
+
+	var _require = __webpack_require__(175);
+
+	var Link = _require.Link;
+
+
+	var DashBoardComp = React.createClass({
+	  displayName: 'DashBoardComp',
+
+
+	  render: function render() {
+	    return React.createElement('div', null);
+	  }
+	});
+
+	module.exports = DashBoardComp;
+
+/***/ },
+/* 243 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var React = __webpack_require__(8);
+	var RegisterForm = __webpack_require__(244);
 
 	var Register = React.createClass({
 	  displayName: 'Register',
@@ -26010,7 +26065,7 @@
 	module.exports = Register;
 
 /***/ },
-/* 242 */
+/* 244 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -26065,16 +26120,16 @@
 	module.exports = RegisterForm;
 
 /***/ },
-/* 243 */
+/* 245 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 
 	// load the styles
-	var content = __webpack_require__(244);
+	var content = __webpack_require__(246);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
-	var update = __webpack_require__(246)(content, {});
+	var update = __webpack_require__(248)(content, {});
 	if(content.locals) module.exports = content.locals;
 	// Hot Module Replacement
 	if(false) {
@@ -26091,10 +26146,10 @@
 	}
 
 /***/ },
-/* 244 */
+/* 246 */
 /***/ function(module, exports, __webpack_require__) {
 
-	exports = module.exports = __webpack_require__(245)();
+	exports = module.exports = __webpack_require__(247)();
 	// imports
 
 
@@ -26105,7 +26160,7 @@
 
 
 /***/ },
-/* 245 */
+/* 247 */
 /***/ function(module, exports) {
 
 	/*
@@ -26161,7 +26216,7 @@
 
 
 /***/ },
-/* 246 */
+/* 248 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/*
@@ -26411,36 +26466,6 @@
 			URL.revokeObjectURL(oldSrc);
 	}
 
-
-/***/ },
-/* 247 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	var React = __webpack_require__(8);
-	var DashBoardComp = __webpack_require__(!(function webpackMissingModule() { var e = new Error("Cannot find module \"DashBoardComp\""); e.code = 'MODULE_NOT_FOUND'; throw e; }()));
-
-	var Dash = React.createClass({
-	  displayName: 'Dash',
-
-
-	  render: function render() {
-	    return React.createElement(
-	      'div',
-	      null,
-	      React.createElement(
-	        'h1',
-	        { className: 'text-center' },
-	        'Dashboard'
-	      ),
-	      React.createElement(DashBoardComp, null)
-	    );
-	  }
-
-	});
-
-	module.exports = Dash;
 
 /***/ }
 /******/ ]);
