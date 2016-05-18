@@ -30,7 +30,7 @@
     <!-- Strings related to menu activity -->
     <string name="tab_profile">Me</string>
     <string name="tab_conversations">Conversations</string>
-    <string name="tab_friends">Friends</string>
+    <string name="tab_friends">Contacts</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>

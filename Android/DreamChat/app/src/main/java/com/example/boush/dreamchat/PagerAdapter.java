@@ -16,25 +16,21 @@ public class PagerAdapter extends FragmentStatePagerAdapter {
     public Fragment getItem(int position) {
         Fragment frag=null;
         switch (position){
+
             case 0:
-                frag=new MeFragment();
-                break;
-            case 1:
                 frag=new ConversationsFragment();
                 break;
-            case 2:
+            case 1:
                 frag=new FriendsFragment();
                 break;
-            case 3:
-                frag=new GroupsFragment();
-                break;
+
         }
         return frag;
     }
 
     @Override
     public int getCount() {
-        return 4;
+        return 2;
     }
 }
 
