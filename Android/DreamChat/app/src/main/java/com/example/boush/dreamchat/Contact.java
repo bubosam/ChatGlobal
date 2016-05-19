@@ -1,5 +1,7 @@
 package com.example.boush.dreamchat;
 
+import android.media.Image;
+
 /**
  * Created by Client on 12.5.2016.
  */
@@ -8,6 +10,22 @@ public class Contact {
     private String lastName;
     private String nickname;
     private boolean isFriend;
+    private int userid;
+    private String email;
+    private String phone;
+    //private profilePic;
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public int getUserid() {
+        return userid;
+    }
 
     public boolean isFriend() {
         return isFriend;
@@ -28,27 +46,16 @@ public class Contact {
         return firstName;
     }
 
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
     public String getLastName() {
         return lastName;
     }
 
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
-
     public String getTitle() {
-        return firstName +" "+ lastName;
+        return firstName + " " + lastName;
     }
 
     public String getNickname() {
         return nickname;
     }
 
-    public void setNickname(String nickname) {
-        this.nickname = nickname;
-    }
 }
