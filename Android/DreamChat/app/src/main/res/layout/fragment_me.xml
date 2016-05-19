@@ -23,24 +23,13 @@
             android:layout_alignParentEnd="true"
             android:layout_alignParentTop="true"
             android:layout_above="@+id/selectPhoto"
-            android:maxHeight="50dp"
+            android:maxHeight="70dp"
             android:paddingLeft="20dp"
-            android:paddingRight="20dp" />
+            android:paddingRight="20dp"
+            android:paddingTop="20dp" />
 
-        <Button android:text="Select a photo" android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/selectPhoto"
-            android:layout_centerVertical="true"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:paddingLeft="10dp" />
-        <Button android:text="Upload photo" android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/uploadPhoto"
-            android:layout_alignTop="@+id/selectPhoto"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true"
-            android:paddingRight="10dp" />
+
+
 
         <EditText
             android:layout_width="fill_parent"
@@ -51,15 +40,12 @@
             android:id="@+id/userNameUpdate"
             android:hint="@string/username"
             android:freezesText="true"
-            android:layout_below="@+id/selectPhoto"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_marginTop="40dp"
-            android:layout_alignRight="@+id/uploadPhoto"
-            android:layout_alignEnd="@+id/uploadPhoto"
             android:paddingLeft="20dp"
             android:paddingRight="20dp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:layout_below="@+id/textView"
+            android:layout_alignRight="@+id/uploadPhoto"
+            android:layout_alignEnd="@+id/uploadPhoto" />
 
         <AutoCompleteTextView
             android:id="@+id/emailUpdate"
@@ -71,12 +57,12 @@
             android:maxLines="1"
             android:singleLine="true"
             android:freezesText="true"
-            android:layout_below="@+id/userNameUpdate"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
             android:paddingLeft="20dp"
             android:paddingRight="20dp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:layout_below="@+id/userNameUpdate"
+            android:layout_alignRight="@+id/uploadPhoto"
+            android:layout_alignEnd="@+id/uploadPhoto" />
 
         <EditText
             android:id="@+id/passwordUpadte"
@@ -91,14 +77,12 @@
             android:maxLines="1"
             android:singleLine="true"
             android:freezesText="true"
-            android:layout_below="@+id/emailUpdate"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_alignRight="@+id/uploadPhoto"
-            android:layout_alignEnd="@+id/uploadPhoto"
             android:paddingLeft="20dp"
             android:paddingRight="20dp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:layout_below="@+id/emailUpdate"
+            android:layout_alignRight="@+id/uploadPhoto"
+            android:layout_alignEnd="@+id/uploadPhoto" />
 
         <Button
             android:text="Submit Changes"
@@ -117,11 +101,13 @@
             android:id="@+id/imageButton"
             android:src="@drawable/ic_rotate_profile_picture"
             android:background="@null"
-            android:layout_alignBottom="@+id/ImageView"
-            android:layout_alignRight="@+id/uploadPhoto"
-            android:layout_alignEnd="@+id/uploadPhoto"
+
+
             android:onClick="rotate"
-            android:paddingRight="20dp" />
+            android:paddingRight="20dp"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -129,9 +115,9 @@
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:text="Basic info"
             android:id="@+id/textView"
+            android:textStyle="bold"
             android:layout_below="@+id/selectPhoto"
-            android:layout_centerHorizontal="true"
-            android:textStyle="bold" />
+            android:layout_centerHorizontal="true" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -139,12 +125,12 @@
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:text="Addtional info"
             android:id="@+id/textView2"
-            android:layout_below="@+id/passwordUpadte"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="40dp"
             android:paddingLeft="20dp"
             android:paddingRight="20dp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:layout_marginTop="86dp"
+            android:layout_below="@+id/emailUpdate"
+            android:layout_centerHorizontal="true" />
 
         <EditText
             android:layout_width="match_parent"
@@ -155,14 +141,11 @@
             android:id="@+id/phoneUpdate"
             android:hint="@string/phone_update"
             android:freezesText="true"
-            android:layout_below="@+id/textView2"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true"
             android:paddingLeft="20dp"
             android:paddingRight="20dp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:layout_below="@+id/textView2"
+            android:layout_centerHorizontal="true" />
 
         <EditText
             android:layout_width="match_parent"
@@ -173,12 +156,11 @@
             android:id="@+id/firstNameUpdate"
             android:hint="@string/first_name_update"
             android:freezesText="true"
-            android:layout_below="@+id/phoneUpdate"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true"
             android:paddingLeft="20dp"
             android:paddingRight="20dp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:layout_below="@+id/phoneUpdate"
+            android:layout_centerHorizontal="true" />
 
         <EditText
             android:layout_width="match_parent"
@@ -186,16 +168,45 @@
             android:drawableRight="@drawable/ic_person"
             android:inputType="textPersonName"
             android:ems="10"
-            android:id="@+id/editText"
+            android:id="@+id/lastNameUpdate"
             android:hint="@string/last_name_update"
             android:freezesText="true"
-            android:layout_below="@+id/firstNameUpdate"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
             android:paddingLeft="20dp"
             android:paddingRight="20dp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:layout_below="@+id/firstNameUpdate"
+            android:layout_centerHorizontal="true" />
 
+        <android.support.design.widget.FloatingActionButton
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_done"
+            app:borderWidth="0dp"
+            app:elevation="6dp"
+            app:fabSize="normal"
+            android:id="@+id/uploadPhoto"
+            android:backgroundTint="@color/colorAccent"
+            android:paddingRight="30dp"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true" />
+
+        <android.support.design.widget.FloatingActionButton
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_select_photo"
+            app:borderWidth="0dp"
+            app:elevation="6dp"
+            app:fabSize="normal"
+            android:id="@+id/selectPhoto"
+
+            android:backgroundTint="@color/colorAccent"
+
+            android:layout_alignTop="@+id/uploadPhoto"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" />
     </RelativeLayout>
 
 </LinearLayout>

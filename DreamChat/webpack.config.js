@@ -28,7 +28,9 @@ module.exports = {
       LoginForm: 'public/components/LoginForm.jsx',
       About: 'public/components/About.jsx',
       Register: 'public/components/Register.jsx',
-      RegisterForm: 'public/components/RegisterForm.jsx'
+      RegisterForm: 'public/components/RegisterForm.jsx',
+      Dash: 'public/components/Dash.jsx',
+      DashBoardComp: 'public/components/DashBoardComp.jsx'
     },
     extensions: ['', '.js', '.jsx' ]
   },
