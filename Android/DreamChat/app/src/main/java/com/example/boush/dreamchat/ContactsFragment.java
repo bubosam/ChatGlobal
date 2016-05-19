@@ -57,7 +57,6 @@ public class ContactsFragment extends Fragment implements SearchView.OnQueryText
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(context);
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
-        recyclerView.addItemDecoration(new DividerItemDecoration(context, LinearLayoutManager.VERTICAL));
         recyclerView.setAdapter(mAdapter);*/
 
         sectionAdapter = new SectionedRecyclerViewAdapter();

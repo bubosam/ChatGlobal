@@ -31,6 +31,8 @@
             android:id="@android:id/list"
             android:layout_width="fill_parent"
             android:layout_height="0dip"
+            android:transcriptMode="alwaysScroll"
+            android:stackFromBottom="true"
             android:cacheColorHint="#00000000"
             android:divider="#00000000"
             android:listSelector="#00000000"
@@ -43,14 +45,15 @@
             android:layout_height="wrap_content"
             android:inputType="textMultiLine"
             android:ems="10"
+            android:maxLength="255"
             android:id="@+id/etxtSendMsg"
             android:hint="Write your message here."
             android:minHeight="70dp"
-            android:layout_alignParentBottom="true"
-            android:layout_marginBottom="67dp"
-            android:layout_toLeftOf="@+id/btn_sendMessage"
+            android:layout_above="@+id/imageView2"
             android:layout_alignLeft="@+id/txtName"
-            android:layout_alignStart="@+id/txtName" />
+            android:layout_alignStart="@+id/txtName"
+            android:layout_toLeftOf="@+id/btn_sendMessage"
+            android:layout_toStartOf="@+id/btn_sendMessage" />
 
         <ImageButton
             android:layout_width="wrap_content"
@@ -65,6 +68,43 @@
             android:layout_alignParentRight="true"
             android:layout_alignParentEnd="true"
             android:layout_alignBottom="@+id/etxtSendMsg" />
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/imageView2"
+            android:layout_alignParentBottom="true"
+            android:background="@color/colorPrimaryDark"
+            android:layout_alignTop="@+id/btn_Menu" />
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/btn_Menu"
+            android:src="@drawable/ic_menu"
+            android:layout_alignParentBottom="true"
+            android:layout_toRightOf="@+id/btn_Profile"
+            android:layout_toEndOf="@+id/btn_Profile"
+            android:layout_marginLeft="30dp" />
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/btn_Profile"
+            android:src="@drawable/ic_person"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@+id/etxtSendMsg" />
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/btn_sendPhoto"
+            android:src="@drawable/ic_select_photo"
+            android:layout_alignParentBottom="true"
+            android:layout_toLeftOf="@+id/btn_Profile"
+            android:layout_toStartOf="@+id/btn_Profile"
+            android:layout_marginRight="30dp" />
 
 
     </RelativeLayout>
