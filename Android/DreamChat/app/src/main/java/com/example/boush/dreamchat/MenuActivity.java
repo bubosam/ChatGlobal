@@ -65,7 +65,7 @@ public class MenuActivity extends AppCompatActivity {
 
 
         conversations.setText((getString(R.string.tab_conversations)));
-        friends.setText((getString(R.string.tab_friends)));
+        friends.setText((getString(R.string.tab_contacts)));
 
         mNavigationDrawerItemTitles= getResources().getStringArray(R.array.navigation_drawer_items_array);
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);

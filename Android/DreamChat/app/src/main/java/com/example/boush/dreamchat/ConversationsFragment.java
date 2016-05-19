@@ -28,7 +28,7 @@ import java.util.List;
 public class ConversationsFragment extends Fragment {
     private RecyclerView recyclerView;
     private List<Message> messagesList = new ArrayList<>();
-    private MessageAdapter mAdapter;
+    private LastMessageAdapter mAdapter;
 
     private Calendar c = Calendar.getInstance();
     private SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
@@ -45,13 +45,11 @@ public class ConversationsFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_conversations, container, false);
         recyclerView = (RecyclerView) view.findViewById(R.id.conversationsList);
 
-        mAdapter = new MessageAdapter(messagesList);
+        mAdapter = new LastMessageAdapter(messagesList);
         recyclerView.setHasFixedSize(true);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getActivity().getApplicationContext());
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
-        recyclerView.addItemDecoration(new DividerItemDecoration(getActivity().getApplicationContext()
-                                        , LinearLayoutManager.VERTICAL));
         recyclerView.setAdapter(mAdapter);
 
         recyclerView.addOnItemTouchListener(new RecyclerTouchListener(getActivity().getApplicationContext(),
@@ -60,7 +58,7 @@ public class ConversationsFragment extends Fragment {
             public void onClick(View view, int position) {
                 Message message = messagesList.get(position);
 
-                SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(getActivity());
+                /*SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(getActivity());
                 SharedPreferences.Editor editor = pref.edit();
                 editor.putString("firstName",message.getFirstName());
                 editor.putString("lastName",message.getLastName());
@@ -69,6 +67,13 @@ public class ConversationsFragment extends Fragment {
                 editor.commit();
 
                 Intent intent = new Intent(getActivity(),ChatActivity.class);
+                startActivity(intent);*/
+
+                Intent intent = new Intent(getActivity(), ChatActivity.class);
+                intent.putExtra("firstName", message.getFirstName());
+                intent.putExtra("lastName", message.getLastName());
+                intent.putExtra("message",message.getMessageText());
+                intent.putExtra("date",message.getDate());
                 startActivity(intent);
             }
 

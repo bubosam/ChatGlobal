@@ -6,12 +6,11 @@ var Dash = React.createClass({
   render: function() {
     return (
       <div>
-        <h1 className="text-center">Dashboard</h1>
+      <h2 className="text-center">Profile Page</h2>
         <DashBoardComp/>
       </div>
     );
   }
-
 });
 
 module.exports = Dash;
