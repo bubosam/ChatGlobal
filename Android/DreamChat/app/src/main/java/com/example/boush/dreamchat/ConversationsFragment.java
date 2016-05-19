@@ -28,7 +28,7 @@ import java.util.List;
 public class ConversationsFragment extends Fragment {
     private RecyclerView recyclerView;
     private List<Message> messagesList = new ArrayList<>();
-    private MessageAdapter mAdapter;
+    private LastMessageAdapter mAdapter;
 
     private Calendar c = Calendar.getInstance();
     private SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
@@ -45,7 +45,7 @@ public class ConversationsFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_conversations, container, false);
         recyclerView = (RecyclerView) view.findViewById(R.id.conversationsList);
 
-        mAdapter = new MessageAdapter(messagesList);
+        mAdapter = new LastMessageAdapter(messagesList);
         recyclerView.setHasFixedSize(true);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getActivity().getApplicationContext());
         recyclerView.setLayoutManager(mLayoutManager);
