@@ -25997,14 +25997,13 @@
 	      'div',
 	      null,
 	      React.createElement(
-	        'h1',
+	        'h2',
 	        { className: 'text-center' },
-	        'Dashboard'
+	        'Profile Page'
 	      ),
 	      React.createElement(DashBoardComp, null)
 	    );
 	  }
-
 	});
 
 	module.exports = Dash;
@@ -26028,7 +26027,12 @@
 
 
 	  render: function render() {
-	    return React.createElement('div', null);
+	    return React.createElement(
+	      'div',
+	      null,
+	      React.createElement('input', { type: 'text', name: 'title' }),
+	      React.createElement('input', { type: 'button', name: 'searchbutton', value: 'Search', onClick: 'search()' })
+	    );
 	  }
 	});
 

@@ -21,7 +21,7 @@ public class PagerAdapter extends FragmentStatePagerAdapter {
                 frag=new ConversationsFragment();
                 break;
             case 1:
-                frag=new FriendsFragment();
+                frag=new ContactsFragment();
                 break;
 
         }

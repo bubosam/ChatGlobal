@@ -35,16 +35,28 @@ public class ChatActivity extends ListActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if (savedInstanceState == null) {
+            Bundle extras = getIntent().getExtras();
+            if(extras != null) {
+                firstName=extras.getString("firstName");
+                lastName=extras.getString("lastName");
+                messageText=extras.getString("message");
+                date=extras.getString("date");
+            }
+        }
         setContentView(R.layout.activity_chat);
         initChat();
     }
 
     public void initChat(){
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        /*SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
         firstName = prefs.getString("firstName",null);
         lastName = prefs.getString("lastName",null);
         messageText = prefs.getString("message",null);
-        date = prefs.getString("date",null);
+        date = prefs.getString("date",null);*/
+
+        //messageText = "message";
+        //date = "19.5.2016";
 
         txtName = (TextView) findViewById(R.id.txtName);
         etxtSendMsg = (EditText) findViewById(R.id.etxtSendMsg);
