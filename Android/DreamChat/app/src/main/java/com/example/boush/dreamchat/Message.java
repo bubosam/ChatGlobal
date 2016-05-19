@@ -8,10 +8,12 @@ import java.util.Calendar;
  */
 public class Message {
     private int avatarId;
+    private boolean isMe;
     private String messageText;
     private String firstName;
     private String lastName;
     private String date;
+    private boolean isStatusMessage;
 
     public Message(int avatarId, String firstName, String lastName, String messageText){
         this.avatarId = avatarId;
@@ -21,6 +23,13 @@ public class Message {
     }
 
     public Message(){}
+
+    public boolean isStatusMessage() { return isStatusMessage; }
+
+    public void setStatusMessage(boolean statusMessage) { isStatusMessage = statusMessage; }
+
+    public boolean isMe() { return isMe; }
+    public void setMe(boolean me) { isMe = me; }
 
     public String getFirstName() { return firstName; }
     public void setFirstName(String firstName) { this.firstName = firstName; }
