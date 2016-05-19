@@ -96,7 +96,7 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.MyView
                 Contact contact = contactList.get(pos);
                 //Toast.makeText(context, contact.getTitle(), Toast.LENGTH_SHORT).show();
 
-                Intent intent = new Intent(context, ChatActivity.class);
+                Intent intent = new Intent(context, ProfileActivity.class);
                 intent.putExtra("firstName", contact.getFirstName());
                 intent.putExtra("lastName", contact.getLastName());
                 context.startActivity(intent);
