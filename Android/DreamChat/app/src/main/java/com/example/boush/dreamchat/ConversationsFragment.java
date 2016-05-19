@@ -60,7 +60,7 @@ public class ConversationsFragment extends Fragment {
             public void onClick(View view, int position) {
                 Message message = messagesList.get(position);
 
-                SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(getActivity());
+                /*SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(getActivity());
                 SharedPreferences.Editor editor = pref.edit();
                 editor.putString("firstName",message.getFirstName());
                 editor.putString("lastName",message.getLastName());
@@ -69,6 +69,13 @@ public class ConversationsFragment extends Fragment {
                 editor.commit();
 
                 Intent intent = new Intent(getActivity(),ChatActivity.class);
+                startActivity(intent);*/
+
+                Intent intent = new Intent(getActivity(), ChatActivity.class);
+                intent.putExtra("firstName", message.getFirstName());
+                intent.putExtra("lastName", message.getLastName());
+                intent.putExtra("message",message.getMessageText());
+                intent.putExtra("date",message.getDate());
                 startActivity(intent);
             }
 

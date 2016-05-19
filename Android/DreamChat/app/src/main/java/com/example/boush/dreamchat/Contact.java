@@ -3,19 +3,25 @@ package com.example.boush.dreamchat;
 /**
  * Created by Client on 12.5.2016.
  */
-public class Friend {
+public class Contact {
     private String firstName;
     private String lastName;
     private String nickname;
-    //private String group;
-    private String date;
+    private boolean isFriend;
 
-    public Friend(String firstName, String lastName, String nickname, String date) {
+    public boolean isFriend() {
+        return isFriend;
+    }
+
+    public void setFriend(boolean friend) {
+        isFriend = friend;
+    }
+
+    public Contact(String firstName, String lastName, String nickname, boolean friend) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.nickname = nickname;
-        //this.group = group;
-        this.date = date;
+        this.isFriend = friend;
     }
 
     public String getFirstName() {
@@ -34,24 +40,8 @@ public class Friend {
         this.lastName = lastName;
     }
 
-    /*public String getGroup() {
-        return group;
-    }*/
-
-    /*public void setGroup(String group) {
-        this.group = group;
-    }*/
-
     public String getTitle() {
         return firstName +" "+ lastName;
-    }
-
-    public String getDate() {
-        return date;
-    }
-
-    public void setDate(String date) {
-        this.date = date;
     }
 
     public String getNickname() {

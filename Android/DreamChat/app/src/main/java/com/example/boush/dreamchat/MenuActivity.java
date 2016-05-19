@@ -36,7 +36,7 @@ public class MenuActivity extends AppCompatActivity {
 
 
         conversations.setText((getString(R.string.tab_conversations)));
-        friends.setText((getString(R.string.tab_friends)));
+        friends.setText((getString(R.string.tab_contacts)));
 
 
 
