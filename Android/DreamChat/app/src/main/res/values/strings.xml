@@ -41,4 +41,16 @@
     <string name="searchview">Type search query...</string>
     <string name="menu_friend_message">Write a Message</string>
     <string name="menu_friend_profile">View Profile</string>
-    <string name="menu_friend_remove">Remove Person from Friends</string></resources>
+    <string name="menu_friend_remove">Remove Person from Friends</string>
+
+    <string-array name="navigation_drawer_items_array">
+        <item>Profile</item>
+        <item>Settings</item>
+        <item>Help</item>
+        <item>Logout</item>
+    </string-array>
+
+    <string name="drawer_open">Open navigation drawer</string>
+    <string name="drawer_close">Close navigation drawer</string>
+
+</resources>
