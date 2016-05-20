@@ -118,16 +118,19 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/password"
-            android:layout_centerHorizontal="true">
+            android:layout_centerHorizontal="true"
+            android:id="@+id/frameLayout">
 
-            <ProgressBar
-                android:id="@+id/login_progress"
-                style="?android:attr/progressBarStyleLarge"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="8dp"
-                android:visibility="gone" />
         </FrameLayout>
+
+        <Button
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="DEBUG"
+            android:id="@+id/btn_Debbug"
+            android:layout_alignBottom="@+id/frameLayout"
+            android:layout_centerHorizontal="true" />
 
     </RelativeLayout>
 </LinearLayout>

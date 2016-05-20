@@ -108,8 +108,10 @@ public class RegistrationActivity extends AppCompatActivity {
             focusView.requestFocus();
         } else {
             try {
-                // Simulate network access.
-                Map<String, String> postParam = new HashMap<String, String>();
+                // Network access.
+                new Server().register(usernameStr, emailStr, passwordStr, getApplicationContext());
+
+                /*Map<String, String> postParam = new HashMap<String, String>();
                 postParam.put("username", usernameStr);
                 postParam.put("email", emailStr);
                 postParam.put("password", passwordStr);
@@ -152,7 +154,7 @@ public class RegistrationActivity extends AppCompatActivity {
                     /**
                      * Passing some request headers
                      */
-                    @Override
+                    /*@Override
                     public Map<String, String> getHeaders() throws AuthFailureError {
                         HashMap<String, String> headers = new HashMap<String, String>();
                         headers.put("Content-Type", "application/json; charset=utf-8");
@@ -161,7 +163,7 @@ public class RegistrationActivity extends AppCompatActivity {
                 };
 
                 // Adding request to request queue
-                AppController.getInstance().addToRequestQueue(jsonObjReq, tag_json_obj);
+                AppController.getInstance().addToRequestQueue(jsonObjReq, tag_json_obj);*/
 
 
             } catch (Exception e) {
