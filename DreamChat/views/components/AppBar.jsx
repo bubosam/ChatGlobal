@@ -4,12 +4,12 @@ import IconButton from 'material-ui/IconButton';
 import IconMenu from 'material-ui/IconMenu';
 import MenuItem from 'material-ui/MenuItem';
 import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
-import ChatIcon from 'material-ui/svg-icons/communication/chat';
+var {Link} = require('react-router');
+
 
 const AppbarWithNav = () => (
   <AppBar
     title="Dream Chat"
-    iconElementLeft={<IconButton><ChatIcon /></IconButton>}
     iconElementRight={
       <IconMenu
         iconButtonElement={
@@ -18,12 +18,11 @@ const AppbarWithNav = () => (
         targetOrigin={{horizontal: 'right', vertical: 'top'}}
         anchorOrigin={{horizontal: 'right', vertical: 'top'}}
       >
-        <MenuItem primaryText="Refresh" />
-        <MenuItem primaryText="Help" />
-        <MenuItem primaryText="Sign out" />
+        <Link to="http://localhost:1337/"><MenuItem primaryText="Sign out" /></Link>
       </IconMenu>
     }
   />
 );
+
 
 export default AppbarWithNav;
