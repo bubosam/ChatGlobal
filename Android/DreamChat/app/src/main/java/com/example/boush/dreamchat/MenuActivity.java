@@ -2,7 +2,8 @@ package com.example.boush.dreamchat;
 
 
 import android.app.Activity;
-import android.support.v4.app.ActionBarDrawerToggle;
+import android.content.Intent;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v4.app.Fragment;
 import android.app.FragmentTransaction;
 import android.content.Context;
@@ -45,8 +46,8 @@ public class MenuActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu);
-        Toast.makeText(MenuActivity.this, "1 brana",
-                Toast.LENGTH_LONG).show();
+        /*Toast.makeText(MenuActivity.this, "1 brana",
+                Toast.LENGTH_LONG).show();*/
         mTitle = mDrawerTitle = getTitle();
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -70,33 +71,29 @@ public class MenuActivity extends AppCompatActivity {
         mNavigationDrawerItemTitles= getResources().getStringArray(R.array.navigation_drawer_items_array);
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         mDrawerList = (ListView) findViewById(R.id.left_drawer);
-        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
 
-        mDrawerToggle = new ActionBarDrawerToggle(
-                this,
-                mDrawerLayout,
-                R.drawable.ic_menu,
-                R.string.drawer_open,
-                R.string.drawer_close
+
+        ActionBarDrawerToggle mDrawerToggle = new ActionBarDrawerToggle(
+                this,  mDrawerLayout, toolbar,
+                R.string.drawer_open, R.string.drawer_close
         ) {
-
-            /** Called when a drawer has settled in a completely closed state. */
             public void onDrawerClosed(View view) {
                 super.onDrawerClosed(view);
                 getSupportActionBar().setTitle(mTitle);
             }
 
-            /** Called when a drawer has settled in a completely open state. */
             public void onDrawerOpened(View drawerView) {
                 super.onDrawerOpened(drawerView);
                 getSupportActionBar().setTitle(mDrawerTitle);
             }
         };
 
-        mDrawerLayout.setDrawerListener(mDrawerToggle);
+
+        mDrawerLayout.addDrawerListener(mDrawerToggle);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
+
         ObjectDrawerItem[] drawerItem = new ObjectDrawerItem[4];
         drawerItem[0] = new ObjectDrawerItem(R.drawable.ic_action_settings,"Profile");
         drawerItem[1] = new ObjectDrawerItem(R.drawable.ic_action_user,"Settings");
@@ -154,7 +151,12 @@ public class MenuActivity extends AppCompatActivity {
     @Override
     protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
-        mDrawerToggle.syncState();
+        if(mDrawerToggle !=null){
+            mDrawerToggle.syncState();
+        }
+
+
+
     }
 
 
@@ -163,6 +165,7 @@ public class MenuActivity extends AppCompatActivity {
 
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
             selectItem(position);
         }
 
@@ -175,6 +178,7 @@ public class MenuActivity extends AppCompatActivity {
         switch (position) {
             case 0:
                 fragment = new MeFragment();
+
                 break;
             case 1:
                 fragment = new SettingsFragment();
@@ -183,9 +187,8 @@ public class MenuActivity extends AppCompatActivity {
                 fragment = new HelpFragment();
                 break;
             case 3 :
-                //fragment = new LogoutFragment();
-                Toast.makeText(MenuActivity.this, "1 brana",
-                        Toast.LENGTH_LONG).show();
+                    Intent intent = new Intent(this,LoginActivity.class);
+                    startActivity(intent);
                 break;
 
             default:
@@ -194,7 +197,8 @@ public class MenuActivity extends AppCompatActivity {
 
         if (fragment != null) {
             FragmentManager fragmentManager = getSupportFragmentManager();
-            fragmentManager.beginTransaction().replace(R.id.view_pager, fragment).commit();
+
+            fragmentManager.beginTransaction().replace(R.id.content_frame, fragment).addToBackStack("MenuActivity").commit();
             mDrawerList.setItemChecked(position, true);
             mDrawerList.setSelection(position);
             setTitle(mNavigationDrawerItemTitles[position]);

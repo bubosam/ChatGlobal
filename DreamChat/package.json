@@ -34,7 +34,8 @@
     "socket.io": "1.4.5",
     "stylus": "0.54.5",
     "valid-url": "1.0.9",
-    "views": "^1.0.2"
+    "views": "^1.0.2",
+    "merge": "1.2.0"
   },
   "devDependencies": {
     "babel-core": "^6.8.0",
