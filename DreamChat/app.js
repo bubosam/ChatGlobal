@@ -32,12 +32,11 @@ app.listen(PORT, function (){
 });
 
 // view engine setup
-app.set('views', path.join(__dirname, 'public'));
+app.set('views', path.join(__dirname, 'views'));
 app.engine('html', require('ejs').renderFile);
 app.set('view engine', 'html');
 
-app.use(express.static('./public'));
-
+app.use(express.static('./views'));
 
 // uncomment after placing your favicon in /public
 //app.use(favicon(__dirname + '/public/favicon.ico'));
