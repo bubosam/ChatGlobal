@@ -2,8 +2,8 @@
 
 var connection = mysql.createConnection({
 	host: 'localhost',
-	user: 'Admin',
-	password: 'salama',
+	user: 'root',
+	password: '',
 	database: 'dreamchat'
 });
 connection.connect();
