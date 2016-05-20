@@ -4,7 +4,7 @@ module.exports = {
   entry: [
     'script!jquery/dist/jquery.min.js',
     'script!foundation-sites/dist/foundation.min.js',
-    './public/app.jsx'
+    './views/app.jsx'
   ],
   externals: {
     jquery: 'jQuery'
@@ -17,20 +17,21 @@ module.exports = {
   ],
   output:{
     path: __dirname,
-    filename: './public/bundle.js'
+    filename: './views/bundle.js'
   },
   resolve: {
     root: __dirname,
     alias: {
-      Main: 'public/components/Main.jsx',
-      Nav: 'public/components/Nav.jsx',
-      Login: 'public/components/Login.jsx',
-      LoginForm: 'public/components/LoginForm.jsx',
-      About: 'public/components/About.jsx',
-      Register: 'public/components/Register.jsx',
-      RegisterForm: 'public/components/RegisterForm.jsx',
-      Dash: 'public/components/Dash.jsx',
-      DashBoardComp: 'public/components/DashBoardComp.jsx'
+      Main: 'views/components/Main.jsx',
+      AppBar: 'views/components/AppBar.jsx',
+      Login: 'views/components/Login.jsx',
+      LoginForm: 'views/components/LoginForm.jsx',
+      Register: 'views/components/Register.jsx',
+      RegisterForm: 'views/components/RegisterForm.jsx',
+      DashBoardComp: 'views/components/DashBoardComp.jsx',
+      DashBoard: 'views/components/DashBoard.jsx',
+      ContactListComp: 'views/components/ContactListComp.jsx',
+      ContactList: 'views/components/ContactList.jsx'
     },
     extensions: ['', '.js', '.jsx' ]
   },

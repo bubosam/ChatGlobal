@@ -2,14 +2,14 @@ package com.example.boush.dreamchat;
 
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
-import android.view.GestureDetector;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -20,6 +20,7 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.List;
 
+import io.github.luizgrp.sectionedrecyclerviewadapter.Section;
 import io.github.luizgrp.sectionedrecyclerviewadapter.SectionedRecyclerViewAdapter;
 import io.github.luizgrp.sectionedrecyclerviewadapter.StatelessSection;
 
@@ -27,42 +28,41 @@ import io.github.luizgrp.sectionedrecyclerviewadapter.StatelessSection;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class ContactsFragment extends Fragment {
+public class ContactsFragment extends Fragment implements SearchView.OnQueryTextListener{
 
 
     public ContactsFragment() {
         // Required empty public constructor
     }
 
-    Context context;
+    private Context context;
     private List<Contact> contactList = new ArrayList<>();
     private RecyclerView recyclerView;
-    private ContactsAdapter mAdapter;
+    //private ContactsAdapter mAdapter;
     private SearchView search;
     private SectionedRecyclerViewAdapter sectionAdapter;
-    View rootView;
+    //private View rootView;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_contacts, container, false);
         context = getActivity();
-        rootView=view;
+        //rootView=view;
 
         recyclerView = (RecyclerView) view.findViewById(R.id.recycler_view_contacts);
+        recyclerView.setItemAnimator(new DefaultItemAnimator());
+        recyclerView.addItemDecoration(new DividerItemDecoration(context, LinearLayoutManager.VERTICAL));
 
         /*mAdapter = new ContactsAdapter(contactList);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(context);
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
-        recyclerView.addItemDecoration(new DividerItemDecoration(context, LinearLayoutManager.VERTICAL));
         recyclerView.setAdapter(mAdapter);*/
 
         sectionAdapter = new SectionedRecyclerViewAdapter();
 
-        // Add your Sections
-        sectionAdapter.addSection(new MySection());
-
+        prepareContactData();
 
         List<Contact> friends = getFriends(contactList);
         if (friends.size() > 0) {
@@ -73,35 +73,11 @@ public class ContactsFragment extends Fragment {
             sectionAdapter.addSection(new ContactsSection(getString(R.string.subheader_others), others));
         }
 
-
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(sectionAdapter);
 
-        /*recyclerView.addOnItemTouchListener(new RecyclerTouchListener(context, recyclerView, new ClickListener() {
-            @Override
-            public void onClick(View view, int position) {
-                Contact friend = contactList.get(getAdapterPosition());
-
-                SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(context);
-                SharedPreferences.Editor editor = pref.edit();
-                editor.putString("firstName", friend.getFirstName());
-                editor.putString("lastName", friend.getLastName());
-                editor.apply();
-
-                Intent intent = new Intent(context, ChatActivity.class);
-                startActivity(intent);
-            }
-
-            @Override
-            public void onLongClick(View view, int position) {
-
-            }
-        }));*/
-
-        prepareContactData();
-
         search = (SearchView) view.findViewById(R.id.searchView);
-        search.setOnQueryTextListener(listener);
+        search.setOnQueryTextListener(this);
 
         return view;
     }
@@ -127,7 +103,7 @@ public class ContactsFragment extends Fragment {
     }
 
 
-    SearchView.OnQueryTextListener listener = new SearchView.OnQueryTextListener() {
+    /*SearchView.OnQueryTextListener listener = new SearchView.OnQueryTextListener() {
         @Override
         public boolean onQueryTextChange(String query) {
             /*
@@ -140,7 +116,7 @@ public class ContactsFragment extends Fragment {
 
             */
 
-            query = query.toLowerCase();
+            /*query = query.toLowerCase();
 
             final List<Contact> filteredList = new ArrayList<>();
 
@@ -164,10 +140,10 @@ public class ContactsFragment extends Fragment {
         public boolean onQueryTextSubmit(String query) {
             return false;
         }
-    };
+    };*/
 
     private void prepareContactData() {
-        Contact contact = new Contact("Iba", "Meliško", "Meliško", true);
+        Contact contact = new Contact("Iba", "Meliško", "Meliško", false);
         contactList.add(contact);
 
         contact = new Contact("Patrik", "Patinák", "Patres", true);
@@ -198,53 +174,21 @@ public class ContactsFragment extends Fragment {
         //mAdapter.notifyDataSetChanged();
     }
 
-    public interface ClickListener {
-        void onClick(View view, int position);
-
-        void onLongClick(View view, int position);
+    @Override
+    public boolean onQueryTextSubmit(String query) {
+        return false;
     }
 
-    public static class RecyclerTouchListener implements RecyclerView.OnItemTouchListener {
-
-        private GestureDetector gestureDetector;
-        private ContactsFragment.ClickListener clickListener;
-
-        public RecyclerTouchListener(Context context, final RecyclerView recyclerView, final ContactsFragment.ClickListener clickListener) {
-            this.clickListener = clickListener;
-            gestureDetector = new GestureDetector(context, new GestureDetector.SimpleOnGestureListener() {
-                @Override
-                public boolean onSingleTapUp(MotionEvent e) {
-                    return true;
-                }
-
-                @Override
-                public void onLongPress(MotionEvent e) {
-                    View child = recyclerView.findChildViewUnder(e.getX(), e.getY());
-                    if (child != null && clickListener != null) {
-                        clickListener.onLongClick(child, recyclerView.getChildLayoutPosition(child));
-                    }
-                }
-            });
-        }
-
-        @Override
-        public boolean onInterceptTouchEvent(RecyclerView rv, MotionEvent e) {
-
-            View child = rv.findChildViewUnder(e.getX(), e.getY());
-            if (child != null && clickListener != null && gestureDetector.onTouchEvent(e)) {
-                clickListener.onClick(child, rv.getChildLayoutPosition(child));
+    @Override
+    public boolean onQueryTextChange(String query) {
+        for (Section section : sectionAdapter.getSectionsMap().values()) {
+            if (section instanceof FilterableSection) {
+                ((FilterableSection)section).filter(query);
             }
-            return false;
         }
+        sectionAdapter.notifyDataSetChanged();
 
-        @Override
-        public void onTouchEvent(RecyclerView rv, MotionEvent e) {
-        }
-
-        @Override
-        public void onRequestDisallowInterceptTouchEvent(boolean disallowIntercept) {
-
-        }
+        return true;
     }
 
     class ContactsSection extends StatelessSection implements FilterableSection {
@@ -261,8 +205,6 @@ public class ContactsFragment extends Fragment {
             this.filteredList = new ArrayList<>(list);
         }
 
-
-
         @Override
         public int getContentItemsTotal() {
             return filteredList.size();
@@ -277,19 +219,23 @@ public class ContactsFragment extends Fragment {
         public void onBindItemViewHolder(RecyclerView.ViewHolder holder, int position) {
             final ItemViewHolder itemHolder = (ItemViewHolder) holder;
 
-            Contact contact = contactList.get(position);
+            Contact contact = filteredList.get(position);
             itemHolder.title.setText(contact.getTitle());
             itemHolder.nickname.setText(contact.getNickname());
             itemHolder.avatar.setImageResource(R.drawable.ic_person);
 
-            //Contact contact = filteredList.get(position);
             final int pos = position;
 
-            itemHolder.rootView.setOnClickListener(new View.OnClickListener() {
+            itemHolder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Contact contact = contactList.get(pos);
-                    Toast.makeText(getContext(), contact.getTitle(), Toast.LENGTH_SHORT).show();
+                    Contact contact = filteredList.get(pos);
+                    Intent intent = new Intent(context, ProfileActivity.class);
+                    intent.putExtra("firstName", contact.getFirstName());
+                    intent.putExtra("lastName", contact.getLastName());
+                    intent.putExtra("isFriend", contact.isFriend());
+                    context.startActivity(intent);
+                    //Toast.makeText(getContext(), contact.getTitle(), Toast.LENGTH_SHORT).show();
                     //Toast.makeText(getContext(), String.format("Clicked on position #%s of Section %s", sectionAdapter.getSectionPosition(itemHolder.getAdapterPosition()), title), Toast.LENGTH_SHORT).show();
                 }
             });
@@ -318,9 +264,9 @@ public class ContactsFragment extends Fragment {
                 query = query.toLowerCase();
 
                 for (int i = 0; i < list.size(); i++) {
-                    final String text1 = contactList.get(i).getNickname().toLowerCase();
-                    final String text2 = contactList.get(i).getFirstName().toLowerCase();
-                    final String text3 = contactList.get(i).getLastName().toLowerCase();
+                    final String text1 = list.get(i).getNickname().toLowerCase();
+                    final String text2 = list.get(i).getFirstName().toLowerCase();
+                    final String text3 = list.get(i).getLastName().toLowerCase();
                     if (text1.contains(query) || text2.contains(query) || text3.contains(query)) {
                         filteredList.add(list.get(i));
                     }
@@ -353,7 +299,6 @@ public class ContactsFragment extends Fragment {
             title = (TextView) view.findViewById(R.id.title);
             nickname = (TextView) view.findViewById(R.id.nickname);
             avatar = (ImageView) view.findViewById(R.id.fAvatar);
-            context=view.getContext();
         }
     }
 
