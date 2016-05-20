@@ -43,48 +43,43 @@ router.delete('/', function (req, res) {
             requests.cancelRequest(requestid, function (success) {
                 if (success) {
                     res.json({
-                        "message": "request canceled successfully",
-                        "error": 0,
-                        "success": true
+                        "message": "request canceled successfully"
                     });
+                    res.statusCode = 200;
                 }
                 else {
                     res.json({
-                        "message": "deleting request failed, please try again later",
-                        "error": 1,
-                        "success": false
+                        "message": "unexpected error occured while deleting"
                     });
+                    res.statusCode = 500;
                 }
             });
         }    
         else {
             res.json({
-                "message": "authorization failed",
-                "error": 2,
-                "success": false
+                "message": "authorization failed"
             });
+            res.statusCode = 401;
         }
     });
 });
 
 //adding friend to table friendships and deleting request from friend_requests
 router.post('/accept', function (req, res) {
+    var code;
     authorization.authorize(req, function (access) {
         if (access) {
             var requestid = req.body.requestid;
-            requests.acceptRequest(requestid, function (success) {
+            requests.acceptRequest(requestid, function (success,statuscode) {
+                code = statuscode;
                 if (success) {
                     res.json({
                         "message": "friend successfully added",
-                        "error": 0,
-                        "success": true
                     });
                 }
                 else {
                     res.json({
                         "message": "accepting request failed, please try again later",
-                        "error": 1,
-                        "success": false
                     });
                 }
             });
@@ -92,19 +87,35 @@ router.post('/accept', function (req, res) {
         else {
             res.json({
                 "message": "authorization failed",
-                "error": 2,
-                "success": false
             });
+            code = 401;
         }
+        res.statusCode = code;
     });
 });
 
 //load pending requests from table friend_requests
 router.get('/', function (req, res) {
+    var code;
     var userid = req.headers.userid;
-    requests.loadRequests(userid, function (results) {
-        res.json(results);
-    });
+    authorization.authorize(req, function (access) {
+        if (access) {           
+            requests.loadRequests(userid, function (results) {
+                var response = {
+                    results: results,
+                    message: "requests loaded successfully"
+                };
+                res.json(response);
+                res.statusCode = 200;
+            });
+        }
+        else {
+            res.json({
+                "message": "authorization failed"
+            });
+            res.statusCode = 401;
+        }
+    });    
 });
 
 module.exports = router;
