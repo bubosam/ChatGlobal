@@ -36,45 +36,55 @@ module.exports = {
 		});
 	},
 
-	acceptRequest: function (requestid, callback) {
+	acceptRequest: function (requestid, userid, callback) {
         var overallSuccess = true;
         var code;
+        var message;
         db.query("SELECT * FROM friend_requests  WHERE requestid=" + requestid, function (result) {
             var senderid = result[0].sender;
             var receiverid = result[0].receiver;
-            if (senderid != "undefined" && receiverid != "undefined") {
-                db.nonQuery("DELETE FROM friendships  WHERE  (user1='" + senderid + "' AND user2='" + receiverid + "') OR (user1='" + receiverid + "' AND user2='" + senderid + "')", function () {
-                    db.nonQuery("INSERT INTO friendships(user1,user2) VALUES(" + result[0].sender + ", " + result[0].receiver + ")", function (success) {
-                        if (success) {
-                            db.nonQuery("DELETE FROM friend_requests WHERE requestid=" + requestid, function (success) {
-                                if (success) {
-                                    console.log("request accetion successful");
-                                    code = 200;
-                                }
-                                else {
-                                    console.log("deletion failed while accepting request");
-                                    overallSuccess = false;
-                                    code = 200;
-                                }
-                            });
-                        }
-                        else {
-                            console.log("insertion failed while accepting request");
-                            overallSuccess = false;
-                            code = 500;
-                        }
+            console.log(userid+" "+receiverid);
+            if (userid == receiverid) {
+                if (senderid != "undefined" && receiverid != "undefined") {
+                    db.nonQuery("DELETE FROM friendships  WHERE  (user1='" + senderid + "' AND user2='" + receiverid + "') OR (user1='" + receiverid + "' AND user2='" + senderid + "')", function () {
+                        db.nonQuery("INSERT INTO friendships(user1,user2) VALUES(" + result[0].sender + ", " + result[0].receiver + ")", function (success) {
+                            if (success) {
+                                db.nonQuery("DELETE FROM friend_requests WHERE requestid=" + requestid, function (success) {
+                                    if (success) {
+                                        message="request accetion successful";
+                                        code = 200;
+                                    }
+                                    else {
+                                        message ="deletion failed while accepting request";
+                                        overallSuccess = false;
+                                        code = 200;
+                                    }
+                                });
+                            }
+                            else {
+                                message ="insertion failed while accepting request";
+                                overallSuccess = false;
+                                code = 500;
+                            }
+                        });
                     });
-                });			
-			}
-			else {
-				console.log("selection failed while accepting request");
+                }
+                else {
+                    message ="selection failed while accepting request";
+                    overallSuccess = false;
+                    code = 400; //bad request
+                }	
+            }
+            else {
+                message ="unauthorized access";
                 overallSuccess = false;
-                code = 400; //bad request
-			}					
-		});
-		if (typeof callback === "function") {
-			callback(overallSuccess,code);
-		}
+                code = 401;
+            }
+            if (typeof callback === "function") {
+                console.log("overallsuccess: "+ overallSuccess+"message: " + message + "    code: " + code);
+                callback(overallSuccess, code, message);
+            }	       				           	
+        });        
 	},
 	
 

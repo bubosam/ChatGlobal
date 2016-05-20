@@ -70,27 +70,30 @@ router.post('/accept', function (req, res) {
     authorization.authorize(req, function (access) {
         if (access) {
             var requestid = req.body.requestid;
-            requests.acceptRequest(requestid, function (success,statuscode) {
+            requests.acceptRequest(requestid, req.headers.userid, function (success,statuscode,message) {
                 code = statuscode;
                 if (success) {
                     res.json({
-                        "message": "friend successfully added",
+                        message: message
                     });
                 }
                 else {
-                    res.json({
-                        "message": "accepting request failed, please try again later",
-                    });
+                    var response= {
+                        "message": message
+                    }
+                    console.log("holahe4756j");
+                    res.json(response);
+                    console.log("holahe4756j");
                 }
             });
         }    
         else {
             res.json({
-                "message": "authorization failed",
+                "message": "authorization failed"
             });
             code = 401;
         }
-        res.statusCode = code;
+        //res.statusCode = code;
     });
 });
 
