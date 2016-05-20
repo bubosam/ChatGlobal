@@ -210,6 +210,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             mAuthTask.execute((Void) null);
             Intent intent = new Intent(LoginActivity.this,MenuActivity.class);
             startActivity(intent);
+            finish();
         }
     }
 
@@ -338,69 +339,8 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             // TODO: attempt authentication against a network service.
 
             try {
-                // Simulate network access.
-                Map<String, String> postParam= new HashMap<String, String>();
-                postParam.put("email", email);
-                postParam.put("password", password);
-                Log.d("Volley JSON to send ", new JSONObject(postParam).toString());
-
-                JsonObjectRequest jsonObjReq = new JsonObjectRequest(Request.Method.POST,
-                            loginUrl, new JSONObject(postParam),
-                            new Response.Listener<JSONObject>() {
-
-                                @Override
-                                public void onResponse(JSONObject response) {
-                                    Log.d("Volley ", response.toString());
-                                    String token = null;
-                                    int userid;
-                                    try {
-                                        token = response.getString("token");
-                                        userid = response.getInt("userid");
-                                        Log.d("Volley token", token);
-                                        Log.d("Volley userid", String.valueOf(userid));
-                                        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-                                        SharedPreferences.Editor editor = sharedPref.edit();
-                                        editor.clear();
-                                        editor.apply();
-                                        editor.putInt("userid", userid);
-                                        editor.putString("token", token);
-                                        editor.apply();
-                                    } catch (JSONException e) {
-                                        e.printStackTrace();
-                                    }
-                                }
-                            }, new Response.ErrorListener() {
-
-                        @Override
-                        public void onErrorResponse(VolleyError error) {
-                            VolleyLog.d("Volley ", "Error: " + error.getMessage());
-                        }
-                    })
-
-                    {
-                        /**
-                         * Passing some request headers
-                         * */
-                        @Override
-                        public Map<String, String> getHeaders() throws AuthFailureError {
-                            HashMap<String, String> headers = new HashMap<String, String>();
-                            headers.put("Content-Type", "application/json; charset=utf-8");
-                            return headers;
-                        }
-                    };
-
-                    // Adding request to request queue
-                    AppController.getInstance().addToRequestQueue(jsonObjReq,tag_json_obj);
-
-
-                /*HttpURLConnection connection = (HttpURLConnection) new URL(loginUrl).openConnection();
-                String encoded = Base64.encodeToString((email + ":" + password).getBytes("UTF-8"), Base64.NO_WRAP);
-                connection.setRequestProperty("Authorization", "Basic " + encoded);
-                connection.setRequestMethod("POST");
-                connection.setInstanceFollowRedirects(true);
-                connection.connect();
-                int resCode = connection.getResponseCode();
-                Log.d("Response kod: ", String.valueOf(resCode));*/
+                // network access.
+                new Server().login(email, password, getApplicationContext());
 
                 Thread.sleep(5000);
             } catch (InterruptedException e) {
