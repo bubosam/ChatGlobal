@@ -32,7 +32,7 @@
             android:theme="@style/AppTheme" />
         <activity android:name=".RegistrationActivity" />
         <activity android:name=".ProfileActivity" />
-        <activity android:name=".ChatActivity"></activity>
+        <activity android:name=".ChatActivity" />
     </application>
 
 </manifest>

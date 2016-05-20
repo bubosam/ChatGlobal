@@ -2,6 +2,7 @@ package com.example.boush.dreamchat;
 
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -229,7 +230,12 @@ public class ContactsFragment extends Fragment implements SearchView.OnQueryText
                 @Override
                 public void onClick(View v) {
                     Contact contact = filteredList.get(pos);
-                    Toast.makeText(getContext(), contact.getTitle(), Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(context, ProfileActivity.class);
+                    intent.putExtra("firstName", contact.getFirstName());
+                    intent.putExtra("lastName", contact.getLastName());
+                    intent.putExtra("isFriend", contact.isFriend());
+                    context.startActivity(intent);
+                    //Toast.makeText(getContext(), contact.getTitle(), Toast.LENGTH_SHORT).show();
                     //Toast.makeText(getContext(), String.format("Clicked on position #%s of Section %s", sectionAdapter.getSectionPosition(itemHolder.getAdapterPosition()), title), Toast.LENGTH_SHORT).show();
                 }
             });
