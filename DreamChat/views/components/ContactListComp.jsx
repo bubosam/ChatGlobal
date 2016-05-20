@@ -40,7 +40,7 @@ function wrapState(ComposedComponent) {
 SelectableList = wrapState(SelectableList);
 
 const ContactListComp = () => (
-  <div>
+  <div className="contactListFull">
     <SelectableList defaultValue={3}>
       <Subheader>Selectable Contacts</Subheader>
       <ListItem

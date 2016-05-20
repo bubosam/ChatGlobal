@@ -31,7 +31,9 @@ module.exports = {
       DashBoardComp: 'views/components/DashBoardComp.jsx',
       DashBoard: 'views/components/DashBoard.jsx',
       ContactListComp: 'views/components/ContactListComp.jsx',
-      ContactList: 'views/components/ContactList.jsx'
+      ContactList: 'views/components/ContactList.jsx',
+      SearchComp: 'views/components/SearchComp.jsx',
+      UserDeskComp:'views/components/UserDeskComp.jsx',
     },
     extensions: ['', '.js', '.jsx' ]
   },
