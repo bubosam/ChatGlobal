@@ -86,7 +86,7 @@
             android:layout_toRightOf="@+id/btn_Profile"
             android:layout_toEndOf="@+id/btn_Profile"
             android:layout_marginLeft="30dp"
-            android:background="null"
+            android:background="@null"
             android:layout_below="@+id/etxtSendMsg" />
 
         <ImageButton
@@ -97,14 +97,14 @@
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
             android:layout_below="@+id/etxtSendMsg"
-            android:background="null" />
+            android:background="@null" />
 
         <ImageButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/btn_sendPhoto"
             android:src="@drawable/ic_select_photo"
-            android:background="null"
+            android:background="@null"
             android:minHeight="50dp"
             android:layout_alignParentBottom="true"
             android:layout_toLeftOf="@+id/btn_Profile"
