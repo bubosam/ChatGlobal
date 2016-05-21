@@ -38,4 +38,5 @@ dependencies {
         exclude module: "httpclient"
     }
     compile 'io.github.luizgrp.sectionedrecyclerviewadapter:sectionedrecyclerviewadapter:1.0.4'
+    compile 'com.github.nkzawa:socket.io-client:0.3.0'
 }

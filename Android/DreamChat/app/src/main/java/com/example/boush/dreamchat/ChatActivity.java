@@ -1,17 +1,20 @@
 package com.example.boush.dreamchat;
 
 import android.app.ListActivity;
-import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import com.github.nkzawa.emitter.Emitter;
+import com.github.nkzawa.socketio.client.IO;
+import com.github.nkzawa.socketio.client.Socket;
+
+import java.net.URISyntaxException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -32,6 +35,13 @@ public class ChatActivity extends ListActivity {
     private Calendar c = Calendar.getInstance();
     private SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
 
+    private Socket mSocket;
+    {
+        try {
+            mSocket = IO.socket("http://chat.socket.io");
+        } catch (URISyntaxException e) {}
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,17 +56,11 @@ public class ChatActivity extends ListActivity {
         }
         setContentView(R.layout.activity_chat);
         initChat();
+        mSocket.on("new message", onNewMessage);
+        mSocket.connect();
     }
 
     public void initChat(){
-        /*SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-        firstName = prefs.getString("firstName",null);
-        lastName = prefs.getString("lastName",null);
-        messageText = prefs.getString("message",null);
-        date = prefs.getString("date",null);*/
-
-        //messageText = "message";
-        //date = "19.5.2016";
 
         txtName = (TextView) findViewById(R.id.txtName);
         etxtSendMsg = (EditText) findViewById(R.id.etxtSendMsg);
@@ -85,9 +89,9 @@ public class ChatActivity extends ListActivity {
         if(!messageText.isEmpty()){
             Message msg = new Message();
             msg.setMessageText(messageText);
-            msg.setDate(sdf.format(c.getTime()));
             msg.setMe(true);
             messagesList.add(msg);
+            mSocket.emit("new message", msg);
         }
 
         mAdapter.notifyDataSetChanged();
@@ -97,7 +101,38 @@ public class ChatActivity extends ListActivity {
     public void loadHistory(){
         Message msg = new Message();
         msg.setMessageText(messageText);
-        msg.setDate(date);
+        msg.setMe(false);
+        messagesList.add(msg);
+
+        mAdapter.notifyDataSetChanged();
+    }
+
+    private Emitter.Listener onNewMessage = new Emitter.Listener() {
+        @Override
+        public void call(final Object... args) {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        JSONObject data = (JSONObject) args[0];
+
+                        String message;
+                        try {
+
+                            message = data.getString("message");
+                        } catch (JSONException e) {
+                            return;
+                        }
+
+                        // add the message to view
+                        addMessage(message);
+                    }
+                });
+            }
+        };
+
+    private void addMessage(String message) {
+        Message msg = new Message();
+        msg.setMessageText(message);
         msg.setMe(false);
         messagesList.add(msg);
 
