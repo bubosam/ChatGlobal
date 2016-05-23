@@ -22,6 +22,8 @@
     <string name="tab_conversations">Konverzácie</string>
     <string name="tab_contacts">Kontakty</string>
 
+    <string name="searchview">Nájdi kontakt...</string>
+
     <string name="subheader_friends">Priatelia</string>
     <string name="subheader_others">Ostatní</string>
 
