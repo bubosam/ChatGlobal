@@ -21,9 +21,10 @@ router.post('/search', function (req, res) {
     var name = req.body.name;
     users.search(name, function (results) {
 
-        console.log(results);
-        console.log("jupi");
+      //  console.log(results);
+      //  console.log("jupi");
         res.json(results);
+        res.statusCode = 200;
     });
 });
 
