@@ -29,6 +29,11 @@ public class ProfileActivity extends AppCompatActivity {
     private String firstName;
     private String lastName;
     private String title;
+    private String nicknameStr;
+    private String phoneStr;
+    private String emailStr;
+
+    private Contact contact;
 
     public ProfileActivity() {
         // Required empty public constructor
@@ -39,15 +44,23 @@ public class ProfileActivity extends AppCompatActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        //setContentView(R.layout.activity_profile);
-
         if (savedInstanceState == null) {
             Bundle extras = getIntent().getExtras();
             if(extras != null) {
-                firstName=extras.getString("firstName");
+                contact = (Contact) extras.getParcelable("contact");
+                firstName = contact.getFirstName();
+                lastName = contact.getLastName();
+                title = contact.getTitle();
+                phoneStr = contact.getPhone();
+                emailStr = contact.getEmail();
+                nicknameStr = contact.getNickname();
+
+                isFriend = contact.isFriend();
+
+                /*firstName=extras.getString("firstName");
                 lastName=extras.getString("lastName");
                 title = firstName+" "+lastName;
-                isFriend=extras.getBoolean("isFriend");
+                isFriend=extras.getBoolean("isFriend");*/
                 Log.d("boolean friend", String.valueOf(isFriend));
             }
         }
@@ -64,13 +77,17 @@ public class ProfileActivity extends AppCompatActivity {
             name = (TextView) findViewById(R.id.contactName);
 
             name.setText(title);
+            nickname.setText(nicknameStr);
+            phone.setText(phoneStr);
+            email.setText(emailStr);
 
             sendMessage.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent(getApplicationContext(), ChatActivity.class);
-                    intent.putExtra("firstName", firstName);
-                    intent.putExtra("lastName", lastName);
+                    intent.putExtra("contact", contact);
+                    //intent.putExtra("firstName", firstName);
+                    //intent.putExtra("lastName", lastName);
                     //intent.putExtra("message", message.getMessageText());
                     //intent.putExtra("date", message.getDate());
                     startActivity(intent);
@@ -81,7 +98,7 @@ public class ProfileActivity extends AppCompatActivity {
                 @Override
                 public void onClick(View v) {
                     Toast.makeText(getApplicationContext(), title +" removed", Toast.LENGTH_SHORT).show();
-                    //removeFriend();
+                    //new Server().removeFriend();
                 }
             });
 
@@ -92,10 +109,9 @@ public class ProfileActivity extends AppCompatActivity {
 
             imageView = (ImageView) findViewById(R.id.profilePic);
             nickname = (TextView) findViewById(R.id.contactNickname);
-            email = (TextView) findViewById(R.id.contactEmail);
-            phone = (TextView) findViewById(R.id.contactPhone);
             name = (TextView) findViewById(R.id.contactName);
 
+            nickname.setText(nicknameStr);
             name.setText(title);
             sendReq = (Button) findViewById(R.id.sendMessage);
 
@@ -103,7 +119,7 @@ public class ProfileActivity extends AppCompatActivity {
                 @Override
                 public void onClick(View v) {
                     Toast.makeText(getApplicationContext(), "Request to "+ title +" sent", Toast.LENGTH_SHORT).show();
-                    //sendRequest();
+                    //new Server().sendRequest();
                 }
             });
 

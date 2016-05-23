@@ -4,14 +4,19 @@ package com.example.boush.dreamchat;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.CoordinatorLayout;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
+import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.ImageView;
 import android.widget.SearchView;
 import android.widget.TextView;
@@ -41,6 +46,7 @@ public class ContactsFragment extends Fragment implements SearchView.OnQueryText
     //private ContactsAdapter mAdapter;
     private SearchView search;
     private SectionedRecyclerViewAdapter sectionAdapter;
+    private FloatingActionButton fab;
     //private View rootView;
 
     @Override
@@ -78,6 +84,8 @@ public class ContactsFragment extends Fragment implements SearchView.OnQueryText
 
         search = (SearchView) view.findViewById(R.id.searchView);
         search.setOnQueryTextListener(this);
+
+
 
         return view;
     }
@@ -143,31 +151,31 @@ public class ContactsFragment extends Fragment implements SearchView.OnQueryText
     };*/
 
     private void prepareContactData() {
-        Contact contact = new Contact("Iba", "Meliško", "Meliško", false);
+        Contact contact = new Contact("Iba", "Meliško", "Meliško", false, "email@domena.sk", "0901234567");
         contactList.add(contact);
 
-        contact = new Contact("Patrik", "Patinák", "Patres", true);
+        contact = new Contact("Patrik", "Patinák", "Patres", true, "email@domena.sk", "0901234567");
         contactList.add(contact);
 
-        contact = new Contact("Martin", "Tarhanič", "Matolator", true);
+        contact = new Contact("Martin", "Tarhanič", "Matolator", true, "email@domena.sk", "0901234567");
         contactList.add(contact);
 
-        contact = new Contact("Monika", "Jaššová", "monikka", true);
+        contact = new Contact("Monika", "Jaššová", "monikka", true, "email@domena.sk", "0901234567");
         contactList.add(contact);
 
-        contact = new Contact("Michal", "Borovský", "Michaljevič", true);
+        contact = new Contact("Michal", "Borovský", "Michaljevič", true, "email@domena.sk", "0901234567");
         contactList.add(contact);
 
-        contact = new Contact("Matúš", "Kokoška", "DreamTeam", true);
+        contact = new Contact("Matúš", "Kokoška", "DreamTeam", true, "email@domena.sk", "0901234567");
         contactList.add(contact);
 
-        contact = new Contact("Roman", "Klimčík", "Global Logic", false);
+        contact = new Contact("Roman", "Klimčík", "Global Logic", false, "email@domena.sk", "0901234567");
         contactList.add(contact);
 
-        contact = new Contact("X", "Y", "Slovensko", false);
+        contact = new Contact("X", "Y", "Slovensko", false, "email@domena.sk", "0901234567");
         contactList.add(contact);
 
-        contact = new Contact("Meno", "Priezvisko", "Nick", false);
+        contact = new Contact("Meno", "Priezvisko", "Nick", false, "email@domena.sk", "0901234567");
         contactList.add(contact);
 
         sectionAdapter.notifyDataSetChanged();
@@ -231,9 +239,10 @@ public class ContactsFragment extends Fragment implements SearchView.OnQueryText
                 public void onClick(View v) {
                     Contact contact = filteredList.get(pos);
                     Intent intent = new Intent(context, ProfileActivity.class);
-                    intent.putExtra("firstName", contact.getFirstName());
+                    intent.putExtra("contact", contact);
+                    /*intent.putExtra("firstName", contact.getFirstName());
                     intent.putExtra("lastName", contact.getLastName());
-                    intent.putExtra("isFriend", contact.isFriend());
+                    intent.putExtra("isFriend", contact.isFriend());*/
                     context.startActivity(intent);
                     //Toast.makeText(getContext(), contact.getTitle(), Toast.LENGTH_SHORT).show();
                     //Toast.makeText(getContext(), String.format("Clicked on position #%s of Section %s", sectionAdapter.getSectionPosition(itemHolder.getAdapterPosition()), title), Toast.LENGTH_SHORT).show();

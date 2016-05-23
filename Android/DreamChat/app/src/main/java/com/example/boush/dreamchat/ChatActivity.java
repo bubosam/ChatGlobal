@@ -25,6 +25,7 @@ public class ChatActivity extends ListActivity {
     private String lastName;
     private String messageText;
     private String date;
+    private Contact contact;
 
     private TextView txtName;
     private EditText etxtSendMsg;
@@ -48,10 +49,17 @@ public class ChatActivity extends ListActivity {
         if (savedInstanceState == null) {
             Bundle extras = getIntent().getExtras();
             if(extras != null) {
-                firstName=extras.getString("firstName");
-                lastName=extras.getString("lastName");
-                messageText=extras.getString("message");
-                date=extras.getString("date");
+                if (getIntent().hasExtra("contact")){
+                    contact = (Contact) extras.getParcelable("contact");
+                    firstName = contact.getFirstName();
+                    lastName = contact.getLastName();
+                }
+                else{
+                    firstName=extras.getString("firstName");
+                    lastName=extras.getString("lastName");
+                    messageText=extras.getString("message");
+                    date=extras.getString("date");
+                }
             }
         }
         setContentView(R.layout.activity_chat);
