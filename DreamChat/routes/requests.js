@@ -7,11 +7,11 @@ var authorization = require(appRoot + "/API/authorization");
 
 //sending sender id and receiver id to database and creating row with requestid information
 router.post('/', function (req, res) {
-    authorization.authorize(req, function (access) { 
+    authorization.authorize(req, function (access) {
         if (access) {
             var sender = req.headers.userid;
             var receiver = req.body.receiver;
-            
+
             requests.sendRequest(sender, receiver, function (success,code) {
                 if (success) {
                     res.json({
@@ -32,7 +32,7 @@ router.post('/', function (req, res) {
             code = 401;
         }
         res.statusCode = code;
-    });    
+    });
 });
 
 //delete row from database where there is a requestid
@@ -40,21 +40,21 @@ router.delete('/', function (req, res) {
     authorization.authorize(req, function (access) {
         if (access) {
             var requestid = req.body.requestid;
-            requests.cancelRequest(requestid, function (success) {
+            requests.cancelRequest(requestid, userid, function (success,code) {
                 if (success) {
                     res.json({
                         "message": "request canceled successfully"
                     });
-                    res.statusCode = 200;
+                    res.statusCode = code;
                 }
                 else {
                     res.json({
                         "message": "unexpected error occured while deleting"
                     });
-                    res.statusCode = 500;
+                    res.statusCode = code;
                 }
             });
-        }    
+        }
         else {
             res.json({
                 "message": "authorization failed"
@@ -74,19 +74,17 @@ router.post('/accept', function (req, res) {
                 code = statuscode;
                 if (success) {
                     res.json({
-                        message: message
+                        "message": message
                     });
                 }
                 else {
                     var response= {
                         "message": message
                     }
-                    console.log("holahe4756j");
                     res.json(response);
-                    console.log("holahe4756j");
                 }
             });
-        }    
+        }
         else {
             res.json({
                 "message": "authorization failed"
@@ -100,9 +98,10 @@ router.post('/accept', function (req, res) {
 //load pending requests from table friend_requests
 router.get('/', function (req, res) {
     var code;
-    var userid = req.headers.userid;
+
     authorization.authorize(req, function (access) {
-        if (access) {           
+        if (access) {
+            var userid = req.headers.userid;
             requests.loadRequests(userid, function (results) {
                 var response = {
                     results: results,
@@ -118,7 +117,7 @@ router.get('/', function (req, res) {
             });
             res.statusCode = 401;
         }
-    });    
+    });
 });
 
 module.exports = router;
