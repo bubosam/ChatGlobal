@@ -1,5 +1,4 @@
 ﻿var db = require('./DBconnect.js');
-var hash = require('password-hash');
 
 
 module.exports = {
@@ -7,7 +6,7 @@ module.exports = {
         db.query("SELECT userid, password FROM users WHERE email LIKE '" + email + "'", function(result) {
             var userid;
 			var token;
-            if (result != undefined && hash.verify(password, result[0].password)) {
+            if (result != undefined && result[0].password==password) {
 				userid = result[0].userid;
 					console.log("login successful " + result[0].userid);
 					require('crypto').randomBytes(15, function (err, buffer) {
