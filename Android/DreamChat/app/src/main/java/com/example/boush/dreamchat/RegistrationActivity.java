@@ -107,9 +107,11 @@ public class RegistrationActivity extends AppCompatActivity {
             // form field with an error.
             focusView.requestFocus();
         } else {
+            showMessage();
             try {
                 // Network access.
                 new Server().register(usernameStr, emailStr, passwordStr, getApplicationContext());
+                showMessage();
 
                 /*Map<String, String> postParam = new HashMap<String, String>();
                 postParam.put("username", usernameStr);
@@ -191,5 +193,20 @@ public class RegistrationActivity extends AppCompatActivity {
         return pattern.matcher(password).matches();
     }
 
+    private void showMessage(){
+        AlertDialog alertDialog = new AlertDialog.Builder(RegistrationActivity.this).create();
+        alertDialog.setTitle("Registration");
+        alertDialog.setMessage("You have been registered ! , now you can login ");
+        alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                        Intent intent = new Intent(RegistrationActivity.this, LoginActivity.class);
+                        startActivity(intent);
+                    }
+                });
+        alertDialog.show();
+
+    }
 
 }
