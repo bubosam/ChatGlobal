@@ -2,7 +2,7 @@
 
 module.exports = {
     load: function (userid,callback) {
-        db.query("SELECT FROM users WHERE userid="+userid+"",
+        db.query("SELECT userid,name,surname,nickname FROM users WHERE userid="+userid+"",
         function (result) {
             if (typeof callback === "function") {
                 callback(result[0]);
@@ -21,12 +21,20 @@ module.exports = {
         });
 	},
 
-	searchUser: function (name, callback) {
-		db.Query("SELECT * FROM users WHERE name LIKE '%"+name+"%' OR surname LIKE '%" + name + "%' OR nickname LIKE '%" + name + "%' OR email LIKE '%" + name + "%'",
-        function (results) {
-			if (typeof callback === "function") {
-				callback(results);
-			}
-		});
+	search: function (name, callback) {
+    var substrings = name.split(" ");
+    var allResults = [];
+    substrings.forEach(function(item) {
+      db.query("SELECT userid,name,surname,nickname FROM users WHERE name LIKE '%"+item+"%' OR surname LIKE '%" + item + "%' OR nickname LIKE '%" + item + "%' OR email LIKE '%" + item + "%'",
+          function (results) {
+              allResults.push(results);
+              //console.log(results);
+              //console.log(allResults);
+  		});
+    });
+    if (typeof callback === "function") {
+        callback(allResults);
+    }
+
 	},
 };
