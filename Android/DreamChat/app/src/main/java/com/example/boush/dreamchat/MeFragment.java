@@ -161,36 +161,39 @@ public class MeFragment extends Fragment {
     }
 
     public void updateUser() {
-        if (!username.getText().toString().isEmpty() ) {
+        if (!username.getText().toString().isEmpty() )
+        {
             String usernameVal = username.getText().toString().trim();
             jSonSend("username",usernameVal);
         }
+
         if(!email.getText().toString().isEmpty())
         {
             String emailVal = email.getText().toString();
-            jSonSend("email",emailVal);
+            jSonSend("email", emailVal);
         }
 
         if(!password.getText().toString().isEmpty())
-
         {
             String passwordVal = password.getText().toString();
-            jSonSend("password",passwordVal);
-
+            jSonSend("password", passwordVal);
         }
 
         if(!phone.getText().toString().isEmpty()){
             String phoneVal = phone.getText().toString();
-            jSonSend("phone",phoneVal);
+            jSonSend("phone", phoneVal);
         }
+
         if(!firstName.getText().toString().isEmpty()){
             String firstNameVal = firstName.getText().toString();
-            jSonSend("firstName",firstNameVal);
+            jSonSend("firstName", firstNameVal);
         }
+
         if(!lastName.getText().toString().isEmpty()){
             String lastNameVal = lastName.getText().toString();
-            jSonSend("lastName",lastNameVal);
+            jSonSend("lastName", lastNameVal);
         }
+
     }
 
     public void jSonSend(String type,String value){
@@ -222,6 +225,8 @@ public class MeFragment extends Fragment {
                                 editor.putInt("userid", userid);
                                 editor.putString("token", token);
                                 editor.apply();
+                                Toast.makeText(getActivity(), "Information updated !",
+                                        Toast.LENGTH_LONG).show();
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }
@@ -269,7 +274,5 @@ public class MeFragment extends Fragment {
         return cropImg;
     }
 }
-
-
 
 

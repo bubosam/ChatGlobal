@@ -48,6 +48,9 @@ public class MenuActivity extends AppCompatActivity {
         setContentView(R.layout.activity_menu);
         /*Toast.makeText(MenuActivity.this, "1 brana",
                 Toast.LENGTH_LONG).show();*/
+
+
+
         mTitle = mDrawerTitle = getTitle();
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);

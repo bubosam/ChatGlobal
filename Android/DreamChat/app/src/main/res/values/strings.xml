@@ -37,11 +37,11 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="title_activity_chat">ChatActivity</string>
+    <string name="title_activity_chat">Dream Chat</string>
     <string name="action_settings">Settings</string>
     <string name="section_format">Hello World from section: %1$d</string>
     <string name="username">Username</string>
-    <string name="searchview">Type search query...</string>
+    <string name="searchview">Find a Contact...</string>
     <string name="menu_friend_message">Write a Message</string>
     <string name="menu_friend_profile">View Profile</string>
     <string name="menu_friend_remove">Remove Person from Friends</string>
