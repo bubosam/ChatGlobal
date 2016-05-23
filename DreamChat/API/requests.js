@@ -25,68 +25,96 @@ module.exports = {
                     });
                 }
             });
-        })		
+        })
 	},
 
-	cancelRequest: function (requestid, callback) {
-		db.nonQuery("DELETE FROM friend_requests WHERE requestid="+requestid, function (success) {
-			if (typeof callback === "function") {
-				callback(success);
-			}
-		});
+	cancelRequest: function (requestid, userid, callback) {
+    db.query("SELECT * FROM friend_requests WHERE requestid="+requestid, function(result){
+      if(result[0].sender==userid || result[0].receiver==userid){
+        db.nonQuery("DELETE FROM friend_requests WHERE requestid="+requestid, function (success) {
+    			if (typeof callback === "function") {
+            if(success){
+              callback(true,200);
+            }
+            else{
+              callback(false,500);
+            }
+    			}
+    		});
+      }
+      else{
+        if (typeof callback === "function") {
+          callback(false,401);
+        }
+      }
+    });
+
+
 	},
 
 	acceptRequest: function (requestid, userid, callback) {
         var overallSuccess = true;
         var code;
         var message;
-        db.query("SELECT * FROM friend_requests  WHERE requestid=" + requestid, function (result) {
-            var senderid = result[0].sender;
-            var receiverid = result[0].receiver;
-            console.log(userid+" "+receiverid);
-            if (userid == receiverid) {
-                if (senderid != "undefined" && receiverid != "undefined") {
-                    db.nonQuery("DELETE FROM friendships  WHERE  (user1='" + senderid + "' AND user2='" + receiverid + "') OR (user1='" + receiverid + "' AND user2='" + senderid + "')", function () {
-                        db.nonQuery("INSERT INTO friendships(user1,user2) VALUES(" + result[0].sender + ", " + result[0].receiver + ")", function (success) {
-                            if (success) {
-                                db.nonQuery("DELETE FROM friend_requests WHERE requestid=" + requestid, function (success) {
-                                    if (success) {
-                                        message="request accetion successful";
-                                        code = 200;
-                                    }
-                                    else {
-                                        message ="deletion failed while accepting request";
-                                        overallSuccess = false;
-                                        code = 200;
-                                    }
-                                });
-                            }
-                            else {
-                                message ="insertion failed while accepting request";
-                                overallSuccess = false;
-                                code = 500;
-                            }
-                        });
-                    });
-                }
-                else {
-                    message ="selection failed while accepting request";
-                    overallSuccess = false;
-                    code = 400; //bad request
-                }	
+        db.query("SELECT * FROM friend_requests  WHERE requestid=" + requestid, function (results) {
+            if(results.length!=0){
+              var senderid = results[0].sender;
+              var receiverid = results[0].receiver;
+              console.log(userid+" "+receiverid);
+              if (userid == receiverid) {
+                  if (senderid != "undefined" && receiverid != "undefined") {
+                      db.nonQuery("DELETE FROM friendships  WHERE  (user1='" + senderid + "' AND user2='" + receiverid + "') OR (user1='" + receiverid + "' AND user2='" + senderid + "')", function () {
+                          db.nonQuery("INSERT INTO friendships(user1,user2) VALUES(" + result[0].sender + ", " + result[0].receiver + ")", function (success) {
+                              if (success) {
+                                  db.nonQuery("DELETE FROM friend_requests WHERE requestid=" + requestid, function (success) {
+                                      if (success) {
+                                          message="request acception successful";
+                                          code = 200;
+                                      }
+                                      else {
+                                          message ="deletion failed while accepting request";
+                                          overallSuccess = false;
+                                          code = 200;
+                                      }
+                                  });
+                              }
+                              else {
+                                  message ="insertion failed while accepting request";
+                                  overallSuccess = false;
+                                  code = 500;
+                              }
+                          });
+                      });
+                  }
+                  else {
+                      message ="request not found";
+                      overallSuccess = false;
+                      code = 400; //bad request
+                  }
+              }
+              else {
+                  message ="unauthorized access";
+                  overallSuccess = false;
+                  code = 401;
+              }
+              if (typeof callback === "function") {
+                  //console.log("overallsuccess: "+ overallSuccess+"message: " + message + "    code: " + code);
+                  callback(overallSuccess, code, message);
+              }
             }
-            else {
-                message ="unauthorized access";
-                overallSuccess = false;
-                code = 401;
-            }
+          else{
+            message ="request not found";
+            overallSuccess = false;
+            code = 400; //bad request
             if (typeof callback === "function") {
-                console.log("overallsuccess: "+ overallSuccess+"message: " + message + "    code: " + code);
+                //console.log("overallsuccess: "+ overallSuccess+"message: " + message + "    code: " + code);
                 callback(overallSuccess, code, message);
-            }	       				           	
-        });        
+            }
+          }
+
+        });
 	},
-	
+
 
 	loadRequests: function (userid,callback) {
 		db.query("SELECT requestid,userid,name,surname,nickname FROM friend_requests INNER JOIN users ON friend_requests.sender=users.userid WHERE receiver=" + userid, function (results) {

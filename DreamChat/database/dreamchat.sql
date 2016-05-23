@@ -92,11 +92,11 @@ CREATE TABLE IF NOT EXISTS `users` (
 --
 
 INSERT INTO `users` (`userID`, `nickname`, `email`, `password`, `phone`, `name`, `surname`, `avatar`) VALUES
-(1, 'nemamradgulas', 'vymysleny@email.com', 'sha1$57138d75$1$aa1f9b9e6b396e7c63560b7c49570d9da794384a', NULL, NULL, NULL, NULL),
-(2, 'mickeymouse', 'mickey@mouse.sk', 'sha1$57138d75$1$aa1f9b9e6b396e7c63560b7c49570d9da794384a', NULL, NULL, NULL, NULL),
-(3, 'oskar', 'zase@prace.com', 'sha1$57138d75$1$aa1f9b9e6b396e7c63560b7c49570d9da794384a', NULL, NULL, NULL, NULL),
-(4, 'donaldTrumpz', 'fake@donald.com', 'sha1$57138d75$1$aa1f9b9e6b396e7c63560b7c49570d9da794384a', NULL, NULL, NULL, NULL),
-(5, 'dominikkolesar', 'dominik@kolesar.sk', 'sha1$57138d75$1$aa1f9b9e6b396e7c63560b7c49570d9da794384a', NULL, NULL, NULL, NULL);
+(1, 'nemamradgulas', 'vymysleny@email.com', 'hesloheslo', NULL, NULL, NULL, NULL),
+(2, 'mickeymouse', 'mickey@mouse.sk', 'hesloheslo', NULL, NULL, NULL, NULL),
+(3, 'oskar', 'zase@prace.com', 'hesloheslo', NULL, NULL, NULL, NULL),
+(4, 'donaldTrumpz', 'fake@donald.com', 'hesloheslo', NULL, NULL, NULL, NULL),
+(5, 'dominikkolesar', 'dominik@kolesar.sk', 'hesloheslo', NULL, NULL, NULL, NULL);
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
