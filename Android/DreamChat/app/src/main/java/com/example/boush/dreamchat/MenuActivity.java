@@ -1,12 +1,10 @@
 package com.example.boush.dreamchat;
 
-
-import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v4.app.Fragment;
-import android.app.FragmentTransaction;
-import android.content.Context;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.FragmentManager;
@@ -15,26 +13,16 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.ContextMenu;
-import android.view.LayoutInflater;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.TextView;
-import android.widget.Toast;
 
 public class MenuActivity extends AppCompatActivity {
 
     ViewPager pager;
     private Toolbar toolbar;
     TabLayout tabLayout;
-    private ImageButton menu;
     private String[] mNavigationDrawerItemTitles;
     private DrawerLayout mDrawerLayout;
     private ListView mDrawerList;
@@ -46,10 +34,6 @@ public class MenuActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu);
-        /*Toast.makeText(MenuActivity.this, "1 brana",
-                Toast.LENGTH_LONG).show();*/
-
-
 
         mTitle = mDrawerTitle = getTitle();
         toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -190,8 +174,8 @@ public class MenuActivity extends AppCompatActivity {
                 fragment = new HelpFragment();
                 break;
             case 3 :
-                    Intent intent = new Intent(this,LoginActivity.class);
-                    startActivity(intent);
+
+                    showMessage();
                 break;
 
             default:
@@ -210,6 +194,22 @@ public class MenuActivity extends AppCompatActivity {
         } else {
             Log.e("MainActivity", "Error in creating fragment");
         }
+    }
+
+    private void showMessage(){
+        AlertDialog alertDialog = new AlertDialog.Builder(MenuActivity.this).create();
+        alertDialog.setTitle("Log out");
+        alertDialog.setMessage("You have been logged out ! ");
+        alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                        Intent intent = new Intent(MenuActivity.this,LoginActivity.class);
+                        startActivity(intent);
+                    }
+                });
+        alertDialog.show();
+
     }
 
 }

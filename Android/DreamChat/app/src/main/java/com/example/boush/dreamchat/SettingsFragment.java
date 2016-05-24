@@ -41,7 +41,8 @@ public class SettingsFragment extends Fragment {
         titleList.add (new SettingItem("People",R.drawable.ic_people));
         titleList.add (new SettingItem("Photos",R.drawable.ic_phot));
         titleList.add (new SettingItem("Accounts",R.drawable.ic_acc));
-        titleList.add (new SettingItem("Profile",R.drawable.ic_person));
+        titleList.add (new SettingItem("Profile",R.drawable.ic_person_black));
+        titleList.add (new SettingItem("Themes",R.drawable.palette_black_18x18));
 
         recyclerView = (RecyclerView) rootView.findViewById(R.id.recyclerview);
 

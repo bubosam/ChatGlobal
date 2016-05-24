@@ -3,17 +3,32 @@
     android:layout_height="wrap_content"
     android:fillViewport="true"
     android:background="@color/colorBackground">
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.example.boush.dreamchat.MeFragment">
+
+
 
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:orientation="vertical"
         android:layout_width="fill_parent"
         android:layout_height="900dp"
         >
+        <android.support.v7.widget.Toolbar
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:layout_width="match_parent"
+            android:id="@+id/toolbar"
+            android:layout_height="?attr/actionBarSize"
+            android:background="@color/colorPrimaryDark"
+            app:layout_collapseMode="pin"
+            app:layout_scrollFlags="scroll|enterAlways"
+            app:popupTheme="@style/AppTheme" />
 
         <ImageView android:id="@+id/ImageView" android:layout_width="match_parent"
             android:layout_height="match_parent" android:layout_weight="1"
@@ -106,9 +121,10 @@
 
             android:onClick="rotate"
             android:paddingRight="20dp"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true" />
+            android:layout_marginBottom="59dp"
+            android:layout_above="@+id/uploadPhoto"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true" />
 
         <TextView
             android:layout_width="wrap_content"

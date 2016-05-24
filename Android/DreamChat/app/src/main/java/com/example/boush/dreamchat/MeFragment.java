@@ -2,6 +2,7 @@ package com.example.boush.dreamchat;
 
 
 
+import android.app.ActionBar;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -18,6 +19,10 @@ import android.provider.MediaStore;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 
+
+import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -72,6 +77,7 @@ public class MeFragment extends Fragment {
     private EditText lastName;
 
     float deg;
+    private Toolbar toolbar;
 
     private static final String updateUrl = "http://10.0.2.2:1337/update";
     String tag_json_obj = "json_obj_req";
@@ -95,6 +101,8 @@ public class MeFragment extends Fragment {
         phone = (EditText) view.findViewById(R.id.phoneUpdate);
         firstName = (EditText) view.findViewById(R.id.firstNameUpdate);
         lastName = (EditText) view.findViewById(R.id.lastNameUpdate);
+        toolbar = (Toolbar) view.findViewById(R.id.toolbar);
+        ((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
 
         deg = imageView.getRotation();
 
@@ -273,6 +281,8 @@ public class MeFragment extends Fragment {
 
         return cropImg;
     }
+
+
 }
 
 

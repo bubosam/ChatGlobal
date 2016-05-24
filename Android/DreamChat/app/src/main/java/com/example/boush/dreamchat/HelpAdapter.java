@@ -2,8 +2,6 @@ package com.example.boush.dreamchat;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -16,12 +14,12 @@ import android.widget.Toast;
 import java.util.List;
 
 /**
- * Created by BousH on 23.5.2016.
+ * Created by BousH on 24.5.2016.
  */
-public class SettingsAdapter extends RecyclerView.Adapter<SettingsAdapter.MyViewHolder> {
+public class HelpAdapter extends RecyclerView.Adapter<HelpAdapter.MyViewHolder> {
 
     private Context context;
-    private List<SettingItem> titleList;
+    private List<HelpItem> titleList;
 
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
@@ -37,12 +35,12 @@ public class SettingsAdapter extends RecyclerView.Adapter<SettingsAdapter.MyView
         }
     }
 
-    public SettingsAdapter(List<SettingItem> titleList) {
+    public HelpAdapter(List<HelpItem> titleList) {
         this.titleList = titleList;
     }
 
     @Override
-    public SettingsAdapter.MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public HelpAdapter.MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.settings_row, parent, false);
 
@@ -51,7 +49,7 @@ public class SettingsAdapter extends RecyclerView.Adapter<SettingsAdapter.MyView
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                SettingItem title = titleList.get(holder.getAdapterPosition());
+                HelpItem title = titleList.get(holder.getAdapterPosition());
                 Log.d("onclick", title.getTitle());
 
 
@@ -67,16 +65,16 @@ public class SettingsAdapter extends RecyclerView.Adapter<SettingsAdapter.MyView
 
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
-        SettingItem settingItem = titleList.get(position);
-        holder.title.setText(settingItem.getTitle());
-holder.imageview.setImageResource(settingItem.getPhotoId());
+        HelpItem helpItem = titleList.get(position);
+        holder.title.setText(helpItem.getTitle());
+        holder.imageview.setImageResource(helpItem.getPhotoId());
 
         final int pos = position;
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                SettingItem setting = titleList.get(pos);
+                HelpItem setting = titleList.get(pos);
                 Toast.makeText(context, setting.getTitle(), Toast.LENGTH_SHORT).show();
 
 
