@@ -42,9 +42,6 @@ public class RegistrationActivity extends AppCompatActivity {
     private Button register;
 
 
-    private static final String registerUrl = "http://10.0.2.2:1337/register";
-    String tag_json_obj = "json_obj_req";
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -107,72 +104,15 @@ public class RegistrationActivity extends AppCompatActivity {
             // form field with an error.
             focusView.requestFocus();
         } else {
-            showMessage();
-            try {
-                // Network access.
-                new Server().register(usernameStr, emailStr, passwordStr, getApplicationContext());
-                showMessage();
+            //showMessage();
+           // Network access.
 
-                /*Map<String, String> postParam = new HashMap<String, String>();
-                postParam.put("username", usernameStr);
-                postParam.put("email", emailStr);
-                postParam.put("password", passwordStr);
-                Log.d("Volley JSON to send ", new JSONObject(postParam).toString());
-
-                JsonObjectRequest jsonObjReq = new JsonObjectRequest(Request.Method.POST,
-                        registerUrl, new JSONObject(postParam),
-                        new Response.Listener<JSONObject>() {
-
-                            @Override
-                            public void onResponse(JSONObject response) {
-                                Log.d("Volley ", response.toString());
-                                String token = null;
-                                int userid;
-                                try {
-                                    token = response.getString("token");
-                                    userid = response.getInt("userid");
-                                    Log.d("Volley token", token);
-                                    Log.d("Volley userid", String.valueOf(userid));
-                                    SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-                                    SharedPreferences.Editor editor = sharedPref.edit();
-                                    editor.clear();
-                                    editor.apply();
-                                    editor.putInt("userid", userid);
-                                    editor.putString("token", token);
-                                    editor.apply();
-                                } catch (JSONException e) {
-                                    e.printStackTrace();
-                                }
-                            }
-                        }, new Response.ErrorListener() {
-
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        VolleyLog.d("Volley ", "Error: " + error.getMessage());
-                    }
-                })
-
-                {
-                    /**
-                     * Passing some request headers
-                     */
-                    /*@Override
-                    public Map<String, String> getHeaders() throws AuthFailureError {
-                        HashMap<String, String> headers = new HashMap<String, String>();
-                        headers.put("Content-Type", "application/json; charset=utf-8");
-                        return headers;
-                    }
-                };
-
-                // Adding request to request queue
-                AppController.getInstance().addToRequestQueue(jsonObjReq, tag_json_obj);*/
-
-
-            } catch (Exception e) {
-                VolleyLog.d("Volley ", "Error: "+e.toString());
-            }
-
-
+           if (new Server().register(usernameStr, emailStr, passwordStr, getApplicationContext())){
+               showMessage();
+           }
+           else {
+               showErrorMessage();
+           }
         }
     }
 
@@ -196,7 +136,7 @@ public class RegistrationActivity extends AppCompatActivity {
     private void showMessage(){
         AlertDialog alertDialog = new AlertDialog.Builder(RegistrationActivity.this).create();
         alertDialog.setTitle("Registration");
-        alertDialog.setMessage("You have been registered ! , now you can login ");
+        alertDialog.setMessage("You have been registered! Now you can login.");
         alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
@@ -207,6 +147,19 @@ public class RegistrationActivity extends AppCompatActivity {
                 });
         alertDialog.show();
 
+    }
+
+    private void showErrorMessage(){
+        AlertDialog alertDialog = new AlertDialog.Builder(RegistrationActivity.this).create();
+        alertDialog.setTitle("Registration");
+        alertDialog.setMessage("Registration unsuccessful, please try again later.");
+        alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+        alertDialog.show();
     }
 
 }

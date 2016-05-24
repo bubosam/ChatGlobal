@@ -24,12 +24,18 @@ import java.util.Map;
 public class Server {
     private static final String loginUrl = "http://10.0.2.2:1337/login";
     private static final String registerUrl = "http://10.0.2.2:1337/register";
+    private static final String updateUrl = "http://10.0.2.2:1337/update";
+    private static final String logoutUrl = "http://10.0.2.2:1337/logout";
 
     private static final String tag_json_obj = "json_obj_req";
 
+    private int userid;
+    private String token;
+
+
     public void login(String email, String password, final Context context){
 
-            Map<String, String> postParam = new HashMap<String, String>();
+        Map<String, String> postParam = new HashMap<String, String>();
             postParam.put("email", email);
             postParam.put("password", password);
             Log.d("Volley JSON to send ", new JSONObject(postParam).toString());
@@ -41,8 +47,8 @@ public class Server {
                         @Override
                         public void onResponse(JSONObject response) {
                             Log.d("Volley ", response.toString());
-                            String token = null;
-                            int userid;
+                            //String token = null;
+                            //int userid;
                             try {
                                 token = response.getString("token");
                                 userid = response.getInt("userid");
@@ -94,12 +100,20 @@ public class Server {
 
     }
 
-    public void register(String username, String email, String password, Context context ){
+    private boolean regSuccess=false;
+
+    public void setReg(boolean s){
+        regSuccess=s;
+    }
+
+    public boolean register(String nickname, String email, String password, Context context ){
+
+        boolean regSuccess;
 
             Map<String, String> postParam = new HashMap<String, String>();
-            postParam.put("username", username);
             postParam.put("email", email);
             postParam.put("password", password);
+            postParam.put("nickname", nickname);
             Log.d("Volley JSON to send ", new JSONObject(postParam).toString());
 
             final Context appcontext = context;
@@ -111,33 +125,28 @@ public class Server {
                         @Override
                         public void onResponse(JSONObject response) {
                             Log.d("Volley ", response.toString());
-                            String token = null;
-                            int userid;
+
+                            String success = null;
+
                             try {
-                                token = response.getString("token");
-                                userid = response.getInt("userid");
-                                Log.d("Volley token", token);
-                                Log.d("Volley userid", String.valueOf(userid));
-                                SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(appcontext);
-                                SharedPreferences.Editor editor = sharedPref.edit();
-                                editor.clear();
-                                editor.apply();
-                                editor.putInt("userid", userid);
-                                editor.putString("token", token);
-                                editor.apply();
+                                success = response.getString("success");
+                                Log.d("Volley Reg Success", success);
+                                if (success.equals("true")){
+                                    setReg(true);
+                                }
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }
                         }
-                    }, new Response.ErrorListener() {
+                    },
+                    new Response.ErrorListener() {
 
-                @Override
-                public void onErrorResponse(VolleyError error) {
-                    VolleyLog.d("Volley ", "Error: " + error.getMessage());
-                }
-            })
-
-            {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            //VolleyLog.d("Volley ", "Error: " + error.getMessage())
+                            Log.d("Error kod", error.getMessage()+"");
+                        }
+            }) {
                 /**
                  * Passing some request headers
                  */
@@ -151,6 +160,70 @@ public class Server {
 
             // Adding request to request queue
             AppController.getInstance().addToRequestQueue(jsonObjReq, tag_json_obj);
+       return this.regSuccess;
     }
+
+    public void update(String username, String email, String password, String phone, String firstName, String lastName, Context context){
+        Map<String, String> postParam = new HashMap<String, String>();
+        postParam.put("username", username);
+        postParam.put("email", email);
+        postParam.put("password", password);
+        postParam.put("phone", phone);
+        postParam.put("firstName", firstName);
+        postParam.put("lastName", lastName);
+
+        Log.d("Volley JSON to send ", new JSONObject(postParam).toString());
+
+        final Context appContext = context;
+
+        JsonObjectRequest jsonObjReq = new JsonObjectRequest(Request.Method.POST,
+                updateUrl, new JSONObject(postParam),
+                new Response.Listener<JSONObject>() {
+
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        Log.d("Volley ", response.toString());
+                        String token = null;
+                        int userid;
+                        try {
+                            token = response.getString("token");
+                            userid = response.getInt("userid");
+                            Log.d("Volley token", token);
+                            Log.d("Volley userid", String.valueOf(userid));
+                            SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(appContext);
+                            SharedPreferences.Editor editor = sharedPref.edit();
+                            editor.clear();
+                            editor.apply();
+                            editor.putInt("userid", userid);
+                            editor.putString("token", token);
+                            editor.apply();
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }, new Response.ErrorListener() {
+
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                VolleyLog.d("Volley ", "Error: " + error.getMessage());
+            }
+        })
+
+        {
+            /**
+             * Passing some request headers
+             */
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                HashMap<String, String> headers = new HashMap<String, String>();
+                headers.put("Content-Type", "application/json; charset=utf-8");
+                return headers;
+            }
+        };
+
+        // Adding request to request queue
+        AppController.getInstance().addToRequestQueue(jsonObjReq, tag_json_obj);
+    }
+
 
 }
