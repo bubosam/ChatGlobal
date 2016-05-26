@@ -1,0 +1,14 @@
+import React from 'react';
+import DashBoardComp from './DashBoardComp.jsx';
+
+class DashBoard extends React.Component {
+  render() {
+    return (
+        <div>
+            <DashBoardComp/>
+        </div>
+    );
+  }
+}
+
+export default DashBoard;

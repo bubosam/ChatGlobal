@@ -58,15 +58,6 @@ CREATE TABLE IF NOT EXISTS `tokens` (
   UNIQUE KEY `token` (`token`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
---
--- Sťahujem dáta pre tabuľku `tokens`
---
-
-INSERT INTO `tokens` (`userID`, `token`) VALUES
-(3, 'a019ed400268a575b4638727d8f2b4'),
-(2, '86b36a19041b9b7401523fb05371c4'),
-(1, 'a02b2d69b4eadab3507ca7451b4b3b');
-
 -- --------------------------------------------------------
 
 --
