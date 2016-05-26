@@ -19,6 +19,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.Toast;
 
 public class MenuActivity extends AppCompatActivity {
 
@@ -176,13 +177,7 @@ public class MenuActivity extends AppCompatActivity {
                 fragment = new HelpFragment();
                 break;
             case 3 :
-                if (new Server().logout(getApplicationContext())) {
-                    SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-                    SharedPreferences.Editor editor = sharedPref.edit();
-                    editor.clear();
-                    editor.apply();
-                    showMessage();
-                }
+                showMessage();
                 break;
 
             default:
@@ -211,8 +206,17 @@ public class MenuActivity extends AppCompatActivity {
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.dismiss();
-                        Intent intent = new Intent(MenuActivity.this, LoginActivity.class);
-                        startActivity(intent);
+                        if (new Server().logout(getApplicationContext())){
+                            SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+                            SharedPreferences.Editor editor = sharedPref.edit();
+                            editor.clear();
+                            editor.apply();
+                            Intent intent = new Intent(MenuActivity.this, LoginActivity.class);
+                            startActivity(intent);
+                        }
+                        else{
+                            Toast.makeText(getApplicationContext(), "Logout unsuccessful.", Toast.LENGTH_SHORT);
+                        }
                     }
                 });
         alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, "NO",
