@@ -206,13 +206,20 @@ public class MenuActivity extends AppCompatActivity {
     private void showMessage(){
         AlertDialog alertDialog = new AlertDialog.Builder(MenuActivity.this).create();
         alertDialog.setTitle("Log out");
-        alertDialog.setMessage("You have been logged out ! ");
-        alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
+        alertDialog.setMessage("Are you sure, you want to logout? ");
+        alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "YES",
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.dismiss();
-                        Intent intent = new Intent(MenuActivity.this,LoginActivity.class);
+                        Intent intent = new Intent(MenuActivity.this, LoginActivity.class);
                         startActivity(intent);
+                    }
+                });
+        alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, "NO",
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
                     }
                 });
         alertDialog.show();
