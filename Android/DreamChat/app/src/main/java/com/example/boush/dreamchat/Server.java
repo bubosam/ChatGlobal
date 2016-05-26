@@ -26,12 +26,40 @@ public class Server {
     private static final String registerUrl = "http://10.0.2.2:1337/register";
     private static final String updateUrl = "http://10.0.2.2:1337/update";
     private static final String logoutUrl = "http://10.0.2.2:1337/logout";
+    private static final String requestUrl = "http://10.0.2.2:1337/requests";
+    private static final String reqAcceptUrl = "http://10.0.2.2:1337/requests/accept";
 
     private static final String tag_json_obj = "json_obj_req";
 
-    private int userid;
-    private String token;
+    private boolean sendReqSucc=false;
 
+    public void setSendReq(boolean sendReqSucc) {
+        this.sendReqSucc = sendReqSucc;
+    }
+
+    private boolean regSuccess=false;
+
+    public void setReg(boolean s){
+        regSuccess=s;
+    }
+
+    private boolean logoutSuccess=false;
+
+    public void setLogout(boolean logout) {
+        this.logoutSuccess = logout;
+    }
+
+    private boolean cancelReq=false;
+
+    public void setCancelReq(boolean cancelReq) {
+        this.cancelReq = cancelReq;
+    }
+
+    private boolean acceptReq=false;
+
+    public void setAcceptReq(boolean acceptReq) {
+        this.acceptReq = acceptReq;
+    }
 
     public void login(String email, String password, final Context context){
 
@@ -47,8 +75,9 @@ public class Server {
                         @Override
                         public void onResponse(JSONObject response) {
                             Log.d("Volley ", response.toString());
-                            //String token = null;
-                            //int userid;
+                            Log.d("Response status code", String.valueOf(response));
+                            String token = null;
+                            int userid;
                             try {
                                 token = response.getString("token");
                                 userid = response.getInt("userid");
@@ -67,9 +96,15 @@ public class Server {
                         }
                     }, new Response.ErrorListener() {
 
+
+
                 @Override
                 public void onErrorResponse(VolleyError error) {
                     VolleyLog.d("Volley ", "Error: " + error.getMessage());
+                    // Handle the error
+                    Log.d("Error status code", String.valueOf(error.networkResponse.statusCode));
+                    //error.networkResponse.data;
+
                 }
             })
 
@@ -100,15 +135,7 @@ public class Server {
 
     }
 
-    private boolean regSuccess=false;
-
-    public void setReg(boolean s){
-        regSuccess=s;
-    }
-
     public boolean register(String nickname, String email, String password, Context context ){
-
-        boolean regSuccess;
 
             Map<String, String> postParam = new HashMap<String, String>();
             postParam.put("email", email);
@@ -125,7 +152,6 @@ public class Server {
                         @Override
                         public void onResponse(JSONObject response) {
                             Log.d("Volley ", response.toString());
-
                             String success = null;
 
                             try {
@@ -163,7 +189,7 @@ public class Server {
        return this.regSuccess;
     }
 
-    public void update(String username, String email, String password, String phone, String firstName, String lastName, Context context){
+    /*public void update(String username, String email, String password, String phone, String firstName, String lastName, Context context){
         Map<String, String> postParam = new HashMap<String, String>();
         postParam.put("username", username);
         postParam.put("email", email);
@@ -213,7 +239,7 @@ public class Server {
             /**
              * Passing some request headers
              */
-            @Override
+            /*@Override
             public Map<String, String> getHeaders() throws AuthFailureError {
                 HashMap<String, String> headers = new HashMap<String, String>();
                 headers.put("Content-Type", "application/json; charset=utf-8");
@@ -223,7 +249,286 @@ public class Server {
 
         // Adding request to request queue
         AppController.getInstance().addToRequestQueue(jsonObjReq, tag_json_obj);
+    }*/
+
+    public boolean logout(final Context context){
+
+            Map<String, String> postParam = new HashMap<String, String>();
+            Log.d("Volley JSON to send ", new JSONObject(postParam).toString());
+
+            JsonObjectRequest jsonObjReq = new JsonObjectRequest(Request.Method.DELETE,
+                    logoutUrl, new JSONObject(postParam),
+                    new Response.Listener<JSONObject>() {
+
+                        @Override
+                        public void onResponse(JSONObject response) {
+                            Log.d("Volley ", response.toString());
+                            String success = null;
+
+                            try {
+                                success = response.getString("success");
+                                Log.d("Volley Reg Success", success);
+                                if (success.equals("true")){
+                                    setLogout(true);
+                                }
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    }, new Response.ErrorListener() {
+
+
+
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    //VolleyLog.d("Volley ", "Error: " + error.getMessage());
+                    Log.d("Error kod", error.getMessage()+"");
+                }
+            })
+
+            {
+                /**
+                 * Passing some request headers
+                 * */
+                @Override
+                public Map<String, String> getHeaders() throws AuthFailureError {
+                    HashMap<String, String> headers = new HashMap<String, String>();
+                    SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+                    String token = prefs.getString("token", null);
+                    int userid = prefs.getInt("userid", 0);
+                    headers.put("userid", String.valueOf(userid));
+                    headers.put("token", token);
+                    headers.put("Content-Type", "application/json; charset=utf-8");
+                    return headers;
+                }
+            };
+
+            // Adding request to request queue
+            AppController.getInstance().addToRequestQueue(jsonObjReq,tag_json_obj);
+
+        return logoutSuccess;
     }
 
+    public boolean sendRequest(final Context context, int id){
+        Map<String, Integer> postParam = new HashMap<String, Integer>();
+        postParam.put("receiver", id);
+
+        Log.d("Volley JSON to send ", new JSONObject(postParam).toString());
+
+        JsonObjectRequest jsonObjReq = new JsonObjectRequest(Request.Method.POST,
+                requestUrl, new JSONObject(postParam),
+                new Response.Listener<JSONObject>() {
+
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        Log.d("Volley ", response.toString());
+                        String success = null;
+
+                        try {
+                            success = response.getString("message");
+                            Log.d("Volley Reg Success", success);
+                            if (success.equals("request sent successfully")){
+                                setSendReq(true);
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }, new Response.ErrorListener() {
+
+
+
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                //VolleyLog.d("Volley ", "Error: " + error.getMessage());
+                Log.d("Error kod", error.getMessage()+"");
+            }
+        })
+
+        {
+            /**
+             * Passing some request headers
+             * */
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                HashMap<String, String> headers = new HashMap<String, String>();
+                SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+                String token = prefs.getString("token", null);
+                int userid = prefs.getInt("userid", 0);
+                headers.put("userid", String.valueOf(userid));
+                headers.put("token", token);
+                headers.put("Content-Type", "application/json; charset=utf-8");
+                return headers;
+            }
+        };
+
+        // Adding request to request queue
+        AppController.getInstance().addToRequestQueue(jsonObjReq,tag_json_obj);
+
+        return sendReqSucc;
+    }
+
+    public boolean cancelReq(int requestid, final Context context){
+        Map<String, Integer> postParam = new HashMap<String, Integer>();
+        postParam.put("requestid", requestid);
+
+        Log.d("Volley JSON to send ", new JSONObject(postParam).toString());
+
+        JsonObjectRequest jsonObjReq = new JsonObjectRequest(Request.Method.DELETE,
+                requestUrl, new JSONObject(postParam),
+                new Response.Listener<JSONObject>() {
+
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        Log.d("Volley ", response.toString());
+                        String success = null;
+
+                        try {
+                            success = response.getString("message");
+                            Log.d("Volley Reg Success", success);
+                            if (success.equals("request canceled successfully")){
+                                setCancelReq(true);
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }, new Response.ErrorListener() {
+
+
+
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                //VolleyLog.d("Volley ", "Error: " + error.getMessage());
+                Log.d("Error kod", error.getMessage()+"");
+            }
+        })
+
+        {
+            /**
+             * Passing some request headers
+             * */
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                HashMap<String, String> headers = new HashMap<String, String>();
+                SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+                String token = prefs.getString("token", null);
+                int userid = prefs.getInt("userid", 0);
+                headers.put("userid", String.valueOf(userid));
+                headers.put("token", token);
+                headers.put("Content-Type", "application/json; charset=utf-8");
+                return headers;
+            }
+        };
+
+        // Adding request to request queue
+        AppController.getInstance().addToRequestQueue(jsonObjReq,tag_json_obj);
+
+        return cancelReq;
+    }
+
+    public boolean acceptReq(int requestid, final Context context){
+        Map<String, Integer> postParam = new HashMap<String, Integer>();
+        postParam.put("requestid", requestid);
+
+        Log.d("Volley JSON to send ", new JSONObject(postParam).toString());
+
+        JsonObjectRequest jsonObjReq = new JsonObjectRequest(Request.Method.POST,
+                reqAcceptUrl, new JSONObject(postParam),
+                new Response.Listener<JSONObject>() {
+
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        Log.d("Volley ", response.toString());
+                        String success = null;
+
+                        try {
+                            success = response.getString("message");
+                            Log.d("Volley Reg Success", success);
+                            if (success.equals("request acception successful")){
+                                setAcceptReq(true);
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }, new Response.ErrorListener() {
+
+
+
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                //VolleyLog.d("Volley ", "Error: " + error.getMessage());
+                Log.d("Error kod", error.getMessage()+"");
+            }
+        })
+
+        {
+            /**
+             * Passing some request headers
+             * */
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                HashMap<String, String> headers = new HashMap<String, String>();
+                SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+                String token = prefs.getString("token", null);
+                int userid = prefs.getInt("userid", 0);
+                headers.put("userid", String.valueOf(userid));
+                headers.put("token", token);
+                headers.put("Content-Type", "application/json; charset=utf-8");
+                return headers;
+            }
+        };
+
+        // Adding request to request queue
+        AppController.getInstance().addToRequestQueue(jsonObjReq,tag_json_obj);
+
+        return acceptReq;
+    }
+
+    public void loadReqs(final Context context){
+        Map<String, String> postParam = new HashMap<String, String>();
+        Log.d("Volley JSON to send ", new JSONObject(postParam).toString());
+
+        JsonObjectRequest jsonObjReq = new JsonObjectRequest(Request.Method.GET,
+                reqAcceptUrl, new JSONObject(postParam),
+                new Response.Listener<JSONObject>() {
+
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        Log.d("Volley ", response.toString());
+                        ParseRequests reqs = new ParseRequests(response.toString());
+                        reqs.parseJSON();
+                        Log.d("Volley message", ParseRequests.message);
+                        Log.d("Volley array[0]", String.valueOf(ParseRequests.reqids[0])+" "+String.valueOf(ParseRequests.userids[0])
+                        +" "+ ParseRequests.names[0]+" "+ ParseRequests.surnames[0]+" "+ ParseRequests.nicknames[0]);
+                    }
+                }, new Response.ErrorListener() {
+
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                VolleyLog.d("Volley ", "Error: " + error.getMessage());
+                // Handle the error
+                Log.d("Error status code", String.valueOf(error.networkResponse.statusCode));
+                //error.networkResponse.data;
+
+            }
+        })
+
+        {
+            /**
+             * Passing some request headers
+             * */
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                HashMap<String, String> headers = new HashMap<String, String>();
+                headers.put("Content-Type", "application/json; charset=utf-8");
+                return headers;
+            }
+        };
+
+        // Adding request to request queue
+        AppController.getInstance().addToRequestQueue(jsonObjReq,tag_json_obj);
+    }
 
 }

@@ -3,6 +3,8 @@ package com.example.boush.dreamchat;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
@@ -174,8 +176,13 @@ public class MenuActivity extends AppCompatActivity {
                 fragment = new HelpFragment();
                 break;
             case 3 :
-
+                if (new Server().logout(getApplicationContext())) {
+                    SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+                    SharedPreferences.Editor editor = sharedPref.edit();
+                    editor.clear();
+                    editor.apply();
                     showMessage();
+                }
                 break;
 
             default:

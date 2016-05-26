@@ -85,8 +85,6 @@ public class ContactsFragment extends Fragment implements SearchView.OnQueryText
         search = (SearchView) view.findViewById(R.id.searchView);
         search.setOnQueryTextListener(this);
 
-
-
         return view;
     }
 
@@ -151,31 +149,31 @@ public class ContactsFragment extends Fragment implements SearchView.OnQueryText
     };*/
 
     private void prepareContactData() {
-        Contact contact = new Contact("Iba", "Meliško", "Meliško", false, "email@domena.sk", "0901234567");
+        Contact contact = new Contact(1, "Iba", "Meliško", "Meliško", false, "email@domena.sk", "0901234567");
         contactList.add(contact);
 
-        contact = new Contact("Patrik", "Patinák", "Patres", true, "email@domena.sk", "0901234567");
+        contact = new Contact(2, "Patrik", "Patinák", "Patres", true, "email@domena.sk", "0901234567");
         contactList.add(contact);
 
-        contact = new Contact("Martin", "Tarhanič", "Matolator", true, "email@domena.sk", "0901234567");
+        contact = new Contact(3, "Martin", "Tarhanič", "Matolator", true, "email@domena.sk", "0901234567");
         contactList.add(contact);
 
-        contact = new Contact("Monika", "Jaššová", "monikka", true, "email@domena.sk", "0901234567");
+        contact = new Contact(4, "Monika", "Jaššová", "monikka", true, "email@domena.sk", "0901234567");
         contactList.add(contact);
 
-        contact = new Contact("Michal", "Borovský", "Michaljevič", true, "email@domena.sk", "0901234567");
+        contact = new Contact(5, "Michal", "Borovský", "Michaljevič", true, "email@domena.sk", "0901234567");
         contactList.add(contact);
 
-        contact = new Contact("Matúš", "Kokoška", "DreamTeam", true, "email@domena.sk", "0901234567");
+        contact = new Contact(6, "Matúš", "Kokoška", "DreamTeam", true, "email@domena.sk", "0901234567");
         contactList.add(contact);
 
-        contact = new Contact("Roman", "Klimčík", "Global Logic", false, "email@domena.sk", "0901234567");
+        contact = new Contact(7, "Roman", "Klimčík", "Global Logic", false, "email@domena.sk", "0901234567");
         contactList.add(contact);
 
-        contact = new Contact("X", "Y", "Slovensko", false, "email@domena.sk", "0901234567");
+        contact = new Contact(8, "X", "Y", "Slovensko", false, "email@domena.sk", "0901234567");
         contactList.add(contact);
 
-        contact = new Contact("Meno", "Priezvisko", "Nick", false, "email@domena.sk", "0901234567");
+        contact = new Contact(9, "Meno", "Priezvisko", "Nick", false, "email@domena.sk", "0901234567");
         contactList.add(contact);
 
         sectionAdapter.notifyDataSetChanged();

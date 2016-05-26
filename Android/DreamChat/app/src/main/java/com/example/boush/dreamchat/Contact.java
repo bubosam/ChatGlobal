@@ -37,13 +37,14 @@ public class Contact implements Parcelable {
         isFriend = friend;
     }
 
-    public Contact(String firstName, String lastName, String nickname, boolean friend, String email, String phone) {
+    public Contact(int userid, String firstName, String lastName, String nickname, boolean friend, String email, String phone) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.nickname = nickname;
         this.isFriend = friend;
         this.email = email;
         this.phone = phone;
+        this.userid = userid;
     }
 
     public String getFirstName() {
