@@ -5,13 +5,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".ContactsFragment">
 
-    <!-- TODO: Update blank fragment layout
-    <android.support.design.widget.CoordinatorLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">-->
-
     <!-- TODO: Update blank fragment layout-->
     <RelativeLayout
         android:layout_width="match_parent"
@@ -30,25 +23,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/searchView"
+            android:iconifiedByDefault="false"
             android:layout_alignParentTop="true"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
             android:queryHint="@string/searchview" />
 
         </RelativeLayout>
-    <!--</android.support.design.widget.CoordinatorLayout>
-
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/contactsFAB"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="16dp"
-        android:layout_gravity="bottom|right"
-        android:src="@drawable/ic_message_white_24dp"
-        app:layout_anchor="@+id/recycler_view_contacts"
-        app:layout_anchorGravity="bottom|right|end"
-        app:backgroundTint="@color/colorAccent"
-        app:layout_behavior="com.example.boush.dreamchat.ContactsFragment$FABScrollBehavior"/>
-        //app:layout_behavior="android.support.design.widget.AppBarLayout$ScrollingViewBehavior"/>-->
 
 </FrameLayout>

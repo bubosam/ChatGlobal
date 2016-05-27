@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
@@ -13,10 +14,12 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -32,6 +35,7 @@ public class MenuActivity extends AppCompatActivity {
     ActionBarDrawerToggle mDrawerToggle;
     private CharSequence mDrawerTitle;
     private CharSequence mTitle;
+    private FloatingActionButton fab;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -102,16 +106,36 @@ public class MenuActivity extends AppCompatActivity {
         PagerAdapter adapter = new PagerAdapter(manager) ;
         pager.setAdapter(adapter);
 
+        fab = (FloatingActionButton) findViewById(R.id.contactsFAB);
+        fab.hide();
+        /*fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getApplicationContext(), "FAB clicked", Toast.LENGTH_SHORT).show();
+            }
+        });*/
+
         pager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
         tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
+                if (tab.getPosition() == 1) {
+                    fab.show();
+                }
+                if (tab.getPosition() == 0) {
+                    fab.hide();
+                }
                 pager.setCurrentItem(tab.getPosition());
             }
 
             @Override
             public void onTabUnselected(TabLayout.Tab tab) {
-
+                fab.hide(new FloatingActionButton.OnVisibilityChangedListener() { // Hide FAB
+                    @Override
+                    public void onHidden(FloatingActionButton fab) {
+                        fab.show(); // After FAB is hidden show it again
+                    }
+                });
             }
 
             @Override
@@ -215,7 +239,7 @@ public class MenuActivity extends AppCompatActivity {
                             startActivity(intent);
                         }
                         else{
-                            Toast.makeText(getApplicationContext(), "Logout unsuccessful.", Toast.LENGTH_SHORT);
+                            Toast.makeText(getApplicationContext(), "Logout unsuccessful.", Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
