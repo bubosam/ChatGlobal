@@ -87,7 +87,9 @@ public class ContactsFragment extends Fragment implements SearchView.OnQueryText
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(context, "FAB clicked", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(context, "FAB clicked", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(context, SearchActivity.class);
+                context.startActivity(intent);
             }
         });
 
