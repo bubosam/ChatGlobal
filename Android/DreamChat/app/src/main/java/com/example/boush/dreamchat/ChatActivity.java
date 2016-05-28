@@ -125,7 +125,6 @@ public class ChatActivity extends ListActivity {
 
                         String message;
                         try {
-
                             message = data.getString("message");
                         } catch (JSONException e) {
                             return;

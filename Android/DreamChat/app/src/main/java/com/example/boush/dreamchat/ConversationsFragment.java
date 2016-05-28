@@ -2,18 +2,18 @@ package com.example.boush.dreamchat;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.GestureDetector;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.PopupMenu;
 import android.widget.Toast;
 
 import java.text.SimpleDateFormat;
@@ -58,17 +58,6 @@ public class ConversationsFragment extends Fragment {
             public void onClick(View view, int position) {
                 Message message = messagesList.get(position);
 
-                /*SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(getActivity());
-                SharedPreferences.Editor editor = pref.edit();
-                editor.putString("firstName",message.getFirstName());
-                editor.putString("lastName",message.getLastName());
-                editor.putString("message",message.getMessageText());
-                editor.putString("date",message.getDate());
-                editor.commit();
-
-                Intent intent = new Intent(getActivity(),ChatActivity.class);
-                startActivity(intent);*/
-
                 Intent intent = new Intent(getActivity(), ChatActivity.class);
                 intent.putExtra("firstName", message.getFirstName());
                 intent.putExtra("lastName", message.getLastName());
@@ -78,9 +67,27 @@ public class ConversationsFragment extends Fragment {
             }
 
             @Override
-            public void onLongClick(View view, int position) {
-                Toast.makeText(getActivity().getApplicationContext(),
-                        "Work in progress.", Toast.LENGTH_SHORT).show();
+            public void onLongClick(View view, final int position) {
+                PopupMenu popupMenu = new PopupMenu(getActivity().getApplicationContext(), view);
+                PopupMenu.OnMenuItemClickListener onMenuItemClickListener = new PopupMenu.OnMenuItemClickListener() {
+                    @Override
+                    public boolean onMenuItemClick(MenuItem item) {
+                        switch (item.getItemId()) {
+                            case R.id.item_info:
+                                Toast.makeText(getActivity().getApplicationContext(), "Info Clicked", Toast.LENGTH_SHORT).show();
+                                return true;
+                            case R.id.item_remove:
+                                Toast.makeText(getActivity().getApplicationContext(), "Remove Clicked", Toast.LENGTH_SHORT).show();
+                                messagesList.remove(position);
+                                mAdapter.notifyDataSetChanged();
+                                return true;
+                        }
+                        return false;
+                    }
+                };
+                popupMenu.setOnMenuItemClickListener(onMenuItemClickListener);
+                popupMenu.inflate(R.menu.menu_popup);
+                popupMenu.show();
             }
         }));
 
