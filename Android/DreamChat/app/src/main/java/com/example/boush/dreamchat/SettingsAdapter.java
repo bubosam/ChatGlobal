@@ -69,7 +69,7 @@ public class SettingsAdapter extends RecyclerView.Adapter<SettingsAdapter.MyView
     public void onBindViewHolder(MyViewHolder holder, int position) {
         SettingItem settingItem = titleList.get(position);
         holder.title.setText(settingItem.getTitle());
-holder.imageview.setImageResource(settingItem.getPhotoId());
+    holder.imageview.setImageResource(settingItem.getPhotoId());
 
         final int pos = position;
 
@@ -77,8 +77,14 @@ holder.imageview.setImageResource(settingItem.getPhotoId());
             @Override
             public void onClick(View v) {
                 SettingItem setting = titleList.get(pos);
-                Toast.makeText(context, setting.getTitle(), Toast.LENGTH_SHORT).show();
 
+                if(pos==0){
+                    Toast.makeText(context, setting.getTitle(), Toast.LENGTH_SHORT).show();
+                }
+                if(pos==5){
+                    Intent intent = new Intent(context, ThemesActivity.class);
+                    v.getContext().startActivity(intent);
+                }
 
             }
         });

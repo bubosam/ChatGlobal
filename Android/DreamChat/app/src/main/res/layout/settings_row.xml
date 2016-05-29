@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent" android:layout_height="wrap_content"
     android:padding="16dp"
-    android:background="@android:color/white"
+    android:background="@color/colorBackground"
     >
 
     <android.support.v7.widget.CardView
@@ -17,7 +17,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="16dp"
-            android:background="@android:color/white"
+            android:background="@color/colorBackground"
             android:textAlignment="center">
 
             <ImageView
@@ -36,7 +36,7 @@
                 android:layout_toRightOf="@+id/person_photo"
                 android:layout_alignParentTop="true"
                 android:textSize="20sp"
-                android:background="#ffffff"
+                android:background="@color/colorBackground"
                 android:textColor="#000000"
                 android:textAlignment="center" />
 
