@@ -7,6 +7,8 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.ContextMenu;
+import android.view.ContextThemeWrapper;
 import android.view.GestureDetector;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -52,6 +54,8 @@ public class ConversationsFragment extends Fragment {
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(mAdapter);
 
+        registerForContextMenu(recyclerView);
+
         recyclerView.addOnItemTouchListener(new RecyclerTouchListener(getActivity().getApplicationContext(),
                                             recyclerView, new ClickListener() {
             @Override
@@ -68,16 +72,20 @@ public class ConversationsFragment extends Fragment {
 
             @Override
             public void onLongClick(View view, final int position) {
-                PopupMenu popupMenu = new PopupMenu(getActivity().getApplicationContext(), view);
+                PopupMenu popupMenu = new PopupMenu(getActivity(), view);
+
                 PopupMenu.OnMenuItemClickListener onMenuItemClickListener = new PopupMenu.OnMenuItemClickListener() {
                     @Override
                     public boolean onMenuItemClick(MenuItem item) {
                         switch (item.getItemId()) {
-                            case R.id.item_info:
-                                Toast.makeText(getActivity().getApplicationContext(), "Info Clicked", Toast.LENGTH_SHORT).show();
+                            case R.id.item_details:
+                                Toast.makeText(getActivity().getApplicationContext(), "Details Clicked", Toast.LENGTH_SHORT).show();
+                                return true;
+                            case R.id.item_profile:
+                                Toast.makeText(getActivity().getApplicationContext(), "Profile Clicked", Toast.LENGTH_SHORT).show();
                                 return true;
                             case R.id.item_remove:
-                                Toast.makeText(getActivity().getApplicationContext(), "Remove Clicked", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getActivity().getApplicationContext(), "Conversation removed.", Toast.LENGTH_SHORT).show();
                                 messagesList.remove(position);
                                 mAdapter.notifyDataSetChanged();
                                 return true;
@@ -88,7 +96,9 @@ public class ConversationsFragment extends Fragment {
                 popupMenu.setOnMenuItemClickListener(onMenuItemClickListener);
                 popupMenu.inflate(R.menu.menu_popup);
                 popupMenu.show();
+
             }
+
         }));
 
         prepareMessages();
