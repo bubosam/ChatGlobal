@@ -7,15 +7,18 @@
 
     <android.support.v7.widget.CardView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+
         android:id="@+id/cv"
         android:background="@android:color/white"
         android:layout_gravity="bottom"
-        android:textAlignment="center">
+        android:textAlignment="center"
+
+        android:layout_height="60dp"
+        >
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:padding="16dp"
             android:background="@color/colorBackground"
             android:textAlignment="center">
@@ -37,7 +40,7 @@
                 android:layout_alignParentTop="true"
                 android:textSize="20sp"
                 android:background="@color/colorBackground"
-                android:textColor="#000000"
+                android:textColor="#ffffff"
                 android:textAlignment="center" />
 
             <TextView
