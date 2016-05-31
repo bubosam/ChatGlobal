@@ -2,6 +2,7 @@
 var router = express.Router();
 var bodyParser = require("body-parser");
 var users = require(appRoot + "/API/users");
+var authorization = require(appRoot + "/API/authorization");
 
 router.post('/load', function (req, res) {
     var userid = req.body.userid;
@@ -10,22 +11,46 @@ router.post('/load', function (req, res) {
     });
 });
 
-router.post('/update', function (req, res) {
+router.put('/', function (req, res) {
+  authorization.authorize(req, function (access) {
+    if(access){
     var userid = req.body.user;
     users.load(userid, function (success) {
         res.json(success);
     });
+  }
+  else{
+    res.json({});
+    res.statusCode = 401;
+  }
 });
 
-router.post('/search', function (req, res) {
-    var name = req.body.name;
-    users.search(name, function (results) {
+router.get('/', function (req, res) {
+  authorization.authorize(req, function (access) {
+    if(access){
+      var key = req.headers.key;
+      if(isNaN(key)){
+        users.search(key,function(results){
+          res.json(results);
+          res.statusCode = 200;
+        });
+      }
+      else{
+        users.load(key,function(results){
+          res.json(results);
+          res.statusCode = 200;
+        });
+      }
+    }
+    else{
+      res.json({});
+      res.statusCode = 401;
+    }
+  });
 
-      //  console.log(results);
-      //  console.log("jupi");
-        res.json(results);
-        res.statusCode = 200;
-    });
+
+
+
 });
 
 module.exports = router;
