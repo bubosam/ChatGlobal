@@ -42,7 +42,7 @@
             android:maxHeight="70dp"
             android:paddingLeft="20dp"
             android:paddingRight="20dp"
-            android:paddingTop="20dp" />
+            android:paddingTop="40dp" />
 
 
 
@@ -204,10 +204,9 @@
             app:fabSize="normal"
             android:id="@+id/uploadPhoto"
             android:backgroundTint="@color/colorAccent"
-            android:paddingRight="30dp"
+
             android:layout_centerVertical="true"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true" />
+            android:layout_alignParentRight="true" />
 
         <android.support.design.widget.FloatingActionButton
             xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -223,7 +222,8 @@
 
             android:layout_alignTop="@+id/uploadPhoto"
             android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true" />
+            android:layout_alignParentStart="true"
+            android:layout_marginLeft="20dp" />
     </RelativeLayout>
 
 </LinearLayout>

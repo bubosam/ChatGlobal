@@ -30,7 +30,7 @@ public class HelpAdapter extends RecyclerView.Adapter<HelpAdapter.MyViewHolder> 
         public MyViewHolder(View view) {
             super(view);
             title = (TextView) view.findViewById(R.id.title);
-            imageview = (ImageView) view.findViewById(R.id.person_photo);
+            imageview = (ImageView) view.findViewById(R.id.question);
             context=view.getContext();
         }
     }
@@ -42,7 +42,7 @@ public class HelpAdapter extends RecyclerView.Adapter<HelpAdapter.MyViewHolder> 
     @Override
     public HelpAdapter.MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.settings_row, parent, false);
+                .inflate(R.layout.help_row, parent, false);
 
         final MyViewHolder holder = new MyViewHolder(itemView);
 

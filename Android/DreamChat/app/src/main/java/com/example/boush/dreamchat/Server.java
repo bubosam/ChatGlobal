@@ -11,6 +11,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -22,6 +23,7 @@ import java.util.Map;
  * Created by Client on 20.5.2016.
  */
 public class Server {
+
 
     private boolean sendReqSucc=false;
 
@@ -55,6 +57,7 @@ public class Server {
 
     public void login(String email, String password, final Context context){
 
+
         Map<String, String> postParam = new HashMap<String, String>();
             postParam.put(Constants.KEY_EMAIL, email);
             postParam.put(Constants.KEY_PASSWORD, password);
@@ -66,6 +69,7 @@ public class Server {
 
                         @Override
                         public void onResponse(JSONObject response) {
+
                             Log.d("Volley ", response.toString());
                             Log.d("Response status code", String.valueOf(response));
                             String token = null;

@@ -2,51 +2,58 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent" android:layout_height="wrap_content"
     android:padding="16dp"
-    android:background="@android:color/white"
+    android:background="#2196F3"
     >
 
     <android.support.v7.widget.CardView
         android:layout_width="match_parent"
-        android:layout_height="80dp"
+        android:layout_height="130dp"
         android:id="@+id/cv"
-        android:background="@android:color/white"
+        android:background="#2196F3"
         android:textAlignment="textEnd">
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:padding="16dp"
-            android:background="@android:color/white">
+            android:background="#2196F3">
 
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/person_photo"
+                android:id="@+id/question"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentTop="true"
                 android:layout_marginRight="16dp"
-                android:layout_marginTop="32dp" />
+                android:layout_marginTop="16dp" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/title"
-                android:layout_toRightOf="@+id/person_photo"
+                android:layout_toRightOf="@+id/question"
                 android:layout_alignParentTop="true"
                 android:textSize="20sp"
-                android:background="#ffffff"
-                android:textColor="#000000"
-                android:textAlignment="gravity"
+                android:background="#2196F3"
+                android:textColor="#ffffff"
+                android:textAlignment="textStart"
                 android:gravity="center_vertical|right" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/description"
-                android:layout_toRightOf="@+id/person_photo"
+                android:layout_toRightOf="@+id/question"
                 android:layout_below="@+id/title"
                 android:textColor="#000000" />
 
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:id="@+id/mDivider"
+                android:background="#bcb9b9"
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true" />
 
         </RelativeLayout>
 
