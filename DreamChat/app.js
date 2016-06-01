@@ -13,6 +13,7 @@ var login = require('./routes/login');
 var register = require('./routes/register');
 var requests = require('./routes/requests');
 var users = require('./routes/users');
+var contacts = require('./routes/contacts');
 
 var app = express();
 const PORT = process.env.PORT || 1337;
@@ -52,6 +53,7 @@ app.use('/login', login);
 app.use('/register', register);
 app.use('/requests', requests);
 app.use('/users', users);
+app.use('/contacts', contacts);
 
 
 // catch 404 and forward to error handler

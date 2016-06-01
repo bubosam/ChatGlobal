@@ -13,9 +13,9 @@ router.post('/load', function (req, res) {
 
 router.put('/', function (req, res) {
   authorization.authorize(req, function (access) {
-    if(access){
-    var userid = req.body.user;
-    users.load(userid, function (success) {
+    if(access && req.body.user.userid==req.headers.userid){
+    var user = req.body.user;
+    users.update(user, function (success) {
         res.json(success);
     });
   }
@@ -43,10 +43,13 @@ router.get('/', function (req, res) {
       }
     }
     else{
-      res.json({});
-      res.statusCode = 401;
+      res.json({
+          "message": "authorization failed"
+      });
+      code = 401;
     }
   });
+});
 
 
 
