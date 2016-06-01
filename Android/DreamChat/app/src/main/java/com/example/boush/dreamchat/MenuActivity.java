@@ -233,7 +233,8 @@ public class MenuActivity extends AppCompatActivity {
                         if (new Server().logout(getApplicationContext())){
                             SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
                             SharedPreferences.Editor editor = sharedPref.edit();
-                            editor.clear();
+                            editor.remove(Constants.KEY_TOKEN);
+                            editor.remove(Constants.KEY_USERID);
                             editor.apply();
                             Intent intent = new Intent(MenuActivity.this, LoginActivity.class);
                             startActivity(intent);

@@ -15,14 +15,6 @@ public class ParseRequests {
     public static String[] nicknames;
     public static String message;
 
-    public static final String JSON_ARRAY = "results";
-    public static final String KEY_REQID = "requestid";
-    public static final String KEY_NAME = "name";
-    public static final String KEY_SURNAME = "surname";
-    public static final String KEY_NICKNAME = "nickname";
-    public static final String KEY_USERID = "userid";
-    public static final String KEY_MESSAGE = "message";
-
     private JSONArray requests = null;
 
     private String json;
@@ -35,7 +27,7 @@ public class ParseRequests {
         JSONObject jsonObject=null;
         try {
             jsonObject = new JSONObject(json);
-            requests = jsonObject.getJSONArray(JSON_ARRAY);
+            requests = jsonObject.getJSONArray(Constants.KEY_RESULTS);
 
             reqids = new int[requests.length()];
             userids = new int[requests.length()];
@@ -45,14 +37,14 @@ public class ParseRequests {
 
             for(int i = 0; i< requests.length(); i++){
                 JSONObject jo = requests.getJSONObject(i);
-                reqids[i] = jo.getInt(KEY_REQID);
-                userids[i]=jo.getInt(KEY_USERID);
-                names[i] = jo.getString(KEY_NAME);
-                surnames[i] = jo.getString(KEY_SURNAME);
-                nicknames[i]=jo.getString(KEY_NICKNAME);
+                reqids[i] = jo.getInt(Constants.KEY_REQUESTID);
+                userids[i]=jo.getInt(Constants.KEY_USERID);
+                names[i] = jo.getString(Constants.KEY_NAME);
+                surnames[i] = jo.getString(Constants.KEY_SURNAME);
+                nicknames[i]=jo.getString(Constants.KEY_NICKNAME);
             }
 
-            message=jsonObject.getString(KEY_MESSAGE);
+            message=jsonObject.getString(Constants.KEY_MESSAGE);
 
         } catch (JSONException e) {
             e.printStackTrace();

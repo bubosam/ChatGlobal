@@ -15,7 +15,7 @@ public class Contact implements Parcelable {
     private int userid;
     private String email;
     private String phone;
-    //private profilePic;
+    //private String profilePic;
 
     public String getPhone() {
         return phone;

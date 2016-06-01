@@ -71,7 +71,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     private UserLoginTask mAuthTask = null;
 
     //RequestQueue queue = Volley.newRequestQueue(this);
-    String tag_json_obj = "json_obj_req";
 
     // UI references.
     private AutoCompleteTextView mEmailView;
@@ -84,8 +83,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
     private int userid;
     private String token;
-
-    private static final String loginUrl = "http://10.0.2.2:1337/login";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

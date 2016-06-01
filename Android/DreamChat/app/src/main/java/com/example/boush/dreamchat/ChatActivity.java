@@ -49,8 +49,8 @@ public class ChatActivity extends ListActivity {
         if (savedInstanceState == null) {
             Bundle extras = getIntent().getExtras();
             if(extras != null) {
-                if (getIntent().hasExtra("contact")){
-                    contact = (Contact) extras.getParcelable("contact");
+                if (getIntent().hasExtra(Constants.KEY_CONTACT)){
+                    contact = (Contact) extras.getParcelable(Constants.KEY_CONTACT);
                     firstName = contact.getFirstName();
                     lastName = contact.getLastName();
                 }
@@ -125,7 +125,7 @@ public class ChatActivity extends ListActivity {
 
                         String message;
                         try {
-                            message = data.getString("message");
+                            message = data.getString(Constants.KEY_MESSAGE);
                         } catch (JSONException e) {
                             return;
                         }

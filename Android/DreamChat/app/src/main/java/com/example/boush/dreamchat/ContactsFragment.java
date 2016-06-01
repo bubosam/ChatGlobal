@@ -256,7 +256,8 @@ public class ContactsFragment extends Fragment implements SearchView.OnQueryText
             Contact contact = filteredList.get(position);
             itemHolder.title.setText(contact.getTitle());
             itemHolder.nickname.setText(contact.getNickname());
-            itemHolder.avatar.setImageResource(R.drawable.ic_person);
+            //itemHolder.avatar.setImageResource(R.drawable.ic_person);
+            itemHolder.avatar.setImageResource(context.getResources().getIdentifier("id"+contact.getUserid(), "drawable", context.getPackageName()));
 
             final int pos = position;
 
@@ -265,7 +266,7 @@ public class ContactsFragment extends Fragment implements SearchView.OnQueryText
                 public void onClick(View v) {
                     Contact contact = filteredList.get(pos);
                     Intent intent = new Intent(context, ProfileActivity.class);
-                    intent.putExtra("contact", contact);
+                    intent.putExtra(Constants.KEY_CONTACT, contact);
                     /*intent.putExtra("firstName", contact.getFirstName());
                     intent.putExtra("lastName", contact.getLastName());
                     intent.putExtra("isFriend", contact.isFriend());*/

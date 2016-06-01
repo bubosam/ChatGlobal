@@ -47,8 +47,8 @@ public class ProfileActivity extends AppCompatActivity {
         if (savedInstanceState == null) {
             Bundle extras = getIntent().getExtras();
             if(extras != null) {
-                contact = (Contact) extras.getParcelable("contact");
-                firstName = contact.getFirstName();
+                contact = (Contact) extras.getParcelable(Constants.KEY_CONTACT);
+                /*firstName = contact.getFirstName();
                 lastName = contact.getLastName();
                 title = contact.getTitle();
                 phoneStr = contact.getPhone();
@@ -60,10 +60,21 @@ public class ProfileActivity extends AppCompatActivity {
                 /*firstName=extras.getString("firstName");
                 lastName=extras.getString("lastName");
                 title = firstName+" "+lastName;
-                isFriend=extras.getBoolean("isFriend");*/
-                Log.d("boolean friend", String.valueOf(isFriend));
+                isFriend=extras.getBoolean("isFriend");
+                Log.d("boolean friend", String.valueOf(isFriend));*/
             }
         }
+        else{
+            contact = savedInstanceState.getParcelable(Constants.KEY_CONTACT);
+        }
+
+        firstName = contact.getFirstName();
+        lastName = contact.getLastName();
+        title = contact.getTitle();
+        phoneStr = contact.getPhone();
+        emailStr = contact.getEmail();
+        nicknameStr = contact.getNickname();
+        isFriend = contact.isFriend();
 
         if (isFriend){
             setContentView(R.layout.activity_profile_friend);
@@ -85,7 +96,7 @@ public class ProfileActivity extends AppCompatActivity {
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent(getApplicationContext(), ChatActivity.class);
-                    intent.putExtra("contact", contact);
+                    intent.putExtra(Constants.KEY_CONTACT, contact);
                     //intent.putExtra("firstName", firstName);
                     //intent.putExtra("lastName", lastName);
                     //intent.putExtra("message", message.getMessageText());
@@ -130,5 +141,17 @@ public class ProfileActivity extends AppCompatActivity {
 
         }
 
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putParcelable(Constants.KEY_CONTACT, contact);
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        contact = savedInstanceState.getParcelable(Constants.KEY_CONTACT);
     }
 }

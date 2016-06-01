@@ -22,14 +22,6 @@ import java.util.Map;
  * Created by Client on 20.5.2016.
  */
 public class Server {
-    private static final String loginUrl = "http://10.0.2.2:1337/login";
-    private static final String registerUrl = "http://10.0.2.2:1337/register";
-    private static final String updateUrl = "http://10.0.2.2:1337/update";
-    private static final String logoutUrl = "http://10.0.2.2:1337/logout";
-    private static final String requestUrl = "http://10.0.2.2:1337/requests";
-    private static final String reqAcceptUrl = "http://10.0.2.2:1337/requests/accept";
-
-    private static final String tag_json_obj = "json_obj_req";
 
     private boolean sendReqSucc=false;
 
@@ -64,12 +56,12 @@ public class Server {
     public void login(String email, String password, final Context context){
 
         Map<String, String> postParam = new HashMap<String, String>();
-            postParam.put("email", email);
-            postParam.put("password", password);
+            postParam.put(Constants.KEY_EMAIL, email);
+            postParam.put(Constants.KEY_PASSWORD, password);
             Log.d("Volley JSON to send ", new JSONObject(postParam).toString());
 
             JsonObjectRequest jsonObjReq = new JsonObjectRequest(Request.Method.POST,
-                    loginUrl, new JSONObject(postParam),
+                    Constants.loginUrl, new JSONObject(postParam),
                     new Response.Listener<JSONObject>() {
 
                         @Override
@@ -79,16 +71,17 @@ public class Server {
                             String token = null;
                             int userid;
                             try {
-                                token = response.getString("token");
-                                userid = response.getInt("userid");
+                                token = response.getString(Constants.KEY_TOKEN);
+                                userid = response.getInt(Constants.KEY_USERID);
                                 Log.d("Volley token", token);
                                 Log.d("Volley userid", String.valueOf(userid));
                                 SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(context);
                                 SharedPreferences.Editor editor = sharedPref.edit();
-                                editor.clear();
+                                editor.remove(Constants.KEY_TOKEN);
+                                editor.remove(Constants.KEY_USERID);
                                 editor.apply();
-                                editor.putInt("userid", userid);
-                                editor.putString("token", token);
+                                editor.putInt(Constants.KEY_USERID, userid);
+                                editor.putString(Constants.KEY_TOKEN, token);
                                 editor.apply();
                             } catch (JSONException e) {
                                 e.printStackTrace();
@@ -115,13 +108,13 @@ public class Server {
                 @Override
                 public Map<String, String> getHeaders() throws AuthFailureError {
                     HashMap<String, String> headers = new HashMap<String, String>();
-                    headers.put("Content-Type", "application/json; charset=utf-8");
+                    headers.put("Content-Type", "application/json");
                     return headers;
                 }
             };
 
             // Adding request to request queue
-            AppController.getInstance().addToRequestQueue(jsonObjReq,tag_json_obj);
+            AppController.getInstance().addToRequestQueue(jsonObjReq, Constants.tag_json_obj);
 
         /*HttpURLConnection connection = (HttpURLConnection) new URL(loginUrl).openConnection();
                 String encoded = Base64.encodeToString((email + ":" + password).getBytes("UTF-8"), Base64.NO_WRAP);
@@ -138,15 +131,15 @@ public class Server {
     public boolean register(String nickname, String email, String password, Context context ){
 
             Map<String, String> postParam = new HashMap<String, String>();
-            postParam.put("email", email);
-            postParam.put("password", password);
-            postParam.put("nickname", nickname);
+            postParam.put(Constants.KEY_EMAIL, email);
+            postParam.put(Constants.KEY_PASSWORD, password);
+            postParam.put(Constants.KEY_NICKNAME, nickname);
             Log.d("Volley JSON to send ", new JSONObject(postParam).toString());
 
             final Context appcontext = context;
 
             JsonObjectRequest jsonObjReq = new JsonObjectRequest(Request.Method.POST,
-                    registerUrl, new JSONObject(postParam),
+                    Constants.registerUrl, new JSONObject(postParam),
                     new Response.Listener<JSONObject>() {
 
                         @Override
@@ -179,13 +172,13 @@ public class Server {
                 @Override
                 public Map<String, String> getHeaders() throws AuthFailureError {
                     HashMap<String, String> headers = new HashMap<String, String>();
-                    headers.put("Content-Type", "application/json; charset=utf-8");
+                    headers.put("Content-Type", "application/json");
                     return headers;
                 }
             };
 
             // Adding request to request queue
-            AppController.getInstance().addToRequestQueue(jsonObjReq, tag_json_obj);
+            AppController.getInstance().addToRequestQueue(jsonObjReq, Constants.tag_json_obj);
        return this.regSuccess;
     }
 
@@ -257,7 +250,7 @@ public class Server {
             Log.d("Volley JSON to send ", new JSONObject(postParam).toString());
 
             JsonObjectRequest jsonObjReq = new JsonObjectRequest(Request.Method.DELETE,
-                    logoutUrl, new JSONObject(postParam),
+                    Constants.loginUrl, new JSONObject(postParam),
                     new Response.Listener<JSONObject>() {
 
                         @Override
@@ -294,29 +287,29 @@ public class Server {
                 public Map<String, String> getHeaders() throws AuthFailureError {
                     HashMap<String, String> headers = new HashMap<String, String>();
                     SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
-                    String token = prefs.getString("token", null);
-                    int userid = prefs.getInt("userid", 0);
-                    headers.put("userid", String.valueOf(userid));
-                    headers.put("token", token);
-                    headers.put("Content-Type", "application/json; charset=utf-8");
+                    String token = prefs.getString(Constants.KEY_TOKEN, null);
+                    int userid = prefs.getInt(Constants.KEY_USERID, 0);
+                    headers.put(Constants.KEY_USERID, String.valueOf(userid));
+                    headers.put(Constants.KEY_TOKEN, token);
+                    headers.put("Content-Type", "application/json");
                     return headers;
                 }
             };
 
             // Adding request to request queue
-            AppController.getInstance().addToRequestQueue(jsonObjReq,tag_json_obj);
+            AppController.getInstance().addToRequestQueue(jsonObjReq, Constants.tag_json_obj);
 
         return logoutSuccess;
     }
 
     public boolean sendRequest(final Context context, int id){
         Map<String, Integer> postParam = new HashMap<String, Integer>();
-        postParam.put("receiver", id);
+        postParam.put(Constants.KEY_RECEIVER, id);
 
         Log.d("Volley JSON to send ", new JSONObject(postParam).toString());
 
         JsonObjectRequest jsonObjReq = new JsonObjectRequest(Request.Method.POST,
-                requestUrl, new JSONObject(postParam),
+                Constants.requestUrl, new JSONObject(postParam),
                 new Response.Listener<JSONObject>() {
 
                     @Override
@@ -325,7 +318,7 @@ public class Server {
                         String success = null;
 
                         try {
-                            success = response.getString("message");
+                            success = response.getString(Constants.KEY_MESSAGE);
                             Log.d("Volley Reg Success", success);
                             if (success.equals("request sent successfully")){
                                 setSendReq(true);
@@ -353,29 +346,29 @@ public class Server {
             public Map<String, String> getHeaders() throws AuthFailureError {
                 HashMap<String, String> headers = new HashMap<String, String>();
                 SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
-                String token = prefs.getString("token", null);
-                int userid = prefs.getInt("userid", 0);
-                headers.put("userid", String.valueOf(userid));
-                headers.put("token", token);
-                headers.put("Content-Type", "application/json; charset=utf-8");
+                String token = prefs.getString(Constants.KEY_TOKEN, null);
+                int userid = prefs.getInt(Constants.KEY_USERID, 0);
+                headers.put(Constants.KEY_USERID, String.valueOf(userid));
+                headers.put(Constants.KEY_TOKEN, token);
+                headers.put("Content-Type", "application/json");
                 return headers;
             }
         };
 
         // Adding request to request queue
-        AppController.getInstance().addToRequestQueue(jsonObjReq,tag_json_obj);
+        AppController.getInstance().addToRequestQueue(jsonObjReq, Constants.tag_json_obj);
 
         return sendReqSucc;
     }
 
     public boolean cancelReq(int requestid, final Context context){
         Map<String, Integer> postParam = new HashMap<String, Integer>();
-        postParam.put("requestid", requestid);
+        postParam.put(Constants.KEY_REQUESTID, requestid);
 
         Log.d("Volley JSON to send ", new JSONObject(postParam).toString());
 
         JsonObjectRequest jsonObjReq = new JsonObjectRequest(Request.Method.DELETE,
-                requestUrl, new JSONObject(postParam),
+                Constants.requestUrl, new JSONObject(postParam),
                 new Response.Listener<JSONObject>() {
 
                     @Override
@@ -384,7 +377,7 @@ public class Server {
                         String success = null;
 
                         try {
-                            success = response.getString("message");
+                            success = response.getString(Constants.KEY_MESSAGE);
                             Log.d("Volley Reg Success", success);
                             if (success.equals("request canceled successfully")){
                                 setCancelReq(true);
@@ -412,29 +405,29 @@ public class Server {
             public Map<String, String> getHeaders() throws AuthFailureError {
                 HashMap<String, String> headers = new HashMap<String, String>();
                 SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
-                String token = prefs.getString("token", null);
-                int userid = prefs.getInt("userid", 0);
-                headers.put("userid", String.valueOf(userid));
-                headers.put("token", token);
-                headers.put("Content-Type", "application/json; charset=utf-8");
+                String token = prefs.getString(Constants.KEY_TOKEN, null);
+                int userid = prefs.getInt(Constants.KEY_USERID, 0);
+                headers.put(Constants.KEY_USERID, String.valueOf(userid));
+                headers.put(Constants.KEY_TOKEN, token);
+                headers.put("Content-Type", "application/json");
                 return headers;
             }
         };
 
         // Adding request to request queue
-        AppController.getInstance().addToRequestQueue(jsonObjReq,tag_json_obj);
+        AppController.getInstance().addToRequestQueue(jsonObjReq, Constants.tag_json_obj);
 
         return cancelReq;
     }
 
     public boolean acceptReq(int requestid, final Context context){
         Map<String, Integer> postParam = new HashMap<String, Integer>();
-        postParam.put("requestid", requestid);
+        postParam.put(Constants.KEY_REQUESTID, requestid);
 
         Log.d("Volley JSON to send ", new JSONObject(postParam).toString());
 
         JsonObjectRequest jsonObjReq = new JsonObjectRequest(Request.Method.POST,
-                reqAcceptUrl, new JSONObject(postParam),
+                Constants.reqAcceptUrl, new JSONObject(postParam),
                 new Response.Listener<JSONObject>() {
 
                     @Override
@@ -443,7 +436,7 @@ public class Server {
                         String success = null;
 
                         try {
-                            success = response.getString("message");
+                            success = response.getString(Constants.KEY_MESSAGE);
                             Log.d("Volley Reg Success", success);
                             if (success.equals("request acception successful")){
                                 setAcceptReq(true);
@@ -471,17 +464,17 @@ public class Server {
             public Map<String, String> getHeaders() throws AuthFailureError {
                 HashMap<String, String> headers = new HashMap<String, String>();
                 SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
-                String token = prefs.getString("token", null);
-                int userid = prefs.getInt("userid", 0);
-                headers.put("userid", String.valueOf(userid));
-                headers.put("token", token);
-                headers.put("Content-Type", "application/json; charset=utf-8");
+                String token = prefs.getString(Constants.KEY_TOKEN, null);
+                int userid = prefs.getInt(Constants.KEY_USERID, 0);
+                headers.put(Constants.KEY_USERID, String.valueOf(userid));
+                headers.put(Constants.KEY_TOKEN, token);
+                headers.put("Content-Type", "application/json");
                 return headers;
             }
         };
 
         // Adding request to request queue
-        AppController.getInstance().addToRequestQueue(jsonObjReq,tag_json_obj);
+        AppController.getInstance().addToRequestQueue(jsonObjReq, Constants.tag_json_obj);
 
         return acceptReq;
     }
@@ -491,7 +484,7 @@ public class Server {
         Log.d("Volley JSON to send ", new JSONObject(postParam).toString());
 
         JsonObjectRequest jsonObjReq = new JsonObjectRequest(Request.Method.GET,
-                reqAcceptUrl, new JSONObject(postParam),
+                Constants.reqAcceptUrl, new JSONObject(postParam),
                 new Response.Listener<JSONObject>() {
 
                     @Override
@@ -522,13 +515,13 @@ public class Server {
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
                 HashMap<String, String> headers = new HashMap<String, String>();
-                headers.put("Content-Type", "application/json; charset=utf-8");
+                headers.put("Content-Type", "application/json");
                 return headers;
             }
         };
 
         // Adding request to request queue
-        AppController.getInstance().addToRequestQueue(jsonObjReq,tag_json_obj);
+        AppController.getInstance().addToRequestQueue(jsonObjReq, Constants.tag_json_obj);
     }
 
 }
