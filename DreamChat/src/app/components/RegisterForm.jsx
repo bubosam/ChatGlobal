@@ -3,7 +3,9 @@ import TextField from 'material-ui/TextField';
 import RaisedButton from 'material-ui/RaisedButton';
 var {Link, IndexLink} = require('react-router');
 
-const RegisterForm = () => (
+export default class RegisterForm extends React.Component {
+  render() {
+    return (
   <div className="register-form">
     <h1>Register Form</h1>
     <form method="post" action="/register">
@@ -36,6 +38,6 @@ const RegisterForm = () => (
        <div><h4 className="text-center"><IndexLink to="/" activeClassName="active" activeStyle={{fontWeight: 'bold'}}>BACK TO HOME</IndexLink></h4></div>
     </form>
   </div>
-);
-
-export default RegisterForm;
+  );
+ }
+}

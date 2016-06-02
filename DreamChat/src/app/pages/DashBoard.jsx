@@ -1,11 +1,13 @@
 import React from 'react';
-import DashBoardComp from '../components/DashBoardComp.jsx';
+import DrawerComp from '../components/DrawerComp.jsx';
+import UserTabsComp from '../components/UserTabsComp.jsx';
 
 export default class DashBoard extends React.Component {
     render() {
         return (
             <div>
-                <DashBoardComp/>
+              <DrawerComp/>
+              <UserTabsComp/>
             </div>
         );
     }

@@ -5,7 +5,9 @@ import IconButton from 'material-ui/IconButton';
 import ActionHome from 'material-ui/svg-icons/action/search';
 
 
-const SearchComp = () => (
+export default class SearchComp extends React.Component {
+  render() {
+    return (
 <form>
   <div className = "search">
     <TextField
@@ -16,6 +18,6 @@ const SearchComp = () => (
    </IconButton>
     </div>
     </form>
-);
-
-export default SearchComp;
+  );
+ }
+}
