@@ -94,8 +94,7 @@ public class MeFragment extends Fragment {
         imageView = (ImageView) view.findViewById(R.id.ImageView);
         rotatePicture = (ImageButton) view.findViewById(R.id.imageButton);
         username = (EditText) view.findViewById(R.id.userNameUpdate);
-        email = (AutoCompleteTextView) view.findViewById(R.id.emailUpdate);
-        password = (EditText) view.findViewById(R.id.passwordUpadte);
+
         submit = (Button) view.findViewById(R.id.submitUpdate);
         Upload = (FloatingActionButton) view.findViewById(R.id.uploadPhoto);
         phone = (EditText) view.findViewById(R.id.phoneUpdate);
@@ -125,7 +124,9 @@ public class MeFragment extends Fragment {
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                updateUser();
+                Intent intent = new Intent(getActivity(), PasswordActivity.class);
+                startActivity(intent);
+
             }
         });
 
@@ -133,8 +134,9 @@ public class MeFragment extends Fragment {
             @Override
             public void onClick(View v) {
 
-                Toast.makeText(getActivity(), "Profile photo uploaded !",
+                Toast.makeText(getActivity(), "Information updated, photo uploaded !",
                         Toast.LENGTH_LONG).show();
+                updateUser();
             }
         });
 
@@ -176,17 +178,7 @@ public class MeFragment extends Fragment {
             jSonSend("username",usernameVal);
         }
 
-        if(!email.getText().toString().isEmpty())
-        {
-            String emailVal = email.getText().toString();
-            jSonSend("email", emailVal);
-        }
 
-        if(!password.getText().toString().isEmpty())
-        {
-            String passwordVal = password.getText().toString();
-            jSonSend("password", passwordVal);
-        }
 
         if(!phone.getText().toString().isEmpty()){
             String phoneVal = phone.getText().toString();

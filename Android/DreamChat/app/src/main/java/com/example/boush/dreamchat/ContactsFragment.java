@@ -286,7 +286,8 @@ public class ContactsFragment extends Fragment implements SearchView.OnQueryText
         public void onBindHeaderViewHolder(RecyclerView.ViewHolder holder) {
             HeaderViewHolder headerHolder = (HeaderViewHolder) holder;
 
-            headerHolder.tvTitle.setText(title);
+//            headerHolder.tvTitle.setText(title);
+
         }
 
         @Override
