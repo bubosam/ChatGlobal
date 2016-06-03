@@ -248,6 +248,63 @@ public class Server {
         AppController.getInstance().addToRequestQueue(jsonObjReq, tag_json_obj);
     }*/
 
+  /*  public boolean updatePassword(String password, Context context){
+        Map<String, String> postParam = new HashMap<String, String>();
+
+        postParam.put("password", password);
+
+        Log.d("Volley JSON to send ", new JSONObject(postParam).toString());
+
+        final Context appContext = context;
+
+        JsonObjectRequest jsonObjReq = new JsonObjectRequest(Request.Method.POST,
+                Constants.updateUrl, new JSONObject(postParam),
+                new Response.Listener<JSONObject>() {
+
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        Log.d("Volley ", response.toString());
+                        String token = null;
+                        int userid;
+                        try {
+                            token = response.getString("token");
+                            userid = response.getInt("userid");
+                            Log.d("Volley token", token);
+                            Log.d("Volley userid", String.valueOf(userid));
+                            SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(appContext);
+                            SharedPreferences.Editor editor = sharedPref.edit();
+                            editor.clear();
+                            editor.apply();
+                            editor.putInt("userid", userid);
+                            editor.putString("token", token);
+                            editor.apply();
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }, new Response.ErrorListener() {
+
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                VolleyLog.d("Volley ", "Error: " + error.getMessage());
+            }
+        })
+
+        {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                HashMap<String, String> headers = new HashMap<String, String>();
+                headers.put("Content-Type", "application/json; charset=utf-8");
+                return headers;
+            }
+        };
+
+        // Adding request to request queue
+        AppController.getInstance().addToRequestQueue(jsonObjReq, Constants.tag_json_obj);
+    }
+    */
+
+
     public boolean logout(final Context context){
 
             Map<String, String> postParam = new HashMap<String, String>();
