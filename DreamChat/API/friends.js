@@ -14,5 +14,33 @@ module.exports = {
         }
       });
     });
+  },
+
+  removeFriend: function(userid, friendid, callback){
+    var code;
+    db.query("SELECT count(*) AS count FROM friendships WHERE (user1="+userid+" AND user2="+friendid+") OR "+
+             "(user2="+userid+" AND user1="+friendid+")",function(result){
+               console.log(result["count"]!=0);
+               if(result["count"]!=0){
+                 db.nonQuery("DELETE FROM friendships WHERE (user1="+userid+" AND user2="+friendid+") OR "+
+                             "(user2="+userid+" AND user1="+friendid+")", function(success){
+                   if (typeof callback === "function") {
+                     if(success){
+                       callback(success,200);
+                     }
+                     else{
+                       callback(success,500)
+                     }
+                   }
+                 });
+               }
+               else{
+                 if (typeof callback === "function") {
+                   callback(false,400);
+                 }
+               }
+             });
+
   }
+
 }

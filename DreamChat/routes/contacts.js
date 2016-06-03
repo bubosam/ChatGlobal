@@ -10,15 +10,33 @@ router.get('/',function(req,res){
       if (access) {
         friends.getFriends(req.headers.userid,function(results){
           res.json(results);
-          code = 200;
+          res.statusCode = 200;
         });
       }
       else{
         res.json({
             "message": "authorization failed"
         });
-        code = 401;
-      }      
+        res.statusCode  = 401;
+      }
+  });
+});
+
+router.delete('/',function(req,res){
+  authorization.authorize(req, function (access) {
+      if (access) {
+        var friendid=req.body.friendid;;
+        friends.removeFriend(req.headers.userid, friendid, function(success, code){
+          res.json(success);
+          res.statusCode  = code;
+        });
+      }
+      else{
+        res.json({
+            "message": "authorization failed"
+        });
+        res.statusCode  = 401;
+      }
   });
 });
 
