@@ -106,8 +106,9 @@ public class RegistrationActivity extends AppCompatActivity {
         } else {
             //showMessage();
            // Network access.
-
-           if (new Server().register(usernameStr, emailStr, passwordStr, getApplicationContext())){
+            boolean result = new Server().register(usernameStr, emailStr, passwordStr, getApplicationContext());
+            Log.d("Result", String.valueOf(result));
+           if (result){
                showMessage();
            }
            else {
