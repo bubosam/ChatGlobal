@@ -11,19 +11,18 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.Volley;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.CountDownLatch;
 
 /**
  * Created by Client on 20.5.2016.
  */
 public class Server {
-
 
     private boolean sendReqSucc=false;
 
@@ -31,10 +30,16 @@ public class Server {
         this.sendReqSucc = sendReqSucc;
     }
 
-    private boolean regSuccess=false;
+    private boolean regSuccess;
 
-    public void setReg(boolean s){
-        regSuccess=s;
+    private boolean regAttemptExecuted;
+
+    public boolean isRegSuccess() {
+        return regSuccess;
+    }
+
+    public void setReg(boolean value){
+        regSuccess=value;
     }
 
     private boolean logoutSuccess=false;
@@ -132,7 +137,24 @@ public class Server {
 
     }
 
-    public boolean register(String nickname, String email, String password, Context context ){
+
+    public synchronized boolean regSuccess(String nickname, String email, String password, Context context) {
+        register(nickname, email, password, context);
+        while (!regAttemptExecuted) {
+            try {
+                wait();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+        regAttemptExecuted=false;
+        return regSuccess;
+    }
+
+    public synchronized boolean register(String nickname, String email, String password, Context context ){
+        //setReg(false);
+        regSuccess=false;
+        regAttemptExecuted=false;
 
             Map<String, String> postParam = new HashMap<String, String>();
             postParam.put(Constants.KEY_EMAIL, email);
@@ -142,13 +164,28 @@ public class Server {
 
             final Context appcontext = context;
 
-            JsonObjectRequest jsonObjReq = new JsonObjectRequest(Request.Method.POST,
-                    Constants.registerUrl, new JSONObject(postParam),
-                    new Response.Listener<JSONObject>() {
+            //final JsonObjectRequest jsonObjReq = new JsonObjectRequest
+            final ServerStatusRequestObject jsonObjReq = new ServerStatusRequestObject(Request.Method.POST,
+                    Constants.registerUrl, new JSONObject(postParam).toString(),
+                    new Response.Listener() {
 
                         @Override
+                        public void onResponse(Object response) {
+                            Log.d("Status kod", String.valueOf(response));
+                            Log.d("value", String.valueOf(((int)response)==200));
+                            if ((int)response==200){
+                                //Server.this.regSuccess=true;
+                                Server.this.regSuccess = true;
+                            }
+                            /*regAttemptExecuted = true;
+                            notify();*/
+                        }
+
+                        /*@Override
                         public void onResponse(JSONObject response) {
-                            Log.d("Volley ", response.toString());
+
+                            Log.d("Status kod", String.valueOf(response));
+                            /*Log.d("Volley ", response.toString());
                             String success = null;
 
                             try {
@@ -160,13 +197,19 @@ public class Server {
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }
-                        }
+                        }*/
                     },
                     new Response.ErrorListener() {
 
                         @Override
                         public void onErrorResponse(VolleyError error) {
                             //VolleyLog.d("Volley ", "Error: " + error.getMessage())
+                            /*if (error.networkResponse != null) {
+                                int kod = error.networkResponse.statusCode;
+                                Log.d("Error Response code", String.valueOf(kod));
+                            }*/
+                            regAttemptExecuted = true;
+                            notify();
                             Log.d("Error kod", error.getMessage()+"");
                         }
             }) {
@@ -183,7 +226,9 @@ public class Server {
 
             // Adding request to request queue
             AppController.getInstance().addToRequestQueue(jsonObjReq, Constants.tag_json_obj);
-       return this.regSuccess;
+
+        Log.d("regSuccess", String.valueOf(regSuccess));
+        return regSuccess;
     }
 
     /*public void update(String username, String email, String password, String phone, String firstName, String lastName, Context context){
