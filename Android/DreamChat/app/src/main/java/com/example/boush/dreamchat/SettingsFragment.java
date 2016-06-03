@@ -38,10 +38,6 @@ public class SettingsFragment extends Fragment {
         personPhoto = (ImageView)rootView.findViewById(R.id.person_photo);
 
         titleList.add (new SettingItem("Notifications and sounds",R.drawable.ic_notif));
-        titleList.add (new SettingItem("People",R.drawable.ic_people));
-        titleList.add (new SettingItem("Photos",R.drawable.ic_phot));
-        titleList.add (new SettingItem("Accounts",R.drawable.ic_acc));
-        titleList.add (new SettingItem("Profile",R.drawable.ic_person_white));
         titleList.add (new SettingItem("Themes",R.drawable.palette_white_18x18));
 
         recyclerView = (RecyclerView) rootView.findViewById(R.id.recyclerview);

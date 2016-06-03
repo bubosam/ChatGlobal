@@ -38,7 +38,7 @@ public class HelpFragment extends Fragment {
         titleList.add (new HelpItem("How to register on DreamChat ?",R.drawable.help_white_18x18));
         titleList.add (new HelpItem("What usernames are allowed on DreamChat ?",R.drawable.help_white_18x18));
         titleList.add (new HelpItem("How do I change my password ?",R.drawable.help_white_18x18));
-        titleList.add (new HelpItem("What is the minimum password strength and how can I make my password strong?",R.drawable.help_white_18x18));
+        titleList.add (new HelpItem("How can I make my password strong?",R.drawable.help_white_18x18));
 
 
         recyclerView = (RecyclerView) rootView.findViewById(R.id.recyclerview);
