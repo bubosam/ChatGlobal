@@ -93,6 +93,8 @@ public class ContactsFragment extends Fragment implements SearchView.OnQueryText
             }
         });
 
+
+
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener(){
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy){
@@ -210,11 +212,6 @@ public class ContactsFragment extends Fragment implements SearchView.OnQueryText
 
     @Override
     public boolean onQueryTextSubmit(String query) {
-        return false;
-    }
-
-    @Override
-    public boolean onQueryTextChange(String query) {
         for (Section section : sectionAdapter.getSectionsMap().values()) {
             if (section instanceof FilterableSection) {
                 ((FilterableSection)section).filter(query);
@@ -222,7 +219,30 @@ public class ContactsFragment extends Fragment implements SearchView.OnQueryText
         }
         sectionAdapter.notifyDataSetChanged();
 
+        return false;
+    }
+
+    @Override
+    public boolean onQueryTextChange(String query) {
+        /*for (Section section : sectionAdapter.getSectionsMap().values()) {
+            if (section instanceof FilterableSection) {
+                ((FilterableSection)section).filter(query);
+            }
+        }
+        sectionAdapter.notifyDataSetChanged();
+
+        return true;*/
+        if (TextUtils.isEmpty(query)) {
+            for (Section section : sectionAdapter.getSectionsMap().values()) {
+                if (section instanceof FilterableSection) {
+                    ((FilterableSection)section).filter(query);
+                }
+            }
+            sectionAdapter.notifyDataSetChanged();
+        }
+
         return true;
+        //return false;
     }
 
     class ContactsSection extends StatelessSection implements FilterableSection {
