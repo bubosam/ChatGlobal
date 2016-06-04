@@ -1,11 +1,13 @@
 import React, {Component, PropTypes} from 'react';
 import {List, ListItem, MakeSelectable} from 'material-ui/List';
 import Avatar from 'material-ui/Avatar';
-import FileFolder from 'material-ui/svg-icons/file/folder';
-import FontIcon from 'material-ui/FontIcon';
 import {blue500, yellow600} from 'material-ui/styles/colors';
 
 let SelectableList = MakeSelectable(List);
+
+const style = {
+  margin: 12,
+};
 
 function wrapState(ComposedComponent) {
   return class SelectableList extends Component {
@@ -41,42 +43,31 @@ function wrapState(ComposedComponent) {
 
 SelectableList = wrapState(SelectableList);
 
-export default class ContactListComp extends React.Component {
+export default class FriendsProfileComp extends React.Component {
   render() {
-    return (
+      return (
   <div>
     <SelectableList>
       <ListItem
         value={1}
-        primaryText="Brano David"
-        secondaryText="branko"
-        leftAvatar={
-          <Avatar src="http://img.lum.dolimg.com/v1/images/eu_finding_nemo_chi_gill_n_b14c091f.jpeg?region=0,0,600,600" />
-        }
-      />
-      <ListItem
-        value={2}
-        primaryText="Matus Kokoska"
-        secondaryText="Matus158"
-        leftAvatar={
-          <Avatar src="http://img.lum.dolimg.com/v1/images/07ff8e314e2798d32bfc8c39f82a9601677de34c.jpeg" />
-        }
-      />
+        primaryText="Matias Lajka"
+        leftAvatar={<Avatar src="http://showbizgeek.com/wp-content/uploads/2013/04/Screen-Shot-2013-04-29-at-18.57.55.png" />
+    }
+/>
       <ListItem
         value={3}
-        primaryText="Tomas Muransky"
-        secondaryText="KocurMurko"
-        leftAvatar={
-          <Avatar src="http://img.lum.dolimg.com/v1/images/eu_finding_nemo_chi_squirt_n_1c9ff515.jpeg" />
-      }
+        primaryText="Samuel Plavcik"
+        leftAvatar={<Avatar src="http://img.csfd.cz/files/images/film/photos/159/259/159259152_2d7948.jpg?w700" />}
       />
       <ListItem
         value={4}
-        primaryText="Marian Osvald"
-        secondaryText="Oskar"
-        leftAvatar={
-          <Avatar src="http://img.lum.dolimg.com/v1/images/eu_finding_nemo_chi_gurlgle_n_6eb7d6e3.jpeg" />
-        }
+        primaryText="Michael Gorbacov"
+        leftAvatar={<Avatar src="http://strategie.hnonline.sk/sites/default/files/obrazky/sprava/tucniacizmadagaskaru.jpg" />}
+      />
+      <ListItem
+        value={5}
+        primaryText="Roland Pisio"
+        leftAvatar={<Avatar src="http://images5.fanpop.com/image/photos/31200000/Alex-M3EMW-madagascar-3-31228226-1366-768.png" />}
       />
     </SelectableList>
   </div>

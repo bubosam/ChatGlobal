@@ -13,9 +13,10 @@ export default class SearchComp extends React.Component {
     <TextField
       hintText="Search"
     />
-    <IconButton>
-     <ActionHome />
-   </IconButton>
+     <IconButton linkButton={true}
+      href="/friendboard">
+       <ActionHome />
+     </IconButton>
     </div>
     </form>
   );
