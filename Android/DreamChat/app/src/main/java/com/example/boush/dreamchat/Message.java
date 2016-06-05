@@ -15,6 +15,7 @@ public class Message {
     private String date;
     private boolean isStatusMessage;
     private int recId;
+    private int myId;
 
     public Message(int avatarId, String firstName, String lastName, String messageText){
         this.avatarId = avatarId;
@@ -24,6 +25,10 @@ public class Message {
     }
 
     public Message(){}
+
+    public int getMyId() { return myId; }
+
+    public void setMyId(int myId) { this.myId = myId; }
 
     public int getRecId() { return recId; }
 

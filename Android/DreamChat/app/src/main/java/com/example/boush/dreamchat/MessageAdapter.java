@@ -60,13 +60,13 @@ public class MessageAdapter extends BaseAdapter {
         }
         else
         {
-            //Check whether message is mine to show green background and align to right
+
             if(message.isMe())
             {
                 holder.message.setBackgroundResource(R.drawable.in_message);
                 lp.gravity = Gravity.RIGHT;
             }
-            //If not mine then it is from sender to show orange background and align to left
+
             else
             {
                 holder.message.setBackgroundResource(R.drawable.out_message);

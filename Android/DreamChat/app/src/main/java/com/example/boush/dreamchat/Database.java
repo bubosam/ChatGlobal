@@ -42,7 +42,7 @@ public class Database extends SQLiteOpenHelper {
     public void addMessage(Message msg) {
 
         ContentValues values = new ContentValues();
-        values.put(KEY_MYID, 1);
+        values.put(KEY_MYID, msg.getMyId());
         values.put(KEY_RECID, msg.getRecId());
         values.put(KEY_MESSAGE, msg.getMessageText());
 
@@ -59,7 +59,7 @@ public class Database extends SQLiteOpenHelper {
         if (cursor.moveToFirst()) {
             do {
                 Message message = new Message();
-                //message.setId(cursor.getInt(0));
+                message.setMyId(cursor.getInt(0));
                 message.setRecId(cursor.getInt(1));
                 message.setMessageText(cursor.getString(2));
                 msgList.add(message);

@@ -11,6 +11,7 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.ContextMenu;
 import android.view.ContextThemeWrapper;
 import android.view.GestureDetector;
@@ -21,6 +22,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.PopupMenu;
 import android.widget.Toast;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -115,11 +120,31 @@ public class ConversationsFragment extends Fragment {
 
     private void prepareMessages() {
 
-        Message msg = new Message(R.drawable.ic_person,"Noro","Kanalos", "Ahoj");
-        msg.setDate(sdf.format(c.getTime()));
-        messagesList.add(msg);
 
-        mAdapter.notifyDataSetChanged();
+
+        String jsonStr = "[ {\"firstName\":\"John\", \"lastName\":\"Doe\", \"message\":\"Ahoj\"},\n" +
+                "    {\"firstName\":\"Anna\", \"lastName\":\"Smith\", \"message\":\"Ahoj\"},\n" +
+                "    {\"firstName\":\"Peter\", \"lastName\":\"Jones\", \"message\":\"Ahoj\"}\n" +
+                "]}";
+        JSONArray jsonarray = null;
+        try {
+            jsonarray = new JSONArray(jsonStr);
+            for (int i = 0; i < jsonarray.length(); i++) {
+                JSONObject jsonobject = jsonarray.getJSONObject(i);
+                String firstName = jsonobject.getString("firstName");
+                String lastName = jsonobject.getString("lastName");
+                String message = jsonobject.getString("message");
+
+                Message msg = new Message();
+                msg.setFirstName(firstName);
+                msg.setLastName(lastName);
+                msg.setMessageText(message);
+                messagesList.add(msg);
+                mAdapter.notifyDataSetChanged();
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
     public interface ClickListener {

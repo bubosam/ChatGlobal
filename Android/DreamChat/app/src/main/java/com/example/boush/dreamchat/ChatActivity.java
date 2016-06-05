@@ -33,7 +33,7 @@ public class ChatActivity extends ListActivity {
     private String date;
     private Contact contact;
     private int myId = 1;
-    private int recId;
+    private int recId = 2;
 
     private TextView txtName;
     private EditText etxtSendMsg;
@@ -178,17 +178,19 @@ public class ChatActivity extends ListActivity {
 
     public void sendMessage(){
 
-
         String messageText = etxtSendMsg.getText().toString();
 
-        if(!messageText.isEmpty()){
+        if(!messageText.isEmpty()) {
             Message msg = new Message();
             msg.setMessageText(messageText);
             msg.setMe(true);
+            msg.setRecId(recId);
+            msg.setMyId(myId);
             messagesList.add(msg);
             mSocket.emit("new message", msg);
-        }
+            //db.addMessage(msg);
 
+        }
         mAdapter.notifyDataSetChanged();
         etxtSendMsg.setText("");
     }
@@ -228,6 +230,8 @@ public class ChatActivity extends ListActivity {
         Message msg = new Message();
         msg.setMessageText(message);
         msg.setMe(false);
+        msg.setRecId(recId);
+        msg.setMyId(myId);
         messagesList.add(msg);
 
         mAdapter.notifyDataSetChanged();
