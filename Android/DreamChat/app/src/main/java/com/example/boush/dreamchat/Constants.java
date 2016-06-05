@@ -22,7 +22,6 @@ public class Constants {
     public static final String loginUrl = "http://10.0.2.2:1337/login";
     public static final String registerUrl = "http://10.0.2.2:1337/register";
     public static final String updateUrl = "http://10.0.2.2:1337/update";
-    public static final String logoutUrl = "http://10.0.2.2:1337/logout";
     public static final String requestUrl = "http://10.0.2.2:1337/requests";
     public static final String reqAcceptUrl = "http://10.0.2.2:1337/requests/accept";
 

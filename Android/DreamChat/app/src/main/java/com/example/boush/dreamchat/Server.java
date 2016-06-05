@@ -16,6 +16,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.CountDownLatch;
 
@@ -596,11 +597,13 @@ public class Server {
                     @Override
                     public void onResponse(JSONObject response) {
                         Log.d("Volley ", response.toString());
-                        ParseRequests reqs = new ParseRequests(response.toString());
+                        List<com.example.boush.dreamchat.Request> reqs = new ParseJSON().getRequests(response);
+                        Log.d("Request 1", String.valueOf(reqs.get(0).getRequestid())+" "+reqs.get(0).getSurname());
+                        /*ParseRequests reqs = new ParseRequests(response.toString());
                         reqs.parseJSON();
                         Log.d("Volley message", ParseRequests.message);
                         Log.d("Volley array[0]", String.valueOf(ParseRequests.reqids[0])+" "+String.valueOf(ParseRequests.userids[0])
-                        +" "+ ParseRequests.names[0]+" "+ ParseRequests.surnames[0]+" "+ ParseRequests.nicknames[0]);
+                        +" "+ ParseRequests.names[0]+" "+ ParseRequests.surnames[0]+" "+ ParseRequests.nicknames[0]);*/
                     }
                 }, new Response.ErrorListener() {
 

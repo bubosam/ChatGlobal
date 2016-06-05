@@ -4,16 +4,12 @@ package com.example.boush.dreamchat;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
-import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
-import android.util.AttributeSet;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,7 +17,10 @@ import android.widget.AbsListView;
 import android.widget.ImageView;
 import android.widget.SearchView;
 import android.widget.TextView;
-import android.widget.Toast;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -179,7 +178,7 @@ public class ContactsFragment extends Fragment implements SearchView.OnQueryText
     };*/
 
     private void prepareContactData() {
-        Contact contact = new Contact(1, "Iba", "Meliško", "Meliško", false, "email@domena.sk", "0901234567");
+        /*Contact contact = new Contact(1, "Iba", "Meliško", "Meliško", false, "email@domena.sk", "0901234567");
         contactList.add(contact);
 
         contact = new Contact(2, "Patrik", "Patinák", "Patres", true, "email@domena.sk", "0901234567");
@@ -204,7 +203,34 @@ public class ContactsFragment extends Fragment implements SearchView.OnQueryText
         contactList.add(contact);
 
         contact = new Contact(9, "Meno", "Priezvisko", "Nick", false, "email@domena.sk", "0901234567");
-        contactList.add(contact);
+        contactList.add(contact);*/
+
+        JSONObject object = new JSONObject();
+        try {
+            object.put(Constants.KEY_USERID, 5);
+            object.put(Constants.KEY_NAME, "Jozef");
+            object.put(Constants.KEY_SURNAME, "Zelený");
+            object.put(Constants.KEY_NICKNAME, "jozko007");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        JSONArray ja = new JSONArray();
+        ja.put(object);
+
+        JSONObject object2 = new JSONObject();
+        try {
+            object2.put(Constants.KEY_USERID, 3);
+            object2.put(Constants.KEY_NAME, "Chuck");
+            object2.put(Constants.KEY_SURNAME, "Norris");
+            object2.put(Constants.KEY_NICKNAME, "chuckn0rris");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        ja.put(object2);
+
+        contactList = new ParseJSON().getContacts(ja);
 
         sectionAdapter.notifyDataSetChanged();
         //mAdapter.notifyDataSetChanged();
