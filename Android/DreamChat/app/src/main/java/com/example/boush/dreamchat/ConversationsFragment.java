@@ -1,8 +1,12 @@
 package com.example.boush.dreamchat;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
@@ -35,6 +39,10 @@ public class ConversationsFragment extends Fragment {
     private Calendar c = Calendar.getInstance();
     private SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
 
+    private int myId = 1;
+    private int recId;
+    private Database db = new Database(getActivity());
+
     public ConversationsFragment() {
         // Required empty public constructor
     }
@@ -61,12 +69,12 @@ public class ConversationsFragment extends Fragment {
             @Override
             public void onClick(View view, int position) {
                 Message message = messagesList.get(position);
-
                 Intent intent = new Intent(getActivity(), ChatActivity.class);
                 intent.putExtra("firstName", message.getFirstName());
                 intent.putExtra("lastName", message.getLastName());
                 intent.putExtra("message",message.getMessageText());
                 intent.putExtra("date",message.getDate());
+                intent.putExtra("recId",message.getRecId());
                 startActivity(intent);
             }
 
@@ -106,32 +114,8 @@ public class ConversationsFragment extends Fragment {
     }
 
     private void prepareMessages() {
+
         Message msg = new Message(R.drawable.ic_person,"Noro","Kanalos", "Ahoj");
-        msg.setDate(sdf.format(c.getTime()));
-        messagesList.add(msg);
-
-        msg = new Message(R.drawable.ic_person,"Brano","Mojsej", "Ahoj more");
-        msg.setDate(sdf.format(c.getTime()));
-        messagesList.add(msg);
-
-        msg = new Message(R.drawable.ic_person,"David", "Golias", "Neviem programovat");
-        msg.setDate(sdf.format(c.getTime()));
-        messagesList.add(msg);
-
-        msg = new Message(R.drawable.ic_person,"Laci", "Strike", "Lets dance!");
-        msg.setDate(sdf.format(c.getTime()));
-        messagesList.add(msg);
-
-        msg = new Message(R.drawable.ic_person,"Oskar", "Kode", "Kral Ifov.");
-        msg.setDate("16:18");
-        messagesList.add(msg);
-
-        msg = new Message(R.drawable.ic_person,"Patrik", "Vrbovsky", "Lorem ipsum dolor sit amet, " +
-                "consectetuer adipiscing elit. Nulla pulvinar eleifend sem. Maecenas fermentum," +
-                " sem in pharetra pellentesque, velit turpis volutpat ante, in pharetra metus odio a lectus. " +
-                "Quisque porta. Nullam lectus justo, vulputate eget mollis sed, tempor sed magna. Nulla quis diam. " +
-                "Nunc tincidunt ante vitae massa. Vivamus luctus egestas leo. Suspendisse sagittis ultrices augue. " +
-                "Nullam sit amet magna in magna gravida vehicula.");
         msg.setDate(sdf.format(c.getTime()));
         messagesList.add(msg);
 

@@ -1,7 +1,11 @@
 package com.example.boush.dreamchat;
 
 import android.app.Activity;
+import android.app.Dialog;
+import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -16,6 +20,7 @@ public class SplashScreen extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.splashh);
+        checkConnection();
 
         final ImageView iv = (ImageView) findViewById(R.id.imageView);
         final Animation an = AnimationUtils.loadAnimation(getBaseContext(), R.anim.rotate);
@@ -41,5 +46,20 @@ public class SplashScreen extends Activity {
 
             }
         });
+    }
+
+    private void checkConnection() {
+        ConnectivityManager cm =
+                (ConnectivityManager)this.getSystemService(Context.CONNECTIVITY_SERVICE);
+
+        NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
+        boolean isConnected = activeNetwork != null &&
+                activeNetwork.isConnectedOrConnecting();
+        if(!isConnected){
+            final Dialog dialog = new Dialog(this); // Context, this, etc.
+            dialog.setContentView(R.layout.internet_dialog);
+            dialog.setTitle("Internet Connection");
+            dialog.show();
+        }
     }
 }
