@@ -13,16 +13,8 @@ public class Message {
     private String firstName;
     private String lastName;
     private String date;
-    private boolean isStatusMessage;
     private int recId;
     private int myId;
-
-    public Message(int avatarId, String firstName, String lastName, String messageText){
-        this.avatarId = avatarId;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.messageText = messageText;
-    }
 
     public Message(){}
 
@@ -33,10 +25,6 @@ public class Message {
     public int getRecId() { return recId; }
 
     public void setRecId(int recId) { this.recId = recId; }
-
-    public boolean isStatusMessage() { return isStatusMessage; }
-
-    public void setStatusMessage(boolean statusMessage) { isStatusMessage = statusMessage; }
 
     public boolean isMe() { return isMe; }
     public void setMe(boolean me) { isMe = me; }

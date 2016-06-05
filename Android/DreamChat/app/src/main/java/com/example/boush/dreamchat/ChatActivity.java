@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
 import android.text.style.ImageSpan;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -47,7 +48,7 @@ public class ChatActivity extends ListActivity {
     private Calendar c = Calendar.getInstance();
     private SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
 
-    private Database db = new Database(this);
+    private Database db;
 
     private Socket mSocket;
     {
@@ -77,6 +78,9 @@ public class ChatActivity extends ListActivity {
             }
         }
         setContentView(R.layout.activity_chat);
+
+        db = new Database(this);
+
         initChat();
         mSocket.on("new message", onNewMessage);
         mSocket.connect();
@@ -183,21 +187,18 @@ public class ChatActivity extends ListActivity {
         if(!messageText.isEmpty()) {
             Message msg = new Message();
             msg.setMessageText(messageText);
-            msg.setMe(true);
+            //msg.setMe(true);
             msg.setRecId(recId);
             msg.setMyId(myId);
             messagesList.add(msg);
             mSocket.emit("new message", msg);
-            //db.addMessage(msg);
-
+            db.addMessage(msg);
         }
         mAdapter.notifyDataSetChanged();
         etxtSendMsg.setText("");
     }
 
     public void loadHistory(){
-
-        Database db = new Database(this);
 
         messagesList = db.getHistory(myId,recId);
 
