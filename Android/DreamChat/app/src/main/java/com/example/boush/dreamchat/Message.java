@@ -19,11 +19,9 @@ public class Message {
     public Message(){}
 
     public int getMyId() { return myId; }
-
     public void setMyId(int myId) { this.myId = myId; }
 
     public int getRecId() { return recId; }
-
     public void setRecId(int recId) { this.recId = recId; }
 
     public boolean isMe() { return isMe; }

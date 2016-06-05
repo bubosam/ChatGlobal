@@ -120,8 +120,6 @@ public class ConversationsFragment extends Fragment {
 
     private void prepareMessages() {
 
-
-
         String jsonStr = "[ {\"firstName\":\"John\", \"lastName\":\"Doe\", \"message\":\"Ahoj\"},\n" +
                 "    {\"firstName\":\"Anna\", \"lastName\":\"Smith\", \"message\":\"Ahoj\"},\n" +
                 "    {\"firstName\":\"Peter\", \"lastName\":\"Jones\", \"message\":\"Ahoj\"}\n" +

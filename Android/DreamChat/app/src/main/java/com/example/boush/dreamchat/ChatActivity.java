@@ -46,7 +46,7 @@ public class ChatActivity extends ListActivity {
     private ImageView imageSmiling, imageLaughing, imageSad, imageAngry, imageTeasing, imageInLove;
 
     private Calendar c = Calendar.getInstance();
-    private SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
+    private SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy HH:mm");
 
     private Database db;
 
@@ -74,14 +74,27 @@ public class ChatActivity extends ListActivity {
                     messageText=extras.getString("message");
                     date=extras.getString("date");
                     recId = extras.getInt("recId");
+
+                    /*vyhadzuje null pointer exception
+                    Message msg = new Message();
+                    msg.setMessageText(messageText);
+                    msg.setDate(date);
+                    msg.setRecId(recId);
+                    msg.setMyId(myId);
+                    msg.setMe(false);
+
+                    messagesList.add(msg);
+                    db.addMessage(msg);*/
                 }
             }
         }
         setContentView(R.layout.activity_chat);
 
         db = new Database(this);
+        date = sdf.format(c.getTime());
 
         initChat();
+
         mSocket.on("new message", onNewMessage);
         mSocket.connect();
     }
@@ -93,10 +106,12 @@ public class ChatActivity extends ListActivity {
         txtName = (TextView) findViewById(R.id.txtName);
         etxtSendMsg = (EditText) findViewById(R.id.etxtSendMsg);
 
+        messagesList = db.getHistory(myId,recId);
+
         mAdapter = new MessageAdapter(this, messagesList);
         setListAdapter(mAdapter);
 
-        loadHistory();
+
         txtName.setText(firstName+" "+lastName);
 
         send = (ImageButton) findViewById(R.id.btn_sendMessage);
@@ -178,6 +193,7 @@ public class ChatActivity extends ListActivity {
         builder.setSpan(new ImageSpan(drawable), selectionCursor - ".".length(), selectionCursor, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
         etxtSendMsg.setText(builder);
         etxtSendMsg.setSelection(selectionCursor);
+
     }
 
     public void sendMessage(){
@@ -187,22 +203,18 @@ public class ChatActivity extends ListActivity {
         if(!messageText.isEmpty()) {
             Message msg = new Message();
             msg.setMessageText(messageText);
-            //msg.setMe(true);
+            msg.setMe(true);
             msg.setRecId(recId);
             msg.setMyId(myId);
+            msg.setDate(date);
             messagesList.add(msg);
+
+            mAdapter.notifyDataSetChanged();
             mSocket.emit("new message", msg);
             db.addMessage(msg);
         }
-        mAdapter.notifyDataSetChanged();
+
         etxtSendMsg.setText("");
-    }
-
-    public void loadHistory(){
-
-        messagesList = db.getHistory(myId,recId);
-
-        mAdapter.notifyDataSetChanged();
     }
 
     private Emitter.Listener onNewMessage = new Emitter.Listener() {
@@ -233,8 +245,10 @@ public class ChatActivity extends ListActivity {
         msg.setMe(false);
         msg.setRecId(recId);
         msg.setMyId(myId);
-        messagesList.add(msg);
+        msg.setDate(date);
 
+        messagesList.add(msg);
+        db.addMessage(msg);
         mAdapter.notifyDataSetChanged();
     }
 }
