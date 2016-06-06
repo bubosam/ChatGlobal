@@ -1,5 +1,7 @@
 package com.example.boush.dreamchat;
 
+import android.util.Log;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -12,10 +14,16 @@ import java.util.List;
  */
 public class ParseJSON {
 
-    public List<Contact> getContacts(JSONArray arr){
+    public List<Contact> getContacts(JSONArray array){
+    //public List<Contact> getContacts(JSONObject ob){
+        JSONArray arr = array;
+        /*try {
+            arr = ob.getJSONArray("");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }*/
         List<Contact> contactList = new ArrayList<>();
         try {
-            //JSONArray arr = new JSONArray(json);
 
             for (int i=0; i<arr.length(); i++){
                 JSONObject jo = arr.getJSONObject(i);
@@ -24,6 +32,7 @@ public class ParseJSON {
                 String surname = jo.getString(Constants.KEY_SURNAME);
                 String nickname=jo.getString(Constants.KEY_NICKNAME);
                 contactList.add(new Contact(userid, name, surname, nickname));
+                Log.d("Contact", contactList.get(i).getTitle());
             }
 
         } catch (JSONException e) {

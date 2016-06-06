@@ -6,6 +6,7 @@ import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.RetryPolicy;
+import com.android.volley.VolleyError;
 import com.android.volley.toolbox.HttpHeaderParser;
 
 import java.util.HashMap;
@@ -85,5 +86,15 @@ public class ServerStatusRequestObject extends Request<Integer> {
 
     public void setContentType(String mContentType) {
         this.mContentType = mContentType;
+    }
+
+    @Override
+    protected VolleyError parseNetworkError(VolleyError volleyError) {
+        if (volleyError==null){
+            return super.parseNetworkError(volleyError);
+        }
+        else{
+            return super.parseNetworkError(volleyError);
+        }
     }
 }

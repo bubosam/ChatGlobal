@@ -10,6 +10,7 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -205,7 +206,24 @@ public class ContactsFragment extends Fragment implements SearchView.OnQueryText
         contact = new Contact(9, "Meno", "Priezvisko", "Nick", false, "email@domena.sk", "0901234567");
         contactList.add(contact);*/
 
-        JSONObject object = new JSONObject();
+        /*new Server().getContacts(context, new VolleyCallback() {
+            @Override
+            public void onSuccess(JSONObject result) {
+                contactList = new ParseJSON().getContacts(result);
+            }
+
+            @Override
+            public void onSuccess(String result) {
+
+            }
+
+            @Override
+            public void onSuccess(int result) {
+
+            }
+        });*/
+
+        /*JSONObject object = new JSONObject();
         try {
             object.put(Constants.KEY_USERID, 5);
             object.put(Constants.KEY_NAME, "Jozef");
@@ -230,8 +248,39 @@ public class ContactsFragment extends Fragment implements SearchView.OnQueryText
 
         ja.put(object2);
 
-        contactList = new ParseJSON().getContacts(ja);
+        JSONObject mainObj = new JSONObject();
+        try {
+            mainObj.put("", ja);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }*/
+        //contactList = new ParseJSON().getContacts(mainObj);
+        new Server().getContacts(context, new VolleyCallback() {
+            @Override
+            public void onSuccess(JSONObject result) {
 
+            }
+
+            @Override
+            public void onSuccess(JSONArray result) {
+                Log.d("JSONArray result", result.toString());
+                contactList = new ParseJSON().getContacts(result);
+            }
+
+            @Override
+            public void onSuccess(String result) {
+
+            }
+
+            @Override
+            public void onSuccess(int result) {
+
+            }
+        });
+
+        for (int i=0; i<contactList.size(); i++){
+            Log.d("ContactList", contactList.get(i).getTitle());
+        }
         sectionAdapter.notifyDataSetChanged();
         //mAdapter.notifyDataSetChanged();
     }

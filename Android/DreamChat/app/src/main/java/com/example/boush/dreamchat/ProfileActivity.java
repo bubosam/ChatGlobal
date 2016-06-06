@@ -129,12 +129,12 @@ public class ProfileActivity extends AppCompatActivity {
             sendReq.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (new Server().sendRequest(getApplicationContext(), contact.getUserid())){
+                    /*if (new Server().sendRequest(getApplicationContext(), contact.getUserid())){
                         Toast.makeText(getApplicationContext(), "Request to "+ title +" sent", Toast.LENGTH_SHORT).show();
                     }
                     else{
                         Toast.makeText(getApplicationContext(), "Request not sent", Toast.LENGTH_SHORT).show();
-                    }
+                    }*/
 
                 }
             });

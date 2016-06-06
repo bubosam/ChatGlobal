@@ -24,5 +24,5 @@ public class Constants {
     public static final String updateUrl = "http://10.0.2.2:1337/update";
     public static final String requestUrl = "http://10.0.2.2:1337/requests";
     public static final String reqAcceptUrl = "http://10.0.2.2:1337/requests/accept";
-
+    public static final String contactsUrl = "http://10.0.2.2:1337/contacts";
 }

@@ -24,6 +24,9 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 public class MenuActivity extends AppCompatActivity {
 
     ViewPager pager;
@@ -230,18 +233,37 @@ public class MenuActivity extends AppCompatActivity {
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.dismiss();
-                        if (new Server().logout(getApplicationContext())){
-                            SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-                            SharedPreferences.Editor editor = sharedPref.edit();
-                            editor.remove(Constants.KEY_TOKEN);
-                            editor.remove(Constants.KEY_USERID);
-                            editor.apply();
-                            Intent intent = new Intent(MenuActivity.this, LoginActivity.class);
-                            startActivity(intent);
-                        }
-                        else{
-                            Toast.makeText(getApplicationContext(), "Logout unsuccessful.", Toast.LENGTH_SHORT).show();
-                        }
+                        new Server().logout(getApplicationContext(), new VolleyCallback() {
+                            @Override
+                            public void onSuccess(JSONObject result) {
+
+                            }
+
+                            @Override
+                            public void onSuccess(JSONArray result) {
+
+                            }
+
+                            @Override
+                            public void onSuccess(String result) {
+                            }
+
+                            @Override
+                            public void onSuccess(int result) {
+                                if (result==200){
+                                    SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+                                    SharedPreferences.Editor editor = sharedPref.edit();
+                                    editor.remove(Constants.KEY_TOKEN);
+                                    editor.remove(Constants.KEY_USERID);
+                                    editor.apply();
+                                    Intent intent = new Intent(MenuActivity.this, LoginActivity.class);
+                                    startActivity(intent);
+                                }
+                                else{
+                                    Toast.makeText(getApplicationContext(), result+ "- authorization failed. Logout unsuccessful.", Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                        });
                     }
                 });
         alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, "NO",

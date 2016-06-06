@@ -24,6 +24,7 @@ import com.android.volley.toolbox.JsonObjectRequest;
 
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -106,14 +107,33 @@ public class RegistrationActivity extends AppCompatActivity {
         } else {
             //showMessage();
            // Network access.
-            boolean result = new Server().register(usernameStr, emailStr, passwordStr, getApplicationContext());
-            Log.d("Result", String.valueOf(result));
-           if (result){
-               showMessage();
-           }
-           else {
-               showErrorMessage();
-           }
+            new Server().register(usernameStr, emailStr, passwordStr, getApplicationContext(), new VolleyCallback() {
+                @Override
+                public void onSuccess(JSONObject result) {
+
+                }
+
+                @Override
+                public void onSuccess(JSONArray result) {
+
+                }
+
+                @Override
+                public void onSuccess(String result) {
+
+                }
+
+                @Override
+                public void onSuccess(int result) {
+                    if (result==200){
+                        //Log.d("Result", String.valueOf(result));
+                        showMessage();
+                    }
+                    else{
+                        showErrorMessage();
+                    }
+                }
+            });
         }
     }
 
