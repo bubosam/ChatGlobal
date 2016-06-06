@@ -29,14 +29,21 @@ router.delete('/', function (req, res) {
         	var token = req.headers.token;
         	var login = require(appRoot + "/API/login");
         	login.logout(userid, token, function (success) {
-          		console.log(success);
-          		res.json(success);
-              res.statusCode = 200;
+          		//console.log(success);
+              if(success){
+                res.statusCode = 200;
+                res.json(true);
+              }
+              else{
+                res.statusCode = 500;
+                res.json(false);
+              }
         	});
       }
       else{
-          res.json(false);
           res.statusCode = 401;
+          res.json(false);
+
       }
   });
 });

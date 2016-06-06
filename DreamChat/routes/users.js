@@ -4,12 +4,12 @@ var bodyParser = require("body-parser");
 var users = require(appRoot + "/API/users");
 var authorization = require(appRoot + "/API/authorization");
 
-router.post('/load', function (req, res) {
+/*router.post('/load', function (req, res) {
     var userid = req.body.userid;
     users.load(userid, function (user) {
         res.json(user);
     });
-});
+});*/
 
 router.put('/', function (req, res) {
   authorization.authorize(req, function (access) {
@@ -20,8 +20,8 @@ router.put('/', function (req, res) {
     });
   }
   else{
-    res.json({});
     res.statusCode = 401;
+    res.json({});
   }
 });
 
@@ -31,22 +31,22 @@ router.get('/', function (req, res) {
       var key = req.headers.key;
       if(isNaN(key)){
         users.search(key,function(results){
-          res.json(results);
           res.statusCode = 200;
+          res.json(results);
         });
       }
       else{
         users.load(key,function(results){
-          res.json(results);
           res.statusCode = 200;
+          res.json(results);
         });
       }
     }
     else{
+      res.statusCode = 401;
       res.json({
           "message": "authorization failed"
       });
-      code = 401;
     }
   });
 });

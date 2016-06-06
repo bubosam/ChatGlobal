@@ -9,15 +9,15 @@ router.get('/',function(req,res){
 
       if (access) {
         friends.getFriends(req.headers.userid,function(results){
-          res.json(results);
           res.statusCode = 200;
+          res.json(results);
         });
       }
       else{
+        res.statusCode  = 401;
         res.json({
             "message": "authorization failed"
         });
-        res.statusCode  = 401;
       }
   });
 });
@@ -27,15 +27,15 @@ router.delete('/',function(req,res){
       if (access) {
         var friendid=req.body.friendid;;
         friends.removeFriend(req.headers.userid, friendid, function(success, code){
-          res.json(success);
           res.statusCode  = code;
+          res.json(success);
         });
       }
       else{
+        res.statusCode  = 401;
         res.json({
             "message": "authorization failed"
         });
-        res.statusCode  = 401;
       }
   });
 });
