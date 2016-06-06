@@ -40,71 +40,10 @@
             android:layout_above="@+id/etxtSendMsg">
         </ListView>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:id="@+id/emoticonLayout"
-            android:layout_above="@+id/etxtSendMsg"
-            android:background="@color/colorPrimaryDark"
-            android:layout_alignRight="@+id/btn_sendMessage"
-            android:layout_alignEnd="@+id/btn_sendMessage"
-            android:layout_alignLeft="@+id/etxtSendMsg"
-            android:layout_alignStart="@+id/etxtSendMsg">
-
-            <ImageView
-                android:id="@+id/imageSmiling"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:layout_weight="1"
-                android:src="@drawable/smiling" />
-
-            <ImageView
-                android:id="@+id/imageLaughing"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:layout_weight="1"
-                android:src="@drawable/laughing" />
-
-            <ImageView
-                android:id="@+id/imageSad"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:layout_weight="1"
-                android:src="@drawable/sad" />
-
-            <ImageView
-                android:id="@+id/imageAngry"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:layout_weight="1"
-                android:src="@drawable/angry" />
-
-            <ImageView
-                android:id="@+id/imageTeasing"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:layout_weight="1"
-                android:src="@drawable/teasing" />
-
-            <ImageView
-                android:id="@+id/imageInLove"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:layout_weight="1"
-                android:src="@drawable/inlove" />
-        </LinearLayout>
-
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="textMultiLine"
+            android:inputType="textShortMessage"
             android:ems="10"
             android:maxLength="255"
             android:id="@+id/etxtSendMsg"
@@ -141,7 +80,7 @@
         <ImageButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/btn_sendEmoticon"
+            android:id="@+id/btn_Info"
             android:src="@drawable/ic_menu"
             android:background="@null"
             android:layout_alignParentBottom="true"

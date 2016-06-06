@@ -617,7 +617,7 @@ public class Server {
                 // Handle the error
                 //Log.d("Error status code", String.valueOf(error.networkResponse.statusCode));
                 //error.networkResponse.data;
-                Log.d("error", error.getMessage());
+                //Log.d("error", error.getMessage());
                 /*if (error instanceof TimeoutError || error instanceof NoConnectionError) {
                     callback.onSuccess(401);
                 } else if (error instanceof AuthFailureError) {

@@ -25,7 +25,9 @@ import java.net.URISyntaxException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class ChatActivity extends ListActivity {
     private String firstName;
@@ -38,13 +40,12 @@ public class ChatActivity extends ListActivity {
 
     private TextView txtName;
     private EditText etxtSendMsg;
+    private ImageButton send;
+    private ImageButton info;
+    private ImageButton sendPhoto;
+
     private List<Message> messagesList = new ArrayList<>();
     private MessageAdapter mAdapter;
-    private ImageButton send;
-    private ImageButton sendEmoticon;
-    private LinearLayout emoticons;
-    private ImageView imageSmiling, imageLaughing, imageSad, imageAngry, imageTeasing, imageInLove;
-
     private Calendar c = Calendar.getInstance();
     private SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy HH:mm");
 
@@ -100,8 +101,6 @@ public class ChatActivity extends ListActivity {
     }
 
     public void initChat(){
-        emoticons = (LinearLayout) findViewById(R.id.emoticonLayout);
-        emoticons.setVisibility(View.GONE);
 
         txtName = (TextView) findViewById(R.id.txtName);
         etxtSendMsg = (EditText) findViewById(R.id.etxtSendMsg);
@@ -122,78 +121,21 @@ public class ChatActivity extends ListActivity {
             }
         });
 
-        sendEmoticon = (ImageButton) findViewById(R.id.btn_sendEmoticon);
-        sendEmoticon.setOnClickListener(new View.OnClickListener() {
+        info = (ImageButton) findViewById(R.id.btn_Info);
+        info.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                emoticons.setVisibility(View.VISIBLE);
+                Log.d("DAGGGGG", "onClick: INFO BUTTON WAS CLICKED.");
             }
         });
 
-        imageSmiling = (ImageView) findViewById(R.id.imageSmiling);
-        imageLaughing = (ImageView) findViewById(R.id.imageLaughing);
-        imageSad = (ImageView) findViewById(R.id.imageSad);
-        imageAngry = (ImageView) findViewById(R.id.imageAngry);
-        imageTeasing = (ImageView) findViewById(R.id.imageTeasing);
-        imageInLove = (ImageView) findViewById(R.id.imageInLove);
-
-        imageSmiling.setOnClickListener(new View.OnClickListener() {
+        sendPhoto = (ImageButton) findViewById(R.id.btn_sendPhoto);
+        sendPhoto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                addImageBetweentext(imageSmiling.getDrawable());
-                emoticons.setVisibility(View.VISIBLE);
+                Log.d("DAGGGGG", "onClick: SEND PHOTO BUTTON WAS CLICKED.");
             }
         });
-        imageLaughing.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                addImageBetweentext(imageLaughing.getDrawable());
-                emoticons.setVisibility(View.GONE);
-            }
-        });
-        imageSad.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                addImageBetweentext(imageSad.getDrawable());
-                emoticons.setVisibility(View.GONE);
-            }
-        });
-        imageAngry.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                addImageBetweentext(imageAngry.getDrawable());
-                emoticons.setVisibility(View.GONE);
-            }
-        });
-        imageTeasing.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                addImageBetweentext(imageTeasing.getDrawable());
-                emoticons.setVisibility(View.GONE);
-            }
-        });
-        imageInLove.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                addImageBetweentext(imageInLove.getDrawable());
-                emoticons.setVisibility(View.GONE);
-            }
-        });
-
-    }
-
-    private void addImageBetweentext(Drawable drawable) {
-        drawable .setBounds(0, 0, drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight());
-
-        int selectionCursor = etxtSendMsg.getSelectionStart();
-        etxtSendMsg.getText().insert(selectionCursor, ".");
-        selectionCursor = etxtSendMsg.getSelectionStart();
-
-        SpannableStringBuilder builder = new SpannableStringBuilder(etxtSendMsg.getText());
-        builder.setSpan(new ImageSpan(drawable), selectionCursor - ".".length(), selectionCursor, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-        etxtSendMsg.setText(builder);
-        etxtSendMsg.setSelection(selectionCursor);
-
     }
 
     public void sendMessage(){
