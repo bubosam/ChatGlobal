@@ -56,4 +56,25 @@ public class ParseJSON {
         }
         return reqs;
     }
+
+    public List<Contact> getInfo(JSONArray array){
+        List<Contact> infoList = new ArrayList<>();
+        try {
+
+            for (int i=0; i<array.length(); i++){
+                JSONObject jo = array.getJSONObject(i);
+                int userid=jo.getInt(Constants.KEY_USERID);
+                String name = jo.getString(Constants.KEY_NAME);
+                String surname = jo.getString(Constants.KEY_SURNAME);
+                String nickname=jo.getString(Constants.KEY_NICKNAME);
+                String phone =jo.getString(Constants.KEY_CONTACT);
+                infoList.add(new Contact(userid, name, surname, nickname,phone));
+                Log.d("Contact", infoList.get(i).getTitle());
+            }
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return infoList;
+    }
 }

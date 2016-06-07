@@ -361,7 +361,7 @@ public class Server {
             @Override
             public void onErrorResponse(VolleyError error) {
                 //VolleyLog.d("Volley ", "Error: " + error.getMessage());
-                Log.d("Error kod", error.getMessage()+"");
+                Log.d("Error kod", error.getMessage() + "");
             }
         })
 
@@ -612,6 +612,62 @@ public class Server {
     }
 
 
+
+
+    public void getInfoAboutUser(final Context context, final VolleyCallback callback){
+        JsonArrayRequest req = new JsonArrayRequest(Request.Method.GET, Constants.updateUrl, "{}", new Response.Listener<JSONArray>() {
+
+            @Override
+            public void onResponse(JSONArray response) {
+                Log.d("Volley ", response.toString());
+                JSONObject object = new JSONObject();
+                try {
+                    object.put(Constants.KEY_USERID, 5);
+                    object.put(Constants.KEY_NAME, "Jozef");
+                    object.put(Constants.KEY_SURNAME, "Zelený");
+                    object.put(Constants.KEY_NICKNAME, "jozko007");
+                    object.put(Constants.KEY_CONTACT,"0905111222");
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+                JSONArray ja = new JSONArray();
+                ja.put(object);
+
+                Log.d("JSONArray", ja.toString());
+
+                callback.onSuccess(ja);
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                // Handle the error
+                Log.d("Error status code", String.valueOf(error.networkResponse.statusCode));
+                callback.onSuccess(error.networkResponse.statusCode);
+            }
+        })
+        {
+            /**
+             * Passing some request headers
+             * */
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                HashMap<String, String> headers = new HashMap<String, String>();
+                SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+                String token = prefs.getString(Constants.KEY_TOKEN, null);
+                int userid = prefs.getInt(Constants.KEY_USERID, 0);
+                //headers.put(Constants.KEY_USERID, String.valueOf(userid));
+                //headers.put(Constants.KEY_TOKEN, token);
+                headers.put(Constants.KEY_USERID, String.valueOf(3));
+                headers.put(Constants.KEY_TOKEN, "a019ed400268a575b4638727d8f2b4");
+                headers.put("Content-Type", "application/json");
+                return headers;
+            }
+        };
+
+        AppController.getInstance().addToRequestQueue(req, Constants.tag_json_obj);
+
+    }
 
 }
 

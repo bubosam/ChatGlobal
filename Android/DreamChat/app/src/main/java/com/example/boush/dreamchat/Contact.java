@@ -17,13 +17,6 @@ public class Contact implements Parcelable {
     private String phone;
     //private String profilePic;
 
-    public String getPhone() {
-        return phone;
-    }
-
-    public String getEmail() {
-        return email;
-    }
 
     public int getUserid() {
         return userid;
@@ -54,6 +47,15 @@ public class Contact implements Parcelable {
         this.userid = userid;
     }
 
+    public Contact(int userid, String firstName, String lastName, String nickname,String phone) {
+        this.userid = userid;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.nickname = nickname;
+        this.phone = phone;
+    }
+
+
     public String getFirstName() {
         return firstName;
     }
@@ -66,9 +68,12 @@ public class Contact implements Parcelable {
         return firstName + " " + lastName;
     }
 
-    public String getNickname() {
-        return nickname;
-    }
+    public String getNickname() {return nickname;}
+
+    public String getPhone(){return phone;}
+
+    public String getEmail() { return email;}
+
 
     @Override
     public int describeContents() {

@@ -9,7 +9,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="10dp"
-        android:text="You have no Internet connection."/>
+        android:textSize="20sp"
+        android:text="You have no Internet connection. Turn on the internet otherwise you will be not able to login"/>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -22,7 +23,8 @@
             android:layout_height="match_parent"
             android:layout_weight="0.50"
             android:background="@color/colorAccent"
-            android:text="Close"/>
+            android:text="Close"
+             />
 
     </LinearLayout>
 </RelativeLayout>

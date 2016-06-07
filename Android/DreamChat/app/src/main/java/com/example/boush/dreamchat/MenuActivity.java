@@ -4,8 +4,11 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.drawable.Drawable;
 import android.preference.PreferenceManager;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.content.res.ResourcesCompat;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
@@ -48,6 +51,7 @@ public class MenuActivity extends AppCompatActivity {
         mTitle = mDrawerTitle = getTitle();
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
         
 
         pager = (ViewPager) findViewById(R.id.view_pager);
@@ -85,6 +89,10 @@ public class MenuActivity extends AppCompatActivity {
             }
         };
 
+
+        ActionBar ab = getSupportActionBar();
+        ab.setHomeAsUpIndicator(R.drawable.ic_menu);
+        ab.setDisplayHomeAsUpEnabled(true);
 
         mDrawerLayout.addDrawerListener(mDrawerToggle);
 
@@ -162,7 +170,7 @@ public class MenuActivity extends AppCompatActivity {
     @Override
     public void setTitle(CharSequence title) {
         mTitle = title;
-        getSupportActionBar().setTitle(mTitle);
+
     }
 
     @Override
@@ -219,6 +227,7 @@ public class MenuActivity extends AppCompatActivity {
             mDrawerList.setSelection(position);
             setTitle(mNavigationDrawerItemTitles[position]);
             mDrawerLayout.closeDrawer(mDrawerList);
+
 
         } else {
             Log.e("MainActivity", "Error in creating fragment");

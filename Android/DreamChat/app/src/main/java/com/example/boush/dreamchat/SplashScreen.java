@@ -9,6 +9,7 @@ import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.Button;
 import android.widget.ImageView;
 
 /**
@@ -16,16 +17,17 @@ import android.widget.ImageView;
  */
 public class SplashScreen extends Activity {
 
+    private Button login;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.splashh);
-        checkConnection();
+      //  checkConnection();
 
         final ImageView iv = (ImageView) findViewById(R.id.imageView);
         final Animation an = AnimationUtils.loadAnimation(getBaseContext(), R.anim.rotate);
         final Animation an2 = AnimationUtils.loadAnimation(getBaseContext(), R.anim.abc_fade_out);
-
+        login = (Button) findViewById(R.id.email_sign_in_button);
         iv.startAnimation(an);
         an.setAnimationListener(new Animation.AnimationListener() {
             @Override
@@ -60,6 +62,7 @@ public class SplashScreen extends Activity {
             dialog.setContentView(R.layout.internet_dialog);
             dialog.setTitle("Internet Connection");
             dialog.show();
+
         }
     }
 }

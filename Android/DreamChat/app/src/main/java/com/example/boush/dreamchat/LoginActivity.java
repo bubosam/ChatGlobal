@@ -3,13 +3,17 @@ package com.example.boush.dreamchat;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
+import android.app.Dialog;
 import android.app.LoaderManager.LoaderCallbacks;
+import android.content.Context;
 import android.content.CursorLoader;
 import android.content.Intent;
 import android.content.Loader;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -83,8 +87,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
     private Button debug;
 
-    private int userid;
-    private String token;
+    private Button mEmailSignInButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -99,7 +102,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         debug.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(LoginActivity.this,MenuActivity.class);
+                Intent intent = new Intent(LoginActivity.this, MenuActivity.class);
                 startActivity(intent);
             }
         });
@@ -114,18 +117,30 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             }
         });
 
-        Button mEmailSignInButton = (Button) findViewById(R.id.email_sign_in_button);
+         mEmailSignInButton = (Button) findViewById(R.id.email_sign_in_button);
         mEmailSignInButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-                attemptLogin();
+
+                if(checkConnection()==false){
+                    showDialog();
+
+                }
+                else
+                    attemptLogin();
             }
         });
+
+
 
         mLoginFormView = findViewById(R.id.login_form);
 
 
+
+
+
     }
+
 
     private void populateAutoComplete() {
         if (!mayRequestContacts()) {
@@ -169,13 +184,38 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             }
         }
     }
+    private void showDialog(){
+         final Dialog dialog = new Dialog(this);
+             dialog.setContentView(R.layout.internet_dialog);
+            dialog.setTitle("Internet Connection");
+            Button dialogButton = (Button) dialog.findViewById(R.id.dialog_cancel);
+            dialogButton.setOnClickListener(new OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    dialog.dismiss();
+                }
+            });
+            dialog.show();
+    }
 
 
-    /**
-     * Attempts to sign in or register the account specified by the login form.
-     * If there are form errors (invalid email, missing fields, etc.), the
-     * errors are presented and no actual login attempt is made.
-     */
+    private boolean checkConnection() {
+
+        ConnectivityManager cm =
+                (ConnectivityManager)this.getSystemService(Context.CONNECTIVITY_SERVICE);
+
+        NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
+        boolean isConnected = activeNetwork != null &&
+                activeNetwork.isConnectedOrConnecting();
+        if(!isConnected){
+
+
+            return false;
+        }
+        else
+
+            return true;
+    }
     private void attemptLogin() {
         if (mAuthTask != null) {
             return;
@@ -357,7 +397,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                         Log.d("Result", result);
                         Toast.makeText(getApplicationContext(), result, Toast.LENGTH_SHORT).show();
                         if (result.equals("false")) {
-                            resultVal=false;
+                            resultVal = false;
                         }
                     }
 
@@ -377,6 +417,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
             // TODO: register the new account here.
             return resultVal;
+
         }
 
         @Override

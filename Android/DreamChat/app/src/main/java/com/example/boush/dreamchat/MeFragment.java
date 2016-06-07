@@ -46,10 +46,13 @@ import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 
@@ -66,8 +69,6 @@ public class MeFragment extends Fragment {
 
 
     private EditText username;
-    private AutoCompleteTextView email;
-    private EditText password;
     private Button submit;
 
     private ImageButton rotatePicture;
@@ -81,6 +82,8 @@ public class MeFragment extends Fragment {
 
     private static final String updateUrl = "http://10.0.2.2:1337/update";
     String tag_json_obj = "json_obj_req";
+    private List<Contact> infoList = new ArrayList<>();   //mozno bude treba list typu<Info>
+    private Context context;
 
     public MeFragment() {
         // Required empty public constructor
@@ -90,6 +93,7 @@ public class MeFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_me, container, false);
+        getActivity().invalidateOptionsMenu();
         Select = (FloatingActionButton) view.findViewById(R.id.selectPhoto);
         imageView = (ImageView) view.findViewById(R.id.ImageView);
         rotatePicture = (ImageButton) view.findViewById(R.id.imageButton);
@@ -103,7 +107,9 @@ public class MeFragment extends Fragment {
         toolbar = (Toolbar) view.findViewById(R.id.toolbar);
         ((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
 
+
         deg = imageView.getRotation();
+        context=getActivity();
 
         Select.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -273,6 +279,49 @@ public class MeFragment extends Fragment {
         Bitmap cropImg = Bitmap.createBitmap(bitmap, cropW, cropH, newWidth, newHeight);
 
         return cropImg;
+    }
+
+    private void prepareContactData() {
+        new Server().getInfoAboutUser(context, new VolleyCallback() {
+            @Override
+            public void onSuccess(JSONObject result) {
+
+            }
+
+            @Override
+            public void onSuccess(JSONArray result) {
+                Log.d("JSONArray result", result.toString());
+                infoList = new ParseJSON().getInfo(result);
+                for (int i=0; i<infoList.size(); i++){
+                    Log.d("InfoList", infoList.get(i).getTitle());
+                }
+
+                username.setText(infoList.toString());
+            }
+
+            @Override
+            public void onSuccess(String result) {
+
+            }
+
+            @Override
+            public void onSuccess(int result) {
+                if (result==401){
+                    Toast.makeText(context, "Error fetching contacts - unauthorized access", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
+
+
+
+
+
+
+
+
+
+
     }
 
 
