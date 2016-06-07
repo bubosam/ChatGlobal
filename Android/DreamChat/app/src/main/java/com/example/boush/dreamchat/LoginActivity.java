@@ -30,6 +30,7 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -38,6 +39,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.JsonObjectRequest;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -212,9 +214,9 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             // perform the user login attempt.
             mAuthTask = new UserLoginTask(email, password);
             mAuthTask.execute((Void) null);
-            Intent intent = new Intent(LoginActivity.this,MenuActivity.class);
+            /*Intent intent = new Intent(LoginActivity.this,MenuActivity.class);
             startActivity(intent);
-            finish();
+            finish();*/
         }
     }
 
@@ -316,6 +318,8 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         int IS_PRIMARY = 1;
     }
 
+    private boolean resultVal;
+
     /**
      * Represents an asynchronous login/registration task used to authenticate
      * the user.
@@ -333,15 +337,35 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         @Override
         protected Boolean doInBackground(Void... params) {
             // TODO: attempt authentication against a network service.
+            resultVal=true;
 
-            try {
+
                 // network access.
-                new Server().login(email, password, getApplicationContext());
+                new Server().login(email, password, getApplicationContext(), new VolleyCallback() {
+                    @Override
+                    public void onSuccess(JSONObject result) {
 
-                Thread.sleep(5000);
-            } catch (InterruptedException e) {
-                return false;
-            }
+                    }
+
+                    @Override
+                    public void onSuccess(JSONArray result) {
+
+                    }
+
+                    @Override
+                    public void onSuccess(String result) {
+                        Log.d("Result", result);
+                        Toast.makeText(getApplicationContext(), result, Toast.LENGTH_SHORT).show();
+                        if (result.equals("false")) {
+                            resultVal=false;
+                        }
+                    }
+
+                    @Override
+                    public void onSuccess(int result) {
+
+                    }
+                });
 
             for (String credential : DUMMY_CREDENTIALS) {
                 String[] pieces = credential.split(":");
@@ -352,20 +376,25 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             }
 
             // TODO: register the new account here.
-            return true;
+            return resultVal;
         }
 
         @Override
         protected void onPostExecute(final Boolean success) {
             mAuthTask = null;
 
-
             if (success) {
+                Intent intent = new Intent(LoginActivity.this, MenuActivity.class);
+                startActivity(intent);
                 finish();
+                //finish();
             } else {
                 mPasswordView.setError(getString(R.string.error_incorrect_password));
                 mPasswordView.requestFocus();
             }
+            /*Intent intent = new Intent(LoginActivity.this,MenuActivity.class);
+            startActivity(intent);
+            finish();*/
         }
 
         @Override

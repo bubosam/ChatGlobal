@@ -1,5 +1,6 @@
 package com.example.boush.dreamchat;
 
+import android.app.DownloadManager;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
@@ -19,12 +20,14 @@ import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.StringRequest;
 
 import org.apache.http.HttpStatus;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -35,7 +38,7 @@ import java.util.concurrent.CountDownLatch;
  */
 public class Server {
 
-    public void login(String email, String password, final Context context){
+    public void login(String email, String password, final Context context, final VolleyCallback callback){
 
         Map<String, String> postParam = new HashMap<String, String>();
             postParam.put(Constants.KEY_EMAIL, email);
@@ -58,14 +61,20 @@ public class Server {
                                 userid = response.getInt(Constants.KEY_USERID);
                                 Log.d("Volley token", token);
                                 Log.d("Volley userid", String.valueOf(userid));
-                                SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(context);
-                                SharedPreferences.Editor editor = sharedPref.edit();
-                                editor.remove(Constants.KEY_TOKEN);
-                                editor.remove(Constants.KEY_USERID);
-                                editor.apply();
-                                editor.putInt(Constants.KEY_USERID, userid);
-                                editor.putString(Constants.KEY_TOKEN, token);
-                                editor.apply();
+                                if(userid!=0 && !token.isEmpty()){
+                                    SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(context);
+                                    SharedPreferences.Editor editor = sharedPref.edit();
+                                    editor.remove(Constants.KEY_TOKEN);
+                                    editor.remove(Constants.KEY_USERID);
+                                    editor.apply();
+                                    editor.putInt(Constants.KEY_USERID, userid);
+                                    editor.putString(Constants.KEY_TOKEN, token);
+                                    editor.apply();
+                                }
+                                else{
+                                    callback.onSuccess("false");
+                                }
+
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }
@@ -76,9 +85,9 @@ public class Server {
 
                 @Override
                 public void onErrorResponse(VolleyError error) {
-                    VolleyLog.d("Volley ", "Error: " + error.getMessage());
+                    //VolleyLog.d("Volley ", "Error: " + error.getMessage());
                     // Handle the error
-                    Log.d("Error status code", String.valueOf(error.networkResponse.statusCode));
+                    //Log.d("Error status code", String.valueOf(error.networkResponse.statusCode));
                     //error.networkResponse.data;
 
                 }
@@ -111,71 +120,49 @@ public class Server {
 
     }
 
-    public void register(String nickname, String email, String password, Context context, final VolleyCallback callback){
+    public void register(String nickname, String email, String password, final VolleyCallback callback){
 
-            Map<String, String> postParam = new HashMap<String, String>();
-            postParam.put(Constants.KEY_EMAIL, email);
-            postParam.put(Constants.KEY_PASSWORD, password);
-            postParam.put(Constants.KEY_NICKNAME, nickname);
-            Log.d("Volley JSON to send ", new JSONObject(postParam).toString());
+        Map<String, String> postParam = new HashMap<String, String>();
+        postParam.put(Constants.KEY_EMAIL, email);
+        postParam.put(Constants.KEY_PASSWORD, password);
+        postParam.put(Constants.KEY_NICKNAME, nickname);
+        JSONObject jsonBody = new JSONObject(postParam);
+        Log.d("Volley JSON to send ", jsonBody.toString());
 
-            final Context appcontext = context;
+        final String requestBody = jsonBody.toString();
 
-            //final JsonObjectRequest jsonObjReq = new JsonObjectRequest
-            final ServerStatusRequestObject jsonObjReq = new ServerStatusRequestObject(Request.Method.POST,
-                    Constants.registerUrl, new JSONObject(postParam).toString(),
-                    new Response.Listener() {
-
-                        @Override
-                        public void onResponse(Object response) {
-                            //Log.d("Status kod", String.valueOf(response));
-                            callback.onSuccess((Integer) response);
-                        }
-
-                        /*@Override
-                        public void onResponse(JSONObject response) {
-
-                            Log.d("Status kod", String.valueOf(response));
-                            /*Log.d("Volley ", response.toString());
-                            String success = null;
-
-                            try {
-                                success = response.getString("success");
-                                Log.d("Volley Reg Success", success);
-                                if (success.equals("true")){
-                                    setReg(true);
-                                }
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                            }
-                        }*/
-                    },
-                    new Response.ErrorListener() {
-
-                        @Override
-                        public void onErrorResponse(VolleyError error) {
-                            //VolleyLog.d("Volley ", "Error: " + error.getMessage())
-                            /*if (error.networkResponse != null) {
-                                int kod = error.networkResponse.statusCode;
-                                Log.d("Error Response code", String.valueOf(kod));
-                            }*/
-                            Log.d("Error kod", error.getMessage()+"");
-                        }
-            }) {
-                /**
-                 * Passing some request headers
-                 */
+            StringRequest strReq = new StringRequest(Request.Method.POST, Constants.registerUrl, new Response.Listener<String>() {
                 @Override
-                public Map<String, String> getHeaders() throws AuthFailureError {
-                    HashMap<String, String> headers = new HashMap<String, String>();
-                    headers.put("Content-Type", "application/json");
-                    return headers;
+                public void onResponse(String response) {
+                    Log.d("Response str", response);
+                    callback.onSuccess(response);
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    Log.d("Error string req", error.getMessage());
+                }
+            })
+
+            {
+                @Override
+                public String getBodyContentType() {
+                    return String.format("application/json");
+                }
+
+                @Override
+                public byte[] getBody() throws AuthFailureError {
+                    try {
+                        return requestBody == null ? null : requestBody.getBytes("utf-8");
+                    } catch (UnsupportedEncodingException uee) {
+                        VolleyLog.wtf("Unsupported Encoding while trying to get the bytes of %s using %s",
+                                requestBody, "utf-8");
+                        return null;
+                    }
                 }
             };
 
-            // Adding request to request queue
-            AppController.getInstance().addToRequestQueue(jsonObjReq, Constants.tag_json_obj);
-
+        AppController.getInstance().addToRequestQueue(strReq);
     }
 
     /*public void update(String username, String email, String password, String phone, String firstName, String lastName, Context context){
@@ -315,19 +302,7 @@ public class Server {
                 @Override
                 public void onErrorResponse(VolleyError error) {
                     //VolleyLog.d("Volley ", "Error: " + error.getMessage());
-                    if (error instanceof TimeoutError || error instanceof NoConnectionError) {
-                        callback.onSuccess(401);
-                    } else if (error instanceof AuthFailureError) {
-                        callback.onSuccess(401);
-                    } else if (error instanceof ServerError) {
-                        //TODO
-                    } else if (error instanceof NetworkError) {
-                        //TODO
-                    } else if (error instanceof ParseError) {
-                        //TODO
-                    }
-                    //Log.d("Error kod", error.getMessage()+"");
-                    //Log.d("Kod", String.valueOf(error.networkResponse.statusCode));
+                    callback.onSuccess(error.networkResponse.statusCode);
                 }
             })
 
@@ -341,8 +316,11 @@ public class Server {
                     SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
                     String token = prefs.getString(Constants.KEY_TOKEN, null);
                     int userid = prefs.getInt(Constants.KEY_USERID, 0);
-                    headers.put(Constants.KEY_USERID, String.valueOf(4));
-                    headers.put(Constants.KEY_TOKEN, "a019ed400268a575b4638727d8f2b4");
+                    headers.put(Constants.KEY_USERID, String.valueOf(userid));
+                    headers.put(Constants.KEY_TOKEN, token);
+                    /*headers.put(Constants.KEY_USERID, String.valueOf(3));
+                    headers.put(Constants.KEY_TOKEN, "a019ed400268a575b4638727d8f2b4");*/
+                    Log.d("Headers", token + userid);
                     headers.put("Content-Type", "application/json");
                     return headers;
                 }

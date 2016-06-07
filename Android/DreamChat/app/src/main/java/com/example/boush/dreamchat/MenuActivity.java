@@ -259,7 +259,7 @@ public class MenuActivity extends AppCompatActivity {
                                     Intent intent = new Intent(MenuActivity.this, LoginActivity.class);
                                     startActivity(intent);
                                 }
-                                else{
+                                else if (result==401){
                                     Toast.makeText(getApplicationContext(), result+ "- authorization failed. Logout unsuccessful.", Toast.LENGTH_SHORT).show();
                                 }
                             }

@@ -107,7 +107,7 @@ public class RegistrationActivity extends AppCompatActivity {
         } else {
             //showMessage();
            // Network access.
-            new Server().register(usernameStr, emailStr, passwordStr, getApplicationContext(), new VolleyCallback() {
+            new Server().register(usernameStr, emailStr, passwordStr, new VolleyCallback() {
                 @Override
                 public void onSuccess(JSONObject result) {
 
@@ -120,18 +120,19 @@ public class RegistrationActivity extends AppCompatActivity {
 
                 @Override
                 public void onSuccess(String result) {
-
-                }
-
-                @Override
-                public void onSuccess(int result) {
-                    if (result==200){
-                        //Log.d("Result", String.valueOf(result));
+                    Log.d("Result", result);
+                    if (result.equals("true")){
                         showMessage();
                     }
                     else{
                         showErrorMessage();
                     }
+
+                }
+
+                @Override
+                public void onSuccess(int result) {
+
                 }
             });
         }
