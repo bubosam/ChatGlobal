@@ -15,18 +15,11 @@ import java.util.List;
 public class ParseJSON {
 
     public List<Contact> getContacts(JSONArray array){
-    //public List<Contact> getContacts(JSONObject ob){
-        JSONArray arr = array;
-        /*try {
-            arr = ob.getJSONArray("");
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }*/
         List<Contact> contactList = new ArrayList<>();
         try {
 
-            for (int i=0; i<arr.length(); i++){
-                JSONObject jo = arr.getJSONObject(i);
+            for (int i=0; i<array.length(); i++){
+                JSONObject jo = array.getJSONObject(i);
                 int userid=jo.getInt(Constants.KEY_USERID);
                 String name = jo.getString(Constants.KEY_NAME);
                 String surname = jo.getString(Constants.KEY_SURNAME);

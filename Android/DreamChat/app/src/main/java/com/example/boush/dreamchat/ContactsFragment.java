@@ -3,9 +3,11 @@ package com.example.boush.dreamchat;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.support.v4.os.AsyncTaskCompat;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -16,8 +18,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.SearchView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -71,14 +75,14 @@ public class ContactsFragment extends Fragment implements SearchView.OnQueryText
 
         prepareContactData();
 
-        List<Contact> friends = getFriends(contactList);
+        /*List<Contact> friends = getFriends(contactList);
         if (friends.size() > 0) {
             sectionAdapter.addSection(new ContactsSection(getString(R.string.subheader_friends), friends));
         }
         List<Contact> others = getOthers(contactList);
         if (others.size() > 0) {
             sectionAdapter.addSection(new ContactsSection(getString(R.string.subheader_others), others));
-        }
+        }*/
 
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(sectionAdapter);
@@ -87,13 +91,10 @@ public class ContactsFragment extends Fragment implements SearchView.OnQueryText
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //Toast.makeText(context, "FAB clicked", Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(context, SearchActivity.class);
                 context.startActivity(intent);
             }
         });
-
-
 
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener(){
             @Override
@@ -179,50 +180,6 @@ public class ContactsFragment extends Fragment implements SearchView.OnQueryText
     };*/
 
     private void prepareContactData() {
-        /*Contact contact = new Contact(1, "Iba", "Meliško", "Meliško", false, "email@domena.sk", "0901234567");
-        contactList.add(contact);
-
-        contact = new Contact(2, "Patrik", "Patinák", "Patres", true, "email@domena.sk", "0901234567");
-        contactList.add(contact);
-
-        contact = new Contact(3, "Martin", "Tarhanič", "Matolator", true, "email@domena.sk", "0901234567");
-        contactList.add(contact);
-
-        contact = new Contact(4, "Monika", "Jaššová", "monikka", true, "email@domena.sk", "0901234567");
-        contactList.add(contact);
-
-        contact = new Contact(5, "Michal", "Borovský", "Michaljevič", true, "email@domena.sk", "0901234567");
-        contactList.add(contact);
-
-        contact = new Contact(6, "Matúš", "Kokoška", "DreamTeam", true, "email@domena.sk", "0901234567");
-        contactList.add(contact);
-
-        contact = new Contact(7, "Roman", "Klimčík", "Global Logic", false, "email@domena.sk", "0901234567");
-        contactList.add(contact);
-
-        contact = new Contact(8, "X", "Y", "Slovensko", false, "email@domena.sk", "0901234567");
-        contactList.add(contact);
-
-        contact = new Contact(9, "Meno", "Priezvisko", "Nick", false, "email@domena.sk", "0901234567");
-        contactList.add(contact);*/
-
-        /*new Server().getContacts(context, new VolleyCallback() {
-            @Override
-            public void onSuccess(JSONObject result) {
-                contactList = new ParseJSON().getContacts(result);
-            }
-
-            @Override
-            public void onSuccess(String result) {
-
-            }
-
-            @Override
-            public void onSuccess(int result) {
-
-            }
-        });*/
-
         /*JSONObject object = new JSONObject();
         try {
             object.put(Constants.KEY_USERID, 5);
@@ -246,15 +203,8 @@ public class ContactsFragment extends Fragment implements SearchView.OnQueryText
             e.printStackTrace();
         }
 
-        ja.put(object2);
+        ja.put(object2);*/
 
-        JSONObject mainObj = new JSONObject();
-        try {
-            mainObj.put("", ja);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }*/
-        //contactList = new ParseJSON().getContacts(mainObj);
         new Server().getContacts(context, new VolleyCallback() {
             @Override
             public void onSuccess(JSONObject result) {
@@ -265,6 +215,19 @@ public class ContactsFragment extends Fragment implements SearchView.OnQueryText
             public void onSuccess(JSONArray result) {
                 Log.d("JSONArray result", result.toString());
                 contactList = new ParseJSON().getContacts(result);
+                for (int i=0; i<contactList.size(); i++){
+                    Log.d("ContactList", contactList.get(i).getTitle());
+                }
+                sectionAdapter.notifyDataSetChanged();
+
+                List<Contact> friends = getFriends(contactList);
+                if (friends.size() > 0) {
+                    sectionAdapter.addSection(new ContactsSection(getString(R.string.subheader_friends), friends));
+                }
+                List<Contact> others = getOthers(contactList);
+                if (others.size() > 0) {
+                    sectionAdapter.addSection(new ContactsSection(getString(R.string.subheader_others), others));
+                }
             }
 
             @Override
@@ -274,14 +237,16 @@ public class ContactsFragment extends Fragment implements SearchView.OnQueryText
 
             @Override
             public void onSuccess(int result) {
-
+                if (result==401){
+                    Toast.makeText(context, "Error fetching contacts - unauthorized access", Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
-        for (int i=0; i<contactList.size(); i++){
+        /*for (int i=0; i<contactList.size(); i++){
             Log.d("ContactList", contactList.get(i).getTitle());
         }
-        sectionAdapter.notifyDataSetChanged();
+        sectionAdapter.notifyDataSetChanged();*/
         //mAdapter.notifyDataSetChanged();
     }
 
@@ -317,7 +282,6 @@ public class ContactsFragment extends Fragment implements SearchView.OnQueryText
         }
 
         return true;
-        //return false;
     }
 
     class ContactsSection extends StatelessSection implements FilterableSection {

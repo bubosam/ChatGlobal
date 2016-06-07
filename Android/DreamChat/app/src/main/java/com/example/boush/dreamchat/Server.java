@@ -567,10 +567,7 @@ public class Server {
     }
 
     public void getContacts(final Context context, final VolleyCallback callback){
-        Map<String, String> postParam = new HashMap<String, String>();
-        Log.d("Volley JSON to send ", new JSONObject(postParam).toString());
 
-        //JsonArrayRequest jsonArrReq = new JsonArrayRequest(Request.Method.GET, Constants.contactsUrl, new Response.Listener<JSONArray>());
         JsonArrayRequest req = new JsonArrayRequest(Request.Method.GET, Constants.contactsUrl, "{}", new Response.Listener<JSONArray>() {
             @Override
             public void onResponse(JSONArray response) {
@@ -602,33 +599,15 @@ public class Server {
 
                 Log.d("JSONArray", ja.toString());
 
-                /*JSONObject mainObj = new JSONObject();
-                try {
-                    mainObj.put("", ja);
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }*/
                 callback.onSuccess(ja);
+                //callback.onSuccess(response);
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                VolleyLog.d("Volley ", "Error: " + error.getMessage());
                 // Handle the error
-                //Log.d("Error status code", String.valueOf(error.networkResponse.statusCode));
-                //error.networkResponse.data;
-                //Log.d("error", error.getMessage());
-                /*if (error instanceof TimeoutError || error instanceof NoConnectionError) {
-                    callback.onSuccess(401);
-                } else if (error instanceof AuthFailureError) {
-                    callback.onSuccess(401);
-                } else if (error instanceof ServerError) {
-                    //TODO
-                } else if (error instanceof NetworkError) {
-                    //TODO
-                } else if (error instanceof ParseError) {
-                    //TODO
-                }*/
+                Log.d("Error status code", String.valueOf(error.networkResponse.statusCode));
+                callback.onSuccess(error.networkResponse.statusCode);
             }
         })
 
@@ -637,103 +616,13 @@ public class Server {
              * Passing some request headers
              * */
             @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-            HashMap<String, String> headers = new HashMap<String, String>();
-            SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
-            String token = prefs.getString(Constants.KEY_TOKEN, null);
-            int userid = prefs.getInt(Constants.KEY_USERID, 0);
-            headers.put(Constants.KEY_USERID, String.valueOf(3));
-            headers.put(Constants.KEY_TOKEN, "a019ed400268a575b4638727d8f2b4");
-            headers.put("Content-Type", "application/json");
-            return headers;
-        }
-        };
-
-        AppController.getInstance().addToRequestQueue(req, Constants.tag_json_obj);
-
-        /*JsonObjectRequest jsonObjReq = new JsonObjectRequest(Request.Method.GET,
-                Constants.contactsUrl, new JSONObject(postParam),
-                new Response.Listener<JSONObject>() {
-
-                    @Override
-                    public void onResponse(JSONObject response) {
-                        Log.d("Volley ", response.toString());
-                        JSONObject object = new JSONObject();
-                        try {
-                            object.put(Constants.KEY_USERID, 5);
-                            object.put(Constants.KEY_NAME, "Jozef");
-                            object.put(Constants.KEY_SURNAME, "Zelený");
-                            object.put(Constants.KEY_NICKNAME, "jozko007");
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-
-                        JSONArray ja = new JSONArray();
-                        ja.put(object);
-
-                        JSONObject object2 = new JSONObject();
-                        try {
-                            object2.put(Constants.KEY_USERID, 3);
-                            object2.put(Constants.KEY_NAME, "Chuck");
-                            object2.put(Constants.KEY_SURNAME, "Norris");
-                            object2.put(Constants.KEY_NICKNAME, "chuckn0rris");
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-
-                        ja.put(object2);
-
-                        JSONObject mainObj = new JSONObject();
-                        try {
-                            mainObj.put("", ja);
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                        callback.onSuccess(mainObj);
-                        //List<Contact> contacts = new ParseJSON().getContacts(response);
-                        //Log.d("Contact 1", String.valueOf(contacts.get(0).getTitle()));
-                        /*ParseRequests reqs = new ParseRequests(response.toString());
-                        reqs.parseJSON();
-                        Log.d("Volley message", ParseRequests.message);
-                        Log.d("Volley array[0]", String.valueOf(ParseRequests.reqids[0])+" "+String.valueOf(ParseRequests.userids[0])
-                        +" "+ ParseRequests.names[0]+" "+ ParseRequests.surnames[0]+" "+ ParseRequests.nicknames[0]);*/
-                    /*}
-                }, new Response.ErrorListener() {
-
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                VolleyLog.d("Volley ", "Error: " + error.getMessage());
-                // Handle the error
-                //Log.d("Error status code", String.valueOf(error.networkResponse.statusCode));
-                //error.networkResponse.data;
-                Log.d("1. error", String.valueOf(error instanceof NoConnectionError));
-                Log.d("error", error.getMessage());
-                if (error instanceof TimeoutError || error instanceof NoConnectionError) {
-                    Log.d("1. error", String.valueOf(error instanceof NoConnectionError));
-                    callback.onSuccess(401);
-                } else if (error instanceof AuthFailureError) {
-                    callback.onSuccess(401);
-                } else if (error instanceof ServerError) {
-                    //TODO
-                } else if (error instanceof NetworkError) {
-                    //TODO
-                } else if (error instanceof ParseError) {
-                    //TODO
-                }
-
-            }
-        })
-
-        {
-            /**
-             * Passing some request headers
-             * */
-            /*@Override
             public Map<String, String> getHeaders() throws AuthFailureError {
                 HashMap<String, String> headers = new HashMap<String, String>();
                 SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
                 String token = prefs.getString(Constants.KEY_TOKEN, null);
                 int userid = prefs.getInt(Constants.KEY_USERID, 0);
+                //headers.put(Constants.KEY_USERID, String.valueOf(userid));
+                //headers.put(Constants.KEY_TOKEN, token);
                 headers.put(Constants.KEY_USERID, String.valueOf(3));
                 headers.put(Constants.KEY_TOKEN, "a019ed400268a575b4638727d8f2b4");
                 headers.put("Content-Type", "application/json");
@@ -741,9 +630,7 @@ public class Server {
             }
         };
 
-        // Adding request to request queue
-        //AppController.getInstance().addToRequestQueue(jsonObjReq, Constants.tag_json_obj);
-        AppController.getInstance().addToRequestQueue(req, Constants.tag_json_obj);*/
+        AppController.getInstance().addToRequestQueue(req, Constants.tag_json_obj);
     }
 
 
