@@ -87,6 +87,9 @@ public class Server {
                 public void onErrorResponse(VolleyError error) {
                     //VolleyLog.d("Volley ", "Error: " + error.getMessage());
                     // Handle the error
+                    if (error!=null){
+                        Log.d("Error Response", error.getMessage());
+                    }
                     //Log.d("Error status code", String.valueOf(error.networkResponse.statusCode));
                     //error.networkResponse.data;
 
@@ -140,7 +143,9 @@ public class Server {
             }, new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError error) {
-                    Log.d("Error string req", error.getMessage());
+                    if (error!=null){
+                        Log.d("Error Response", error.getMessage());
+                    }
                 }
             })
 
@@ -302,6 +307,9 @@ public class Server {
                 @Override
                 public void onErrorResponse(VolleyError error) {
                     //VolleyLog.d("Volley ", "Error: " + error.getMessage());
+                    /*if (error!=null){
+                        Log.d("Error Response", error.getMessage());
+                    }*/
                     callback.onSuccess(error.networkResponse.statusCode);
                 }
             })
@@ -361,7 +369,9 @@ public class Server {
             @Override
             public void onErrorResponse(VolleyError error) {
                 //VolleyLog.d("Volley ", "Error: " + error.getMessage());
-                Log.d("Error kod", error.getMessage() + "");
+                if (error!=null){
+                    Log.d("Error Response", error.getMessage());
+                }
             }
         })
 
@@ -416,7 +426,9 @@ public class Server {
             @Override
             public void onErrorResponse(VolleyError error) {
                 //VolleyLog.d("Volley ", "Error: " + error.getMessage());
-                Log.d("Error kod", error.getMessage()+"");
+                if (error!=null){
+                    Log.d("Error Response", error.getMessage());
+                }
             }
         })
 
@@ -471,7 +483,9 @@ public class Server {
             @Override
             public void onErrorResponse(VolleyError error) {
                 //VolleyLog.d("Volley ", "Error: " + error.getMessage());
-                Log.d("Error kod", error.getMessage()+"");
+                if (error!=null){
+                    Log.d("Error Response", error.getMessage());
+                }
             }
         })
 
@@ -522,6 +536,9 @@ public class Server {
             public void onErrorResponse(VolleyError error) {
                 VolleyLog.d("Volley ", "Error: " + error.getMessage());
                 // Handle the error
+                if (error!=null){
+                    Log.d("Error Response", error.getMessage());
+                }
                 Log.d("Error status code", String.valueOf(error.networkResponse.statusCode));
                 //error.networkResponse.data;
 
@@ -584,6 +601,9 @@ public class Server {
             @Override
             public void onErrorResponse(VolleyError error) {
                 // Handle the error
+                if (error!=null){
+                    Log.d("Error Response", error.getMessage());
+                }
                 Log.d("Error status code", String.valueOf(error.networkResponse.statusCode));
                 callback.onSuccess(error.networkResponse.statusCode);
             }
@@ -642,6 +662,9 @@ public class Server {
             @Override
             public void onErrorResponse(VolleyError error) {
                 // Handle the error
+                if (error!=null){
+                    Log.d("Error Response", error.getMessage());
+                }
                 Log.d("Error status code", String.valueOf(error.networkResponse.statusCode));
                 callback.onSuccess(error.networkResponse.statusCode);
             }

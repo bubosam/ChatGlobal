@@ -73,7 +73,7 @@ public class ContactsFragment extends Fragment implements SearchView.OnQueryText
 
         sectionAdapter = new SectionedRecyclerViewAdapter();
 
-      //  prepareContactData();
+        prepareContactData();
 
         /*List<Contact> friends = getFriends(contactList);
         if (friends.size() > 0) {
