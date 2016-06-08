@@ -1,4 +1,5 @@
 import React, {Component, PropTypes} from 'react';
+import {Link} from 'react-router';
 import {List, ListItem, MakeSelectable} from 'material-ui/List';
 import Avatar from 'material-ui/Avatar';
 import FileFolder from 'material-ui/svg-icons/file/folder';
@@ -42,6 +43,17 @@ function wrapState(ComposedComponent) {
 SelectableList = wrapState(SelectableList);
 
 export default class ContactListComp extends React.Component {
+
+  constructor(props) {
+    super(props);
+      this.handleSubmitButtonClick = this.handleSubmitButtonClick.bind(this);
+  }
+
+  handleSubmitButtonClick() {
+      console.log('test');
+this.props.history.pushState(null,"/");
+  }
+
   render() {
     return (
   <div>
@@ -64,6 +76,7 @@ export default class ContactListComp extends React.Component {
       />
       <ListItem
         value={3}
+        onClick={this.handleSubmitButtonClick}
         primaryText="Tomas Muransky"
         secondaryText="KocurMurko"
         leftAvatar={

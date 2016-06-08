@@ -28,8 +28,8 @@ export default class AppbarWithNav extends Component {
             targetOrigin={{horizontal: 'right', vertical: 'top'}}
             anchorOrigin={{horizontal: 'right', vertical: 'top'}}
         >
-            <Link to="http://localhost:1337/"><MenuItem primaryText="Profile" /></Link>
-            <Link to="http://localhost:1337/"><MenuItem primaryText="Settings" /></Link>
+            <Link to="http://localhost:1337/profile"><MenuItem primaryText="Profile" /></Link>
+            <Link to="http://localhost:1337/settings"><MenuItem primaryText="Settings" /></Link>
             <Link to="http://localhost:1337/"><MenuItem primaryText="Sign out" /></Link>
         </IconMenu>;
 

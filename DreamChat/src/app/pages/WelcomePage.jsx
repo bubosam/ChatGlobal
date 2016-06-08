@@ -2,7 +2,7 @@ import React from 'react';
 import DrawerComp from '../components/DrawerComp.jsx';
 import Welcome from '../components/Welcome.jsx';
 
-export default class DashBoard extends React.Component {
+export default class WelcomePage extends React.Component {
     render() {
         return (
             <div>
