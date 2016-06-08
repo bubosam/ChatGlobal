@@ -3,6 +3,7 @@ var router = express.Router();
 var bodyParser = require("body-parser");
 var users = require(appRoot + "/API/users");
 var authorization = require(appRoot + "/API/authorization");
+console.log("ich bin hier");
 
 /*router.post('/load', function (req, res) {
     var userid = req.body.userid;
@@ -19,18 +20,19 @@ router.put('/', function (req, res) {
         res.json(success);
     });
   }
-  else{
-    res.statusCode = 401;
-    res.json({});
-  }
+    else{
+      res.statusCode = 401;
+      res.json({});
+  }});
 });
 
 router.get('/', function (req, res) {
   authorization.authorize(req, function (access) {
     if(access){
       var key = req.headers.key;
+      var userid = req.headers.userid;
       if(isNaN(key)){
-        users.search(key,function(results){
+        users.search(key, userid, function(results){
           res.statusCode = 200;
           res.json(results);
         });
@@ -49,11 +51,6 @@ router.get('/', function (req, res) {
       });
     }
   });
-});
-
-
-
-
 });
 
 module.exports = router;
