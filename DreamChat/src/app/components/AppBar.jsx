@@ -4,6 +4,7 @@ import IconButton from 'material-ui/IconButton';
 import IconMenu from 'material-ui/IconMenu';
 import MenuItem from 'material-ui/MenuItem';
 import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
+import SettingIcon from 'material-ui/svg-icons/action/settings';
 import {Link} from 'react-router';
 
 /* import java.io.IOException;
@@ -22,11 +23,13 @@ export default class AppbarWithNav extends Component {
     render() {
         const iconElementRight = <IconMenu
             iconButtonElement={
-          <IconButton><MoreVertIcon /></IconButton>
+          <IconButton><SettingIcon /></IconButton>
         }
             targetOrigin={{horizontal: 'right', vertical: 'top'}}
             anchorOrigin={{horizontal: 'right', vertical: 'top'}}
         >
+            <Link to="http://localhost:1337/"><MenuItem primaryText="Profile" /></Link>
+            <Link to="http://localhost:1337/"><MenuItem primaryText="Settings" /></Link>
             <Link to="http://localhost:1337/"><MenuItem primaryText="Sign out" /></Link>
         </IconMenu>;
 

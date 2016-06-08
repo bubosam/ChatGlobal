@@ -51,7 +51,7 @@ export default class ContactListComp extends React.Component {
         primaryText="Brano David"
         secondaryText="branko"
         leftAvatar={
-          <Avatar src="http://img.lum.dolimg.com/v1/images/eu_finding_nemo_chi_gill_n_b14c091f.jpeg?region=0,0,600,600" />
+          <Avatar src="http://img.lum.dolimg.com/v1/images/07ff8e314e2798d32bfc8c39f82a9601677de34c.jpeg" />
         }
       />
       <ListItem

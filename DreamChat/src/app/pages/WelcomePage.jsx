@@ -1,7 +1,6 @@
 import React from 'react';
 import DrawerComp from '../components/DrawerComp.jsx';
 import Welcome from '../components/Welcome.jsx';
-import UserTabsComp from '../components/UserTabsComp.jsx';
 
 export default class DashBoard extends React.Component {
     render() {
@@ -9,7 +8,6 @@ export default class DashBoard extends React.Component {
             <div>
               <DrawerComp />
               <Welcome />
-              <UserTabsComp />
             </div>
         );
     }

@@ -7,14 +7,14 @@ export default class ProfileCard extends React.Component {
   <Card>
     <CardHeader
       title="Tomas Muransky"
-      subtitle="Subtitle"
+      subtitle="KocurMurko"
       avatar="http://img.lum.dolimg.com/v1/images/eu_finding_nemo_chi_squirt_n_1c9ff515.jpeg"
     />
     <CardText>
       <p>
         Age:21<br/>
-      Adress:Nad jazerom,Kosice,040 01<br/>
-        School:SSOS Dneperska 1
+      Adress: Nad jazerom,Kosice,040 01<br/>
+        School: SSOS Dneperska 1
       </p>
     </CardText>
   </Card>

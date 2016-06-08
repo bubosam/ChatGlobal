@@ -1,5 +1,5 @@
 import React from 'react';
-import RegisterForm from './RegisterForm.jsx';
+import RegisterForm from '../components/RegisterForm.jsx';
 
 export default class Register extends React.Component {
   render() {
