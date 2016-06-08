@@ -36,7 +36,7 @@
         <activity android:name=".RegistrationActivity" />
         <activity android:name=".ProfileActivity" />
         <activity android:name=".ChatActivity" />
-        <activity android:name=".SearchActivity" />
+        <activity android:name=".AutocompleteActivity" />
         <activity android:name=".ThemesActivity" />
         <activity android:name=".PasswordActivity" />
         <activity android:name=".NotificationsSoundsActivity" />
