@@ -79,9 +79,10 @@ public class SettingsAdapter extends RecyclerView.Adapter<SettingsAdapter.MyView
                 SettingItem setting = titleList.get(pos);
 
                 if(pos==0){
-                    Toast.makeText(context, setting.getTitle(), Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(context, NotificationsSoundsActivity.class);
+                    v.getContext().startActivity(intent);
                 }
-                if(pos==5){
+                if(pos==1){
                     Intent intent = new Intent(context, ThemesActivity.class);
                     v.getContext().startActivity(intent);
                 }

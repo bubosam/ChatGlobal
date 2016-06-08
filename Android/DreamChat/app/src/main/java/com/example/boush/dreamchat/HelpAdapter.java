@@ -75,7 +75,32 @@ public class HelpAdapter extends RecyclerView.Adapter<HelpAdapter.MyViewHolder> 
             @Override
             public void onClick(View v) {
                 HelpItem setting = titleList.get(pos);
-                Toast.makeText(context, setting.getTitle(), Toast.LENGTH_SHORT).show();
+               if(pos ==0){
+                   Intent intent = new Intent(context, HelpActivity.class);
+                   String number ="0";
+                   intent.putExtra("extra",number);
+                   v.getContext().startActivity(intent);
+               }
+                if(pos ==1){
+                    Intent intent = new Intent(context, HelpActivity.class);
+                    String number ="1";
+                    intent.putExtra("extra",number);
+                    v.getContext().startActivity(intent);
+                }
+                if(pos ==2){
+                    Intent intent = new Intent(context, HelpActivity.class);
+                    String number ="2";
+                    intent.putExtra("extra",number);
+                    v.getContext().startActivity(intent);
+                }
+
+
+                if (pos==3){
+                    Intent intent = new Intent(context, HelpActivity.class);
+                    String number ="3";
+                    intent.putExtra("extra",number);
+                    v.getContext().startActivity(intent);
+                }
 
 
             }
