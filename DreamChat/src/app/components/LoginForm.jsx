@@ -18,6 +18,8 @@ export default class LoginForm extends Component {
             email: email,
             password: password
         };
+
+        console.log('You clicked on: '  + email + ' Password: ' + password);
     }
 
     render() {
