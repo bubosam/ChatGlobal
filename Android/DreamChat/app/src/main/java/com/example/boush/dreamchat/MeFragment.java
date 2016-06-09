@@ -111,6 +111,7 @@ public class MeFragment extends Fragment {
         deg = imageView.getRotation();
         context=getActivity();
 
+        prepareContactData();
         Select.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -285,18 +286,18 @@ public class MeFragment extends Fragment {
         new Server().getInfoAboutUser(context, new VolleyCallback() {
             @Override
             public void onSuccess(JSONObject result) {
-
+                Log.d("result",result.toString());
+                Contact me = new ParseJSON().getInfo(result);
+                username.setText(me.getNickname());
+                firstName.setText(me.getFirstName());
+                lastName.setText(me.getLastName());
+                phone.setText(me.getPhone());
             }
 
             @Override
             public void onSuccess(JSONArray result) {
-                Log.d("JSONArray result", result.toString());
-                infoList = new ParseJSON().getInfo(result);
-                for (int i=0; i<infoList.size(); i++){
-                    Log.d("InfoList", infoList.get(i).getTitle());
-                }
 
-                username.setText(infoList.toString());
+
             }
 
             @Override
@@ -311,17 +312,6 @@ public class MeFragment extends Fragment {
                 }
             }
         });
-
-
-
-
-
-
-
-
-
-
-
     }
 
 

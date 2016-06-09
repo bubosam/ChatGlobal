@@ -602,10 +602,10 @@ public class Server {
             public void onErrorResponse(VolleyError error) {
                 // Handle the error
                 if (error!=null){
-                    Log.d("Error Response", error.getMessage());
+//                    Log.d("Error Response", error.getMessage());
                 }
-                Log.d("Error status code", String.valueOf(error.networkResponse.statusCode));
-                callback.onSuccess(error.networkResponse.statusCode);
+             //   Log.d("Error status code", String.valueOf(error.networkResponse.statusCode));
+               // callback.onSuccess(error.networkResponse.statusCode);
             }
         })
 
@@ -635,10 +635,9 @@ public class Server {
 
 
     public void getInfoAboutUser(final Context context, final VolleyCallback callback){
-        JsonArrayRequest req = new JsonArrayRequest(Request.Method.GET, Constants.updateUrl, "{}", new Response.Listener<JSONArray>() {
-
+        JsonObjectRequest req = new JsonObjectRequest(Request.Method.GET, Constants.updateUrl, "{}", new Response.Listener<JSONObject>() {
             @Override
-            public void onResponse(JSONArray response) {
+            public void onResponse(JSONObject response) {
                 Log.d("Volley ", response.toString());
                 JSONObject object = new JSONObject();
                 try {
@@ -651,17 +650,16 @@ public class Server {
                     e.printStackTrace();
                 }
 
-                JSONArray ja = new JSONArray();
-                ja.put(object);
 
-                Log.d("JSONArray", ja.toString());
 
-                callback.onSuccess(ja);
+                Log.d("JSONArray", object.toString());
+
+                callback.onSuccess(object);
             }
-        }, new Response.ErrorListener() {
+        },
+            new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                // Handle the error
                 if (error!=null){
                     Log.d("Error Response", error.getMessage());
                 }

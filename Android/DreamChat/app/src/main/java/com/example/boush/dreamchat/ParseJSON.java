@@ -8,6 +8,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.StringTokenizer;
 
 /**
  * Created by Monika on 05-Jun-16.
@@ -57,24 +58,25 @@ public class ParseJSON {
         return reqs;
     }
 
-    public List<Contact> getInfo(JSONArray array){
-        List<Contact> infoList = new ArrayList<>();
+    public Contact getInfo(JSONObject object){
+        int userid = 0;
+        String name = null;
+        String surname = null;
+        String nickname = null;
+        String phone = null;
         try {
 
-            for (int i=0; i<array.length(); i++){
-                JSONObject jo = array.getJSONObject(i);
-                int userid=jo.getInt(Constants.KEY_USERID);
-                String name = jo.getString(Constants.KEY_NAME);
-                String surname = jo.getString(Constants.KEY_SURNAME);
-                String nickname=jo.getString(Constants.KEY_NICKNAME);
-                String phone =jo.getString(Constants.KEY_CONTACT);
-                infoList.add(new Contact(userid, name, surname, nickname,phone));
-                Log.d("Contact", infoList.get(i).getTitle());
-            }
+                userid=object.getInt(Constants.KEY_USERID);
+                 name = object.getString(Constants.KEY_NAME);
+                 surname = object.getString(Constants.KEY_SURNAME);
+                 nickname=object.getString(Constants.KEY_NICKNAME);
+                 phone =object.getString(Constants.KEY_CONTACT);
+
+
 
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        return infoList;
+        return new Contact(userid,name,surname,nickname,phone);
     }
 }
