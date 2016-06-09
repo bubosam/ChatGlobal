@@ -6,6 +6,7 @@ import ProfileCard from './ProfileCard.jsx';
 import MessagesComp from './MessagesComp.jsx';
 import {CardHeader} from 'material-ui/Card';
 import TextField from 'material-ui/TextField';
+import RaisedButton from 'material-ui/RaisedButton';
 
 const styles = {
   headline: {
@@ -27,34 +28,22 @@ export default class UserTabsComp extends React.Component {
 
   constructor(props) {
     super(props);
-    this.state = {
-      value: 'a',
-    };
+
   }
 
-  handleChange = (value) => {
-    this.setState({
-      value: value,
-    });
-  };
 
   render() {
     return (
       <div className="user-desk-form">
-      <Tabs style={styles.mapping}
-        value={this.state.value}
-        onChange={this.handleChange}
-      >
+      <Tabs style={styles.mapping} >
         <Tab label="Profile" value="a" >
           <div>
             <center>
               <h2 style={styles.headline}>Profile</h2>
-            <p>
           <ProfileCard/>
     <FloatingActionButton style={styles.flouting}>
       <ContentAdd />
     </FloatingActionButton>
-            </p>
             </center>
           </div>
         </Tab>
@@ -62,17 +51,16 @@ export default class UserTabsComp extends React.Component {
           <div>
             <center>
               <h2 style={styles.headline}>Messages</h2>
-            <p>
               <CardHeader
                 title="Tomas Muransky"
-                subtitle="Subtitle"
+                subtitle="KocurMurko"
                 avatar="http://img.lum.dolimg.com/v1/images/eu_finding_nemo_chi_squirt_n_1c9ff515.jpeg"
               />
             <MessagesComp/>
               <TextField
             hintText="Type your message"
             />
-            </p>
+          <RaisedButton onClick={this.handleSubmitButtonClick} type="submit" label="SEND MESSAGE" secondary={true}/>
             </center>
           </div>
         </Tab>

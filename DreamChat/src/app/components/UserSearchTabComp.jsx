@@ -20,24 +20,15 @@ export default class UserSearchTabComp extends React.Component {
 
   constructor(props) {
     super(props);
-    this.state = {
-      value: 'a',
-    };
+
   }
 
-  handleChange = (value) => {
-    this.setState({
-      value: value,
-    });
-  };
+
 
   render() {
     return (
       <div className="user-desk-form">
-      <Tabs style={styles.mapping}
-        value={this.state.value}
-        onChange={this.handleChange}
-      >
+      <Tabs style={styles.mapping}>
         <Tab label="Friends" value="a" >
           <div>
             <center>

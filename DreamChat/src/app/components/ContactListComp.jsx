@@ -12,7 +12,6 @@ function wrapState(ComposedComponent) {
   return class SelectableList extends Component {
     static propTypes = {
       children: PropTypes.node.isRequired,
-      defaultValue: PropTypes.number.isRequired,
     };
 
     componentWillMount() {
