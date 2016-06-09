@@ -600,12 +600,40 @@ public class Server {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                // Handle the error
-                if (error!=null){
-//                    Log.d("Error Response", error.getMessage());
+                JSONObject object = new JSONObject();
+                try {
+                    object.put(Constants.KEY_USERID, 5);
+                    object.put(Constants.KEY_NAME, "Jozef");
+                    object.put(Constants.KEY_SURNAME, "Zelený");
+                    object.put(Constants.KEY_NICKNAME, "jozko007");
+                } catch (JSONException e) {
+                    e.printStackTrace();
                 }
-             //   Log.d("Error status code", String.valueOf(error.networkResponse.statusCode));
-               // callback.onSuccess(error.networkResponse.statusCode);
+
+                JSONArray ja = new JSONArray();
+                ja.put(object);
+
+                JSONObject object2 = new JSONObject();
+                try {
+                    object2.put(Constants.KEY_USERID, 3);
+                    object2.put(Constants.KEY_NAME, "Chuck");
+                    object2.put(Constants.KEY_SURNAME, "Norris");
+                    object2.put(Constants.KEY_NICKNAME, "chuckn0rris");
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+                ja.put(object2);
+
+                Log.d("JSONArray", ja.toString());
+
+                callback.onSuccess(ja);
+                // Handle the error
+                /*if (error!=null){
+                    Log.d("Error Response", error.getMessage());
+                }
+                Log.d("Error status code", String.valueOf(error.networkResponse.statusCode));
+                callback.onSuccess(error.networkResponse.statusCode);*/
             }
         })
 
@@ -650,9 +678,7 @@ public class Server {
                     e.printStackTrace();
                 }
 
-
-
-                Log.d("JSONArray", object.toString());
+                Log.d("JSONObject", object.toString());
 
                 callback.onSuccess(object);
             }
@@ -660,11 +686,25 @@ public class Server {
             new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                if (error!=null){
+                JSONObject object = new JSONObject();
+                try {
+                    object.put(Constants.KEY_USERID, 5);
+                    object.put(Constants.KEY_NAME, "Jozef");
+                    object.put(Constants.KEY_SURNAME, "Zelený");
+                    object.put(Constants.KEY_NICKNAME, "jozko007");
+                    object.put(Constants.KEY_CONTACT,"0905111222");
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+                Log.d("JSONObject", object.toString());
+
+                callback.onSuccess(object);
+                /*if (error!=null){
                     Log.d("Error Response", error.getMessage());
                 }
                 Log.d("Error status code", String.valueOf(error.networkResponse.statusCode));
-                callback.onSuccess(error.networkResponse.statusCode);
+                callback.onSuccess(error.networkResponse.statusCode);*/
             }
         })
         {
