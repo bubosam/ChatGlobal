@@ -3,6 +3,8 @@ import {List, ListItem, MakeSelectable} from 'material-ui/List';
 import Avatar from 'material-ui/Avatar';
 import {pink800, yellow600} from 'material-ui/styles/colors';
 import RaisedButton from 'material-ui/RaisedButton';
+import Dialog from 'material-ui/Dialog';
+import FlatButton from 'material-ui/FlatButton';
 
 let SelectableList = MakeSelectable(List);
 
@@ -37,7 +39,7 @@ function wrapState(ComposedComponent) {
         <ComposedComponent
           value={this.state.selectedIndex}
           onChange={this.handleRequestChange}
-        >
+          >
           {this.props.children}
         </ComposedComponent>
       );
@@ -48,48 +50,82 @@ function wrapState(ComposedComponent) {
 SelectableList = wrapState(SelectableList);
 
 export default class OthersPComp extends React.Component {
+  state = {
+    open: false,
+  };
+
+  handleOpen = () => {
+    this.setState({open: true});
+  };
+
+  handleClose = () => {
+    this.setState({open: false});
+  };
+
   render() {
-      return (
-  <div>
-    <SelectableList>
+    const actions = [
+      <FlatButton
+        label="Cancel"
+        primary={true}
+        onTouchTap={this.handleClose}
+        />,
+      <FlatButton
+        label="Send"
+        primary={true}
+        keyboardFocused={true}
+        onTouchTap={this.handleClose}
+        />,
+    ];
+    return (
       <div>
-        <span style={{marginRight:120}}>
-          <img style={styles.pic} src="http://images4.fanpop.com/image/photos/17500000/Look-at-this-face-and-try-to-say-no-penguins-of-madagascar-17540302-377-349.jpg"/>
-          <span style={styles.text}>Robo Pokora</span>
-        </span>
-      <RaisedButton onClick={this.handleSubmitButtonClick} type="submit" label="SEND REQUEST" primary={true}/>
-      <RaisedButton onClick={this.handleSubmitButtonClick} type="submit" label="SEND MESSAGE" secondary={true}/>
-      <RaisedButton onClick={this.handleSubmitButtonClick} type="submit" label="VIEW PROFILE" primary={true}/>
-    </div>
-    <div>
-      <span style={{marginRight:120,}}>
-        <img style={styles.pic} src="https://i.ytimg.com/vi/dyn_JBebR2I/maxresdefault.jpg"/>
-        <span style={styles.text}>Miro Palko</span>
-    </span>
-    <RaisedButton onClick={this.handleSubmitButtonClick} type="submit" label="SEND REQUEST" primary={true}/>
-    <RaisedButton onClick={this.handleSubmitButtonClick} type="submit" label="SEND MESSAGE" secondary={true}/>
-    <RaisedButton onClick={this.handleSubmitButtonClick} type="submit" label="VIEW PROFILE" primary={true}/>
-  </div>
-  <div>
-    <span style={{marginRight:120,}}>
-      <img style={styles.pic} src="http://images5.fanpop.com/image/photos/30500000/beautiful-Gia-madagascar-3-30561090-653-650.jpg"/>
-      <span style={styles.text}>Samanta Lukacova</span>
-  </span>
-  <RaisedButton onClick={this.handleSubmitButtonClick} type="submit" label="SEND REQUEST" primary={true}/>
-  <RaisedButton onClick={this.handleSubmitButtonClick} type="submit" label="SEND MESSAGE" secondary={true}/>
-  <RaisedButton onClick={this.handleSubmitButtonClick} type="submit" label="VIEW PROFILE" primary={true}/>
-  </div>
-  <div>
-  <span style={{marginRight:120,}}>
-    <img style={styles.pic} src="http://www.trbimg.com/img-54935c75/turbine/la-apphoto-dreamworks-animation-all-hail-king-jul-20141218/650/650x366"/>
-  <span style={styles.text}>Maros Kovac</span>
-  </span>
-  <RaisedButton onClick={this.handleSubmitButtonClick} type="submit" label="SEND REQUEST" primary={true}/>
-  <RaisedButton onClick={this.handleSubmitButtonClick} type="submit" label="SEND MESSAGE" secondary={true}/>
-  <RaisedButton onClick={this.handleSubmitButtonClick} type="submit" label="VIEW PROFILE" primary={true}/>
-  </div>
-    </SelectableList>
-  </div>
-  );
- }
+        <Dialog
+          title="Send Friend Request?"
+          actions={actions}
+          modal={false}
+          open={this.state.open}
+          onRequestClose={this.handleClose}
+          >
+          Really want to send a friend request?
+        </Dialog>
+        <SelectableList>
+          <div>
+            <span style={{marginRight:120}}>
+              <img style={styles.pic} src="http://images4.fanpop.com/image/photos/17500000/Look-at-this-face-and-try-to-say-no-penguins-of-madagascar-17540302-377-349.jpg"/>
+              <span style={styles.text}>Robo Pokora</span>
+            </span>
+            <RaisedButton onClick={this.handleOpen} type="submit" label="SEND REQUEST" primary={true}/>
+            <RaisedButton onClick={this.handleSubmitButtonClick} type="submit" label="SEND MESSAGE" secondary={true}/>
+            <RaisedButton onClick={this.handleSubmitButtonClick} type="submit" label="VIEW PROFILE" primary={true}/>
+          </div>
+          <div>
+            <span style={{marginRight:120,}}>
+              <img style={styles.pic} src="https://i.ytimg.com/vi/dyn_JBebR2I/maxresdefault.jpg"/>
+              <span style={styles.text}>Miro Palko</span>
+            </span>
+            <RaisedButton onClick={this.handleOpen} type="submit" label="SEND REQUEST" primary={true}/>
+            <RaisedButton onClick={this.handleSubmitButtonClick} type="submit" label="SEND MESSAGE" secondary={true}/>
+            <RaisedButton onClick={this.handleSubmitButtonClick} type="submit" label="VIEW PROFILE" primary={true}/>
+          </div>
+          <div>
+            <span style={{marginRight:120,}}>
+              <img style={styles.pic} src="http://images5.fanpop.com/image/photos/30500000/beautiful-Gia-madagascar-3-30561090-653-650.jpg"/>
+              <span style={styles.text}>Samanta Lukacova</span>
+            </span>
+            <RaisedButton onClick={this.handleOpen} type="submit" label="SEND REQUEST" primary={true}/>
+            <RaisedButton onClick={this.handleSubmitButtonClick} type="submit" label="SEND MESSAGE" secondary={true}/>
+            <RaisedButton onClick={this.handleSubmitButtonClick} type="submit" label="VIEW PROFILE" primary={true}/>
+          </div>
+          <div>
+            <span style={{marginRight:120,}}>
+              <img style={styles.pic} src="http://www.trbimg.com/img-54935c75/turbine/la-apphoto-dreamworks-animation-all-hail-king-jul-20141218/650/650x366"/>
+              <span style={styles.text}>Maros Kovac</span>
+            </span>
+            <RaisedButton onClick={this.handleOpen} type="submit" label="SEND REQUEST" primary={true}/>
+            <RaisedButton onClick={this.handleSubmitButtonClick} type="submit" label="SEND MESSAGE" secondary={true}/>
+            <RaisedButton onClick={this.handleSubmitButtonClick} type="submit" label="VIEW PROFILE" primary={true}/>
+          </div>
+        </SelectableList>
+      </div>
+    );
+  }
 }

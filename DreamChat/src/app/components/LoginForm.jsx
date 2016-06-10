@@ -6,7 +6,6 @@ import {Link} from 'react-router';
 export default class LoginForm extends Component {
     constructor(props) {
         super(props);
-
         this.handleSubmitButtonClick = this.handleSubmitButtonClick.bind(this);
     }
 

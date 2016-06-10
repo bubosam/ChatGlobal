@@ -2,7 +2,6 @@ import React, {Component} from 'react';
 import RaisedButton from 'material-ui/RaisedButton';
 
 const styles = {
-
   content: {
     marginLeft: 200,
   },
@@ -29,7 +28,6 @@ const styles = {
     width:200,
     height:65,
   },
-
 };
 
 export default class Welcome extends Component {
