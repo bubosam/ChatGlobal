@@ -2,8 +2,8 @@ var path = require('path');
 
 export const DB = {
     SERVER: "localhost",
-    USER: "Admin",
-    PASSWORD: "salama",
+    USER: "root",
+    PASSWORD: "",
     NAME: "dreamchat"
 };
 
