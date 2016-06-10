@@ -25,6 +25,11 @@ module.exports = {
   }
 
   get: function(userid){
-    db.query("SELECT * FROM conversations LEFT JOIN messages ON message.conversationid=conversations.conversationid WHERE user1="+userid+" OR user2="+userid+" ORDER BY messageid DESC")
+    db.query("SELECT * FROM conversations LEFT JOIN messages ON message.conversationid=conversations.conversationid "+
+              "WHERE user1="+userid+" OR user2="+userid+" ORDER BY messageid DESC", function(results){
+          if (typeof callback === "function") {
+                callback(results);
+          }
+    });
   }
 }
