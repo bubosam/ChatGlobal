@@ -37,12 +37,12 @@ export default class AppbarWithNav extends Component {
   render() {
     const actions = [
       <FlatButton
-        label="Cancel"
+        label="NO"
         primary={true}
         onTouchTap={this.handleClose}
         />,
       <FlatButton
-        label="Submit"
+        label="YES"
         primary={true}
         keyboardFocused={true}
         onTouchTap={this.handleClose}

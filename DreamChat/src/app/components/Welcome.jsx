@@ -7,20 +7,23 @@ const styles = {
   },
 
   headline: {
-    fontSize: 58,
-    padding: 16,
+    fontSize: 68,
+    padding: 15,
+    marginBottom: 2 + '%',
     fontWeight: 200,
   },
 
   line1: {
     width:600,
-    margin:10,
+    marginTop: 5 + '%',
+    marginBottom: 5 + '%',
     border:'1px solid black'
   },
 
   line2: {
     width:500,
-    margin:10,
+    marginTop: 5 + '%',
+    marginBottom: 5 + '%',
     border:'1px solid black'
   },
 
