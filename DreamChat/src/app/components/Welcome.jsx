@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import {Link} from 'react-router';
 import RaisedButton from 'material-ui/RaisedButton';
 
 const styles = {
@@ -35,7 +36,7 @@ const styles = {
 
 export default class Welcome extends Component {
   constructor(props) {
-    super(props);
+      super(props);
   }
 
     render() {
@@ -47,7 +48,7 @@ export default class Welcome extends Component {
                 <img src="http://s33.postimg.org/o0duu0dbj/logo_dereamchat.png"/>
                 <div style={styles.line1}></div>
                 <div style={styles.line2}></div>
-                <RaisedButton style={styles.btnGetStarted} label="GET STARTED" primary={true}/>
+                <RaisedButton onClick={this.handleSubmitButtonClick} containerElement={<Link to="/dashboard" />} type="submit" label="GET STARTED" primary={true}/>
               </div>
           </div>
         </center>

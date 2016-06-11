@@ -17,8 +17,6 @@ export default class LoginForm extends Component {
             email: email,
             password: password
         };
-
-        console.log('You clicked on: '  + email + ' Password: ' + password);
     }
 
     render() {
@@ -37,10 +35,9 @@ export default class LoginForm extends Component {
                     type="password"
                     ref="password"
                 /><br />
-                <RaisedButton onClick={this.handleSubmitButtonClick} type="submit" label="LOGIN" primary={true}/>
+              <RaisedButton onClick={this.handleSubmitButtonClick} containerElement={<Link to="/welcomepage" />} type="submit" label="LOGIN" primary={true}/>
 
             <h4><div><Link to="/register">SIGN UP</Link></div></h4>
-            <h4><div><Link to="/dashboard">DASHBOARD</Link></div></h4>
         </div>
         );
     }

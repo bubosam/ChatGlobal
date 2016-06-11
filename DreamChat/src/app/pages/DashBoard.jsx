@@ -8,7 +8,6 @@ export default class DashBoard extends React.Component {
         return (
             <div>
               <DrawerComp />
-              <Welcome />
               <UserTabsComp />
             </div>
         );
