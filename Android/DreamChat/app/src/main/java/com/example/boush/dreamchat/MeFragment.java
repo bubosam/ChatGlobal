@@ -106,7 +106,7 @@ public class MeFragment extends Fragment {
         lastName = (EditText) view.findViewById(R.id.lastNameUpdate);
         toolbar = (Toolbar) view.findViewById(R.id.toolbar);
         ((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
-
+        toolbar.setTitle("Profile");
 
         deg = imageView.getRotation();
         context=getActivity();
