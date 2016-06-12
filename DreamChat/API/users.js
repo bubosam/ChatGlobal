@@ -54,4 +54,14 @@ module.exports = {
   		})(i);
     }
 	},
+
+    passwordChange: function (nickname, password, newpassword, callback) {
+        db.nonQuery("UPDATE users SET password:'"+newpassword+"' WHERE "
+        +" nickname:'"+nickname+"'",
+            function(success){
+                if(typeof callback ==="function"){
+                    callback(success);
+                }
+            });
+    }
 };

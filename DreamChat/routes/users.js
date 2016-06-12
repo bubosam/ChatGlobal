@@ -53,4 +53,22 @@ router.get('/', function (req, res) {
   });
 });
 
+router.post('/',function (req, res){
+  authorization.authorize(req, function (access){
+    if(access) {
+      var nickname = req.body.nickname;
+      var password = req.body.password;
+      users.update(nickname, password, function (success) {
+        res.json(success);
+      });
+    }
+    else{
+      res.statusCode = 401;
+      res.json({
+        "message": "authorization failed"
+      });
+    }
+  });
+});
+
 module.exports = router;

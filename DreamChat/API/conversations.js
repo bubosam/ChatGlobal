@@ -14,7 +14,7 @@ module.exports = {
       else{
         db.nonQuery("INSERT INTO conversations(user1,user2) VALUES("+user1+","+user2+")",function(success){
           if(success){
-            db.nonQuery("INSERT INTO messages(coversaionid,userid,message) VALUES((SELECT conversationid FROM conversations ORDER BY conversationid LIMIT1),"
+            db.nonQuery("INSERT INTO messages(coversationid,userid,message) VALUES((SELECT conversationid FROM conversations ORDER BY conversationid LIMIT1),"
                         +user1+",'"+message+"')",function(success2){
               if (typeof callback === "function") {
                   callback(success2);
@@ -29,7 +29,7 @@ module.exports = {
         });
       }
     });
-  }
+  },
 
   get: function(userid){
     db.query("SELECT * FROM conversations LEFT JOIN messages ON message.conversationid=conversations.conversationid "+
