@@ -4,15 +4,18 @@ import FontIcon from 'material-ui/FontIcon';
 import IconButton from 'material-ui/IconButton';
 import ActionHome from 'material-ui/svg-icons/action/search';
 
+const styles={
+  div:{marginLeft:5+'%'},
+  write:{width:190},
+};
 
 export default class SearchComp extends React.Component {
   render() {
     return (
 <form>
-  <div className = "search">
+  <div style={styles.div}>
     <TextField
-      hintText="Search"
-    />
+      hintText="Search" style={styles.write}/>
      <IconButton linkButton={true}
       href="/friendboard">
        <ActionHome />
