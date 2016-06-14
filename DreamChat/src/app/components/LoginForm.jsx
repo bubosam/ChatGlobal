@@ -2,6 +2,16 @@ import React, {Component} from 'react';
 import TextField from 'material-ui/TextField';
 import RaisedButton from 'material-ui/RaisedButton';
 import {Link} from 'react-router';
+import Paper from 'material-ui/Paper';
+
+const styles={
+  pap:{height: 300,
+  width: 400,
+  margin: 20,
+  textAlign: 'center',
+  display: 'inline-block'},
+  pos:{marginTop:150},
+};
 
 export default class LoginForm extends Component {
     constructor(props) {
@@ -21,8 +31,11 @@ export default class LoginForm extends Component {
 
     render() {
         return (
-            <div className="login-form">
-            <h1 className="text-center">LOGIN FORM</h1>
+          <div style={styles.pos}>
+          <center>
+          <Paper style={styles.pap} zDepth={1} >
+            <div>
+            <h1 className="text-center">LOGIN</h1>
 
                 <TextField
                     ref="email"
@@ -35,9 +48,12 @@ export default class LoginForm extends Component {
                     type="password"
                     ref="password"
                 /><br />
-              <RaisedButton onClick={this.handleSubmitButtonClick} containerElement={<Link to="/welcomepage" />} type="submit" label="LOGIN" primary={true}/>
+              <RaisedButton style={{marginTop:20}} onClick={this.handleSubmitButtonClick} containerElement={<Link to="/welcomepage" />} type="submit" label="LOGIN" primary={true}/>
 
             <h4><div><Link to="/register">SIGN UP</Link></div></h4>
+          </div>
+        </Paper>
+        </center>
         </div>
         );
     }

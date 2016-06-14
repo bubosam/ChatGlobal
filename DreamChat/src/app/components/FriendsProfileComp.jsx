@@ -9,8 +9,8 @@ let SelectableList = MakeSelectable(List);
 const styles = {
   style:{margin: 12},
   win:{marginLeft:280},
-  pic:{width:40,height:40},
   text:{fontSize: 30, marginLeft:1+'%'},
+  circular:{width:50,height:50,borderRadius:5000+'%'},
 };
 
 function wrapState(ComposedComponent) {
@@ -50,11 +50,12 @@ SelectableList = wrapState(SelectableList);
 export default class FriendsProfileComp extends React.Component {
   render() {
       return (
+        <table style={{width:800}}>
   <div>
     <SelectableList>
         <div>
           <span style={{marginRight:10+'%'}}>
-            <img style={styles.pic} src="http://showbizgeek.com/wp-content/uploads/2013/04/Screen-Shot-2013-04-29-at-18.57.55.png"/>
+            <img style={styles.circular} src="http://showbizgeek.com/wp-content/uploads/2013/04/Screen-Shot-2013-04-29-at-18.57.55.png"/>
             <span style={styles.text}>Tomas Muransky</span>
         </span>
         <RaisedButton onClick={this.handleSubmitButtonClick} type="submit" label="SEND MESSAGE" secondary={true} style={{margin:10}}/>
@@ -62,7 +63,7 @@ export default class FriendsProfileComp extends React.Component {
       </div>
       <div>
         <span style={{marginRight:10+'%'}}>
-          <img style={styles.pic} src="http://img.csfd.cz/files/images/film/photos/159/259/159259152_2d7948.jpg?w700"/>
+          <img style={styles.circular} src="http://img.csfd.cz/files/images/film/photos/159/259/159259152_2d7948.jpg?w700"/>
         <span style={styles.text}> Samuel Plavcik</span>
       </span>
       <RaisedButton onClick={this.handleSubmitButtonClick} type="submit" label="SEND MESSAGE" secondary={true} style={{margin:10}}/>
@@ -70,7 +71,7 @@ export default class FriendsProfileComp extends React.Component {
     </div>
     <div>
       <span style={{marginRight:10+'%'}}>
-        <img style={styles.pic} src="http://strategie.hnonline.sk/sites/default/files/obrazky/sprava/tucniacizmadagaskaru.jpg"/>
+        <img style={styles.circular} src="http://strategie.hnonline.sk/sites/default/files/obrazky/sprava/tucniacizmadagaskaru.jpg"/>
         <span style={styles.text}>Michael Gorbacov</span>
     </span>
     <RaisedButton onClick={this.handleSubmitButtonClick} type="submit" label="SEND MESSAGE" secondary={true} style={{margin:10}}/>
@@ -78,7 +79,7 @@ export default class FriendsProfileComp extends React.Component {
   </div>
   <div>
     <span style={{marginRight:10+'%'}}>
-      <img style={styles.pic} src="http://images5.fanpop.com/image/photos/31200000/Alex-M3EMW-madagascar-3-31228226-1366-768.png"/>
+      <img style={styles.circular} src="http://images5.fanpop.com/image/photos/31200000/Alex-M3EMW-madagascar-3-31228226-1366-768.png"/>
     <span style={styles.text}>Pavel Pavlovsky</span>
   </span>
   <RaisedButton onClick={this.handleSubmitButtonClick} type="submit" label="SEND MESSAGE" secondary={true} style={{margin:10}}/>
@@ -86,6 +87,7 @@ export default class FriendsProfileComp extends React.Component {
 </div>
     </SelectableList>
   </div>
+  </table>
   );
  }
 }

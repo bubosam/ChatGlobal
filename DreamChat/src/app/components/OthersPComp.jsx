@@ -11,7 +11,7 @@ let SelectableList = MakeSelectable(List);
 const styles = {
   style:{margin: 12},
   win:{marginLeft:280},
-  pic:{width:40,height:40},
+  circular:{width:50,height:50,borderRadius:5000+'%'},
   text:{fontSize: 30, marginLeft:1+'%'},
 };
 
@@ -87,28 +87,29 @@ export default class OthersPComp extends React.Component {
           >
           Really want to send a friend request?
         </Dialog>
-        <SelectableList>
+        <table style={{border:1,width:1000}}>
+          <SelectableList>
           <div>
             <span style={{marginRight:10+'%'}}>
-              <img style={styles.pic} src="http://images4.fanpop.com/image/photos/17500000/Look-at-this-face-and-try-to-say-no-penguins-of-madagascar-17540302-377-349.jpg"/>
+              <img style={styles.circular} src="http://images4.fanpop.com/image/photos/17500000/Look-at-this-face-and-try-to-say-no-penguins-of-madagascar-17540302-377-349.jpg"/>
               <span style={styles.text}>Robo Pokora</span>
             </span>
-            <RaisedButton onClick={this.handleOpen} type="submit" label="SEND REQUEST" primary={true} style={{margin:10}}/>
-            <RaisedButton onClick={this.handleSubmitButtonClick} type="submit" label="SEND MESSAGE" secondary={true} style={{margin:10}}/>
-            <RaisedButton onClick={this.handleSubmitButtonClick} type="submit" label="VIEW PROFILE" primary={true} style={{margin:10}}/>
-          </div>
+          <RaisedButton onClick={this.handleOpen} type="submit" label="SEND REQUEST" primary={true} style={{margin:10}}/>
+          <RaisedButton onClick={this.handleSubmitButtonClick} type="submit" label="SEND MESSAGE" secondary={true} style={{margin:10}}/>
+          <RaisedButton onClick={this.handleSubmitButtonClick} type="submit" label="VIEW PROFILE" primary={true} style={{margin:10}}/>
+            </div>
           <div>
             <span style={{marginRight:10+'%'}}>
-              <img style={styles.pic} src="https://i.ytimg.com/vi/dyn_JBebR2I/maxresdefault.jpg"/>
+              <img style={styles.circular} src="https://i.ytimg.com/vi/dyn_JBebR2I/maxresdefault.jpg"/>
               <span style={styles.text}>Miro Palko</span>
             </span>
             <RaisedButton onClick={this.handleOpen} type="submit" label="SEND REQUEST" primary={true} style={{margin:10}} />
             <RaisedButton onClick={this.handleSubmitButtonClick} type="submit" label="SEND MESSAGE" secondary={true} style={{margin:10}}/>
             <RaisedButton onClick={this.handleSubmitButtonClick} type="submit" label="VIEW PROFILE" primary={true} style={{margin:10}}/>
-          </div>
-          <div>
+            </div>
+            <div>
             <span style={{marginRight:10+'%'}}>
-              <img style={styles.pic} src="http://images5.fanpop.com/image/photos/30500000/beautiful-Gia-madagascar-3-30561090-653-650.jpg"/>
+              <img style={styles.circular} src="http://images5.fanpop.com/image/photos/30500000/beautiful-Gia-madagascar-3-30561090-653-650.jpg"/>
               <span style={styles.text}>Samanta Lukacova</span>
             </span>
             <RaisedButton onClick={this.handleOpen} type="submit" label="SEND REQUEST" primary={true} style={{margin:10}}/>
@@ -117,7 +118,7 @@ export default class OthersPComp extends React.Component {
           </div>
           <div>
             <span style={{marginRight:10+'%'}}>
-              <img style={styles.pic} src="http://www.trbimg.com/img-54935c75/turbine/la-apphoto-dreamworks-animation-all-hail-king-jul-20141218/650/650x366"/>
+              <img style={styles.circular} src="http://www.trbimg.com/img-54935c75/turbine/la-apphoto-dreamworks-animation-all-hail-king-jul-20141218/650/650x366"/>
               <span style={styles.text}>Maros Kovac</span>
             </span>
             <RaisedButton onClick={this.handleOpen} type="submit" label="SEND REQUEST" primary={true} style={{margin:10}}/>
@@ -125,6 +126,7 @@ export default class OthersPComp extends React.Component {
             <RaisedButton onClick={this.handleSubmitButtonClick} type="submit" label="VIEW PROFILE" primary={true} style={{margin:10}}/>
           </div>
         </SelectableList>
+        </table>
       </div>
     );
   }
