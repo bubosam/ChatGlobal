@@ -10,7 +10,7 @@ const styles={
   margin: 20,
   textAlign: 'center',
   display: 'inline-block'},
-  pos:{marginTop:150},
+  pos:{marginTop:1+'%'},
 };
 
 export default class LoginForm extends Component {
