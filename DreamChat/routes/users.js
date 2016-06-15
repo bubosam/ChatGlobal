@@ -3,7 +3,6 @@ var router = express.Router();
 var bodyParser = require("body-parser");
 var users = require(appRoot + "/API/users");
 var authorization = require(appRoot + "/API/authorization");
-console.log("ich bin hier");
 
 /*router.post('/load', function (req, res) {
     var userid = req.body.userid;

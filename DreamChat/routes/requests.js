@@ -41,6 +41,7 @@ router.delete('/', function (req, res) {
     authorization.authorize(req, function (access) {
         if (access) {
             var requestid = req.body.requestid;
+            var userid=req.headers.userid;
             requests.cancelRequest(requestid, userid, function (success,code) {
                 if (success) {
                     res.statusCode = code;
@@ -110,7 +111,7 @@ router.get('/', function (req, res) {
                     message: "requests loaded successfully"
                 };
                 res.statusCode = 200;
-                res.json(response);              
+                res.json(response);
             });
         }
         else {
