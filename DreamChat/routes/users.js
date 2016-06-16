@@ -52,12 +52,14 @@ router.get('/', function (req, res) {
   });
 });
 
-router.post('/',function (req, res){
+router.put('/password',function (req, res){
   authorization.authorize(req, function (access){
     if(access) {
-      var nickname = req.body.nickname;
+      var userid = req.headers.userid;
       var password = req.body.password;
-      users.update(nickname, password, function (success) {
+      var passwordNew = req.body.newpassword;
+      users.passwordChange(userid, password, passwordNew, function (success,code) {
+        res.statusCode=code;
         res.json(success);
       });
     }
