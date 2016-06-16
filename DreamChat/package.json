@@ -35,7 +35,8 @@
     "stylus": "0.54.5",
     "valid-url": "1.0.9",
     "views": "^1.0.2",
-    "unique-concat": "0.2.2"
+    "unique-concat": "0.2.2",
+    "sendgrid-sender": "0.1.1"
   },
   "devDependencies": {
     "babel-core": "^6.8.0",
