@@ -252,11 +252,35 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         } else {
             // Show a progress spinner, and kick off a background task to
             // perform the user login attempt.
-            mAuthTask = new UserLoginTask(email, password);
+            mAuthTask = new UserLoginTask(email, password, new AsyncTaskCallback() {
+                @Override
+                public void onTaskCompleted(List<Contact> result) {
+
+                }
+
+                @Override
+                public void onTaskCompleted(Contact result) {
+
+                }
+
+                @Override
+                public void onTaskCompleted(int result) {
+
+                }
+
+                @Override
+                public void onTaskCompleted(String result) {
+                    if (result.equals("true")){
+                        Intent intent = new Intent(LoginActivity.this, MenuActivity.class);
+                        startActivity(intent);
+                        finish();
+                    }
+                    else{
+                        Toast.makeText(getApplicationContext(), "Login failed", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            });
             mAuthTask.execute((Void) null);
-            /*Intent intent = new Intent(LoginActivity.this,MenuActivity.class);
-            startActivity(intent);
-            finish();*/
         }
     }
 
@@ -358,27 +382,25 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         int IS_PRIMARY = 1;
     }
 
-    private boolean resultVal;
-
     /**
      * Represents an asynchronous login/registration task used to authenticate
      * the user.
      */
-    public class UserLoginTask extends AsyncTask<Void, Void, Boolean> {
+    public class UserLoginTask extends AsyncTask<Void, Void, Void> {
 
         private final String mEmail;
         private final String mPassword;
+        private AsyncTaskCallback listener;
 
-        UserLoginTask(String email, String password) {
+        UserLoginTask(String email, String password, AsyncTaskCallback listener) {
             mEmail = email;
             mPassword = password;
+            this.listener = listener;
         }
 
         @Override
-        protected Boolean doInBackground(Void... params) {
+        protected Void doInBackground(Void... params) {
             // TODO: attempt authentication against a network service.
-            resultVal=true;
-
 
                 // network access.
                 new Server().login(email, password, getApplicationContext(), new VolleyCallback() {
@@ -395,10 +417,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                     @Override
                     public void onSuccess(String result) {
                         Log.d("Result", result);
-                        Toast.makeText(getApplicationContext(), result, Toast.LENGTH_SHORT).show();
-                        if (result.equals("false")) {
-                            resultVal = false;
-                        }
+                        listener.onTaskCompleted(result);
                     }
 
                     @Override
@@ -406,36 +425,12 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
                     }
                 });
-
-            for (String credential : DUMMY_CREDENTIALS) {
-                String[] pieces = credential.split(":");
-                if (pieces[0].equals(mEmail)) {
-                    // Account exists, return true if the password matches.
-                    return pieces[1].equals(mPassword);
-                }
-            }
-
-            // TODO: register the new account here.
-            return resultVal;
-
+            return  null;
         }
 
         @Override
-        protected void onPostExecute(final Boolean success) {
+        protected void onPostExecute(Void aVoid) {
             mAuthTask = null;
-
-            if (success) {
-                Intent intent = new Intent(LoginActivity.this, MenuActivity.class);
-                startActivity(intent);
-                finish();
-                //finish();
-            } else {
-                mPasswordView.setError(getString(R.string.error_incorrect_password));
-                mPasswordView.requestFocus();
-            }
-            /*Intent intent = new Intent(LoginActivity.this,MenuActivity.class);
-            startActivity(intent);
-            finish();*/
         }
 
         @Override

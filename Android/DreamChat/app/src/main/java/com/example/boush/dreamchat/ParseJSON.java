@@ -25,7 +25,7 @@ public class ParseJSON {
                 String name = jo.getString(Constants.KEY_NAME);
                 String surname = jo.getString(Constants.KEY_SURNAME);
                 String nickname=jo.getString(Constants.KEY_NICKNAME);
-                contactList.add(new Contact(userid, name, surname, nickname));
+                contactList.add(new Contact(userid, name, surname, nickname, true));
                 Log.d("Contact", contactList.get(i).getTitle());
             }
 

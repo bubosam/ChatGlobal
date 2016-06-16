@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -105,8 +106,49 @@ public class RegistrationActivity extends AppCompatActivity {
             // form field with an error.
             focusView.requestFocus();
         } else {
-            //showMessage();
-           // Network access.
+            // Network access.
+            new RegisterTask(new AsyncTaskCallback() {
+                @Override
+                public void onTaskCompleted(List<Contact> result) {
+
+                }
+
+                @Override
+                public void onTaskCompleted(Contact result) {
+
+                }
+
+                @Override
+                public void onTaskCompleted(int result) {
+
+                }
+
+                @Override
+                public void onTaskCompleted(String result) {
+                    Log.d("Result", result);
+                    if (result.equals("true")){
+                        showMessage();
+                    }
+                    else{
+                        showErrorMessage();
+                    }
+
+                }
+            }).execute(usernameStr, emailStr, passwordStr);
+        }
+    }
+
+    public class RegisterTask extends AsyncTask<String, Void, Void>{
+        private AsyncTaskCallback listener;
+        public RegisterTask(AsyncTaskCallback listener){
+            this.listener=listener;
+        }
+
+        @Override
+        protected Void doInBackground(String... params) {
+            String usernameStr = params[0];
+            String emailStr = params[1];
+            String passwordStr = params[2];
             new Server().register(usernameStr, emailStr, passwordStr, new VolleyCallback() {
                 @Override
                 public void onSuccess(JSONObject result) {
@@ -120,14 +162,7 @@ public class RegistrationActivity extends AppCompatActivity {
 
                 @Override
                 public void onSuccess(String result) {
-                    Log.d("Result", result);
-                    if (result.equals("true")){
-                        showMessage();
-                    }
-                    else{
-                        showErrorMessage();
-                    }
-
+                    listener.onTaskCompleted(result);
                 }
 
                 @Override
@@ -135,6 +170,8 @@ public class RegistrationActivity extends AppCompatActivity {
 
                 }
             });
+
+            return null;
         }
     }
 

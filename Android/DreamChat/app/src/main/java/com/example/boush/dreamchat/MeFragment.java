@@ -13,6 +13,7 @@ import android.graphics.Matrix;
 import android.graphics.Path;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.provider.MediaStore;
@@ -283,38 +284,72 @@ public class MeFragment extends Fragment {
     }
 
     private void prepareContactData() {
-        new Server().getInfoAboutUser(context, new VolleyCallback() {
+        new ContactDataTask(new AsyncTaskCallback() {
             @Override
-            public void onSuccess(JSONObject result) {
-                Log.d("result",result.toString());
-                Contact me = new ParseJSON().getInfo(result);
-                username.setText(me.getNickname());
-                firstName.setText(me.getFirstName());
-                lastName.setText(me.getLastName());
-                phone.setText(me.getPhone());
-            }
-
-            @Override
-            public void onSuccess(JSONArray result) {
-
+            public void onTaskCompleted(List<Contact> result) {
 
             }
 
             @Override
-            public void onSuccess(String result) {
-
+            public void onTaskCompleted(Contact result) {
+                username.setText(result.getNickname());
+                firstName.setText(result.getFirstName());
+                lastName.setText(result.getLastName());
+                phone.setText(result.getPhone());
             }
 
             @Override
-            public void onSuccess(int result) {
+            public void onTaskCompleted(int result) {
                 if (result==401){
                     Toast.makeText(context, "Error fetching contacts - unauthorized access", Toast.LENGTH_SHORT).show();
                 }
             }
-        });
+
+            @Override
+            public void onTaskCompleted(String result) {
+
+            }
+        }).execute(context);
     }
 
+    public class ContactDataTask extends AsyncTask<Context, Void, Void> {
+        private AsyncTaskCallback listener;
 
+        public ContactDataTask(AsyncTaskCallback listener) {
+            this.listener = listener;
+        }
+
+        @Override
+        protected Void doInBackground(Context... params) {
+            new Server().getInfoAboutUser(context, new VolleyCallback() {
+                @Override
+                public void onSuccess(JSONObject result) {
+                    Log.d("result", result.toString());
+                    Contact me = new ParseJSON().getInfo(result);
+                    listener.onTaskCompleted(me);
+                }
+
+                @Override
+                public void onSuccess(JSONArray result) {
+
+
+                }
+
+                @Override
+                public void onSuccess(String result) {
+
+                }
+
+                @Override
+                public void onSuccess(int result) {
+                    listener.onTaskCompleted(result);
+                }
+            });
+
+            return null;
+        }
+
+    }
 }
 
 

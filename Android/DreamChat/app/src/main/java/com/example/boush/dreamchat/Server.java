@@ -70,6 +70,7 @@ public class Server {
                                     editor.putInt(Constants.KEY_USERID, userid);
                                     editor.putString(Constants.KEY_TOKEN, token);
                                     editor.apply();
+                                    callback.onSuccess("true");
                                 }
                                 else{
                                     callback.onSuccess("false");
@@ -90,6 +91,7 @@ public class Server {
                     if (error!=null){
                         Log.d("Error Response", error.getMessage());
                     }
+                    callback.onSuccess("false");
                     //Log.d("Error status code", String.valueOf(error.networkResponse.statusCode));
                     //error.networkResponse.data;
 
@@ -339,7 +341,7 @@ public class Server {
 
     }
 
-    public void sendRequest(final Context context, int id){
+    public void sendRequest(final Context context, int id, final VolleyCallback callback){
         Map<String, Integer> postParam = new HashMap<String, Integer>();
         postParam.put(Constants.KEY_RECEIVER, id);
 
@@ -357,6 +359,7 @@ public class Server {
                         try {
                             success = response.getString(Constants.KEY_MESSAGE);
                             Log.d("Volley Reg Success", success);
+                            callback.onSuccess(success);
 
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -371,6 +374,7 @@ public class Server {
                 //VolleyLog.d("Volley ", "Error: " + error.getMessage());
                 if (error!=null){
                     Log.d("Error Response", error.getMessage());
+                    callback.onSuccess(error.networkResponse.statusCode);
                 }
             }
         })
@@ -516,7 +520,7 @@ public class Server {
         Log.d("Volley JSON to send ", new JSONObject(postParam).toString());
 
         JsonObjectRequest jsonObjReq = new JsonObjectRequest(Request.Method.GET,
-                Constants.reqAcceptUrl, new JSONObject(postParam),
+                Constants.requestUrl, new JSONObject(postParam),
                 new Response.Listener<JSONObject>() {
 
                     @Override
@@ -704,7 +708,7 @@ public class Server {
                     Log.d("Error Response", error.getMessage());
                 }
                 Log.d("Error status code", String.valueOf(error.networkResponse.statusCode));
-                callback.onSuccess(error.networkResponse.statusCode);*/
+                callback.onTaskCompleted(error.networkResponse.statusCode);*/
             }
         })
         {

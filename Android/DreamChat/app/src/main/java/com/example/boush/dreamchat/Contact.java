@@ -30,11 +30,12 @@ public class Contact implements Parcelable {
         isFriend = friend;
     }
 
-    public Contact(int userid, String firstName, String lastName, String nickname) {
+    public Contact(int userid, String firstName, String lastName, String nickname, boolean friend) {
         this.userid = userid;
         this.firstName = firstName;
         this.lastName = lastName;
         this.nickname = nickname;
+        this.isFriend = friend;
     }
 
     public Contact(int userid, String firstName, String lastName, String nickname, boolean friend, String email, String phone) {

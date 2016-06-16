@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.SystemClock;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -78,7 +77,7 @@ public class ContactsFragment extends Fragment implements SearchView.OnQueryText
         //prepareContactData();
         new ContactFetch(new AsyncTaskCallback() {
             @Override
-            public void onSuccess(List<Contact> result) {
+            public void onTaskCompleted(List<Contact> result) {
                 contactList = result;
                 for (int i=0; i<contactList.size(); i++){
                     Log.d("ContactList", contactList.get(i).getTitle());
@@ -95,10 +94,20 @@ public class ContactsFragment extends Fragment implements SearchView.OnQueryText
             }
 
             @Override
-            public void onSuccess(int result) {
+            public void onTaskCompleted(Contact result) {
+
+            }
+
+            @Override
+            public void onTaskCompleted(int result) {
                if (result==401){
                    Toast.makeText(getContext(), "Error fetching contacts - unauthorized access", Toast.LENGTH_SHORT).show();
                }
+            }
+
+            @Override
+            public void onTaskCompleted(String result) {
+
             }
         }).execute();
 
@@ -237,7 +246,7 @@ public class ContactsFragment extends Fragment implements SearchView.OnQueryText
                 public void onSuccess(JSONArray result) {
                     Log.d("JSONArray result", result.toString());
                     List<Contact> contactL = new ParseJSON().getContacts(result);
-                    listener.onSuccess(contactL);
+                    listener.onTaskCompleted(contactL);
                 }
 
                 @Override
@@ -247,7 +256,7 @@ public class ContactsFragment extends Fragment implements SearchView.OnQueryText
 
                 @Override
                 public void onSuccess(int result) {
-                    listener.onSuccess(result);
+                    listener.onTaskCompleted(result);
                 }
             });
 

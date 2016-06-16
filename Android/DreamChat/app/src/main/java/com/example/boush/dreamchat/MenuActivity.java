@@ -1,10 +1,12 @@
 package com.example.boush.dreamchat;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
+import android.os.AsyncTask;
 import android.preference.PreferenceManager;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.content.res.ResourcesCompat;
@@ -29,6 +31,8 @@ import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
+
+import java.util.List;
 
 public class MenuActivity extends AppCompatActivity {
 
@@ -251,23 +255,19 @@ public class MenuActivity extends AppCompatActivity {
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.dismiss();
-                        new Server().logout(getApplicationContext(), new VolleyCallback() {
+                        new LogoutTask(new AsyncTaskCallback() {
                             @Override
-                            public void onSuccess(JSONObject result) {
+                            public void onTaskCompleted(List<Contact> result) {
 
                             }
 
                             @Override
-                            public void onSuccess(JSONArray result) {
+                            public void onTaskCompleted(Contact result) {
 
                             }
 
                             @Override
-                            public void onSuccess(String result) {
-                            }
-
-                            @Override
-                            public void onSuccess(int result) {
+                            public void onTaskCompleted(int result) {
                                 if (result==200){
                                     SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
                                     SharedPreferences.Editor editor = sharedPref.edit();
@@ -276,12 +276,18 @@ public class MenuActivity extends AppCompatActivity {
                                     editor.apply();
                                     Intent intent = new Intent(MenuActivity.this, LoginActivity.class);
                                     startActivity(intent);
+                                    finish();
                                 }
                                 else if (result==401){
                                     Toast.makeText(getApplicationContext(), result+ "- authorization failed. Logout unsuccessful.", Toast.LENGTH_SHORT).show();
                                 }
                             }
-                        });
+
+                            @Override
+                            public void onTaskCompleted(String result) {
+
+                            }
+                        }).execute(getApplicationContext());
                     }
                 });
         alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, "NO",
@@ -293,6 +299,40 @@ public class MenuActivity extends AppCompatActivity {
                 });
         alertDialog.show();
 
+    }
+
+    public class LogoutTask extends AsyncTask<Context, Void, Void>{
+        private AsyncTaskCallback listener;
+
+        public LogoutTask(AsyncTaskCallback listener){
+            this.listener = listener;
+        }
+
+        @Override
+        protected Void doInBackground(Context... params) {
+            new Server().logout(params[0], new VolleyCallback() {
+                @Override
+                public void onSuccess(JSONObject result) {
+
+                }
+
+                @Override
+                public void onSuccess(JSONArray result) {
+
+                }
+
+                @Override
+                public void onSuccess(String result) {
+                }
+
+                @Override
+                public void onSuccess(int result) {
+                   listener.onTaskCompleted(result);
+                }
+            });
+
+            return null;
+        }
     }
 
 }
