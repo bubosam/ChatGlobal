@@ -4,18 +4,18 @@ module.exports = {
     load: function (userid,callback) {
         db.query("SELECT userid,name,surname,nickname FROM users WHERE userid="+userid+"",
         function (result) {
-            if (typeof callback === "function") {
+            if (typeof callback == "function") {
                 callback(result[0]);
             }
         });
     },
 
     update: function (user,callback) {
-        db.nonQuery("UPDATE users SET nickname:'" + user.nickname + "', password:'" + user.password +
-                    "', email:'" + user.email + "', phone:'" + user.phone + "', name:'" + user.name +
-                    "', surname:'" + user.surname + "', ",
+        db.nonQuery("UPDATE users SET nickname='" + user.nickname +
+                    "', email='" + user.email + "', phone='" + user.phone + "', name='" + user.name +
+                    "', surname='" + user.surname + "', ",
         function (success) {
-            if (typeof callback === "function") {
+            if (typeof callback == "function") {
                 callback(success);
             }
         });
@@ -46,7 +46,7 @@ module.exports = {
             queryString+=" ORDER BY `isFriend` DESC";
             console.log(queryString);
             db.query(queryString,function (results){
-              if (typeof callback === "function") {
+              if (typeof callback == "function") {
                   callback(results);
               }
             });
@@ -55,13 +55,33 @@ module.exports = {
     }
 	},
 
-    passwordChange: function (nickname, password, newpassword, callback) {
-        db.nonQuery("UPDATE users SET password:'"+newpassword+"' WHERE "
-        +" nickname:'"+nickname+"'",
-            function(success){
-                if(typeof callback ==="function"){
-                    callback(success);
-                }
+    passwordChange: function (userid, password, newpassword, callback) {
+        db.query("SELECT password FROM users WHERE userid="+userid+"",function(result){
+          if(result.length==0){
+            if(typeof callback =="function"){
+                callback(false,409);
+            }
+          }
+          else if (result[0].password==password) {
+            db.nonQuery("UPDATE users SET password='"+newpassword+"' WHERE "
+            +" userid='"+userid+"'",
+                function(success){
+                    if(typeof callback =="function"){
+                        if(success){
+                          callback(true,200);
+                        }
+                        else{
+                          callback(false,500);
+                        }
+                    }
             });
+          }
+          else{
+            if(typeof callback =="function"){
+                callback(false,401);
+            }
+          }
+        });
+
     }
 };
