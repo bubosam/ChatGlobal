@@ -3,7 +3,9 @@ package com.example.boush.dreamchat;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -16,6 +18,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -48,6 +51,7 @@ public class ContactsFragment extends Fragment implements SearchView.OnQueryText
     private SearchView search;
     private SectionedRecyclerViewAdapter sectionAdapter;
     private FloatingActionButton fab;
+    private ProgressBar pb;
     //private View rootView;
 
     @Override
@@ -61,6 +65,8 @@ public class ContactsFragment extends Fragment implements SearchView.OnQueryText
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.addItemDecoration(new DividerItemDecoration(context, LinearLayoutManager.VERTICAL));
 
+        pb = (ProgressBar) view.findViewById(R.id.progressContacts);
+
         /*mAdapter = new ContactsAdapter(contactList);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(context);
         recyclerView.setLayoutManager(mLayoutManager);
@@ -69,7 +75,32 @@ public class ContactsFragment extends Fragment implements SearchView.OnQueryText
 
         sectionAdapter = new SectionedRecyclerViewAdapter();
 
-        prepareContactData();
+        //prepareContactData();
+        new ContactFetch(new AsyncTaskCallback() {
+            @Override
+            public void onSuccess(List<Contact> result) {
+                contactList = result;
+                for (int i=0; i<contactList.size(); i++){
+                    Log.d("ContactList", contactList.get(i).getTitle());
+                }
+                sectionAdapter.notifyDataSetChanged();
+                List<Contact> friends = getFriends(contactList);
+                if (friends.size() > 0) {
+                    sectionAdapter.addSection(new ContactsSection(getString(R.string.subheader_friends), friends));
+                }
+                List<Contact> others = getOthers(contactList);
+                if (others.size() > 0) {
+                    sectionAdapter.addSection(new ContactsSection(getString(R.string.subheader_others), others));
+                }
+            }
+
+            @Override
+            public void onSuccess(int result) {
+               if (result==401){
+                   Toast.makeText(getContext(), "Error fetching contacts - unauthorized access", Toast.LENGTH_SHORT).show();
+               }
+            }
+        }).execute();
 
         /*List<Contact> friends = getFriends(contactList);
         if (friends.size() > 0) {
@@ -175,32 +206,56 @@ public class ContactsFragment extends Fragment implements SearchView.OnQueryText
         }
     };*/
 
+    public class ContactFetch extends AsyncTask <Void, Void, Void>{
+        private AsyncTaskCallback listener;
+        public ContactFetch(AsyncTaskCallback listener){
+            this.listener=listener;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            pb.setVisibility(View.VISIBLE);
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+            pb.setVisibility(View.GONE);
+        }
+
+        @Override
+        protected Void doInBackground(Void... params) {
+            //SystemClock.sleep(3000);
+            new Server().getContacts(context, new VolleyCallback() {
+                @Override
+                public void onSuccess(JSONObject result) {
+
+                }
+
+                @Override
+                public void onSuccess(JSONArray result) {
+                    Log.d("JSONArray result", result.toString());
+                    List<Contact> contactL = new ParseJSON().getContacts(result);
+                    listener.onSuccess(contactL);
+                }
+
+                @Override
+                public void onSuccess(String result) {
+
+                }
+
+                @Override
+                public void onSuccess(int result) {
+                    listener.onSuccess(result);
+                }
+            });
+
+            return null;
+        }
+    }
+
     private void prepareContactData() {
-        /*JSONObject object = new JSONObject();
-        try {
-            object.put(Constants.KEY_USERID, 5);
-            object.put(Constants.KEY_NAME, "Jozef");
-            object.put(Constants.KEY_SURNAME, "Zelený");
-            object.put(Constants.KEY_NICKNAME, "jozko007");
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
-        JSONArray ja = new JSONArray();
-        ja.put(object);
-
-        JSONObject object2 = new JSONObject();
-        try {
-            object2.put(Constants.KEY_USERID, 3);
-            object2.put(Constants.KEY_NAME, "Chuck");
-            object2.put(Constants.KEY_SURNAME, "Norris");
-            object2.put(Constants.KEY_NICKNAME, "chuckn0rris");
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
-        ja.put(object2);*/
-
         new Server().getContacts(context, new VolleyCallback() {
             @Override
             public void onSuccess(JSONObject result) {
