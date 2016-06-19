@@ -4,51 +4,84 @@ module.exports = {
     load: function (userid,callback) {
         db.query("SELECT userid,name,surname,nickname FROM users WHERE userid="+userid+"",
         function (result) {
-            if (typeof callback === "function") {
+            if (typeof callback == "function") {
                 callback(result[0]);
             }
         });
     },
 
     update: function (user,callback) {
-        db.nonQuery("UPDATE users SET nickname:'" + user.nickname + "', password:'" + user.password +
-                    "', email:'" + user.email + "', phone:'" + user.phone + "', name:'" + user.name +
-                    "', surname:'" + user.surname + "', ",
+        db.nonQuery("UPDATE users SET nickname='" + user.nickname +
+                    "', email='" + user.email + "', phone='" + user.phone + "', name='" + user.name +
+                    "', surname='" + user.surname + "', ",
         function (success) {
-            if (typeof callback === "function") {
+            if (typeof callback == "function") {
                 callback(success);
             }
         });
 	},
 
-	search: function (name, callback) {
+	search: function (name, userid, callback) {
     var substrings = name.split(" ");
-    var allResults = [];
+    var queryString="SELECT userid,name,surname,nickname, CASE "
+                  +"WHEN userid IN (SELECT userid FROM friendships "
+                  +"INNER JOIN users ON friendships.user2=users.userid "
+                  +"WHERE user1="+userid+") "
+                  +"OR userid IN (SELECT userid FROM friendships "
+                  +"INNER JOIN users ON friendships.user1=users.userid "
+                  +"WHERE user2="+userid+") "
+                  +"THEN 1 "
+                  +"ELSE 0 "
+                  +"END "
+                  +"'isFriend' "
+                  +"FROM users WHERE ";
     for (var i = 0, len = substrings.length; i < len; i++){
       (function(i){
-        db.query("SELECT userid,name,surname,nickname FROM users WHERE name LIKE '%"+substrings[i]+"%' OR surname LIKE '%" + substrings[i] + "%' OR nickname LIKE '%"
-                  + substrings[i] + "%' OR email LIKE '%" + substrings[i] + "%'",  function (results) {
-                allResults=allResults.concat(results);
-                //console.log(results);
-                //console.log(allResults);
-                console.log(i);
-                if (typeof callback === "function" && i+1==len) {
-                    console.log("tu");
-                    var uniqueUsers = [];
-                    var uniqueNicknames = [];
-                    for(j = 0; j< allResults.length; j++){
-                        console.log(allResults[j].nickname);
-                        if(uniqueNicknames.indexOf(allResults[j].nickname === -1)){
-                            uniqueNicknames.push(allResults[j].nickname);
-                            uniqueUsers.push(allResults[j]);
-                            //console.log(uniqueNicknames);
-                        }
-                    }
-                    console.log(uniqueNicknames);
-                    callback(uniqueUsers);
-                }
-        });
+         queryString+="(name LIKE '%"+substrings[i]+"%' OR surname LIKE '%" + substrings[i]
+          + "%' OR nickname LIKE '%"+ substrings[i] + "%' OR email LIKE '%" + substrings[i] + "%')";
+          if(i+1<len){
+            queryString+=" or ";
+          }
+          else{
+            queryString+=" ORDER BY `isFriend` DESC";
+            console.log(queryString);
+            db.query(queryString,function (results){
+              if (typeof callback == "function") {
+                  callback(results);
+              }
+            });
+          }
   		})(i);
     }
 	},
+
+    passwordChange: function (userid, password, newpassword, callback) {
+        db.query("SELECT password FROM users WHERE userid="+userid+"",function(result){
+          if(result.length==0){
+            if(typeof callback =="function"){
+                callback(false,409);
+            }
+          }
+          else if (result[0].password==password) {
+            db.nonQuery("UPDATE users SET password='"+newpassword+"' WHERE "
+            +" userid='"+userid+"'",
+                function(success){
+                    if(typeof callback =="function"){
+                        if(success){
+                          callback(true,200);
+                        }
+                        else{
+                          callback(false,500);
+                        }
+                    }
+            });
+          }
+          else{
+            if(typeof callback =="function"){
+                callback(false,401);
+            }
+          }
+        });
+
+    }
 };

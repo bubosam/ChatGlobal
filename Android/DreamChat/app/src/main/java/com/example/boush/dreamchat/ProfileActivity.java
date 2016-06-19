@@ -1,7 +1,9 @@
 package com.example.boush.dreamchat;
 
 
+import android.content.Context;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -10,6 +12,11 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import java.util.List;
 
 
 public class ProfileActivity extends AppCompatActivity {
@@ -47,8 +54,8 @@ public class ProfileActivity extends AppCompatActivity {
         if (savedInstanceState == null) {
             Bundle extras = getIntent().getExtras();
             if(extras != null) {
-                contact = (Contact) extras.getParcelable("contact");
-                firstName = contact.getFirstName();
+                contact = (Contact) extras.getParcelable(Constants.KEY_CONTACT);
+                /*firstName = contact.getFirstName();
                 lastName = contact.getLastName();
                 title = contact.getTitle();
                 phoneStr = contact.getPhone();
@@ -60,10 +67,21 @@ public class ProfileActivity extends AppCompatActivity {
                 /*firstName=extras.getString("firstName");
                 lastName=extras.getString("lastName");
                 title = firstName+" "+lastName;
-                isFriend=extras.getBoolean("isFriend");*/
-                Log.d("boolean friend", String.valueOf(isFriend));
+                isFriend=extras.getBoolean("isFriend");
+                Log.d("boolean friend", String.valueOf(isFriend));*/
             }
         }
+        else{
+            contact = savedInstanceState.getParcelable(Constants.KEY_CONTACT);
+        }
+
+        firstName = contact.getFirstName();
+        lastName = contact.getLastName();
+        title = contact.getTitle();
+        phoneStr = contact.getPhone();
+        emailStr = contact.getEmail();
+        nicknameStr = contact.getNickname();
+        isFriend = contact.isFriend();
 
         if (isFriend){
             setContentView(R.layout.activity_profile_friend);
@@ -85,7 +103,7 @@ public class ProfileActivity extends AppCompatActivity {
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent(getApplicationContext(), ChatActivity.class);
-                    intent.putExtra("contact", contact);
+                    intent.putExtra(Constants.KEY_CONTACT, contact);
                     //intent.putExtra("firstName", firstName);
                     //intent.putExtra("lastName", lastName);
                     //intent.putExtra("message", message.getMessageText());
@@ -118,12 +136,89 @@ public class ProfileActivity extends AppCompatActivity {
             sendReq.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Toast.makeText(getApplicationContext(), "Request to "+ title +" sent", Toast.LENGTH_SHORT).show();
-                    //new Server().sendRequest();
+                    new SendRequestTask(getApplicationContext(), contact.getUserid(), new AsyncTaskCallback() {
+                        @Override
+                        public void onTaskCompleted(List<Contact> result) {
+
+                        }
+
+                        @Override
+                        public void onTaskCompleted(Contact result) {
+
+                        }
+
+                        @Override
+                        public void onTaskCompleted(int result) {
+                            if (result==401){
+                                Toast.makeText(getApplicationContext(), "Authorization failed", Toast.LENGTH_SHORT).show();
+                            }
+                            else if (result==409){
+                                Toast.makeText(getApplicationContext(), "Friend request already sent or users are already friends", Toast.LENGTH_SHORT).show();
+                            }
+                            else if (result==500){
+                                Toast.makeText(getApplicationContext(), "Unexpected database error", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+
+                        @Override
+                        public void onTaskCompleted(String result) {
+                            Toast.makeText(getApplicationContext(), result, Toast.LENGTH_SHORT).show();
+                        }
+                    });
                 }
             });
 
         }
 
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putParcelable(Constants.KEY_CONTACT, contact);
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        contact = savedInstanceState.getParcelable(Constants.KEY_CONTACT);
+    }
+
+    public class SendRequestTask extends AsyncTask<Void, Void, Void>{
+        private AsyncTaskCallback listener;
+        private int userid;
+        private Context context;
+
+        public SendRequestTask(Context context, int userid, AsyncTaskCallback listener){
+            this.context = context;
+            this.userid = userid;
+            this.listener = listener;
+        }
+
+        @Override
+        protected Void doInBackground(Void... params) {
+            new Server().sendRequest(context, userid, new VolleyCallback() {
+                @Override
+                public void onSuccess(JSONObject result) {
+
+                }
+
+                @Override
+                public void onSuccess(JSONArray result) {
+
+                }
+
+                @Override
+                public void onSuccess(String result) {
+                    listener.onTaskCompleted(result);
+                }
+
+                @Override
+                public void onSuccess(int result) {
+                    listener.onTaskCompleted(result);
+                }
+            });
+            return null;
+        }
     }
 }

@@ -51,30 +51,22 @@ public class MessageAdapter extends BaseAdapter {
         holder.message.setText(message.getMessageText());
 
         LayoutParams lp = (LayoutParams) holder.message.getLayoutParams();
-        //check if it is a status message then remove background, and change text color.
-        if(message.isStatusMessage())
-        {
-            holder.message.setBackground(null);
-            lp.gravity = Gravity.LEFT;
-            holder.message.setTextColor(Color.WHITE);
-        }
-        else
-        {
-            //Check whether message is mine to show green background and align to right
-            if(message.isMe())
+
+        if(message.isMe())
             {
                 holder.message.setBackgroundResource(R.drawable.in_message);
                 lp.gravity = Gravity.RIGHT;
+               holder.message.setTextColor(Color.WHITE);
             }
-            //If not mine then it is from sender to show orange background and align to left
+
             else
             {
                 holder.message.setBackgroundResource(R.drawable.out_message);
                 lp.gravity = Gravity.LEFT;
+                holder.message.setTextColor(Color.WHITE);
             }
             holder.message.setLayoutParams(lp);
-            holder.message.setTextColor(Color.WHITE);
-        }
+
         return convertView;
     }
     private static class ViewHolder

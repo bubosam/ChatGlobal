@@ -14,11 +14,13 @@ router.post('/', function (req, res) {
 
             requests.sendRequest(sender, receiver, function (success,code) {
                 if (success) {
+                    res.statusCode = code;
                     res.json({
                         "message": "request sent successfully"
                     });
                 }
                 else {
+                    res.statusCode = code;
                     res.json({
                         "message": "sending request failed, please try again later"
                     });
@@ -26,12 +28,11 @@ router.post('/', function (req, res) {
             });
         }
         else {
+            res.statusCode = 401;
             res.json({
                 "message": "authorization failed"
             });
-            code = 401;
         }
-        res.statusCode = code;
     });
 });
 
@@ -40,26 +41,27 @@ router.delete('/', function (req, res) {
     authorization.authorize(req, function (access) {
         if (access) {
             var requestid = req.body.requestid;
+            var userid=req.headers.userid;
             requests.cancelRequest(requestid, userid, function (success,code) {
                 if (success) {
+                    res.statusCode = code;
                     res.json({
                         "message": "request canceled successfully"
                     });
-                    res.statusCode = code;
                 }
                 else {
+                    res.statusCode = code;
                     res.json({
                         "message": "unexpected error occured while deleting"
                     });
-                    res.statusCode = code;
                 }
             });
         }
         else {
+            res.statusCode = 401;
             res.json({
                 "message": "authorization failed"
             });
-            res.statusCode = 401;
         }
     });
 });
@@ -73,6 +75,7 @@ router.post('/accept', function (req, res) {
             requests.acceptRequest(requestid, req.headers.userid, function (success,statuscode,message) {
                 code = statuscode;
                 if (success) {
+                    res.statusCode = code;
                     res.json({
                         "message": message
                     });
@@ -81,17 +84,17 @@ router.post('/accept', function (req, res) {
                     var response= {
                         "message": message
                     }
+                    res.statusCode = code;
                     res.json(response);
                 }
             });
         }
         else {
+            res.statusCode = 401;
             res.json({
                 "message": "authorization failed"
             });
-            code = 401;
         }
-        //res.statusCode = code;
     });
 });
 
@@ -107,15 +110,15 @@ router.get('/', function (req, res) {
                     results: results,
                     message: "requests loaded successfully"
                 };
-                res.json(response);
                 res.statusCode = 200;
+                res.json(response);
             });
         }
         else {
+            res.statusCode = 401;
             res.json({
                 "message": "authorization failed"
             });
-            res.statusCode = 401;
         }
     });
 });

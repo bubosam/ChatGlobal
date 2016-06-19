@@ -3,13 +3,17 @@ package com.example.boush.dreamchat;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
+import android.app.Dialog;
 import android.app.LoaderManager.LoaderCallbacks;
+import android.content.Context;
 import android.content.CursorLoader;
 import android.content.Intent;
 import android.content.Loader;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -30,6 +34,7 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -38,6 +43,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.JsonObjectRequest;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -71,7 +77,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     private UserLoginTask mAuthTask = null;
 
     //RequestQueue queue = Volley.newRequestQueue(this);
-    String tag_json_obj = "json_obj_req";
 
     // UI references.
     private AutoCompleteTextView mEmailView;
@@ -82,10 +87,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
     private Button debug;
 
-    private int userid;
-    private String token;
-
-    private static final String loginUrl = "http://10.0.2.2:1337/login";
+    private Button mEmailSignInButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -100,7 +102,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         debug.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(LoginActivity.this,MenuActivity.class);
+                Intent intent = new Intent(LoginActivity.this, MenuActivity.class);
                 startActivity(intent);
             }
         });
@@ -115,18 +117,30 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             }
         });
 
-        Button mEmailSignInButton = (Button) findViewById(R.id.email_sign_in_button);
+         mEmailSignInButton = (Button) findViewById(R.id.email_sign_in_button);
         mEmailSignInButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-                attemptLogin();
+
+                if(checkConnection()==false){
+                    showDialog();
+
+                }
+                else
+                    attemptLogin();
             }
         });
+
+
 
         mLoginFormView = findViewById(R.id.login_form);
 
 
+
+
+
     }
+
 
     private void populateAutoComplete() {
         if (!mayRequestContacts()) {
@@ -170,13 +184,38 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             }
         }
     }
+    private void showDialog(){
+         final Dialog dialog = new Dialog(this);
+             dialog.setContentView(R.layout.internet_dialog);
+            dialog.setTitle("Internet Connection");
+            Button dialogButton = (Button) dialog.findViewById(R.id.dialog_cancel);
+            dialogButton.setOnClickListener(new OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    dialog.dismiss();
+                }
+            });
+            dialog.show();
+    }
 
 
-    /**
-     * Attempts to sign in or register the account specified by the login form.
-     * If there are form errors (invalid email, missing fields, etc.), the
-     * errors are presented and no actual login attempt is made.
-     */
+    private boolean checkConnection() {
+
+        ConnectivityManager cm =
+                (ConnectivityManager)this.getSystemService(Context.CONNECTIVITY_SERVICE);
+
+        NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
+        boolean isConnected = activeNetwork != null &&
+                activeNetwork.isConnectedOrConnecting();
+        if(!isConnected){
+
+
+            return false;
+        }
+        else
+
+            return true;
+    }
     private void attemptLogin() {
         if (mAuthTask != null) {
             return;
@@ -213,11 +252,35 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         } else {
             // Show a progress spinner, and kick off a background task to
             // perform the user login attempt.
-            mAuthTask = new UserLoginTask(email, password);
+            mAuthTask = new UserLoginTask(email, password, new AsyncTaskCallback() {
+                @Override
+                public void onTaskCompleted(List<Contact> result) {
+
+                }
+
+                @Override
+                public void onTaskCompleted(Contact result) {
+
+                }
+
+                @Override
+                public void onTaskCompleted(int result) {
+
+                }
+
+                @Override
+                public void onTaskCompleted(String result) {
+                    if (result.equals("true")){
+                        Intent intent = new Intent(LoginActivity.this, MenuActivity.class);
+                        startActivity(intent);
+                        finish();
+                    }
+                    else{
+                        Toast.makeText(getApplicationContext(), "Login failed", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            });
             mAuthTask.execute((Void) null);
-            Intent intent = new Intent(LoginActivity.this,MenuActivity.class);
-            startActivity(intent);
-            finish();
         }
     }
 
@@ -323,52 +386,51 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
      * Represents an asynchronous login/registration task used to authenticate
      * the user.
      */
-    public class UserLoginTask extends AsyncTask<Void, Void, Boolean> {
+    public class UserLoginTask extends AsyncTask<Void, Void, Void> {
 
         private final String mEmail;
         private final String mPassword;
+        private AsyncTaskCallback listener;
 
-        UserLoginTask(String email, String password) {
+        UserLoginTask(String email, String password, AsyncTaskCallback listener) {
             mEmail = email;
             mPassword = password;
+            this.listener = listener;
         }
 
         @Override
-        protected Boolean doInBackground(Void... params) {
+        protected Void doInBackground(Void... params) {
             // TODO: attempt authentication against a network service.
 
-            try {
                 // network access.
-                new Server().login(email, password, getApplicationContext());
+                new Server().login(email, password, getApplicationContext(), new VolleyCallback() {
+                    @Override
+                    public void onSuccess(JSONObject result) {
 
-                Thread.sleep(5000);
-            } catch (InterruptedException e) {
-                return false;
-            }
+                    }
 
-            for (String credential : DUMMY_CREDENTIALS) {
-                String[] pieces = credential.split(":");
-                if (pieces[0].equals(mEmail)) {
-                    // Account exists, return true if the password matches.
-                    return pieces[1].equals(mPassword);
-                }
-            }
+                    @Override
+                    public void onSuccess(JSONArray result) {
 
-            // TODO: register the new account here.
-            return true;
+                    }
+
+                    @Override
+                    public void onSuccess(String result) {
+                        Log.d("Result", result);
+                        listener.onTaskCompleted(result);
+                    }
+
+                    @Override
+                    public void onSuccess(int result) {
+
+                    }
+                });
+            return  null;
         }
 
         @Override
-        protected void onPostExecute(final Boolean success) {
+        protected void onPostExecute(Void aVoid) {
             mAuthTask = null;
-
-
-            if (success) {
-                finish();
-            } else {
-                mPasswordView.setError(getString(R.string.error_incorrect_password));
-                mPasswordView.requestFocus();
-            }
         }
 
         @Override

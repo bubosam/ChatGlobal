@@ -43,7 +43,7 @@
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="textMultiLine"
+            android:inputType="textShortMessage"
             android:ems="10"
             android:maxLength="255"
             android:id="@+id/etxtSendMsg"
@@ -80,24 +80,15 @@
         <ImageButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/btn_Menu"
+            android:id="@+id/btn_Info"
             android:src="@drawable/ic_menu"
-            android:layout_alignParentBottom="true"
-            android:layout_toRightOf="@+id/btn_Profile"
-            android:layout_toEndOf="@+id/btn_Profile"
-            android:layout_marginLeft="30dp"
             android:background="@null"
-            android:layout_below="@+id/etxtSendMsg" />
-
-        <ImageButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/btn_Profile"
-            android:src="@drawable/ic_person"
             android:layout_alignParentBottom="true"
-            android:layout_centerHorizontal="true"
-            android:layout_below="@+id/etxtSendMsg"
-            android:background="@null" />
+            android:layout_toRightOf="@+id/btn_sendPhoto"
+            android:layout_toEndOf="@+id/btn_sendPhoto"
+            android:layout_marginLeft="32dp"
+            android:layout_marginStart="32dp"
+            android:layout_below="@+id/etxtSendMsg" />
 
         <ImageButton
             android:layout_width="wrap_content"
@@ -107,9 +98,7 @@
             android:background="@null"
             android:minHeight="50dp"
             android:layout_alignParentBottom="true"
-            android:layout_toLeftOf="@+id/btn_Profile"
-            android:layout_toStartOf="@+id/btn_Profile"
-            android:layout_marginRight="30dp" />
+            android:layout_centerHorizontal="true" />
 
 
     </RelativeLayout>

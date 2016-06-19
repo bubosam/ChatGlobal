@@ -13,6 +13,7 @@ import android.graphics.Matrix;
 import android.graphics.Path;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.provider.MediaStore;
@@ -46,10 +47,13 @@ import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 
@@ -66,8 +70,6 @@ public class MeFragment extends Fragment {
 
 
     private EditText username;
-    private AutoCompleteTextView email;
-    private EditText password;
     private Button submit;
 
     private ImageButton rotatePicture;
@@ -81,6 +83,8 @@ public class MeFragment extends Fragment {
 
     private static final String updateUrl = "http://10.0.2.2:1337/update";
     String tag_json_obj = "json_obj_req";
+    private List<Contact> infoList = new ArrayList<>();   //mozno bude treba list typu<Info>
+    private Context context;
 
     public MeFragment() {
         // Required empty public constructor
@@ -90,12 +94,12 @@ public class MeFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_me, container, false);
+        getActivity().invalidateOptionsMenu();
         Select = (FloatingActionButton) view.findViewById(R.id.selectPhoto);
         imageView = (ImageView) view.findViewById(R.id.ImageView);
         rotatePicture = (ImageButton) view.findViewById(R.id.imageButton);
         username = (EditText) view.findViewById(R.id.userNameUpdate);
-        email = (AutoCompleteTextView) view.findViewById(R.id.emailUpdate);
-        password = (EditText) view.findViewById(R.id.passwordUpadte);
+
         submit = (Button) view.findViewById(R.id.submitUpdate);
         Upload = (FloatingActionButton) view.findViewById(R.id.uploadPhoto);
         phone = (EditText) view.findViewById(R.id.phoneUpdate);
@@ -103,9 +107,12 @@ public class MeFragment extends Fragment {
         lastName = (EditText) view.findViewById(R.id.lastNameUpdate);
         toolbar = (Toolbar) view.findViewById(R.id.toolbar);
         ((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
+        toolbar.setTitle("Profile");
 
         deg = imageView.getRotation();
+        context=getActivity();
 
+        prepareContactData();
         Select.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -125,7 +132,9 @@ public class MeFragment extends Fragment {
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                updateUser();
+                Intent intent = new Intent(getActivity(), PasswordActivity.class);
+                startActivity(intent);
+
             }
         });
 
@@ -133,8 +142,9 @@ public class MeFragment extends Fragment {
             @Override
             public void onClick(View v) {
 
-                Toast.makeText(getActivity(), "Profile photo uploaded !",
+                Toast.makeText(getActivity(), "Information updated, photo uploaded !",
                         Toast.LENGTH_LONG).show();
+                updateUser();
             }
         });
 
@@ -144,6 +154,7 @@ public class MeFragment extends Fragment {
 
 
     @Override
+
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == RESULT_LOAD_IMAGE && resultCode == getActivity().RESULT_OK && null != data) {
@@ -175,17 +186,7 @@ public class MeFragment extends Fragment {
             jSonSend("username",usernameVal);
         }
 
-        if(!email.getText().toString().isEmpty())
-        {
-            String emailVal = email.getText().toString();
-            jSonSend("email", emailVal);
-        }
 
-        if(!password.getText().toString().isEmpty())
-        {
-            String passwordVal = password.getText().toString();
-            jSonSend("password", passwordVal);
-        }
 
         if(!phone.getText().toString().isEmpty()){
             String phoneVal = phone.getText().toString();
@@ -282,7 +283,73 @@ public class MeFragment extends Fragment {
         return cropImg;
     }
 
+    private void prepareContactData() {
+        new ContactDataTask(new AsyncTaskCallback() {
+            @Override
+            public void onTaskCompleted(List<Contact> result) {
 
+            }
+
+            @Override
+            public void onTaskCompleted(Contact result) {
+                username.setText(result.getNickname());
+                firstName.setText(result.getFirstName());
+                lastName.setText(result.getLastName());
+                phone.setText(result.getPhone());
+            }
+
+            @Override
+            public void onTaskCompleted(int result) {
+                if (result==401){
+                    Toast.makeText(context, "Error fetching contacts - unauthorized access", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onTaskCompleted(String result) {
+
+            }
+        }).execute(context);
+    }
+
+    public class ContactDataTask extends AsyncTask<Context, Void, Void> {
+        private AsyncTaskCallback listener;
+
+        public ContactDataTask(AsyncTaskCallback listener) {
+            this.listener = listener;
+        }
+
+        @Override
+        protected Void doInBackground(Context... params) {
+            new Server().getInfoAboutUser(context, new VolleyCallback() {
+                @Override
+                public void onSuccess(JSONObject result) {
+                    Log.d("result", result.toString());
+                    Contact me = new ParseJSON().getInfo(result);
+                    listener.onTaskCompleted(me);
+                }
+
+                @Override
+                public void onSuccess(JSONArray result) {
+
+
+                }
+
+                @Override
+                public void onSuccess(String result) {
+
+                }
+
+                @Override
+                public void onSuccess(int result) {
+                    listener.onTaskCompleted(result);
+                }
+            });
+
+            return null;
+        }
+
+    }
 }
 
 

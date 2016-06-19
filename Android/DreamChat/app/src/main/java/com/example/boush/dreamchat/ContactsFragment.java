@@ -3,24 +3,27 @@ package com.example.boush.dreamchat;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
-import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
-import android.util.AttributeSet;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -47,6 +50,7 @@ public class ContactsFragment extends Fragment implements SearchView.OnQueryText
     private SearchView search;
     private SectionedRecyclerViewAdapter sectionAdapter;
     private FloatingActionButton fab;
+    private ProgressBar pb;
     //private View rootView;
 
     @Override
@@ -60,6 +64,8 @@ public class ContactsFragment extends Fragment implements SearchView.OnQueryText
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.addItemDecoration(new DividerItemDecoration(context, LinearLayoutManager.VERTICAL));
 
+        pb = (ProgressBar) view.findViewById(R.id.progressContacts);
+
         /*mAdapter = new ContactsAdapter(contactList);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(context);
         recyclerView.setLayoutManager(mLayoutManager);
@@ -68,24 +74,83 @@ public class ContactsFragment extends Fragment implements SearchView.OnQueryText
 
         sectionAdapter = new SectionedRecyclerViewAdapter();
 
-        prepareContactData();
+        //prepareContactData();
+        new ContactFetch(new AsyncTaskCallback() {
+            @Override
+            public void onTaskCompleted(List<Contact> result) {
+                contactList = result;
+                for (int i=0; i<contactList.size(); i++){
+                    Log.d("ContactList", contactList.get(i).getTitle());
+                }
+                sectionAdapter.notifyDataSetChanged();
+                List<Contact> friends = getFriends(contactList);
+                if (friends.size() > 0) {
+                    sectionAdapter.addSection(new ContactsSection(getString(R.string.subheader_friends), friends));
+                }
+                List<Contact> others = getOthers(contactList);
+                if (others.size() > 0) {
+                    sectionAdapter.addSection(new ContactsSection(getString(R.string.subheader_others), others));
+                }
+            }
 
-        List<Contact> friends = getFriends(contactList);
+            @Override
+            public void onTaskCompleted(Contact result) {
+
+            }
+
+            @Override
+            public void onTaskCompleted(int result) {
+               if (result==401){
+                   Toast.makeText(getContext(), "Error fetching contacts - unauthorized access", Toast.LENGTH_SHORT).show();
+               }
+            }
+
+            @Override
+            public void onTaskCompleted(String result) {
+
+            }
+        }).execute();
+
+        /*List<Contact> friends = getFriends(contactList);
         if (friends.size() > 0) {
             sectionAdapter.addSection(new ContactsSection(getString(R.string.subheader_friends), friends));
         }
         List<Contact> others = getOthers(contactList);
         if (others.size() > 0) {
             sectionAdapter.addSection(new ContactsSection(getString(R.string.subheader_others), others));
-        }
+        }*/
 
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(sectionAdapter);
 
+        fab = (FloatingActionButton) getActivity().findViewById(R.id.contactsFAB);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, AutocompleteActivity.class);
+                context.startActivity(intent);
+            }
+        });
+
+        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener(){
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy){
+                if (dy > 0 || dy<0 && fab.isShown())
+                    fab.hide();
+            }
+
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+
+                if (newState == AbsListView.OnScrollListener.SCROLL_STATE_IDLE){
+                    fab.show();
+                }
+                super.onScrollStateChanged(recyclerView, newState);
+            }
+        });
+
         search = (SearchView) view.findViewById(R.id.searchView);
         search.setOnQueryTextListener(this);
-
-
 
         return view;
     }
@@ -150,51 +215,131 @@ public class ContactsFragment extends Fragment implements SearchView.OnQueryText
         }
     };*/
 
+    public class ContactFetch extends AsyncTask <Void, Void, Void>{
+        private AsyncTaskCallback listener;
+        public ContactFetch(AsyncTaskCallback listener){
+            this.listener=listener;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            pb.setVisibility(View.VISIBLE);
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+            pb.setVisibility(View.GONE);
+        }
+
+        @Override
+        protected Void doInBackground(Void... params) {
+            //SystemClock.sleep(3000);
+            new Server().getContacts(context, new VolleyCallback() {
+                @Override
+                public void onSuccess(JSONObject result) {
+
+                }
+
+                @Override
+                public void onSuccess(JSONArray result) {
+                    Log.d("JSONArray result", result.toString());
+                    List<Contact> contactL = new ParseJSON().getContacts(result);
+                    listener.onTaskCompleted(contactL);
+                }
+
+                @Override
+                public void onSuccess(String result) {
+
+                }
+
+                @Override
+                public void onSuccess(int result) {
+                    listener.onTaskCompleted(result);
+                }
+            });
+
+            return null;
+        }
+    }
+
     private void prepareContactData() {
-        Contact contact = new Contact("Iba", "Meliško", "Meliško", false, "email@domena.sk", "0901234567");
-        contactList.add(contact);
+        new Server().getContacts(context, new VolleyCallback() {
+            @Override
+            public void onSuccess(JSONObject result) {
 
-        contact = new Contact("Patrik", "Patinák", "Patres", true, "email@domena.sk", "0901234567");
-        contactList.add(contact);
+            }
 
-        contact = new Contact("Martin", "Tarhanič", "Matolator", true, "email@domena.sk", "0901234567");
-        contactList.add(contact);
+            @Override
+            public void onSuccess(JSONArray result) {
+                Log.d("JSONArray result", result.toString());
+                contactList = new ParseJSON().getContacts(result);
+                for (int i=0; i<contactList.size(); i++){
+                    Log.d("ContactList", contactList.get(i).getTitle());
+                }
+                sectionAdapter.notifyDataSetChanged();
 
-        contact = new Contact("Monika", "Jaššová", "monikka", true, "email@domena.sk", "0901234567");
-        contactList.add(contact);
+                List<Contact> friends = getFriends(contactList);
+                if (friends.size() > 0) {
+                    sectionAdapter.addSection(new ContactsSection(getString(R.string.subheader_friends), friends));
+                }
+                List<Contact> others = getOthers(contactList);
+                if (others.size() > 0) {
+                    sectionAdapter.addSection(new ContactsSection(getString(R.string.subheader_others), others));
+                }
+            }
 
-        contact = new Contact("Michal", "Borovský", "Michaljevič", true, "email@domena.sk", "0901234567");
-        contactList.add(contact);
+            @Override
+            public void onSuccess(String result) {
 
-        contact = new Contact("Matúš", "Kokoška", "DreamTeam", true, "email@domena.sk", "0901234567");
-        contactList.add(contact);
+            }
 
-        contact = new Contact("Roman", "Klimčík", "Global Logic", false, "email@domena.sk", "0901234567");
-        contactList.add(contact);
+            @Override
+            public void onSuccess(int result) {
+                if (result==401){
+                    Toast.makeText(context, "Error fetching contacts - unauthorized access", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
 
-        contact = new Contact("X", "Y", "Slovensko", false, "email@domena.sk", "0901234567");
-        contactList.add(contact);
-
-        contact = new Contact("Meno", "Priezvisko", "Nick", false, "email@domena.sk", "0901234567");
-        contactList.add(contact);
-
-        sectionAdapter.notifyDataSetChanged();
+        /*for (int i=0; i<contactList.size(); i++){
+            Log.d("ContactList", contactList.get(i).getTitle());
+        }
+        sectionAdapter.notifyDataSetChanged();*/
         //mAdapter.notifyDataSetChanged();
     }
 
     @Override
     public boolean onQueryTextSubmit(String query) {
-        return false;
-    }
-
-    @Override
-    public boolean onQueryTextChange(String query) {
         for (Section section : sectionAdapter.getSectionsMap().values()) {
             if (section instanceof FilterableSection) {
                 ((FilterableSection)section).filter(query);
             }
         }
         sectionAdapter.notifyDataSetChanged();
+
+        return false;
+    }
+
+    @Override
+    public boolean onQueryTextChange(String query) {
+        /*for (Section section : sectionAdapter.getSectionsMap().values()) {
+            if (section instanceof FilterableSection) {
+                ((FilterableSection)section).filter(query);
+            }
+        }
+        sectionAdapter.notifyDataSetChanged();
+
+        return true;*/
+        if (TextUtils.isEmpty(query)) {
+            for (Section section : sectionAdapter.getSectionsMap().values()) {
+                if (section instanceof FilterableSection) {
+                    ((FilterableSection)section).filter(query);
+                }
+            }
+            sectionAdapter.notifyDataSetChanged();
+        }
 
         return true;
     }
@@ -230,7 +375,8 @@ public class ContactsFragment extends Fragment implements SearchView.OnQueryText
             Contact contact = filteredList.get(position);
             itemHolder.title.setText(contact.getTitle());
             itemHolder.nickname.setText(contact.getNickname());
-            itemHolder.avatar.setImageResource(R.drawable.ic_person);
+            //itemHolder.avatar.setImageResource(R.drawable.ic_person);
+            itemHolder.avatar.setImageResource(context.getResources().getIdentifier("id"+contact.getUserid(), "drawable", context.getPackageName()));
 
             final int pos = position;
 
@@ -239,7 +385,7 @@ public class ContactsFragment extends Fragment implements SearchView.OnQueryText
                 public void onClick(View v) {
                     Contact contact = filteredList.get(pos);
                     Intent intent = new Intent(context, ProfileActivity.class);
-                    intent.putExtra("contact", contact);
+                    intent.putExtra(Constants.KEY_CONTACT, contact);
                     /*intent.putExtra("firstName", contact.getFirstName());
                     intent.putExtra("lastName", contact.getLastName());
                     intent.putExtra("isFriend", contact.isFriend());*/
@@ -259,7 +405,8 @@ public class ContactsFragment extends Fragment implements SearchView.OnQueryText
         public void onBindHeaderViewHolder(RecyclerView.ViewHolder holder) {
             HeaderViewHolder headerHolder = (HeaderViewHolder) holder;
 
-            headerHolder.tvTitle.setText(title);
+//            headerHolder.tvTitle.setText(title);
+
         }
 
         @Override

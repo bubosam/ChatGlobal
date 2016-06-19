@@ -1,20 +1,31 @@
 package com.example.boush.dreamchat;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
+import android.provider.ContactsContract;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
+import android.view.ContextMenu;
+import android.view.ContextThemeWrapper;
 import android.view.GestureDetector;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.PopupMenu;
 import android.widget.Toast;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -32,6 +43,10 @@ public class ConversationsFragment extends Fragment {
 
     private Calendar c = Calendar.getInstance();
     private SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
+
+    private int myId = 1;
+    private int recId;
+    private Database db = new Database(getActivity());
 
     public ConversationsFragment() {
         // Required empty public constructor
@@ -52,36 +67,51 @@ public class ConversationsFragment extends Fragment {
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(mAdapter);
 
+        registerForContextMenu(recyclerView);
+
         recyclerView.addOnItemTouchListener(new RecyclerTouchListener(getActivity().getApplicationContext(),
                                             recyclerView, new ClickListener() {
             @Override
             public void onClick(View view, int position) {
                 Message message = messagesList.get(position);
-
-                /*SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(getActivity());
-                SharedPreferences.Editor editor = pref.edit();
-                editor.putString("firstName",message.getFirstName());
-                editor.putString("lastName",message.getLastName());
-                editor.putString("message",message.getMessageText());
-                editor.putString("date",message.getDate());
-                editor.commit();
-
-                Intent intent = new Intent(getActivity(),ChatActivity.class);
-                startActivity(intent);*/
-
                 Intent intent = new Intent(getActivity(), ChatActivity.class);
                 intent.putExtra("firstName", message.getFirstName());
                 intent.putExtra("lastName", message.getLastName());
                 intent.putExtra("message",message.getMessageText());
                 intent.putExtra("date",message.getDate());
+                intent.putExtra("recId",message.getRecId());
                 startActivity(intent);
             }
 
             @Override
-            public void onLongClick(View view, int position) {
-                Toast.makeText(getActivity().getApplicationContext(),
-                        "Work in progress.", Toast.LENGTH_SHORT).show();
+            public void onLongClick(View view, final int position) {
+                PopupMenu popupMenu = new PopupMenu(getActivity(), view);
+
+                PopupMenu.OnMenuItemClickListener onMenuItemClickListener = new PopupMenu.OnMenuItemClickListener() {
+                    @Override
+                    public boolean onMenuItemClick(MenuItem item) {
+                        switch (item.getItemId()) {
+                            case R.id.item_details:
+                                Toast.makeText(getActivity().getApplicationContext(), "Details Clicked", Toast.LENGTH_SHORT).show();
+                                return true;
+                            case R.id.item_profile:
+                                Toast.makeText(getActivity().getApplicationContext(), "Profile Clicked", Toast.LENGTH_SHORT).show();
+                                return true;
+                            case R.id.item_remove:
+                                Toast.makeText(getActivity().getApplicationContext(), "Conversation removed.", Toast.LENGTH_SHORT).show();
+                                messagesList.remove(position);
+                                mAdapter.notifyDataSetChanged();
+                                return true;
+                        }
+                        return false;
+                    }
+                };
+                popupMenu.setOnMenuItemClickListener(onMenuItemClickListener);
+                popupMenu.inflate(R.menu.menu_popup);
+                popupMenu.show();
+
             }
+
         }));
 
         prepareMessages();
@@ -89,36 +119,30 @@ public class ConversationsFragment extends Fragment {
     }
 
     private void prepareMessages() {
-        Message msg = new Message(R.drawable.ic_person,"Noro","Kanalos", "Ahoj");
-        msg.setDate(sdf.format(c.getTime()));
-        messagesList.add(msg);
 
-        msg = new Message(R.drawable.ic_person,"Brano","Mojsej", "Ahoj more");
-        msg.setDate(sdf.format(c.getTime()));
-        messagesList.add(msg);
+        String jsonStr = "[ {\"firstName\":\"John\", \"lastName\":\"Doe\", \"message\":\"Ahoj\"},\n" +
+                "    {\"firstName\":\"Anna\", \"lastName\":\"Smith\", \"message\":\"Ahoj\"},\n" +
+                "    {\"firstName\":\"Peter\", \"lastName\":\"Jones\", \"message\":\"Ahoj\"}\n" +
+                "]}";
+        JSONArray jsonarray = null;
+        try {
+            jsonarray = new JSONArray(jsonStr);
+            for (int i = 0; i < jsonarray.length(); i++) {
+                JSONObject jsonobject = jsonarray.getJSONObject(i);
+                String firstName = jsonobject.getString("firstName");
+                String lastName = jsonobject.getString("lastName");
+                String message = jsonobject.getString("message");
 
-        msg = new Message(R.drawable.ic_person,"David", "Golias", "Neviem programovat");
-        msg.setDate(sdf.format(c.getTime()));
-        messagesList.add(msg);
-
-        msg = new Message(R.drawable.ic_person,"Laci", "Strike", "Lets dance!");
-        msg.setDate(sdf.format(c.getTime()));
-        messagesList.add(msg);
-
-        msg = new Message(R.drawable.ic_person,"Oskar", "Kode", "Kral Ifov.");
-        msg.setDate("16:18");
-        messagesList.add(msg);
-
-        msg = new Message(R.drawable.ic_person,"Patrik", "Vrbovsky", "Lorem ipsum dolor sit amet, " +
-                "consectetuer adipiscing elit. Nulla pulvinar eleifend sem. Maecenas fermentum," +
-                " sem in pharetra pellentesque, velit turpis volutpat ante, in pharetra metus odio a lectus. " +
-                "Quisque porta. Nullam lectus justo, vulputate eget mollis sed, tempor sed magna. Nulla quis diam. " +
-                "Nunc tincidunt ante vitae massa. Vivamus luctus egestas leo. Suspendisse sagittis ultrices augue. " +
-                "Nullam sit amet magna in magna gravida vehicula.");
-        msg.setDate(sdf.format(c.getTime()));
-        messagesList.add(msg);
-
-        mAdapter.notifyDataSetChanged();
+                Message msg = new Message();
+                msg.setFirstName(firstName);
+                msg.setLastName(lastName);
+                msg.setMessageText(message);
+                messagesList.add(msg);
+                mAdapter.notifyDataSetChanged();
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
     public interface ClickListener {

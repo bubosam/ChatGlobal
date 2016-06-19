@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -24,6 +25,7 @@ import com.android.volley.toolbox.JsonObjectRequest;
 
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -104,15 +106,72 @@ public class RegistrationActivity extends AppCompatActivity {
             // form field with an error.
             focusView.requestFocus();
         } else {
-            //showMessage();
-           // Network access.
+            // Network access.
+            new RegisterTask(new AsyncTaskCallback() {
+                @Override
+                public void onTaskCompleted(List<Contact> result) {
 
-           if (new Server().register(usernameStr, emailStr, passwordStr, getApplicationContext())){
-               showMessage();
-           }
-           else {
-               showErrorMessage();
-           }
+                }
+
+                @Override
+                public void onTaskCompleted(Contact result) {
+
+                }
+
+                @Override
+                public void onTaskCompleted(int result) {
+
+                }
+
+                @Override
+                public void onTaskCompleted(String result) {
+                    Log.d("Result", result);
+                    if (result.equals("true")){
+                        showMessage();
+                    }
+                    else{
+                        showErrorMessage();
+                    }
+
+                }
+            }).execute(usernameStr, emailStr, passwordStr);
+        }
+    }
+
+    public class RegisterTask extends AsyncTask<String, Void, Void>{
+        private AsyncTaskCallback listener;
+        public RegisterTask(AsyncTaskCallback listener){
+            this.listener=listener;
+        }
+
+        @Override
+        protected Void doInBackground(String... params) {
+            String usernameStr = params[0];
+            String emailStr = params[1];
+            String passwordStr = params[2];
+            new Server().register(usernameStr, emailStr, passwordStr, new VolleyCallback() {
+                @Override
+                public void onSuccess(JSONObject result) {
+
+                }
+
+                @Override
+                public void onSuccess(JSONArray result) {
+
+                }
+
+                @Override
+                public void onSuccess(String result) {
+                    listener.onTaskCompleted(result);
+                }
+
+                @Override
+                public void onSuccess(int result) {
+
+                }
+            });
+
+            return null;
         }
     }
 

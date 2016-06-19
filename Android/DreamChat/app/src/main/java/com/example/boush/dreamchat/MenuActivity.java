@@ -1,8 +1,16 @@
 package com.example.boush.dreamchat;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.graphics.drawable.Drawable;
+import android.os.AsyncTask;
+import android.preference.PreferenceManager;
+import android.support.design.widget.FloatingActionButton;
+import android.support.v4.content.res.ResourcesCompat;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
@@ -11,12 +19,20 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.Toast;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import java.util.List;
 
 public class MenuActivity extends AppCompatActivity {
 
@@ -29,6 +45,7 @@ public class MenuActivity extends AppCompatActivity {
     ActionBarDrawerToggle mDrawerToggle;
     private CharSequence mDrawerTitle;
     private CharSequence mTitle;
+    private FloatingActionButton fab;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,6 +55,7 @@ public class MenuActivity extends AppCompatActivity {
         mTitle = mDrawerTitle = getTitle();
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
         
 
         pager = (ViewPager) findViewById(R.id.view_pager);
@@ -63,18 +81,31 @@ public class MenuActivity extends AppCompatActivity {
         ActionBarDrawerToggle mDrawerToggle = new ActionBarDrawerToggle(
                 this,  mDrawerLayout, toolbar,
                 R.string.drawer_open, R.string.drawer_close
-        ) {
+        )
+
+
+        {
+
             public void onDrawerClosed(View view) {
                 super.onDrawerClosed(view);
-                getSupportActionBar().setTitle(mTitle);
+
+               for(int i =0;i<=3;i++){
+                   mDrawerList.setItemChecked(i,false);
+               }
+
+
             }
 
             public void onDrawerOpened(View drawerView) {
                 super.onDrawerOpened(drawerView);
-                getSupportActionBar().setTitle(mDrawerTitle);
+
             }
         };
 
+
+        ActionBar ab = getSupportActionBar();
+        ab.setHomeAsUpIndicator(R.drawable.ic_menu);
+        ab.setDisplayHomeAsUpEnabled(true);
 
         mDrawerLayout.addDrawerListener(mDrawerToggle);
 
@@ -99,16 +130,36 @@ public class MenuActivity extends AppCompatActivity {
         PagerAdapter adapter = new PagerAdapter(manager) ;
         pager.setAdapter(adapter);
 
+        fab = (FloatingActionButton) findViewById(R.id.contactsFAB);
+        fab.hide();
+        /*fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getApplicationContext(), "FAB clicked", Toast.LENGTH_SHORT).show();
+            }
+        });*/
+
         pager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
         tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
+                if (tab.getPosition() == 1) {
+                    fab.show();
+                }
+                if (tab.getPosition() == 0) {
+                    fab.hide();
+                }
                 pager.setCurrentItem(tab.getPosition());
             }
 
             @Override
             public void onTabUnselected(TabLayout.Tab tab) {
-
+                fab.hide(new FloatingActionButton.OnVisibilityChangedListener() { // Hide FAB
+                    @Override
+                    public void onHidden(FloatingActionButton fab) {
+                        fab.show(); // After FAB is hidden show it again
+                    }
+                });
             }
 
             @Override
@@ -132,7 +183,7 @@ public class MenuActivity extends AppCompatActivity {
     @Override
     public void setTitle(CharSequence title) {
         mTitle = title;
-        getSupportActionBar().setTitle(mTitle);
+
     }
 
     @Override
@@ -154,6 +205,8 @@ public class MenuActivity extends AppCompatActivity {
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
             selectItem(position);
+
+
         }
 
     }
@@ -169,13 +222,13 @@ public class MenuActivity extends AppCompatActivity {
                 break;
             case 1:
                 fragment = new SettingsFragment();
+
                 break;
             case 2:
                 fragment = new HelpFragment();
                 break;
             case 3 :
-
-                    showMessage();
+                showMessage();
                 break;
 
             default:
@@ -184,11 +237,9 @@ public class MenuActivity extends AppCompatActivity {
 
         if (fragment != null) {
             FragmentManager fragmentManager = getSupportFragmentManager();
-
             fragmentManager.beginTransaction().replace(R.id.content_frame, fragment).addToBackStack("MenuActivity").commit();
             mDrawerList.setItemChecked(position, true);
             mDrawerList.setSelection(position);
-            setTitle(mNavigationDrawerItemTitles[position]);
             mDrawerLayout.closeDrawer(mDrawerList);
 
         } else {
@@ -199,17 +250,89 @@ public class MenuActivity extends AppCompatActivity {
     private void showMessage(){
         AlertDialog alertDialog = new AlertDialog.Builder(MenuActivity.this).create();
         alertDialog.setTitle("Log out");
-        alertDialog.setMessage("You have been logged out ! ");
-        alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
+        alertDialog.setMessage("Are you sure, you want to logout? ");
+        alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "YES",
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.dismiss();
-                        Intent intent = new Intent(MenuActivity.this,LoginActivity.class);
-                        startActivity(intent);
+                        new LogoutTask(new AsyncTaskCallback() {
+                            @Override
+                            public void onTaskCompleted(List<Contact> result) {
+
+                            }
+
+                            @Override
+                            public void onTaskCompleted(Contact result) {
+
+                            }
+
+                            @Override
+                            public void onTaskCompleted(int result) {
+                                if (result==200){
+                                    SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+                                    SharedPreferences.Editor editor = sharedPref.edit();
+                                    editor.remove(Constants.KEY_TOKEN);
+                                    editor.remove(Constants.KEY_USERID);
+                                    editor.apply();
+                                    Intent intent = new Intent(MenuActivity.this, LoginActivity.class);
+                                    startActivity(intent);
+                                    finish();
+                                }
+                                else if (result==401){
+                                    Toast.makeText(getApplicationContext(), result+ "- authorization failed. Logout unsuccessful.", Toast.LENGTH_SHORT).show();
+                                }
+                            }
+
+                            @Override
+                            public void onTaskCompleted(String result) {
+
+                            }
+                        }).execute(getApplicationContext());
+                    }
+                });
+        alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, "NO",
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
                     }
                 });
         alertDialog.show();
 
+    }
+
+    public class LogoutTask extends AsyncTask<Context, Void, Void>{
+        private AsyncTaskCallback listener;
+
+        public LogoutTask(AsyncTaskCallback listener){
+            this.listener = listener;
+        }
+
+        @Override
+        protected Void doInBackground(Context... params) {
+            new Server().logout(params[0], new VolleyCallback() {
+                @Override
+                public void onSuccess(JSONObject result) {
+
+                }
+
+                @Override
+                public void onSuccess(JSONArray result) {
+
+                }
+
+                @Override
+                public void onSuccess(String result) {
+                }
+
+                @Override
+                public void onSuccess(int result) {
+                   listener.onTaskCompleted(result);
+                }
+            });
+
+            return null;
+        }
     }
 
 }

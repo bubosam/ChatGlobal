@@ -13,20 +13,16 @@ public class Message {
     private String firstName;
     private String lastName;
     private String date;
-    private boolean isStatusMessage;
-
-    public Message(int avatarId, String firstName, String lastName, String messageText){
-        this.avatarId = avatarId;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.messageText = messageText;
-    }
+    private int recId;
+    private int myId;
 
     public Message(){}
 
-    public boolean isStatusMessage() { return isStatusMessage; }
+    public int getMyId() { return myId; }
+    public void setMyId(int myId) { this.myId = myId; }
 
-    public void setStatusMessage(boolean statusMessage) { isStatusMessage = statusMessage; }
+    public int getRecId() { return recId; }
+    public void setRecId(int recId) { this.recId = recId; }
 
     public boolean isMe() { return isMe; }
     public void setMe(boolean me) { isMe = me; }

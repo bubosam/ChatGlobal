@@ -4,10 +4,12 @@
 module.exports = {
     sendRequest: function (senderid, receiverid, callback) {
         var code;
-        db.query("SELECT COUNT(*) AS reqcount FROM friend_requests WHERE (senderid='" + senderid + "' AND receiverid='" + receiverid + "') OR (senderid='" + receiverid + "' AND receiverid='" + senderid + "')", function (result) {
-            var count = result.reqcount;
-            db.query("SELECT COUNT(*) AS friendshipscount FROM friendships WHERE (user1='" + senderid + "' AND user2='" + receiverid + "') OR (user1='" + receiverid + "' AND user2='" + senderid + "')", function (result2) {
-                if (result2.friendshipscount + count != 0) {
+        db.query("SELECT COUNT(*) AS count FROM friend_requests WHERE (sender='" + senderid + "' AND receiver='" + receiverid + "') OR (sender='" + receiverid + "' AND receiver='" + senderid + "')",
+        function (result) {
+            var count = result[0].count;
+            db.query("SELECT COUNT(*) AS count FROM friendships WHERE (user1='" + senderid + "' AND user2='" + receiverid + "') OR (user1='" + receiverid + "' AND user2='" + senderid + "')",
+            function (result2) {
+                if (parseInt(result2[0].count) + parseInt(count) != 0) {
                     if (typeof callback === "function") {
                         callback(false,409);
                     }

@@ -15,15 +15,8 @@ public class Contact implements Parcelable {
     private int userid;
     private String email;
     private String phone;
-    //private profilePic;
+    //private String profilePic;
 
-    public String getPhone() {
-        return phone;
-    }
-
-    public String getEmail() {
-        return email;
-    }
 
     public int getUserid() {
         return userid;
@@ -37,14 +30,32 @@ public class Contact implements Parcelable {
         isFriend = friend;
     }
 
-    public Contact(String firstName, String lastName, String nickname, boolean friend, String email, String phone) {
+    public Contact(int userid, String firstName, String lastName, String nickname, boolean friend) {
+        this.userid = userid;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.nickname = nickname;
+        this.isFriend = friend;
+    }
+
+    public Contact(int userid, String firstName, String lastName, String nickname, boolean friend, String email, String phone) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.nickname = nickname;
         this.isFriend = friend;
         this.email = email;
         this.phone = phone;
+        this.userid = userid;
     }
+
+    public Contact(int userid, String firstName, String lastName, String nickname,String phone) {
+        this.userid = userid;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.nickname = nickname;
+        this.phone = phone;
+    }
+
 
     public String getFirstName() {
         return firstName;
@@ -58,9 +69,12 @@ public class Contact implements Parcelable {
         return firstName + " " + lastName;
     }
 
-    public String getNickname() {
-        return nickname;
-    }
+    public String getNickname() {return nickname;}
+
+    public String getPhone(){return phone;}
+
+    public String getEmail() { return email;}
+
 
     @Override
     public int describeContents() {

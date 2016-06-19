@@ -4,6 +4,9 @@
     <!-- Strings related to login -->
     <string name="prompt_email">Email</string>
     <string name="prompt_password">Password</string>
+    <string name="old_password"> Old Password</string>
+    <string name="new_password"> New Password</string>
+    <string name="retype_password"> Retype Password</string>
     <string name="prompt_password2">Re-enter password</string>
     <string name="action_sign_in">Sign in</string>
     <string name="action_register">Register</string>
@@ -55,5 +58,7 @@
 
     <string name="drawer_open">Open navigation drawer</string>
     <string name="drawer_close">Close navigation drawer</string>
+
+    <string name="prefs_theme_key">theme</string>
 
 </resources>

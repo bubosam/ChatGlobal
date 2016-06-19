@@ -19,8 +19,8 @@ import java.util.List;
  */
 public class HelpFragment extends Fragment {
 
-    private List<SettingItem> titleList = new ArrayList<>();
-    private SettingsAdapter mAdapter;
+    private List<HelpItem> titleList = new ArrayList<>();
+    private HelpAdapter mAdapter;
     private RecyclerView recyclerView;
     private Context context;
     ImageView personPhoto;
@@ -35,16 +35,16 @@ public class HelpFragment extends Fragment {
         context = getActivity();
         personPhoto = (ImageView)rootView.findViewById(R.id.person_photo);
 
-        titleList.add (new SettingItem("How to register on DreamChat ?",R.drawable.ic_help_black_18dp));
-        titleList.add (new SettingItem("What usernames are allowed on DreamChat ?",R.drawable.ic_help_black_18dp));
-        titleList.add (new SettingItem("How do I change my password ?",R.drawable.ic_help_black_18dp));
-        titleList.add (new SettingItem("What is the minimum password strength and how can I make my password strong?",R.drawable.ic_help_black_18dp));
+        titleList.add (new HelpItem("How to register on DreamChat ?",R.drawable.help_white_18x18));
+        titleList.add (new HelpItem("What usernames are allowed on DreamChat ?",R.drawable.help_white_18x18));
+        titleList.add (new HelpItem("How do I change my password ?",R.drawable.help_white_18x18));
+        titleList.add (new HelpItem("How can I make my password strong?",R.drawable.help_white_18x18));
 
 
         recyclerView = (RecyclerView) rootView.findViewById(R.id.recyclerview);
 
 
-        mAdapter = new SettingsAdapter(titleList);
+        mAdapter = new HelpAdapter(titleList);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(context);
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
