@@ -1,16 +1,13 @@
 ﻿var express = require('express');
-// var db = require('/API/DBconnect.js');
+var db = require('../API/DBconnect.js');
 var router = express.Router();
 
-/* GET users listing. */
 router.get('/', function (req, res) {
-	res.json({"text": "test"});
-
+	res.send({"text": "test_get"});
 });
 
 router.post('/', function (req, res) {
-	console.log(req.body);
-	res.json(req.body);
+	res.json({"text": "test_post"});
 });
 
 module.exports = router;

@@ -3,7 +3,6 @@ var router = express.Router();
 var bodyParser = require("body-parser");
 var authorization = require(appRoot + "/API/authorization");
 
-
 router.post('/', function (req, res) {
     var email = req.body.email;
     var password = req.body.password;

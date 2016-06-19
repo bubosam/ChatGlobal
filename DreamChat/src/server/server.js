@@ -16,7 +16,7 @@ var register = require('./routes/register');
 var requests = require('./routes/requests');
 var users = require('./routes/users');
 
-var routes = require('./routes');
+var routes = require('./routes.js');
 
 // Webpack import
 var webpack = require('webpack');
@@ -41,12 +41,10 @@ app.use(bodyParser.urlencoded({ limit: '20mb', extended: false }));
 //     }
 // });
 
-// app.set('views', path.join(__dirname, './views'));
 app.engine('html', consolidate['swig']);
 app.set('view engine', 'html');
 
-// app.use(express.static('./views'));
-
+app.use(routes);
 
 //new part
 app.use(historyApiFallback({
@@ -77,25 +75,12 @@ console.log(config.SERVER_SRC_DIR);
 app.set('views', path.join(config.SERVER_SRC_DIR, 'views'));
 //END new part
 
-// app.use('/', index);
-// app.use('/api/test', test);
-// app.use('/api/login', login);
-// app.use('/api/register', register);
-// app.use('/api/requests', requests);
-// app.use('/api/users', users);
-
-app.use(routes);
-
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
     var err = new Error('Not Found');
     err.status = 404;
     next(err);
 });
-
-
-
-// error handlers
 
 // development error handler
 // will print stacktrace
