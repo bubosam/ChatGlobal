@@ -10,12 +10,6 @@ var config = require('../../config');
 var compress = require('compression');
 
 var index = require('./routes/index');
-var test = require('./routes/test');
-var login = require('./routes/login');
-var register = require('./routes/register');
-var requests = require('./routes/requests');
-var users = require('./routes/users');
-
 var routes = require('./routes.js');
 
 // Webpack import
@@ -74,6 +68,8 @@ app.use(logger('dev'));
 console.log(config.SERVER_SRC_DIR);
 app.set('views', path.join(config.SERVER_SRC_DIR, 'views'));
 //END new part
+
+app.use('/', index);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
