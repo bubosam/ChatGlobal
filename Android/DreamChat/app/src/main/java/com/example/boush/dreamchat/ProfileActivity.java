@@ -24,6 +24,8 @@ public class ProfileActivity extends AppCompatActivity {
     private Button sendReq;
     private Button removeFriend;
     private Button sendMessage;
+    private Button acceptReq;
+    private Button cancelReq;
 
     private ImageView imageView;
     private TextView name;
@@ -32,6 +34,7 @@ public class ProfileActivity extends AppCompatActivity {
     private TextView email;
 
     private boolean isFriend;
+    private boolean isRequest;
 
     private String firstName;
     private String lastName;
@@ -55,20 +58,6 @@ public class ProfileActivity extends AppCompatActivity {
             Bundle extras = getIntent().getExtras();
             if(extras != null) {
                 contact = (Contact) extras.getParcelable(Constants.KEY_CONTACT);
-                /*firstName = contact.getFirstName();
-                lastName = contact.getLastName();
-                title = contact.getTitle();
-                phoneStr = contact.getPhone();
-                emailStr = contact.getEmail();
-                nicknameStr = contact.getNickname();
-
-                isFriend = contact.isFriend();
-
-                /*firstName=extras.getString("firstName");
-                lastName=extras.getString("lastName");
-                title = firstName+" "+lastName;
-                isFriend=extras.getBoolean("isFriend");
-                Log.d("boolean friend", String.valueOf(isFriend));*/
             }
         }
         else{
@@ -82,6 +71,10 @@ public class ProfileActivity extends AppCompatActivity {
         emailStr = contact.getEmail();
         nicknameStr = contact.getNickname();
         isFriend = contact.isFriend();
+        isRequest = contact.isRequest();
+
+
+        //Log.d("profil", String.valueOf(contact.getUserid()));
 
         if (isFriend){
             setContentView(R.layout.activity_profile_friend);
@@ -122,6 +115,86 @@ public class ProfileActivity extends AppCompatActivity {
 
 
         }
+        else if (isRequest){
+            setContentView(R.layout.activity_profile_request);
+
+            imageView = (ImageView) findViewById(R.id.profilePic);
+            nickname = (TextView) findViewById(R.id.contactNickname);
+            name = (TextView) findViewById(R.id.contactName);
+
+            nickname.setText(nicknameStr);
+            name.setText(title);
+            acceptReq = (Button) findViewById(R.id.acceptReq);
+            cancelReq = (Button) findViewById(R.id.cancelReq);
+
+            acceptReq.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    new AcceptRequestTask(getApplicationContext(), contact.getRequestid(), new AsyncTaskCallback() {
+                        @Override
+                        public void onTaskCompleted(List result) {
+
+                        }
+
+                        @Override
+                        public void onTaskCompleted(Contact result) {
+
+                        }
+
+                        @Override
+                        public void onTaskCompleted(int result) {
+                            if (result==400){
+                                Toast.makeText(getApplicationContext(), "Request not found", Toast.LENGTH_SHORT).show();
+                            }
+                            else if (result==401){
+                                Toast.makeText(getApplicationContext(), "Authorization failed", Toast.LENGTH_SHORT).show();
+                            }
+                            else if (result==500){
+                                Toast.makeText(getApplicationContext(), "Unexpected database error", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+
+                        @Override
+                        public void onTaskCompleted(String result) {
+                            Toast.makeText(getApplicationContext(), result, Toast.LENGTH_SHORT).show();
+                        }
+                    }).execute();
+                }
+            });
+
+            cancelReq.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    new CancelRequestTask(getApplicationContext(), contact.getRequestid(), new AsyncTaskCallback() {
+                        @Override
+                        public void onTaskCompleted(List result) {
+
+                        }
+
+                        @Override
+                        public void onTaskCompleted(Contact result) {
+
+                        }
+
+                        @Override
+                        public void onTaskCompleted(int result) {
+                            Log.d("kod", String.valueOf(result));
+                            if (result==401){
+                                Toast.makeText(getApplicationContext(), "Authorization failed", Toast.LENGTH_SHORT).show();
+                            }
+                            else if (result==500){
+                                Toast.makeText(getApplicationContext(), "Unexpected database error", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+
+                        @Override
+                        public void onTaskCompleted(String result) {
+                            Toast.makeText(getApplicationContext(), result, Toast.LENGTH_SHORT).show();
+                        }
+                    }).execute();
+                }
+            });
+        }
         else{
             setContentView(R.layout.activity_profile);
 
@@ -138,7 +211,7 @@ public class ProfileActivity extends AppCompatActivity {
                 public void onClick(View v) {
                     new SendRequestTask(getApplicationContext(), contact.getUserid(), new AsyncTaskCallback() {
                         @Override
-                        public void onTaskCompleted(List<Contact> result) {
+                        public void onTaskCompleted(List result) {
 
                         }
 
@@ -149,6 +222,7 @@ public class ProfileActivity extends AppCompatActivity {
 
                         @Override
                         public void onTaskCompleted(int result) {
+                            Log.d("kod", String.valueOf(result));
                             if (result==401){
                                 Toast.makeText(getApplicationContext(), "Authorization failed", Toast.LENGTH_SHORT).show();
                             }
@@ -164,7 +238,7 @@ public class ProfileActivity extends AppCompatActivity {
                         public void onTaskCompleted(String result) {
                             Toast.makeText(getApplicationContext(), result, Toast.LENGTH_SHORT).show();
                         }
-                    });
+                    }).execute();
                 }
             });
 
@@ -198,6 +272,82 @@ public class ProfileActivity extends AppCompatActivity {
         @Override
         protected Void doInBackground(Void... params) {
             new Server().sendRequest(context, userid, new VolleyCallback() {
+                @Override
+                public void onSuccess(JSONObject result) {
+
+                }
+
+                @Override
+                public void onSuccess(JSONArray result) {
+
+                }
+
+                @Override
+                public void onSuccess(String result) {
+                    listener.onTaskCompleted(result);
+                }
+
+                @Override
+                public void onSuccess(int result) {
+                    listener.onTaskCompleted(result);
+                }
+            });
+            return null;
+        }
+    }
+
+    public class AcceptRequestTask extends AsyncTask<Void, Void, Void>{
+        private AsyncTaskCallback listener;
+        private int reqid;
+        private Context context;
+
+        public AcceptRequestTask(Context context, int reqid, AsyncTaskCallback listener){
+            this.context = context;
+            this.reqid = reqid;
+            this.listener = listener;
+        }
+
+        @Override
+        protected Void doInBackground(Void... params) {
+            new Server().acceptReq(reqid, context, new VolleyCallback() {
+                @Override
+                public void onSuccess(JSONObject result) {
+
+                }
+
+                @Override
+                public void onSuccess(JSONArray result) {
+
+                }
+
+                @Override
+                public void onSuccess(String result) {
+                    listener.onTaskCompleted(result);
+                }
+
+                @Override
+                public void onSuccess(int result) {
+                    listener.onTaskCompleted(result);
+                }
+            });
+            return null;
+        }
+    }
+
+    public class CancelRequestTask extends AsyncTask<Void, Void, Void>{
+        private AsyncTaskCallback listener;
+        private int reqid;
+        private Context context;
+
+        public CancelRequestTask(Context context, int reqid, AsyncTaskCallback listener){
+            this.context = context;
+            this.reqid = reqid;
+            this.listener = listener;
+        }
+
+        @Override
+        protected Void doInBackground(Void... params) {
+            new Server().cancelReq(reqid, context, new VolleyCallback() {
                 @Override
                 public void onSuccess(JSONObject result) {
 

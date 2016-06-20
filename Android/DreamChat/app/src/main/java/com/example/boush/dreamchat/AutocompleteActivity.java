@@ -2,14 +2,19 @@ package com.example.boush.dreamchat;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Toast;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,9 +34,33 @@ public class AutocompleteActivity extends AppCompatActivity {
         autocomplete = (AutoCompleteTextView) findViewById(R.id.autoCompleteTextView);
         autocomplete.setThreshold(1);
 
-        friendList = fetchFriends();
-        acAdapter = new AutoCAdapter(this, R.layout.dropdown, friendList);
-        autocomplete.setAdapter(acAdapter);
+        new ContactFetch(new AsyncTaskCallback() {
+            @Override
+            public void onTaskCompleted(List result) {
+                friendList=result;
+                acAdapter = new AutoCAdapter(AutocompleteActivity.this, R.layout.dropdown, friendList);
+                autocomplete.setAdapter(acAdapter);
+            }
+
+            @Override
+            public void onTaskCompleted(Contact result) {
+
+            }
+
+            @Override
+            public void onTaskCompleted(int result) {
+
+            }
+
+            @Override
+            public void onTaskCompleted(String result) {
+
+            }
+        }).execute();
+
+        //friendList = fetchFriends();
+        /*acAdapter = new AutoCAdapter(this, R.layout.dropdown, friendList);
+        autocomplete.setAdapter(acAdapter);*/
 
         autocomplete.setOnTouchListener(new View.OnTouchListener(){
             @Override
@@ -64,6 +93,43 @@ public class AutocompleteActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    public class ContactFetch extends AsyncTask<Void, Void, Void> {
+        private AsyncTaskCallback listener;
+        public ContactFetch(AsyncTaskCallback listener){
+            this.listener=listener;
+        }
+
+        @Override
+        protected Void doInBackground(Void... params) {
+            //SystemClock.sleep(3000);
+            new Server().getContacts(getApplicationContext(), new VolleyCallback() {
+                @Override
+                public void onSuccess(JSONObject result) {
+
+                }
+
+                @Override
+                public void onSuccess(JSONArray result) {
+                    Log.d("JSONArray result", result.toString());
+                    List<Contact> contactL = new ParseJSON().getContacts(result);
+                    listener.onTaskCompleted(contactL);
+                }
+
+                @Override
+                public void onSuccess(String result) {
+
+                }
+
+                @Override
+                public void onSuccess(int result) {
+                    listener.onTaskCompleted(result);
+                }
+            });
+
+            return null;
+        }
     }
 
     public List<Contact> fetchFriends(){

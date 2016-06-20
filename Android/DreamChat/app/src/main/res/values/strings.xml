@@ -35,6 +35,7 @@
     <string name="tab_conversations">Conversations</string>
     <string name="tab_contacts">Contacts</string>
 
+    <string name="subheader_requests">Requests</string>
     <string name="subheader_friends">Friends</string>
     <string name="subheader_others">Others</string>
 

@@ -286,7 +286,7 @@ public class MeFragment extends Fragment {
     private void prepareContactData() {
         new ContactDataTask(new AsyncTaskCallback() {
             @Override
-            public void onTaskCompleted(List<Contact> result) {
+            public void onTaskCompleted(List result) {
 
             }
 

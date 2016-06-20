@@ -45,6 +45,8 @@ public class ContactsFragment extends Fragment implements SearchView.OnQueryText
 
     private Context context;
     private List<Contact> contactList = new ArrayList<>();
+    private List<Contact> friendList = new ArrayList<>();
+    private List<Contact> requestList = new ArrayList<>();
     private RecyclerView recyclerView;
     //private ContactsAdapter mAdapter;
     private SearchView search;
@@ -52,12 +54,14 @@ public class ContactsFragment extends Fragment implements SearchView.OnQueryText
     private FloatingActionButton fab;
     private ProgressBar pb;
     //private View rootView;
+    private int finishedTasks;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_contacts, container, false);
         context = getActivity();
+        finishedTasks=0;
         //rootView=view;
 
         recyclerView = (RecyclerView) view.findViewById(R.id.recycler_view_contacts);
@@ -74,12 +78,54 @@ public class ContactsFragment extends Fragment implements SearchView.OnQueryText
 
         sectionAdapter = new SectionedRecyclerViewAdapter();
 
+        new RequestLoad(new AsyncTaskCallback() {
+            @Override
+            public void onTaskCompleted(List result) {
+                for (int i=0; i<result.size(); i++){
+                    int userid=((Request) result.get(i)).getUserid();
+                    String name=((Request) result.get(i)).getName();
+                    String surname=((Request) result.get(i)).getSurname();
+                    String nick=((Request) result.get(i)).getNickname();
+                    int reqid =((Request) result.get(i)).getRequestid();
+                    Log.d("Req", name+surname+nick+userid+reqid);
+                    requestList.add(new Contact(userid, name, surname, nick, false, true, reqid));
+                }
+                if (requestList.size()>0){
+                    sectionAdapter.addSection(new ContactsSection(getString(R.string.subheader_requests), requestList));
+                }
+                sectionAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onTaskCompleted(Contact result) {
+
+            }
+
+            @Override
+            public void onTaskCompleted(int result) {
+                if (result==401){
+                    Toast.makeText(getContext(), "Error fetching contacts - unauthorized access", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onTaskCompleted(String result) {
+
+            }
+        }).execute();
+
         //prepareContactData();
         new ContactFetch(new AsyncTaskCallback() {
             @Override
-            public void onTaskCompleted(List<Contact> result) {
-                contactList = result;
-                for (int i=0; i<contactList.size(); i++){
+            public void onTaskCompleted(List result) {
+                //contactList = result;
+                friendList = result;
+                if (friendList.size()>0){
+                    sectionAdapter.addSection(new ContactsSection(getString(R.string.subheader_friends), friendList));
+                }
+
+                sectionAdapter.notifyDataSetChanged();
+                /*for (int i=0; i<contactList.size(); i++){
                     Log.d("ContactList", contactList.get(i).getTitle());
                 }
                 sectionAdapter.notifyDataSetChanged();
@@ -90,7 +136,7 @@ public class ContactsFragment extends Fragment implements SearchView.OnQueryText
                 List<Contact> others = getOthers(contactList);
                 if (others.size() > 0) {
                     sectionAdapter.addSection(new ContactsSection(getString(R.string.subheader_others), others));
-                }
+                }*/
             }
 
             @Override
@@ -111,7 +157,29 @@ public class ContactsFragment extends Fragment implements SearchView.OnQueryText
             }
         }).execute();
 
-        /*List<Contact> friends = getFriends(contactList);
+        /*contactList.addAll(requestList);
+        contactList.addAll(friendList);
+
+        sectionAdapter.notifyDataSetChanged();
+        if (requestList.size()>0){
+            sectionAdapter.addSection(new ContactsSection(getString(R.string.subheader_requests), requestList));
+        }
+        if (friendList.size()>0){
+            sectionAdapter.addSection(new ContactsSection(getString(R.string.subheader_friends), friendList));
+        }
+        List<Contact> others = getOthers(contactList);
+        if (others.size() > 0) {
+            sectionAdapter.addSection(new ContactsSection(getString(R.string.subheader_others), others));
+        }
+
+        sectionAdapter.notifyDataSetChanged();*/
+
+
+        /*for (int i=0; i<contactList.size(); i++){
+            Log.d("ContactList", contactList.get(i).getTitle());
+        }
+        sectionAdapter.notifyDataSetChanged();
+        List<Contact> friends = getFriends(contactList);
         if (friends.size() > 0) {
             sectionAdapter.addSection(new ContactsSection(getString(R.string.subheader_friends), friends));
         }
@@ -215,6 +283,65 @@ public class ContactsFragment extends Fragment implements SearchView.OnQueryText
         }
     };*/
 
+    public class RequestLoad extends AsyncTask <Void, Void, Void>{
+        private AsyncTaskCallback listener;
+        public RequestLoad(AsyncTaskCallback listener){
+            this.listener=listener;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+            /*finishedTasks++;
+            if (finishedTasks==2){
+                /*contactList.addAll(requestList);
+                contactList.addAll(friendList);
+
+                //sectionAdapter.notifyDataSetChanged();
+                if (requestList.size()>0){
+                    sectionAdapter.addSection(new ContactsSection(getString(R.string.subheader_requests), requestList));
+                }
+                if (friendList.size()>0){
+                    sectionAdapter.addSection(new ContactsSection(getString(R.string.subheader_friends), friendList));
+                }
+                /*List<Contact> others = getOthers(contactList);
+                if (others.size() > 0) {
+                    sectionAdapter.addSection(new ContactsSection(getString(R.string.subheader_others), others));
+                }
+
+                sectionAdapter.notifyDataSetChanged();
+            }*/
+        }
+
+        @Override
+        protected Void doInBackground(Void... params) {
+            new Server().loadReqs(context, new VolleyCallback() {
+                @Override
+                public void onSuccess(JSONObject result) {
+                    Log.d("result", result.toString());
+                    List<Request> requests = new ParseJSON().getRequests(result);
+                    listener.onTaskCompleted(requests);
+                }
+
+                @Override
+                public void onSuccess(JSONArray result) {
+
+                }
+
+                @Override
+                public void onSuccess(String result) {
+
+                }
+
+                @Override
+                public void onSuccess(int result) {
+                    listener.onTaskCompleted(result);
+                }
+            });
+            return null;
+        }
+    }
+
     public class ContactFetch extends AsyncTask <Void, Void, Void>{
         private AsyncTaskCallback listener;
         public ContactFetch(AsyncTaskCallback listener){
@@ -231,6 +358,25 @@ public class ContactsFragment extends Fragment implements SearchView.OnQueryText
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
             pb.setVisibility(View.GONE);
+            /*finishedTasks++;
+            if (finishedTasks==2){
+                contactList.addAll(requestList);
+                contactList.addAll(friendList);
+
+                sectionAdapter.notifyDataSetChanged();
+                if (requestList.size()>0){
+                    sectionAdapter.addSection(new ContactsSection(getString(R.string.subheader_requests), requestList));
+                }
+                if (friendList.size()>0){
+                    sectionAdapter.addSection(new ContactsSection(getString(R.string.subheader_friends), friendList));
+                }
+                List<Contact> others = getOthers(contactList);
+                if (others.size() > 0) {
+                    sectionAdapter.addSection(new ContactsSection(getString(R.string.subheader_others), others));
+                }
+
+                sectionAdapter.notifyDataSetChanged();
+            }*/
         }
 
         @Override
@@ -405,7 +551,7 @@ public class ContactsFragment extends Fragment implements SearchView.OnQueryText
         public void onBindHeaderViewHolder(RecyclerView.ViewHolder holder) {
             HeaderViewHolder headerHolder = (HeaderViewHolder) holder;
 
-//            headerHolder.tvTitle.setText(title);
+            headerHolder.tvTitle.setText(title);
 
         }
 

@@ -257,7 +257,7 @@ public class MenuActivity extends AppCompatActivity {
                         dialog.dismiss();
                         new LogoutTask(new AsyncTaskCallback() {
                             @Override
-                            public void onTaskCompleted(List<Contact> result) {
+                            public void onTaskCompleted(List result) {
 
                             }
 

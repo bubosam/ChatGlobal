@@ -326,10 +326,10 @@ public class Server {
                     SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
                     String token = prefs.getString(Constants.KEY_TOKEN, null);
                     int userid = prefs.getInt(Constants.KEY_USERID, 0);
-                    headers.put(Constants.KEY_USERID, String.valueOf(userid));
-                    headers.put(Constants.KEY_TOKEN, token);
-                    /*headers.put(Constants.KEY_USERID, String.valueOf(3));
-                    headers.put(Constants.KEY_TOKEN, "a019ed400268a575b4638727d8f2b4");*/
+                    /*headers.put(Constants.KEY_USERID, String.valueOf(userid));
+                    headers.put(Constants.KEY_TOKEN, token);*/
+                    headers.put(Constants.KEY_USERID, String.valueOf(1));
+                    headers.put(Constants.KEY_TOKEN, "172357a15af2abf63e9f69d4be0ad4");
                     Log.d("Headers", token + userid);
                     headers.put("Content-Type", "application/json");
                     return headers;
@@ -354,13 +354,87 @@ public class Server {
                     @Override
                     public void onResponse(JSONObject response) {
                         Log.d("Volley ", response.toString());
-                        String success = null;
+                        String message = null;
 
                         try {
-                            success = response.getString(Constants.KEY_MESSAGE);
-                            Log.d("Volley Reg Success", success);
-                            callback.onSuccess(success);
+                            message = response.getString(Constants.KEY_MESSAGE);
+                            Log.d("Volley Reg Success", message);
+                            callback.onSuccess(message);
 
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }, new Response.ErrorListener() {
+
+
+
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                /*NetworkResponse errorRes = error.networkResponse;
+                String stringData = "";
+                String message = "";
+                JSONObject jo;
+                if(errorRes != null && errorRes.data != null){
+                    try {
+                        stringData = new String(errorRes.data,"UTF-8");
+                        jo = new JSONObject(stringData);
+                        message = jo.getString(Constants.KEY_MESSAGE);
+                        callback.onSuccess(message);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    } catch (UnsupportedEncodingException e) {
+                        e.printStackTrace();
+                    }
+                }*/
+                Log.d("kod", String.valueOf(error.networkResponse.statusCode));
+                callback.onSuccess(error.networkResponse.statusCode);
+            }
+        })
+
+        {
+            /**
+             * Passing some request headers
+             * */
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                HashMap<String, String> headers = new HashMap<String, String>();
+                SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+                String token = prefs.getString(Constants.KEY_TOKEN, null);
+                int userid = prefs.getInt(Constants.KEY_USERID, 0);
+                headers.put(Constants.KEY_USERID, String.valueOf(1));
+                headers.put(Constants.KEY_TOKEN, "172357a15af2abf63e9f69d4be0ad4");
+                /*headers.put(Constants.KEY_USERID, String.valueOf(userid));
+                headers.put(Constants.KEY_TOKEN, token);*/
+                headers.put("Content-Type", "application/json");
+                return headers;
+            }
+        };
+
+        // Adding request to request queue
+        AppController.getInstance().addToRequestQueue(jsonObjReq, Constants.tag_json_obj);
+
+    }
+
+    public void cancelReq(int requestid, final Context context, final VolleyCallback callback){
+        Map<String, Integer> postParam = new HashMap<String, Integer>();
+        postParam.put(Constants.KEY_REQUESTID, requestid);
+
+        Log.d("Volley JSON to send ", new JSONObject(postParam).toString());
+
+        JsonObjectRequest jsonObjReq = new JsonObjectRequest(Request.Method.DELETE,
+                Constants.requestUrl, new JSONObject(postParam),
+                new Response.Listener<JSONObject>() {
+
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        Log.d("Volley ", response.toString());
+                        String message = null;
+
+                        try {
+                            message = response.getString(Constants.KEY_MESSAGE);
+                            Log.d("Volley Reg Success", message);
+                            callback.onSuccess(message);
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -389,8 +463,10 @@ public class Server {
                 SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
                 String token = prefs.getString(Constants.KEY_TOKEN, null);
                 int userid = prefs.getInt(Constants.KEY_USERID, 0);
-                headers.put(Constants.KEY_USERID, String.valueOf(userid));
-                headers.put(Constants.KEY_TOKEN, token);
+                headers.put(Constants.KEY_USERID, String.valueOf(1));
+                headers.put(Constants.KEY_TOKEN, "172357a15af2abf63e9f69d4be0ad4");
+                /*headers.put(Constants.KEY_USERID, String.valueOf(userid));
+                headers.put(Constants.KEY_TOKEN, token);*/
                 headers.put("Content-Type", "application/json");
                 return headers;
             }
@@ -401,64 +477,7 @@ public class Server {
 
     }
 
-    public void cancelReq(int requestid, final Context context){
-        Map<String, Integer> postParam = new HashMap<String, Integer>();
-        postParam.put(Constants.KEY_REQUESTID, requestid);
-
-        Log.d("Volley JSON to send ", new JSONObject(postParam).toString());
-
-        JsonObjectRequest jsonObjReq = new JsonObjectRequest(Request.Method.DELETE,
-                Constants.requestUrl, new JSONObject(postParam),
-                new Response.Listener<JSONObject>() {
-
-                    @Override
-                    public void onResponse(JSONObject response) {
-                        Log.d("Volley ", response.toString());
-                        String success = null;
-
-                        try {
-                            success = response.getString(Constants.KEY_MESSAGE);
-                            Log.d("Volley Reg Success", success);
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                }, new Response.ErrorListener() {
-
-
-
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                //VolleyLog.d("Volley ", "Error: " + error.getMessage());
-                if (error!=null){
-                    Log.d("Error Response", error.getMessage());
-                }
-            }
-        })
-
-        {
-            /**
-             * Passing some request headers
-             * */
-            @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                HashMap<String, String> headers = new HashMap<String, String>();
-                SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
-                String token = prefs.getString(Constants.KEY_TOKEN, null);
-                int userid = prefs.getInt(Constants.KEY_USERID, 0);
-                headers.put(Constants.KEY_USERID, String.valueOf(userid));
-                headers.put(Constants.KEY_TOKEN, token);
-                headers.put("Content-Type", "application/json");
-                return headers;
-            }
-        };
-
-        // Adding request to request queue
-        AppController.getInstance().addToRequestQueue(jsonObjReq, Constants.tag_json_obj);
-
-    }
-
-    public void acceptReq(int requestid, final Context context){
+    public void acceptReq(int requestid, final Context context, final VolleyCallback callback){
         Map<String, Integer> postParam = new HashMap<String, Integer>();
         postParam.put(Constants.KEY_REQUESTID, requestid);
 
@@ -471,11 +490,12 @@ public class Server {
                     @Override
                     public void onResponse(JSONObject response) {
                         Log.d("Volley ", response.toString());
-                        String success = null;
+                        String message = null;
 
                         try {
-                            success = response.getString(Constants.KEY_MESSAGE);
-                            Log.d("Volley Reg Success", success);
+                            message = response.getString(Constants.KEY_MESSAGE);
+                            Log.d("Volley Reg Success", message);
+                            callback.onSuccess(message);
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -487,9 +507,7 @@ public class Server {
             @Override
             public void onErrorResponse(VolleyError error) {
                 //VolleyLog.d("Volley ", "Error: " + error.getMessage());
-                if (error!=null){
-                    Log.d("Error Response", error.getMessage());
-                }
+                callback.onSuccess(error.networkResponse.statusCode);
             }
         })
 
@@ -503,8 +521,10 @@ public class Server {
                 SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
                 String token = prefs.getString(Constants.KEY_TOKEN, null);
                 int userid = prefs.getInt(Constants.KEY_USERID, 0);
-                headers.put(Constants.KEY_USERID, String.valueOf(userid));
-                headers.put(Constants.KEY_TOKEN, token);
+                headers.put(Constants.KEY_USERID, String.valueOf(1));
+                headers.put(Constants.KEY_TOKEN, "172357a15af2abf63e9f69d4be0ad4");
+                /*headers.put(Constants.KEY_USERID, String.valueOf(userid));
+                headers.put(Constants.KEY_TOKEN, token);*/
                 headers.put("Content-Type", "application/json");
                 return headers;
             }
@@ -515,19 +535,20 @@ public class Server {
 
     }
 
-    public void loadReqs(final Context context){
-        Map<String, String> postParam = new HashMap<String, String>();
-        Log.d("Volley JSON to send ", new JSONObject(postParam).toString());
+    public void loadReqs(final Context context, final VolleyCallback callback){
+        /*Map<String, String> postParam = new HashMap<String, String>();
+        Log.d("Volley JSON to send ", new JSONObject(postParam).toString());*/
 
         JsonObjectRequest jsonObjReq = new JsonObjectRequest(Request.Method.GET,
-                Constants.requestUrl, new JSONObject(postParam),
+                Constants.requestUrl, "{}",
                 new Response.Listener<JSONObject>() {
 
                     @Override
                     public void onResponse(JSONObject response) {
                         Log.d("Volley ", response.toString());
-                        List<com.example.boush.dreamchat.Request> reqs = new ParseJSON().getRequests(response);
-                        Log.d("Request 1", String.valueOf(reqs.get(0).getRequestid())+" "+reqs.get(0).getSurname());
+                        callback.onSuccess(response);
+                        /*List<com.example.boush.dreamchat.Request> reqs = new ParseJSON().getRequests(response);
+                        Log.d("Request 1", String.valueOf(reqs.get(0).getRequestid())+" "+reqs.get(0).getSurname());*/
                         /*ParseRequests reqs = new ParseRequests(response.toString());
                         reqs.parseJSON();
                         Log.d("Volley message", ParseRequests.message);
@@ -538,12 +559,13 @@ public class Server {
 
             @Override
             public void onErrorResponse(VolleyError error) {
-                VolleyLog.d("Volley ", "Error: " + error.getMessage());
+                //VolleyLog.d("Volley ", "Error: " + error.getMessage());
                 // Handle the error
-                if (error!=null){
-                    Log.d("Error Response", error.getMessage());
+                if (error.networkResponse!=null && error.networkResponse.statusCode==401){
+                    //Log.d("Error status code", String.valueOf(error.networkResponse.statusCode));
+                    callback.onSuccess(error.networkResponse.statusCode);
                 }
-                Log.d("Error status code", String.valueOf(error.networkResponse.statusCode));
+
                 //error.networkResponse.data;
 
             }
@@ -556,6 +578,13 @@ public class Server {
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
                 HashMap<String, String> headers = new HashMap<String, String>();
+                SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+                String token = prefs.getString(Constants.KEY_TOKEN, null);
+                int userid = prefs.getInt(Constants.KEY_USERID, 0);
+                headers.put(Constants.KEY_USERID, String.valueOf(1));
+                headers.put(Constants.KEY_TOKEN, "172357a15af2abf63e9f69d4be0ad4");
+                /*headers.put(Constants.KEY_USERID, String.valueOf(userid));
+                headers.put(Constants.KEY_TOKEN, token);*/
                 headers.put("Content-Type", "application/json");
                 return headers;
             }
@@ -598,7 +627,7 @@ public class Server {
 
                 Log.d("JSONArray", ja.toString());
 
-                callback.onSuccess(ja);
+                callback.onSuccess(response);
                 //callback.onSuccess(response);
             }
         }, new Response.ErrorListener() {
@@ -653,8 +682,8 @@ public class Server {
                 int userid = prefs.getInt(Constants.KEY_USERID, 0);
                 //headers.put(Constants.KEY_USERID, String.valueOf(userid));
                 //headers.put(Constants.KEY_TOKEN, token);
-                headers.put(Constants.KEY_USERID, String.valueOf(3));
-                headers.put(Constants.KEY_TOKEN, "a019ed400268a575b4638727d8f2b4");
+                headers.put(Constants.KEY_USERID, String.valueOf(1));
+                headers.put(Constants.KEY_TOKEN, "172357a15af2abf63e9f69d4be0ad4");
                 headers.put("Content-Type", "application/json");
                 return headers;
             }
@@ -723,8 +752,8 @@ public class Server {
                 int userid = prefs.getInt(Constants.KEY_USERID, 0);
                 //headers.put(Constants.KEY_USERID, String.valueOf(userid));
                 //headers.put(Constants.KEY_TOKEN, token);
-                headers.put(Constants.KEY_USERID, String.valueOf(3));
-                headers.put(Constants.KEY_TOKEN, "a019ed400268a575b4638727d8f2b4");
+                headers.put(Constants.KEY_USERID, String.valueOf(1));
+                headers.put(Constants.KEY_TOKEN, "172357a15af2abf63e9f69d4be0ad4");
                 headers.put("Content-Type", "application/json");
                 return headers;
             }
