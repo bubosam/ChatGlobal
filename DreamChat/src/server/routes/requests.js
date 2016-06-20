@@ -72,8 +72,8 @@ router.post('/accept', function (req, res) {
     authorization.authorize(req, function (access) {
         if (access) {
             var requestid = req.body.requestid;
-            requests.acceptRequest(requestid, req.headers.userid, function (success,statuscode,message) {
-                code = statuscode;
+            requests.acceptRequest(requestid, req.headers.userid, function (success, code, message) {
+                //code = statuscode;
                 if (success) {
                     res.statusCode = code;
                     res.json({
@@ -101,7 +101,6 @@ router.post('/accept', function (req, res) {
 //load pending requests from table friend_requests
 router.get('/', function (req, res) {
     var code;
-
     authorization.authorize(req, function (access) {
         if (access) {
             var userid = req.headers.userid;
