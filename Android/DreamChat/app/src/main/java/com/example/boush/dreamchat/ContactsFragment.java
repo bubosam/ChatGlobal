@@ -78,84 +78,9 @@ public class ContactsFragment extends Fragment implements SearchView.OnQueryText
 
         sectionAdapter = new SectionedRecyclerViewAdapter();
 
-        new RequestLoad(new AsyncTaskCallback() {
-            @Override
-            public void onTaskCompleted(List result) {
-                for (int i=0; i<result.size(); i++){
-                    int userid=((Request) result.get(i)).getUserid();
-                    String name=((Request) result.get(i)).getName();
-                    String surname=((Request) result.get(i)).getSurname();
-                    String nick=((Request) result.get(i)).getNickname();
-                    int reqid =((Request) result.get(i)).getRequestid();
-                    Log.d("Req", name+surname+nick+userid+reqid);
-                    requestList.add(new Contact(userid, name, surname, nick, false, true, reqid));
-                }
-                if (requestList.size()>0){
-                    sectionAdapter.addSection(new ContactsSection(getString(R.string.subheader_requests), requestList));
-                }
-                sectionAdapter.notifyDataSetChanged();
-            }
-
-            @Override
-            public void onTaskCompleted(Contact result) {
-
-            }
-
-            @Override
-            public void onTaskCompleted(int result) {
-                if (result==401){
-                    Toast.makeText(getContext(), "Error fetching contacts - unauthorized access", Toast.LENGTH_SHORT).show();
-                }
-            }
-
-            @Override
-            public void onTaskCompleted(String result) {
-
-            }
-        }).execute();
+        runReqTask();
 
         //prepareContactData();
-        new ContactFetch(new AsyncTaskCallback() {
-            @Override
-            public void onTaskCompleted(List result) {
-                //contactList = result;
-                friendList = result;
-                if (friendList.size()>0){
-                    sectionAdapter.addSection(new ContactsSection(getString(R.string.subheader_friends), friendList));
-                }
-
-                sectionAdapter.notifyDataSetChanged();
-                /*for (int i=0; i<contactList.size(); i++){
-                    Log.d("ContactList", contactList.get(i).getTitle());
-                }
-                sectionAdapter.notifyDataSetChanged();
-                List<Contact> friends = getFriends(contactList);
-                if (friends.size() > 0) {
-                    sectionAdapter.addSection(new ContactsSection(getString(R.string.subheader_friends), friends));
-                }
-                List<Contact> others = getOthers(contactList);
-                if (others.size() > 0) {
-                    sectionAdapter.addSection(new ContactsSection(getString(R.string.subheader_others), others));
-                }*/
-            }
-
-            @Override
-            public void onTaskCompleted(Contact result) {
-
-            }
-
-            @Override
-            public void onTaskCompleted(int result) {
-               if (result==401){
-                   Toast.makeText(getContext(), "Error fetching contacts - unauthorized access", Toast.LENGTH_SHORT).show();
-               }
-            }
-
-            @Override
-            public void onTaskCompleted(String result) {
-
-            }
-        }).execute();
 
         /*contactList.addAll(requestList);
         contactList.addAll(friendList);
@@ -221,6 +146,90 @@ public class ContactsFragment extends Fragment implements SearchView.OnQueryText
         search.setOnQueryTextListener(this);
 
         return view;
+    }
+
+    public void runReqTask(){
+        new RequestLoad(new AsyncTaskCallback() {
+            @Override
+            public void onTaskCompleted(List result) {
+                for (int i=0; i<result.size(); i++){
+                    int userid=((Request) result.get(i)).getUserid();
+                    String name=((Request) result.get(i)).getName();
+                    String surname=((Request) result.get(i)).getSurname();
+                    String nick=((Request) result.get(i)).getNickname();
+                    int reqid =((Request) result.get(i)).getRequestid();
+                    Log.d("Req", name+surname+nick+userid+reqid);
+                    requestList.add(new Contact(userid, name, surname, nick, false, true, reqid));
+                }
+                runContactTask();
+            }
+
+            @Override
+            public void onTaskCompleted(Contact result) {
+
+            }
+
+            @Override
+            public void onTaskCompleted(int result) {
+                if (result==401){
+                    Toast.makeText(getContext(), "Error fetching contacts - unauthorized access", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onTaskCompleted(String result) {
+
+            }
+        }).execute();
+    }
+
+    public void runContactTask(){
+        new ContactFetch(new AsyncTaskCallback() {
+            @Override
+            public void onTaskCompleted(List result) {
+                //contactList = result;
+                friendList = result;
+
+                if (requestList.size()>0){
+                    sectionAdapter.addSection(new ContactsSection(getString(R.string.subheader_requests), requestList));
+                }
+
+                if (friendList.size()>0){
+                    sectionAdapter.addSection(new ContactsSection(getString(R.string.subheader_friends), friendList));
+                }
+
+                sectionAdapter.notifyDataSetChanged();
+                /*for (int i=0; i<contactList.size(); i++){
+                    Log.d("ContactList", contactList.get(i).getTitle());
+                }
+                sectionAdapter.notifyDataSetChanged();
+                List<Contact> friends = getFriends(contactList);
+                if (friends.size() > 0) {
+                    sectionAdapter.addSection(new ContactsSection(getString(R.string.subheader_friends), friends));
+                }
+                List<Contact> others = getOthers(contactList);
+                if (others.size() > 0) {
+                    sectionAdapter.addSection(new ContactsSection(getString(R.string.subheader_others), others));
+                }*/
+            }
+
+            @Override
+            public void onTaskCompleted(Contact result) {
+
+            }
+
+            @Override
+            public void onTaskCompleted(int result) {
+                if (result==401){
+                    Toast.makeText(getContext(), "Error fetching contacts - unauthorized access", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onTaskCompleted(String result) {
+
+            }
+        }).execute();
     }
 
     private List<Contact> getOthers(List<Contact> list) {
