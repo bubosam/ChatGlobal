@@ -109,7 +109,7 @@ public class RegistrationActivity extends AppCompatActivity {
             // Network access.
             new RegisterTask(new AsyncTaskCallback() {
                 @Override
-                public void onTaskCompleted(List<Contact> result) {
+                public void onTaskCompleted(List result) {
 
                 }
 

@@ -264,7 +264,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             // perform the user login attempt.
             mAuthTask = new UserLoginTask(email, password, new AsyncTaskCallback() {
                 @Override
-                public void onTaskCompleted(List<Contact> result) {
+                public void onTaskCompleted(List result) {
 
                 }
 
