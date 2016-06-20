@@ -100,10 +100,15 @@ app.use(function (err, req, res, next) {
     });
 });
 
-app.listen(config.PORT, function (){
+var appServer = app.listen(config.PORT, function (){
     console.log('Server is Up on Port ' + config.PORT);
 });
 
+var io = require('socket.io').listen(appServer);
+
+io.sockets.on('connection', function(socket){
+    console.log('user connected');
+});
 
 module.exports = app;
 

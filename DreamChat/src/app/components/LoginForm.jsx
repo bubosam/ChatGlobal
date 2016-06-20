@@ -3,6 +3,8 @@ import TextField from 'material-ui/TextField';
 import RaisedButton from 'material-ui/RaisedButton';
 import {Link} from 'react-router';
 import Paper from 'material-ui/Paper';
+import io from 'socket.io-client'
+let socket = io();
 
 const styles={
   pap:{height: 300,
@@ -27,6 +29,9 @@ export default class LoginForm extends Component {
             email: email,
             password: password
         };
+
+        console.log(socket);
+        socket.emit(`client:sendMessage`, "test");
     }
 
     render() {
@@ -48,7 +53,7 @@ export default class LoginForm extends Component {
                     type="password"
                     ref="password"
                 /><br />
-              <RaisedButton style={{marginTop:20}} onClick={this.handleSubmitButtonClick} containerElement={<Link to="/welcomepage" />} type="submit" label="LOGIN" primary={true}/>
+              <RaisedButton style={{marginTop:20}} onClick={this.handleSubmitButtonClick} label="LOGIN" primary={true}/>
 
             <h4><div><Link to="/register">SIGN UP</Link></div></h4>
           </div>
