@@ -9,7 +9,7 @@ public class Constants {
     public static final String KEY_CONTACT = "contact";
     public static final String KEY_EMAIL = "email";
     public static final String KEY_PASSWORD = "password";
-    public static final String KEY_PASSWORD_NEW =  "passwordnew";
+    public static final String KEY_PASSWORD_NEW =  "newpassword";
     public static final String KEY_NICKNAME = "nickname";
     public static final String KEY_RECEIVER = "receiver";
     public static final String KEY_REQUESTID = "requestid";
