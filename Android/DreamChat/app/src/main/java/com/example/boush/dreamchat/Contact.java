@@ -76,6 +76,9 @@ public class Contact implements Parcelable {
         this.phone = phone;
     }
 
+    public void setRequest(boolean request) {
+        isRequest = request;
+    }
 
     public String getFirstName() {
         return firstName;

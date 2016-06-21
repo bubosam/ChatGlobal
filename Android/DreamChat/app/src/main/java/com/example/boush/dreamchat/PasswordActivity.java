@@ -1,14 +1,21 @@
 package com.example.boush.dreamchat;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import java.util.List;
 import java.util.regex.Pattern;
 
 public class PasswordActivity extends AppCompatActivity {
@@ -72,15 +79,36 @@ public class PasswordActivity extends AppCompatActivity {
             // form field with an error.
             focusView.requestFocus();
         } else {
-            showMessage();
-            // Network access.
+             new ChangePassword(new AsyncTaskCallback() {
+                 @Override
+                 public void onTaskCompleted(List result) {
 
-           /* if (new Server().updatePassword(repeatPassword, getApplicationContext())){
-                showMessage();
-            }
-            else {
-                showErrorMessage();
-            }*/
+                 }
+
+                 @Override
+                 public void onTaskCompleted(Contact result) {
+
+                 }
+
+                 @Override
+                 public void onTaskCompleted(int result) {
+
+                 }
+
+                 @Override
+                 public void onTaskCompleted(String result) {
+                     Log.d("Result", result);
+                     if (result.equals("true")){
+                         showMessage();
+                     }
+                     else{
+                         showErrorMessage();
+                     }
+
+                 }
+             },getApplicationContext()).execute(oldPassword,newPassword);
+
+
         }
     }
 
@@ -118,5 +146,41 @@ public class PasswordActivity extends AppCompatActivity {
                     }
                 });
         alertDialog.show();
+    }
+
+    public class ChangePassword extends AsyncTask<String,Void, Void>{
+        private AsyncTaskCallback listener;
+        Context context;
+        public ChangePassword (AsyncTaskCallback listener,Context context){
+            this.listener=listener;
+            this.context=context;
+        }
+        @Override
+        protected Void doInBackground(String... params) {
+            String passwordOld = params[0];
+            String passwordNew = params[1];
+            new Server().changePassword(context, new VolleyCallback() {
+                @Override
+                public void onSuccess(JSONObject result) {
+
+                }
+
+                @Override
+                public void onSuccess(JSONArray result) {
+
+                }
+
+                @Override
+                public void onSuccess(String result) {
+                    listener.onTaskCompleted(result);
+                }
+
+                @Override
+                public void onSuccess(int result) {
+
+                }
+            },passwordOld,passwordNew);
+            return null;
+        }
     }
 }

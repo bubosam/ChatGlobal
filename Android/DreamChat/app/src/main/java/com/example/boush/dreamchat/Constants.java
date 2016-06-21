@@ -9,6 +9,7 @@ public class Constants {
     public static final String KEY_CONTACT = "contact";
     public static final String KEY_EMAIL = "email";
     public static final String KEY_PASSWORD = "password";
+    public static final String KEY_PASSWORD_NEW =  "passwordnew";
     public static final String KEY_NICKNAME = "nickname";
     public static final String KEY_RECEIVER = "receiver";
     public static final String KEY_REQUESTID = "requestid";
@@ -16,6 +17,7 @@ public class Constants {
     public static final String KEY_NAME = "name";
     public static final String KEY_SURNAME = "surname";
     public static final String KEY_RESULTS = "results";
+
 
     public static final String tag_json_obj = "json_obj_req";
 
@@ -25,4 +27,5 @@ public class Constants {
     public static final String requestUrl = "http://10.0.2.2:1337/requests";
     public static final String reqAcceptUrl = "http://10.0.2.2:1337/requests/accept";
     public static final String contactsUrl = "http://10.0.2.2:1337/contacts";
+    public static final String changePassUrl = "http://10.0.2.2:1337/users/password";
 }

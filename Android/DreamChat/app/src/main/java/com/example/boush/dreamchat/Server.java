@@ -330,10 +330,10 @@ public class Server {
                     SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
                     String token = prefs.getString(Constants.KEY_TOKEN, null);
                     int userid = prefs.getInt(Constants.KEY_USERID, 0);
-                    /*headers.put(Constants.KEY_USERID, String.valueOf(userid));
-                    headers.put(Constants.KEY_TOKEN, token);*/
-                    headers.put(Constants.KEY_USERID, String.valueOf(1));
-                    headers.put(Constants.KEY_TOKEN, "172357a15af2abf63e9f69d4be0ad4");
+                    headers.put(Constants.KEY_USERID, String.valueOf(userid));
+                    headers.put(Constants.KEY_TOKEN, token);
+                    /*headers.put(Constants.KEY_USERID, String.valueOf(1));
+                    headers.put(Constants.KEY_TOKEN, "172357a15af2abf63e9f69d4be0ad4");*/
                     Log.d("Headers", token + userid);
                     headers.put("Content-Type", "application/json");
                     return headers;
@@ -406,10 +406,10 @@ public class Server {
                 SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
                 String token = prefs.getString(Constants.KEY_TOKEN, null);
                 int userid = prefs.getInt(Constants.KEY_USERID, 0);
-                headers.put(Constants.KEY_USERID, String.valueOf(1));
-                headers.put(Constants.KEY_TOKEN, "172357a15af2abf63e9f69d4be0ad4");
-                /*headers.put(Constants.KEY_USERID, String.valueOf(userid));
-                headers.put(Constants.KEY_TOKEN, token);*/
+               /* headers.put(Constants.KEY_USERID, String.valueOf(1));
+                headers.put(Constants.KEY_TOKEN, "172357a15af2abf63e9f69d4be0ad4");*/
+                headers.put(Constants.KEY_USERID, String.valueOf(userid));
+                headers.put(Constants.KEY_TOKEN, token);
                 headers.put("Content-Type", "application/json");
                 return headers;
             }
@@ -460,10 +460,10 @@ public class Server {
                 SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
                 String token = prefs.getString(Constants.KEY_TOKEN, null);
                 int userid = prefs.getInt(Constants.KEY_USERID, 0);
-                headers.put(Constants.KEY_USERID, String.valueOf(1));
-                headers.put(Constants.KEY_TOKEN, "172357a15af2abf63e9f69d4be0ad4");
-                /*headers.put(Constants.KEY_USERID, String.valueOf(userid));
-                headers.put(Constants.KEY_TOKEN, token);*/
+              /*  headers.put(Constants.KEY_USERID, String.valueOf(1));
+                headers.put(Constants.KEY_TOKEN, "172357a15af2abf63e9f69d4be0ad4");*/
+                headers.put(Constants.KEY_USERID, String.valueOf(userid));
+                headers.put(Constants.KEY_TOKEN, token);
                 headers.put("Content-Type", "application/json");
                 return headers;
             }
@@ -590,10 +590,10 @@ public class Server {
                 SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
                 String token = prefs.getString(Constants.KEY_TOKEN, null);
                 int userid = prefs.getInt(Constants.KEY_USERID, 0);
-                headers.put(Constants.KEY_USERID, String.valueOf(1));
-                headers.put(Constants.KEY_TOKEN, "172357a15af2abf63e9f69d4be0ad4");
-                /*headers.put(Constants.KEY_USERID, String.valueOf(userid));
-                headers.put(Constants.KEY_TOKEN, token);*/
+               /* headers.put(Constants.KEY_USERID, String.valueOf(1));
+                headers.put(Constants.KEY_TOKEN, "172357a15af2abf63e9f69d4be0ad4");*/
+                headers.put(Constants.KEY_USERID, String.valueOf(userid));
+                headers.put(Constants.KEY_TOKEN, token);
                 headers.put("Content-Type", "application/json");
                 return headers;
             }
@@ -650,10 +650,10 @@ public class Server {
                 SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
                 String token = prefs.getString(Constants.KEY_TOKEN, null);
                 int userid = prefs.getInt(Constants.KEY_USERID, 0);
-                headers.put(Constants.KEY_USERID, String.valueOf(1));
-                headers.put(Constants.KEY_TOKEN, "172357a15af2abf63e9f69d4be0ad4");
-                /*headers.put(Constants.KEY_USERID, String.valueOf(userid));
-                headers.put(Constants.KEY_TOKEN, token);*/
+              /*  headers.put(Constants.KEY_USERID, String.valueOf(1));
+                headers.put(Constants.KEY_TOKEN, "172357a15af2abf63e9f69d4be0ad4");*/
+                headers.put(Constants.KEY_USERID, String.valueOf(userid));
+                headers.put(Constants.KEY_TOKEN, token);
                 headers.put("Content-Type", "application/json");
                 return headers;
             }
@@ -749,10 +749,10 @@ public class Server {
                 SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
                 String token = prefs.getString(Constants.KEY_TOKEN, null);
                 int userid = prefs.getInt(Constants.KEY_USERID, 0);
-                //headers.put(Constants.KEY_USERID, String.valueOf(userid));
-                //headers.put(Constants.KEY_TOKEN, token);
-                headers.put(Constants.KEY_USERID, String.valueOf(1));
-                headers.put(Constants.KEY_TOKEN, "172357a15af2abf63e9f69d4be0ad4");
+                headers.put(Constants.KEY_USERID, String.valueOf(userid));
+                headers.put(Constants.KEY_TOKEN, token);
+               /* headers.put(Constants.KEY_USERID, String.valueOf(1));
+                headers.put(Constants.KEY_TOKEN, "172357a15af2abf63e9f69d4be0ad4");*/
                 headers.put("Content-Type", "application/json");
                 return headers;
             }
@@ -782,7 +782,7 @@ public class Server {
 
                 Log.d("JSONObject", object.toString());
 
-                callback.onSuccess(object);
+                callback.onSuccess(response);
             }
         },
             new Response.ErrorListener() {
@@ -819,16 +819,79 @@ public class Server {
                 SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
                 String token = prefs.getString(Constants.KEY_TOKEN, null);
                 int userid = prefs.getInt(Constants.KEY_USERID, 0);
-                //headers.put(Constants.KEY_USERID, String.valueOf(userid));
-                //headers.put(Constants.KEY_TOKEN, token);
-                headers.put(Constants.KEY_USERID, String.valueOf(1));
-                headers.put(Constants.KEY_TOKEN, "172357a15af2abf63e9f69d4be0ad4");
+                headers.put(Constants.KEY_USERID, String.valueOf(userid));
+                headers.put(Constants.KEY_TOKEN, token);
+
+
+                Log.d("TokenI", token.toString());
+                Log.d("TokenI", String.valueOf(userid));
+              /*  headers.put(Constants.KEY_USERID, String.valueOf(1));
+                headers.put(Constants.KEY_TOKEN, "172357a15af2abf63e9f69d4be0ad4");*/
                 headers.put("Content-Type", "application/json");
                 return headers;
             }
         };
 
         AppController.getInstance().addToRequestQueue(req, Constants.tag_json_obj);
+
+    }
+
+    public void changePassword(final Context context, final VolleyCallback callback,String oldPassword, String newPassword){
+        Map<String, String> postParam = new HashMap<String, String>();
+        postParam.put(Constants.KEY_PASSWORD, oldPassword);
+        postParam.put(Constants.KEY_PASSWORD_NEW, newPassword);
+        JSONObject jsonBody = new JSONObject(postParam);
+        Log.d("Volley JSON to send ", jsonBody.toString());
+        final String requestBody = jsonBody.toString();
+        StringRequest strReq = new StringRequest(Request.Method.PUT, Constants.changePassUrl, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                Log.d("Response str", response);
+                callback.onSuccess(response);
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                if (error!=null){
+                    Log.d("Error Response", error.getMessage());
+                }
+            }
+        })
+
+        {
+            @Override
+            public String getBodyContentType() {
+                return String.format("application/json");
+            }
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                HashMap<String, String> headers = new HashMap<String, String>();
+                SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+                String token = prefs.getString(Constants.KEY_TOKEN, null);
+                int userid = prefs.getInt(Constants.KEY_USERID, 0);
+                headers.put(Constants.KEY_USERID, String.valueOf(userid));
+                headers.put(Constants.KEY_TOKEN, token);
+
+                Log.d("TokenI", token.toString());
+                Log.d("TokenI", String.valueOf(userid));
+                return headers;
+            }
+
+            @Override
+            public byte[] getBody() throws AuthFailureError {
+                try {
+                    return requestBody == null ? null : requestBody.getBytes("utf-8");
+                } catch (UnsupportedEncodingException uee) {
+                    VolleyLog.wtf("Unsupported Encoding while trying to get the bytes of %s using %s",
+                            requestBody, "utf-8");
+                    return null;
+                }
+            }
+        };
+
+        AppController.getInstance().addToRequestQueue(strReq);
+
 
     }
 
