@@ -279,6 +279,11 @@ public class MenuActivity extends AppCompatActivity {
                                     finish();
                                 }
                                 else if (result==401){
+                                    SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+                                    SharedPreferences.Editor editor = sharedPref.edit();
+                                    editor.remove(Constants.KEY_TOKEN);
+                                    editor.remove(Constants.KEY_USERID);
+                                    editor.apply();
                                     Toast.makeText(getApplicationContext(), result+ "- authorization failed. Logout unsuccessful.", Toast.LENGTH_SHORT).show();
                                 }
                             }

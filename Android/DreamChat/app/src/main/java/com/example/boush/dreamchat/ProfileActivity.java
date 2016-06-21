@@ -157,6 +157,12 @@ public class ProfileActivity extends AppCompatActivity {
                         @Override
                         public void onTaskCompleted(String result) {
                             Toast.makeText(getApplicationContext(), result, Toast.LENGTH_SHORT).show();
+                            Intent intent = new Intent(getApplicationContext(), ProfileActivity.class);
+                            contact.setFriend(true);
+                            contact.setRequest(false);
+                            intent.putExtra(Constants.KEY_CONTACT, contact);
+                            finish();
+                            startActivity(intent);
                         }
                     }).execute();
                 }
@@ -370,5 +376,15 @@ public class ProfileActivity extends AppCompatActivity {
             });
             return null;
         }
+    }
+
+    public void fillFriendInfo(){
+
+        firstName = contact.getFirstName();
+        lastName = contact.getLastName();
+        title = contact.getTitle();
+        phoneStr = contact.getPhone();
+        emailStr = contact.getEmail();
+        nicknameStr = contact.getNickname();
     }
 }

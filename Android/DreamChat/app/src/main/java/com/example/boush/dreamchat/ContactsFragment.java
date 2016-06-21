@@ -7,6 +7,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -36,7 +37,7 @@ import io.github.luizgrp.sectionedrecyclerviewadapter.StatelessSection;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class ContactsFragment extends Fragment implements SearchView.OnQueryTextListener{
+public class ContactsFragment extends Fragment implements SearchView.OnQueryTextListener,SwipeRefreshLayout.OnRefreshListener {
 
 
     public ContactsFragment() {
@@ -55,6 +56,7 @@ public class ContactsFragment extends Fragment implements SearchView.OnQueryText
     private ProgressBar pb;
     //private View rootView;
     private int finishedTasks;
+    SwipeRefreshLayout swipeLayout;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -63,6 +65,13 @@ public class ContactsFragment extends Fragment implements SearchView.OnQueryText
         context = getActivity();
         finishedTasks=0;
         //rootView=view;
+
+        swipeLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipe_container);
+        swipeLayout.setOnRefreshListener(this);
+        swipeLayout.setColorSchemeColors(android.R.color.holo_green_dark,
+                android.R.color.holo_red_dark,
+                android.R.color.holo_blue_dark,
+                android.R.color.holo_orange_dark);
 
         recyclerView = (RecyclerView) view.findViewById(R.id.recycler_view_contacts);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
@@ -250,6 +259,16 @@ public class ContactsFragment extends Fragment implements SearchView.OnQueryText
             }
         }
         return friends;
+    }
+
+    @Override
+    public void onRefresh() {
+        contactList.clear();
+        requestList.clear();
+        friendList.clear();
+        sectionAdapter.notifyDataSetChanged();
+        runReqTask();
+
     }
 
 

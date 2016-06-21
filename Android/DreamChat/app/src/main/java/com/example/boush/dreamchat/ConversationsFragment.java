@@ -8,6 +8,7 @@ import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -59,6 +60,8 @@ public class ConversationsFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_conversations, container, false);
         recyclerView = (RecyclerView) view.findViewById(R.id.conversationsList);
+
+
 
         mAdapter = new LastMessageAdapter(messagesList);
         recyclerView.setHasFixedSize(true);
