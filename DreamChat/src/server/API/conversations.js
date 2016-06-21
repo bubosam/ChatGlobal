@@ -38,5 +38,21 @@ module.exports = {
                 callback(results);
           }
     });
+  },
+
+  getRecentMessages: function(conversationid, limit){
+    db.query("SELECT * FROM messages WHERE conversationid="+conversationid+" ORDER BY messageID DESC LIMIT "+limit, function(results){
+      if (typeof callback === "function") {
+            callback(results);
+      }
+    });
+  },
+
+  getMoreMessages: function(conversationid, limit, lastMessageId){
+    db.query("SELECT * FROM messages WHERE conversationid="+conversationid+" AND messageid<"+lastMessageId+" ORDER BY messageID DESC LIMIT "+limit, function(results){
+      if (typeof callback === "function") {
+            callback(results);
+      }
+    });
   }
 }

@@ -79,7 +79,7 @@ CREATE TABLE IF NOT EXISTS `messages` (
   `conversationID` int(11) NOT NULL,
   `userID` int(11) NOT NULL,
   `message` text COLLATE utf8_bin NOT NULL,
-  `date` datetime NOT NULL,
+  `date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`messageID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=1 ;
 
