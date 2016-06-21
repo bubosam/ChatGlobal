@@ -29,9 +29,13 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.github.nkzawa.socketio.client.IO;
+import com.github.nkzawa.socketio.client.Socket;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.net.URISyntaxException;
 import java.util.List;
 
 public class MenuActivity extends AppCompatActivity {
@@ -46,6 +50,13 @@ public class MenuActivity extends AppCompatActivity {
     private CharSequence mDrawerTitle;
     private CharSequence mTitle;
     private FloatingActionButton fab;
+
+    private Socket mSocket;
+    {
+        try {
+            mSocket = IO.socket("http://127.0.0.1:8080");
+        } catch (URISyntaxException e) {}
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -228,6 +239,8 @@ public class MenuActivity extends AppCompatActivity {
                 fragment = new HelpFragment();
                 break;
             case 3 :
+                mSocket.emit("client:user_disconnected");
+                mSocket.disconnect();
                 showMessage();
                 break;
 

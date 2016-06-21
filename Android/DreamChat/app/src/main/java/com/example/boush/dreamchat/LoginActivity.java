@@ -42,11 +42,14 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.github.nkzawa.socketio.client.IO;
+import com.github.nkzawa.socketio.client.Socket;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -88,6 +91,13 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     private Button debug;
 
     private Button mEmailSignInButton;
+
+    private Socket mSocket;
+    {
+        try {
+            mSocket = IO.socket("http://127.0.0.1:8080");
+        } catch (URISyntaxException e) {}
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -271,6 +281,8 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 @Override
                 public void onTaskCompleted(String result) {
                     if (result.equals("true")){
+                        mSocket.emit("client:user_connected");
+                        mSocket.connect();
                         Intent intent = new Intent(LoginActivity.this, MenuActivity.class);
                         startActivity(intent);
                         finish();

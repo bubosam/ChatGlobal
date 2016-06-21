@@ -44,8 +44,9 @@ public class ConversationsFragment extends Fragment {
     private Calendar c = Calendar.getInstance();
     private SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
 
-    private int myId = 1;
+    private int myId;
     private int recId;
+    private int conversationId;
     private Database db = new Database(getActivity());
 
     public ConversationsFragment() {
@@ -80,6 +81,7 @@ public class ConversationsFragment extends Fragment {
                 intent.putExtra("message",message.getMessageText());
                 intent.putExtra("date",message.getDate());
                 intent.putExtra("recId",message.getRecId());
+                intent.putExtra("conversationId",conversationId);
                 startActivity(intent);
             }
 
@@ -120,9 +122,9 @@ public class ConversationsFragment extends Fragment {
 
     private void prepareMessages() {
 
-        String jsonStr = "[ {\"firstName\":\"John\", \"lastName\":\"Doe\", \"message\":\"Ahoj\"},\n" +
-                "    {\"firstName\":\"Anna\", \"lastName\":\"Smith\", \"message\":\"Ahoj\"},\n" +
-                "    {\"firstName\":\"Peter\", \"lastName\":\"Jones\", \"message\":\"Ahoj\"}\n" +
+        String jsonStr = "[ {\"firstName\":\"John\", \"lastName\":\"Doe\", \"message\":\"Ahoj\", \"conversationId:\":\"1\"},\n" +
+                "    {\"firstName\":\"Anna\", \"lastName\":\"Smith\", \"message\":\"Ahoj\", \"conversationId:\":\"2\"},\n" +
+                "    {\"firstName\":\"Peter\", \"lastName\":\"Jones\", \"message\":\"Ahoj\", \"conversationId:\":\"3\"}\n" +
                 "]}";
         JSONArray jsonarray = null;
         try {
@@ -132,6 +134,7 @@ public class ConversationsFragment extends Fragment {
                 String firstName = jsonobject.getString("firstName");
                 String lastName = jsonobject.getString("lastName");
                 String message = jsonobject.getString("message");
+                conversationId = jsonobject.getInt("conversationId");
 
                 Message msg = new Message();
                 msg.setFirstName(firstName);

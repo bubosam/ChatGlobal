@@ -35,8 +35,10 @@ public class ChatActivity extends ListActivity {
     private String messageText;
     private String date;
     private Contact contact;
-    private int myId = 1;
-    private int recId = 2;
+
+    private int conversationId;
+    private int myId;
+    private int recId;
 
     private TextView txtName;
     private EditText etxtSendMsg;
@@ -54,7 +56,7 @@ public class ChatActivity extends ListActivity {
     private Socket mSocket;
     {
         try {
-            mSocket = IO.socket("http://chat.socket.io");
+            mSocket = IO.socket("http://127.0.0.1:8080");
         } catch (URISyntaxException e) {}
     }
 
@@ -75,17 +77,7 @@ public class ChatActivity extends ListActivity {
                     messageText=extras.getString("message");
                     date=extras.getString("date");
                     recId = extras.getInt("recId");
-
-                    /*vyhadzuje null pointer exception
-                    Message msg = new Message();
-                    msg.setMessageText(messageText);
-                    msg.setDate(date);
-                    msg.setRecId(recId);
-                    msg.setMyId(myId);
-                    msg.setMe(false);
-
-                    messagesList.add(msg);
-                    db.addMessage(msg);*/
+                    conversationId = extras.getInt("conversationId");
                 }
             }
         }
@@ -96,8 +88,8 @@ public class ChatActivity extends ListActivity {
 
         initChat();
 
-        mSocket.on("new message", onNewMessage);
-        mSocket.connect();
+        mSocket.on("client:new_message", onNewMessage);
+        //mSocket.connect();
     }
 
     public void initChat(){
@@ -151,8 +143,11 @@ public class ChatActivity extends ListActivity {
             msg.setDate(date);
             messagesList.add(msg);
 
+            String data = "{\"conversationId:\":\""+conversationId+"\", \"myId:\":\""+myId+"\", \"recId:\":\""+recId+"\"," +
+                            " \"firstName\":\"John\", \"lastName\":\"Doe\", \"message\":\""+messageText+"\"}";
+
             mAdapter.notifyDataSetChanged();
-            mSocket.emit("new message", msg);
+            mSocket.emit("client:send_message", data);
             db.addMessage(msg);
         }
 
@@ -168,7 +163,9 @@ public class ChatActivity extends ListActivity {
                         JSONObject data = (JSONObject) args[0];
 
                         String message;
+
                         try {
+
                             message = data.getString(Constants.KEY_MESSAGE);
                         } catch (JSONException e) {
                             return;
