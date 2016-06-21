@@ -13,14 +13,18 @@ import com.android.volley.NetworkResponse;
 import com.android.volley.NoConnectionError;
 import com.android.volley.ParseError;
 import com.android.volley.Request;
+import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.ServerError;
 import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
+import com.android.volley.toolbox.HttpHeaderParser;
+import com.android.volley.toolbox.HttpStack;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 
 import org.apache.http.HttpStatus;
 import org.json.JSONArray;
@@ -417,7 +421,72 @@ public class Server {
     }
 
     public void cancelReq(int requestid, final Context context, final VolleyCallback callback){
-        Map<String, Integer> postParam = new HashMap<String, Integer>();
+        HttpStack httpStack = new CustomHurlStack();
+
+        RequestQueue requestQueue = Volley.newRequestQueue(context, httpStack);
+        final JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put(Constants.KEY_REQUESTID, requestid);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        JsonObjectRequest deleteRequest = new JsonObjectRequest(Request.Method.DELETE, Constants.requestUrl, jsonObject, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                Log.i("onResponse", response.toString());
+                String message = null;
+
+                try {
+                    message = response.getString(Constants.KEY_MESSAGE);
+                    Log.d("Volley Reg Success", message);
+                    callback.onSuccess(message);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.e("onErrorResponse", error.toString());
+                if (error!=null){
+                    Log.d("Error Response", error.getMessage());
+                    callback.onSuccess(error.networkResponse.statusCode);
+                }
+            }
+        }) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> headers = new HashMap<String, String>();
+                SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+                String token = prefs.getString(Constants.KEY_TOKEN, null);
+                int userid = prefs.getInt(Constants.KEY_USERID, 0);
+                headers.put(Constants.KEY_USERID, String.valueOf(1));
+                headers.put(Constants.KEY_TOKEN, "172357a15af2abf63e9f69d4be0ad4");
+                /*headers.put(Constants.KEY_USERID, String.valueOf(userid));
+                headers.put(Constants.KEY_TOKEN, token);*/
+                headers.put("Content-Type", "application/json");
+                return headers;
+            }
+
+            @Override
+            protected VolleyError parseNetworkError(VolleyError volleyError) {
+                String json;
+                if (volleyError.networkResponse != null && volleyError.networkResponse.data != null) {
+                    try {
+                        json = new String(volleyError.networkResponse.data,
+                                HttpHeaderParser.parseCharset(volleyError.networkResponse.headers));
+                    } catch (UnsupportedEncodingException e) {
+                        return new VolleyError(e.getMessage());
+                    }
+                    return new VolleyError(json);
+                }
+                return volleyError;
+            }
+        };
+        //AppController.getInstance().addToRequestQueue(deleteRequest, Constants.tag_json_obj);
+        requestQueue.add(deleteRequest);
+
+        /*Map<String, Integer> postParam = new HashMap<String, Integer>();
         postParam.put(Constants.KEY_REQUESTID, requestid);
 
         Log.d("Volley JSON to send ", new JSONObject(postParam).toString());
@@ -457,7 +526,7 @@ public class Server {
             /**
              * Passing some request headers
              * */
-            @Override
+            /*@Override
             public Map<String, String> getHeaders() throws AuthFailureError {
                 HashMap<String, String> headers = new HashMap<String, String>();
                 SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
@@ -467,13 +536,13 @@ public class Server {
                 headers.put(Constants.KEY_TOKEN, "172357a15af2abf63e9f69d4be0ad4");
                 /*headers.put(Constants.KEY_USERID, String.valueOf(userid));
                 headers.put(Constants.KEY_TOKEN, token);*/
-                headers.put("Content-Type", "application/json");
+                /*headers.put("Content-Type", "application/json");
                 return headers;
             }
         };
 
         // Adding request to request queue
-        AppController.getInstance().addToRequestQueue(jsonObjReq, Constants.tag_json_obj);
+        AppController.getInstance().addToRequestQueue(jsonObjReq, Constants.tag_json_obj);*/
 
     }
 
