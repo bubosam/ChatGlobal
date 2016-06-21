@@ -54,7 +54,7 @@ module.exports = {
 
 	},
 
-	acceptRequest: function (requestid, userid, callback) {
+  acceptRequest: function (requestid, userid, callback) {
         var overallSuccess = true;
         var code;
         var message;
@@ -66,17 +66,23 @@ module.exports = {
               if (userid == receiverid) {
                   if (senderid != "undefined" && receiverid != "undefined") {
                       db.nonQuery("DELETE FROM friendships  WHERE  (user1='" + senderid + "' AND user2='" + receiverid + "') OR (user1='" + receiverid + "' AND user2='" + senderid + "')", function () {
-                          db.nonQuery("INSERT INTO friendships(user1,user2) VALUES(" + result[0].sender + ", " + result[0].receiver + ")", function (success) {
+                          db.nonQuery("INSERT INTO friendships(user1,user2) VALUES(" + senderid + ", " + receiverid + ")", function (success) {
                               if (success) {
                                   db.nonQuery("DELETE FROM friend_requests WHERE requestid=" + requestid, function (success) {
                                       if (success) {
-                                          message="request acception successful";
+                                          message="request accepted successfully";
                                           code = 200;
+                                          if (typeof callback === "function") {
+                                              callback(overallSuccess, code, message);
+                                          }
                                       }
                                       else {
                                           message ="deletion failed while accepting request";
                                           overallSuccess = false;
                                           code = 200;
+                                          if (typeof callback === "function") {
+                                              callback(overallSuccess, code, message);
+                                          }
                                       }
                                   });
                               }
@@ -84,6 +90,9 @@ module.exports = {
                                   message ="insertion failed while accepting request";
                                   overallSuccess = false;
                                   code = 500;
+                                  if (typeof callback === "function") {
+                                      callback(overallSuccess, code, message);
+                                  }
                               }
                           });
                       });
@@ -92,16 +101,18 @@ module.exports = {
                       message ="request not found";
                       overallSuccess = false;
                       code = 400; //bad request
+                      if (typeof callback === "function") {
+                          callback(overallSuccess, code, message);
+                      }
                   }
               }
               else {
                   message ="unauthorized access";
                   overallSuccess = false;
                   code = 401;
-              }
-              if (typeof callback === "function") {
-                  //console.log("overallsuccess: "+ overallSuccess+"message: " + message + "    code: " + code);
-                  callback(overallSuccess, code, message);
+                  if (typeof callback === "function") {
+                      callback(overallSuccess, code, message);
+                  }
               }
             }
           else{
@@ -115,7 +126,7 @@ module.exports = {
           }
 
         });
-	},
+},
 
 
 	loadRequests: function (userid,callback) {
