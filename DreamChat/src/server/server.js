@@ -109,11 +109,6 @@ var io = require('socket.io').listen(appServer);
 
 io.sockets.on('connection', function(socket){
     console.log('user connected');
-      socket.on('login',function (data, callback) {
-      console.log("user login to the server:", data.email);
-      login.login(data.email, data.password, function(userid, token){
-        callback(userid, token);
-      });
 });
 
 module.exports = app;
