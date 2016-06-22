@@ -25,6 +25,10 @@ SET time_zone = "+00:00";
 --
 -- Štruktúra tabuľky pre tabuľku `conversations`
 --
+DROP DATABASE IF EXISTS dreamchat;
+
+CREATE DATABASE dreamchat;
+USE dreamchat;
 
 CREATE TABLE IF NOT EXISTS `conversations` (
   `conversationID` int(11) NOT NULL AUTO_INCREMENT,
