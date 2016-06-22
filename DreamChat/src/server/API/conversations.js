@@ -4,19 +4,24 @@ module.exports = {
   newMessage: function(user1, user2, message, callback){
     var code;
     var id;
+	console.log("SELECT * FROM conversations WHERE (user1="+user1+" AND user2="+user2+") OR (user1="+user2+" AND user2="+user1+")");
     db.query("SELECT * FROM conversations WHERE (user1="+user1+" AND user2="+user2+") OR (user1="+user2+" AND user2="+user1+")", function(result){
       if(result.length>0){
-        id=result.conversationid;
-        db.nonQuery("INSERT INTO messages(coversaionid,userid,message) VALUES("+result.conversationid+","+user1+",'"+message+"')",function(success){
-          if (typeof callback === "function") {
+		  
+        id=result[0].conversationID;
+		console.log("INSERT INTO messages(conversationid,userid,message) VALUES("+id+","+user1+",'"+message+"')"); 
+        db.nonQuery("INSERT INTO messages(conversationid,userid,message) VALUES("+id+","+user1+",'"+message+"')",function(success){
+          console.log('hsacacs'); 
+		  if (typeof callback === "function") {
               callback(success,id);
           }
         });
+		console.log('skuska1'); 
       }
       else{
         db.nonQuery("INSERT INTO conversations(user1,user2) VALUES("+user1+","+user2+")",function(success){
           if(success){
-            db.nonQuery("INSERT INTO messages(coversationid,userid,message) VALUES((SELECT conversationid FROM conversations ORDER BY conversationid LIMIT1),"
+            db.nonQuery("INSERT INTO messages(conversationid,userid,message) VALUES((SELECT conversationid FROM conversations ORDER BY conversationid LIMIT 1),"
                         +user1+",'"+message+"')",function(success2){
               if (typeof callback === "function") {
                   db.query("SELECT * FROM conversations WHERE (user1="+user1+" AND user2="+user2+") OR (user1="+user2+" AND user2="+user1+")",function(result){
