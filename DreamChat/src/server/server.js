@@ -112,18 +112,24 @@ var connectedUsers = {};
 io.sockets.on('connection', function(socket){
     console.log('user connected');
 
+    socket.on('connect user',function (data) {
+        if(!data in connectedUsers){
+            socket.userid = data;
+            connectedUsers[socket.userid] = socket;
+            console.log("CONNECTED USERS:  "+connectedUsers);
+        }
+    });
+    //connectedUsers[socket.userid] = socket;
+
     socket.on('send message', function (data) {
         conversations.newMessage(data.user1, data.user2, data.message, function(success,id){
+
           if(data.user2 in connectedUsers){
 
           }
-
         });
 
-         data.conversation_id; //blbost
-
         if (conversation_id in conversations) {
-
             console.log (conversation_id + ' is already in the conversations object');
 
             // emit the message [data.message] to all connected users in the conversation
@@ -131,6 +137,17 @@ io.sockets.on('connection', function(socket){
         }
 
     });
+    /*socket.on('subscribe', function(room) {
+        console.log('joining room', room);
+        socket.join(room);
+    });
+
+      socket.on('send message', function(data) {
+        console.log('sending room post', data.room);
+        socket.broadcast.to(data.room).emit('conversation private post', {
+          message: data.message
+      });
+    });*/
 });
 
 module.exports = app;
