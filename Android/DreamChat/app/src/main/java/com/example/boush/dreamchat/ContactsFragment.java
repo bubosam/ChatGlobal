@@ -7,6 +7,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -36,7 +37,7 @@ import io.github.luizgrp.sectionedrecyclerviewadapter.StatelessSection;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class ContactsFragment extends Fragment implements SearchView.OnQueryTextListener{
+public class ContactsFragment extends Fragment implements SearchView.OnQueryTextListener,SwipeRefreshLayout.OnRefreshListener {
 
 
     public ContactsFragment() {
@@ -45,6 +46,8 @@ public class ContactsFragment extends Fragment implements SearchView.OnQueryText
 
     private Context context;
     private List<Contact> contactList = new ArrayList<>();
+    private List<Contact> friendList = new ArrayList<>();
+    private List<Contact> requestList = new ArrayList<>();
     private RecyclerView recyclerView;
     //private ContactsAdapter mAdapter;
     private SearchView search;
@@ -53,12 +56,22 @@ public class ContactsFragment extends Fragment implements SearchView.OnQueryText
     private ProgressBar pb;
     //private View rootView;
 
+    SwipeRefreshLayout swipeLayout;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_contacts, container, false);
         context = getActivity();
+
         //rootView=view;
+
+        swipeLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipe_container);
+        swipeLayout.setOnRefreshListener(this);
+        swipeLayout.setColorSchemeColors(android.R.color.holo_green_dark,
+                android.R.color.holo_red_dark,
+                android.R.color.holo_blue_dark,
+                android.R.color.holo_orange_dark);
 
         recyclerView = (RecyclerView) view.findViewById(R.id.recycler_view_contacts);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
@@ -74,44 +87,33 @@ public class ContactsFragment extends Fragment implements SearchView.OnQueryText
 
         sectionAdapter = new SectionedRecyclerViewAdapter();
 
+        runReqTask();
+
         //prepareContactData();
-        new ContactFetch(new AsyncTaskCallback() {
-            @Override
-            public void onTaskCompleted(List<Contact> result) {
-                contactList = result;
-                for (int i=0; i<contactList.size(); i++){
-                    Log.d("ContactList", contactList.get(i).getTitle());
-                }
-                sectionAdapter.notifyDataSetChanged();
-                List<Contact> friends = getFriends(contactList);
-                if (friends.size() > 0) {
-                    sectionAdapter.addSection(new ContactsSection(getString(R.string.subheader_friends), friends));
-                }
-                List<Contact> others = getOthers(contactList);
-                if (others.size() > 0) {
-                    sectionAdapter.addSection(new ContactsSection(getString(R.string.subheader_others), others));
-                }
-            }
 
-            @Override
-            public void onTaskCompleted(Contact result) {
+        /*contactList.addAll(requestList);
+        contactList.addAll(friendList);
 
-            }
+        sectionAdapter.notifyDataSetChanged();
+        if (requestList.size()>0){
+            sectionAdapter.addSection(new ContactsSection(getString(R.string.subheader_requests), requestList));
+        }
+        if (friendList.size()>0){
+            sectionAdapter.addSection(new ContactsSection(getString(R.string.subheader_friends), friendList));
+        }
+        List<Contact> others = getOthers(contactList);
+        if (others.size() > 0) {
+            sectionAdapter.addSection(new ContactsSection(getString(R.string.subheader_others), others));
+        }
 
-            @Override
-            public void onTaskCompleted(int result) {
-               if (result==401){
-                   Toast.makeText(getContext(), "Error fetching contacts - unauthorized access", Toast.LENGTH_SHORT).show();
-               }
-            }
+        sectionAdapter.notifyDataSetChanged();*/
 
-            @Override
-            public void onTaskCompleted(String result) {
 
-            }
-        }).execute();
-
-        /*List<Contact> friends = getFriends(contactList);
+        /*for (int i=0; i<contactList.size(); i++){
+            Log.d("ContactList", contactList.get(i).getTitle());
+        }
+        sectionAdapter.notifyDataSetChanged();
+        List<Contact> friends = getFriends(contactList);
         if (friends.size() > 0) {
             sectionAdapter.addSection(new ContactsSection(getString(R.string.subheader_friends), friends));
         }
@@ -120,8 +122,8 @@ public class ContactsFragment extends Fragment implements SearchView.OnQueryText
             sectionAdapter.addSection(new ContactsSection(getString(R.string.subheader_others), others));
         }*/
 
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        recyclerView.setAdapter(sectionAdapter);
+        /*recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        recyclerView.setAdapter(sectionAdapter);*/
 
         fab = (FloatingActionButton) getActivity().findViewById(R.id.contactsFAB);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -155,6 +157,104 @@ public class ContactsFragment extends Fragment implements SearchView.OnQueryText
         return view;
     }
 
+    public void runReqTask(){
+        new RequestLoad(new AsyncTaskCallback() {
+            @Override
+            public void onTaskCompleted(List result) {
+                requestList.clear();
+                sectionAdapter.notifyDataSetChanged();
+                for (int i=0; i<result.size(); i++){
+                    int userid=((Request) result.get(i)).getUserid();
+                    String name=((Request) result.get(i)).getName();
+                    String surname=((Request) result.get(i)).getSurname();
+                    String nick=((Request) result.get(i)).getNickname();
+                    int reqid =((Request) result.get(i)).getRequestid();
+                    Log.d("Req", name+surname+nick+userid+reqid);
+                    requestList.add(new Contact(userid, name, surname, nick, false, true, reqid));
+                }
+                runContactTask();
+            }
+
+            @Override
+            public void onTaskCompleted(Contact result) {
+
+            }
+
+            @Override
+            public void onTaskCompleted(int result) {
+                if (result==401){
+                    Toast.makeText(getContext(), "Error fetching contacts - unauthorized access", Toast.LENGTH_SHORT).show();
+                }
+                swipeLayout.setRefreshing(false);
+            }
+
+            @Override
+            public void onTaskCompleted(String result) {
+
+            }
+        }).execute();
+    }
+
+    public void runContactTask(){
+        new ContactFetch(new AsyncTaskCallback() {
+            @Override
+            public void onTaskCompleted(List result) {
+                friendList.clear();
+                sectionAdapter.notifyDataSetChanged();
+                //contactList.clear();
+                //contactList = result;
+                friendList = result;
+
+                sectionAdapter = new SectionedRecyclerViewAdapter();
+
+                if (requestList.size()>0){
+                    sectionAdapter.addSection(new ContactsSection(getString(R.string.subheader_requests), requestList));
+                }
+
+                if (friendList.size()>0){
+                    sectionAdapter.addSection(new ContactsSection(getString(R.string.subheader_friends), friendList));
+                }
+
+                sectionAdapter.notifyDataSetChanged();
+                recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+                recyclerView.setAdapter(sectionAdapter);
+
+                swipeLayout.setRefreshing(false);
+
+                /*for (int i=0; i<contactList.size(); i++){
+                    Log.d("ContactList", contactList.get(i).getTitle());
+                }
+                sectionAdapter.notifyDataSetChanged();
+                List<Contact> friends = getFriends(contactList);
+                if (friends.size() > 0) {
+                    sectionAdapter.addSection(new ContactsSection(getString(R.string.subheader_friends), friends));
+                }
+                List<Contact> others = getOthers(contactList);
+                if (others.size() > 0) {
+                    sectionAdapter.addSection(new ContactsSection(getString(R.string.subheader_others), others));
+                }*/
+            }
+
+            @Override
+            public void onTaskCompleted(Contact result) {
+
+            }
+
+            @Override
+            public void onTaskCompleted(int result) {
+                if (result==401){
+                    Toast.makeText(getContext(), "Error fetching contacts - unauthorized access", Toast.LENGTH_SHORT).show();
+                }
+                swipeLayout.setRefreshing(false);
+            }
+
+            @Override
+            public void onTaskCompleted(String result) {
+
+            }
+        }).execute();
+    }
+
     private List<Contact> getOthers(List<Contact> list) {
         List<Contact> others = new ArrayList<>();
         for (int i=0; i<list.size(); i++){
@@ -173,6 +273,11 @@ public class ContactsFragment extends Fragment implements SearchView.OnQueryText
             }
         }
         return friends;
+    }
+
+    @Override
+    public void onRefresh() {
+        runReqTask();
     }
 
 
@@ -214,6 +319,46 @@ public class ContactsFragment extends Fragment implements SearchView.OnQueryText
             return false;
         }
     };*/
+
+    public class RequestLoad extends AsyncTask <Void, Void, Void>{
+        private AsyncTaskCallback listener;
+        public RequestLoad(AsyncTaskCallback listener){
+            this.listener=listener;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+        }
+
+        @Override
+        protected Void doInBackground(Void... params) {
+            new Server().loadReqs(context, new VolleyCallback() {
+                @Override
+                public void onSuccess(JSONObject result) {
+                    Log.d("result", result.toString());
+                    List<Request> requests = new ParseJSON().getRequests(result);
+                    listener.onTaskCompleted(requests);
+                }
+
+                @Override
+                public void onSuccess(JSONArray result) {
+
+                }
+
+                @Override
+                public void onSuccess(String result) {
+
+                }
+
+                @Override
+                public void onSuccess(int result) {
+                    listener.onTaskCompleted(result);
+                }
+            });
+            return null;
+        }
+    }
 
     public class ContactFetch extends AsyncTask <Void, Void, Void>{
         private AsyncTaskCallback listener;
@@ -405,7 +550,7 @@ public class ContactsFragment extends Fragment implements SearchView.OnQueryText
         public void onBindHeaderViewHolder(RecyclerView.ViewHolder holder) {
             HeaderViewHolder headerHolder = (HeaderViewHolder) holder;
 
-//            headerHolder.tvTitle.setText(title);
+            headerHolder.tvTitle.setText(title);
 
         }
 

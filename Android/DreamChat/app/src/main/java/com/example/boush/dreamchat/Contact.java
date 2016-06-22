@@ -15,8 +15,12 @@ public class Contact implements Parcelable {
     private int userid;
     private String email;
     private String phone;
-    //private String profilePic;
+    private boolean isRequest;
+    private int requestid;
 
+    public int getRequestid() {
+        return requestid;
+    }
 
     public int getUserid() {
         return userid;
@@ -24,6 +28,10 @@ public class Contact implements Parcelable {
 
     public boolean isFriend() {
         return isFriend;
+    }
+
+    public boolean isRequest() {
+        return isRequest;
     }
 
     public void setFriend(boolean friend) {
@@ -36,6 +44,17 @@ public class Contact implements Parcelable {
         this.lastName = lastName;
         this.nickname = nickname;
         this.isFriend = friend;
+        isRequest = false;
+    }
+
+    public Contact(int userid, String firstName, String lastName, String nickname, boolean friend, boolean request, int requestid) {
+        this.userid = userid;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.nickname = nickname;
+        this.isFriend = friend;
+        isRequest = request;
+        this.requestid = requestid;
     }
 
     public Contact(int userid, String firstName, String lastName, String nickname, boolean friend, String email, String phone) {
@@ -46,9 +65,10 @@ public class Contact implements Parcelable {
         this.email = email;
         this.phone = phone;
         this.userid = userid;
+        isRequest = false;
     }
 
-    public Contact(int userid, String firstName, String lastName, String nickname,String phone) {
+    public Contact(int userid, String firstName, String lastName, String nickname, String phone) {
         this.userid = userid;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -56,6 +76,9 @@ public class Contact implements Parcelable {
         this.phone = phone;
     }
 
+    public void setRequest(boolean request) {
+        isRequest = request;
+    }
 
     public String getFirstName() {
         return firstName;
@@ -90,6 +113,8 @@ public class Contact implements Parcelable {
         dest.writeInt(userid);
         dest.writeString(email);
         dest.writeString(phone);
+        dest.writeByte((byte) (isRequest ? 0x01 : 0x00));
+        dest.writeInt(requestid);
     }
 
     protected Contact(Parcel in) {
@@ -100,6 +125,8 @@ public class Contact implements Parcelable {
         userid = in.readInt();
         email = in.readString();
         phone = in.readString();
+        isRequest = in.readByte() != 0x00;
+        requestid = in.readInt();
     }
 
     @SuppressWarnings("unused")
