@@ -8,10 +8,10 @@ var bodyParser = require('body-parser');
 var consolidate = require('consolidate');
 var config = require('../../config');
 var compress = require('compression');
+var conversations = require('./API/conversations');
 
 var index = require('./routes/index');
 var routes = require('./routes.js');
-var login = require('./API/login');
 
 // Webpack import
 var webpack = require('webpack');
@@ -107,13 +107,30 @@ var appServer = app.listen(config.PORT, function (){
 
 var io = require('socket.io').listen(appServer);
 
+var connectedUsers = {};
+
 io.sockets.on('connection', function(socket){
     console.log('user connected');
-      socket.on('login',function (data, callback) {
-      console.log("user login to the server:", data.email);
-      login.login(data.email, data.password, function(userid, token){
-        callback(userid, token);
-      });
+
+    socket.on('send message', function (data) {
+        conversations.newMessage(data.user1, data.user2, data.message, function(success,id){
+          if(data.user2 in connectedUsers){
+
+          }
+
+        });
+
+         data.conversation_id; //blbost
+
+        if (conversation_id in conversations) {
+
+            console.log (conversation_id + ' is already in the conversations object');
+
+            // emit the message [data.message] to all connected users in the conversation
+
+        }
+
+    });
 });
 
 module.exports = app;
