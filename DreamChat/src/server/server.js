@@ -107,8 +107,7 @@ var appServer = app.listen(config.PORT, function (){
 
 var io = require('socket.io').listen(appServer);
 
-var sockets = {};
-var connectedUsers = [];
+
 
 var contains = function(needle) {
    // Per spec, the way to identify NaN is that it is not equal to itself
@@ -117,16 +116,21 @@ var contains = function(needle) {
        indexOf = Array.prototype.indexOf;
    } else {
        indexOf = function(needle) {
-           var i = -1, index = -1;            for(i = 0; i < this.length; i++) {
-               var item = this[i];                if((findNaN && item !== item) || item === needle) {
+           var i = -1, index = -1;
+           for(i = 0; i < this.length; i++) {
+               var item = this[i];
+                if((findNaN && item !== item) || item === needle) {
                    index = i;
                    break;
                }
-           }            return index;
+           }
+           return index;
        };
    }    return indexOf.call(this, needle) > -1;
 };
 
+var sockets = {};
+var connectedUsers = [];
 
 io.sockets.on('connection', function(socket){
     console.log('user connected');
@@ -146,8 +150,8 @@ io.sockets.on('connection', function(socket){
 
     socket.on('send message', function (data) {
         conversations.newMessage(data.user1, data.user2, data.message, function(success,id){
-          if(data.user2 in connectedUsers){
-
+          if(contains.call(connectedUsers,data.user2)){
+            sockets[socket.userid].emit('message', {sender: data.user1, msg: data.message});
           }
         });
 
