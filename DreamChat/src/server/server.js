@@ -11,6 +11,7 @@ var compress = require('compression');
 
 var index = require('./routes/index');
 var routes = require('./routes.js');
+var login = require('./API/login');
 
 // Webpack import
 var webpack = require('webpack');
@@ -108,6 +109,11 @@ var io = require('socket.io').listen(appServer);
 
 io.sockets.on('connection', function(socket){
     console.log('user connected');
+      socket.on('login',function (data, callback) {
+      console.log("user login to the server:", data.email);
+      login.login(data.email, data.password, function(userid, token){
+        callback(userid, token);
+      });
 });
 
 module.exports = app;
