@@ -185,6 +185,7 @@ public class ContactsFragment extends Fragment implements SearchView.OnQueryText
                 if (result==401){
                     Toast.makeText(getContext(), "Error fetching contacts - unauthorized access", Toast.LENGTH_SHORT).show();
                 }
+                swipeLayout.setRefreshing(false);
             }
 
             @Override
@@ -218,6 +219,8 @@ public class ContactsFragment extends Fragment implements SearchView.OnQueryText
                 recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
                 recyclerView.setAdapter(sectionAdapter);
 
+                swipeLayout.setRefreshing(false);
+
                 /*for (int i=0; i<contactList.size(); i++){
                     Log.d("ContactList", contactList.get(i).getTitle());
                 }
@@ -242,6 +245,7 @@ public class ContactsFragment extends Fragment implements SearchView.OnQueryText
                 if (result==401){
                     Toast.makeText(getContext(), "Error fetching contacts - unauthorized access", Toast.LENGTH_SHORT).show();
                 }
+                swipeLayout.setRefreshing(false);
             }
 
             @Override
@@ -274,7 +278,6 @@ public class ContactsFragment extends Fragment implements SearchView.OnQueryText
     @Override
     public void onRefresh() {
         runReqTask();
-        swipeLayout.setRefreshing(false);
     }
 
 
