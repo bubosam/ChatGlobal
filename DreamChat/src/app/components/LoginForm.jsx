@@ -31,17 +31,7 @@ export default class LoginForm extends Component {
         };
 
         console.log(socket);
-        //socket.emit(`client:sendMessage`, "test");
-        
-        socket.emit('login', data, function(userid, token){
-          if(userid != 0){
-            sessionStorage.userid = userid;
-            sessionStorage.token = token;
-            console.log(sessionStorage.token);
-            alert(sessionStorage.token);
-
-          }
-        });
+        socket.emit(`client:sendMessage`, "test");
     }
 
     render() {
