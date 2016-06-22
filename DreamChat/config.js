@@ -3,11 +3,11 @@ var path = require('path');
 export const DB = {
     SERVER: "127.0.0.1",
     USER: "root",
-    PASSWORD: "12345",
+    PASSWORD: "",
     NAME: "dreamchat"
 };
 
-export const PORT = "8080";
+export const PORT = "8090";
 
 export const BASE_PATH = path.resolve(__dirname, '');
 export const BUILD_DIR = path.resolve(BASE_PATH + '/build');
