@@ -107,23 +107,27 @@ var appServer = app.listen(config.PORT, function (){
 
 var io = require('socket.io').listen(appServer);
 
+var sockets = {};
 var connectedUsers = {};
+
 
 io.sockets.on('connection', function(socket){
     console.log('user connected');
 
     socket.on('connect user',function (data) {
-        if(!data in connectedUsers){
+      console.log(data);
+        if(!(data in connectedUsers)){
             socket.userid = data;
-            connectedUsers[socket.userid] = socket;
-            console.log("CONNECTED USERS:  "+connectedUsers);
+            sockets[socket.userid] = socket;
+            connectedUsers.push(data);
+            console.log(Object.keys(sockets));
+            console.log(connectedUsers);
         }
     });
     //connectedUsers[socket.userid] = socket;
 
     socket.on('send message', function (data) {
         conversations.newMessage(data.user1, data.user2, data.message, function(success,id){
-
           if(data.user2 in connectedUsers){
 
           }
