@@ -1,8 +1,10 @@
 package com.example.boush.dreamchat;
 
 import android.app.ListActivity;
+import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
 import android.text.style.ImageSpan;
@@ -56,7 +58,7 @@ public class ChatActivity extends ListActivity {
     private Socket mSocket;
     {
         try {
-            mSocket = IO.socket("http://127.0.0.1:8080");
+            mSocket = IO.socket("http://10.0.2.2:8090");
         } catch (URISyntaxException e) {}
     }
 
@@ -70,6 +72,7 @@ public class ChatActivity extends ListActivity {
                     contact = (Contact) extras.getParcelable(Constants.KEY_CONTACT);
                     firstName = contact.getFirstName();
                     lastName = contact.getLastName();
+                    recId = contact.getUserid();
                 }
                 else{
                     firstName=extras.getString("firstName");
@@ -87,7 +90,10 @@ public class ChatActivity extends ListActivity {
         date = sdf.format(c.getTime());
 
         initChat();
-        myId = Integer.getInteger(Constants.KEY_USERID);
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        myId = prefs.getInt(Constants.KEY_USERID, 0);
+        //myId = Integer.getInteger(Constants.KEY_USERID);
+
 
         mSocket.on("message", onNewMessage); //listener
         mSocket.connect();
@@ -100,6 +106,7 @@ public class ChatActivity extends ListActivity {
         etxtSendMsg = (EditText) findViewById(R.id.etxtSendMsg);
 
         messagesList = db.getHistory(myId,recId);
+        Log.d("TAG", "initChat: "+messagesList);
 
         mAdapter = new MessageAdapter(this, messagesList);
         setListAdapter(mAdapter);

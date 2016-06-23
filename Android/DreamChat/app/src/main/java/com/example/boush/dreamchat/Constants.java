@@ -21,11 +21,11 @@ public class Constants {
 
     public static final String tag_json_obj = "json_obj_req";
 
-    public static final String loginUrl = "http://10.0.2.2:8080/API/login";
-    public static final String registerUrl = "http://10.0.2.2:8080/API/register";
-    public static final String updateUrl = "http://10.0.2.2:8080/API/update";
-    public static final String requestUrl = "http://10.0.2.2:8080/API/requests";
-    public static final String reqAcceptUrl = "http://10.0.2.2:8080/API/requests/accept";
-    public static final String contactsUrl = "http://10.0.2.2:8080/API/contacts";
-    public static final String changePassUrl = "http://10.0.2.2:8080/API/users/password";
+    public static final String loginUrl = "http://10.0.2.2:8090/API/login";
+    public static final String registerUrl = "http://10.0.2.2:8090/API/register";
+    public static final String updateUrl = "http://10.0.2.2:8090/API/update";
+    public static final String requestUrl = "http://10.0.2.2:8090/API/requests";
+    public static final String reqAcceptUrl = "http://10.0.2.2:8090/API/requests/accept";
+    public static final String contactsUrl = "http://10.0.2.2:8090/API/contacts";
+    public static final String changePassUrl = "http://10.0.2.2:8090/API/users/password";
 }
