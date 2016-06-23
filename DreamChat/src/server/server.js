@@ -154,14 +154,12 @@ io.sockets.on('connection', function(socket){
               sockets[data.user2].emit('message', {sender: data.user1, msg: data.message});
             }
         });
+    });
 
-        /*if (conversation_id in conversations) {
-            console.log (conversation_id + ' is already in the conversations object');
-
-            // emit the message [data.message] to all connected users in the conversation
-
-        }*/
-
+    socket.on('new request', function (receiver) {
+		        if(contains.call(connectedUsers,receiver)){
+              sockets[receiver].emit('poke', {});
+            }
     });
     /*socket.on('subscribe', function(room) {
         console.log('joining room', room);
@@ -174,6 +172,13 @@ io.sockets.on('connection', function(socket){
           message: data.message
       });
     });*/
+
+    socket.on('disconnect', function(data){
+      console.log("user disconnected");
+        if(!socket.userid) return;
+        delete connectedUsers[socket.userid];
+        delete sockets[socket.userid];
+      });
 });
 
 module.exports = app;
