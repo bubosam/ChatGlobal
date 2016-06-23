@@ -45,7 +45,6 @@ public class ConversationsFragment extends Fragment {
     private Calendar c = Calendar.getInstance();
     private SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
 
-    private int myId;
     private int recId;
     private int conversationId;
     private Database db = new Database(getActivity());

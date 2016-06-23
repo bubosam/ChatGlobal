@@ -87,9 +87,11 @@ public class ChatActivity extends ListActivity {
         date = sdf.format(c.getTime());
 
         initChat();
+        myId = Integer.getInteger(Constants.KEY_USERID);
 
-        mSocket.on("client:new_message", onNewMessage);
-        //mSocket.connect();
+        mSocket.on("message", onNewMessage); //listener
+        mSocket.connect();
+        mSocket.emit("connect user", myId); //connect - userid
     }
 
     public void initChat(){
@@ -117,7 +119,7 @@ public class ChatActivity extends ListActivity {
         info.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.d("DAGGGGG", "onClick: INFO BUTTON WAS CLICKED.");
+                Log.d("TAG", "onClick: INFO BUTTON WAS CLICKED.");
             }
         });
 
@@ -125,7 +127,7 @@ public class ChatActivity extends ListActivity {
         sendPhoto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.d("DAGGGGG", "onClick: SEND PHOTO BUTTON WAS CLICKED.");
+                Log.d("TAG", "onClick: SEND PHOTO BUTTON WAS CLICKED.");
             }
         });
     }
@@ -143,11 +145,17 @@ public class ChatActivity extends ListActivity {
             msg.setDate(date);
             messagesList.add(msg);
 
-            String data = "{\"conversationId:\":\""+conversationId+"\", \"myId:\":\""+myId+"\", \"recId:\":\""+recId+"\"," +
-                            " \"firstName\":\"John\", \"lastName\":\"Doe\", \"message\":\""+messageText+"\"}";
+            JSONObject object = new JSONObject();
+            try {
+                object.put("user1", myId); //sender id
+                object.put("user2", recId); //receiver id
+                object.put("message", messageText);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            mSocket.emit("send message", object);
 
             mAdapter.notifyDataSetChanged();
-            mSocket.emit("client:send_message", data);
             db.addMessage(msg);
         }
 
@@ -157,26 +165,24 @@ public class ChatActivity extends ListActivity {
     private Emitter.Listener onNewMessage = new Emitter.Listener() {
         @Override
         public void call(final Object... args) {
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        JSONObject data = (JSONObject) args[0];
-
-                        String message;
-
-                        try {
-
-                            message = data.getString(Constants.KEY_MESSAGE);
-                        } catch (JSONException e) {
-                            return;
-                        }
-
-                        // add the message to view
-                        addMessage(message);
+            ChatActivity.this.runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    JSONObject data = (JSONObject) args[0];
+                    String sender; //sender id
+                    String message;
+                    try {
+                        sender = data.getString("sender");
+                        message = data.getString("msg");
+                    } catch (JSONException e) {
+                        return;
                     }
-                });
-            }
-        };
+
+                    addMessage(message);
+                }
+            });
+        }
+    };
 
     private void addMessage(String message) {
         Message msg = new Message();
