@@ -22,8 +22,8 @@ router.get('/', function (req, res) {
 router.get('/messages', function (req, res) {
   authorization.authorize(req, function (access) {
       if (access) {
-          var userid = req.headers.userid;
-        	conv.getRecentMessages(userid, 20, function(results){
+          var id = req.headers.conversationid;
+        	conv.getRecentMessages(id, 20, function(results){
               res.statusCode = 200;
               res.json(results);
           });
