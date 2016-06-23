@@ -57,7 +57,7 @@ public class Database extends SQLiteOpenHelper {
     public List<Message> getHistory(int myId, int recId) {
         List<Message> msgList = new ArrayList<Message>();
 
-        String selectQuery = "SELECT * FROM "+TABLE_MESSAGES+" WHERE myID LIKE '"+myId+"' AND recId LIKE '"+recId+"'";
+        String selectQuery = "SELECT * FROM "+TABLE_MESSAGES+" WHERE myID LIKE "+myId+" AND recId LIKE "+recId;
         database=this.getReadableDatabase();
         Cursor cursor = database.rawQuery(selectQuery, null);
 
