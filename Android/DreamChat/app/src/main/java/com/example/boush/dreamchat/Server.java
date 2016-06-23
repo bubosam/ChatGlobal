@@ -895,6 +895,93 @@ public class Server {
 
     }
 
+    public void getConversations(final Context context, final VolleyCallback callback){
+
+        JsonArrayRequest req = new JsonArrayRequest(Request.Method.GET, Constants.conversationsUrl, "{}", new Response.Listener<JSONArray>() {
+            @Override
+            public void onResponse(JSONArray response) {
+                Log.d("Volley ", response.toString());
+                callback.onSuccess(response);
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+                // Handle the error
+                if (error!=null){
+                    Log.d("Error Response", error.getMessage());
+                }
+                Log.d("Error status code", String.valueOf(error.networkResponse.statusCode));
+                callback.onSuccess(error.networkResponse.statusCode);
+            }
+        })
+
+        {
+            /**
+             * Passing some request headers
+             * */
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                HashMap<String, String> headers = new HashMap<String, String>();
+                SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+                String token = prefs.getString(Constants.KEY_TOKEN, null);
+                int userid = prefs.getInt(Constants.KEY_USERID, 0);
+                headers.put(Constants.KEY_USERID, String.valueOf(userid));
+                headers.put(Constants.KEY_TOKEN, token);
+               /* headers.put(Constants.KEY_USERID, String.valueOf(1));
+                headers.put(Constants.KEY_TOKEN, "172357a15af2abf63e9f69d4be0ad4");*/
+                headers.put("Content-Type", "application/json");
+                return headers;
+            }
+        };
+
+        AppController.getInstance().addToRequestQueue(req, Constants.tag_json_obj);
+    }
+
+    public void getMessages(final int conversationid, final Context context, final VolleyCallback callback){
+
+        JsonArrayRequest req = new JsonArrayRequest(Request.Method.GET, Constants.messagesUrl, "{}", new Response.Listener<JSONArray>() {
+            @Override
+            public void onResponse(JSONArray response) {
+                Log.d("Volley ", response.toString());
+                callback.onSuccess(response);
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+                // Handle the error
+                if (error!=null){
+                    Log.d("Error Response", error.getMessage());
+                }
+                /*Log.d("Error status code", String.valueOf(error.networkResponse.statusCode));
+                callback.onSuccess(error.networkResponse.statusCode);*/
+            }
+        })
+
+        {
+            /**
+             * Passing some request headers
+             * */
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                HashMap<String, String> headers = new HashMap<String, String>();
+                SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+                String token = prefs.getString(Constants.KEY_TOKEN, null);
+                int userid = prefs.getInt(Constants.KEY_USERID, 0);
+                headers.put(Constants.KEY_USERID, String.valueOf(userid));
+                headers.put(Constants.KEY_TOKEN, token);
+                headers.put("conversationid", String.valueOf(conversationid));
+       //         headers.put(Constants.KEY_CONVERSATIONID, String.valueOf(conversationid));
+               /* headers.put(Constants.KEY_USERID, String.valueOf(1));
+                headers.put(Constants.KEY_TOKEN, "172357a15af2abf63e9f69d4be0ad4");*/
+                headers.put("Content-Type", "application/json");
+                return headers;
+            }
+        };
+
+        AppController.getInstance().addToRequestQueue(req, Constants.tag_json_obj);
+    }
 }
 
 

@@ -1,5 +1,7 @@
 package com.example.boush.dreamchat;
 
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.util.Log;
 
 import org.json.JSONArray;
@@ -33,6 +35,76 @@ public class ParseJSON {
             e.printStackTrace();
         }
         return contactList;
+    }
+
+    public List<Message> getMessages(JSONArray array, int myId){
+        List<Message> list = new ArrayList<>();
+        try {
+
+            for (int i=0; i<array.length(); i++){
+                JSONObject jo = array.getJSONObject(i);
+                /*"messageID": 1,
+                    "conversationID": 1,
+                    "userID": 3,
+                    "message": "jhsdbsjbj",
+                    "date": "2016-06-23T19:19:53.000Z"*/
+                int conversationid=jo.getInt(Constants.KEY_CONVERSATIONID);
+                int userid=jo.getInt("userID");
+                int messageid=jo.getInt(Constants.KEY_MESSAGEID);
+                String message = jo.getString(Constants.KEY_MESSAGE);
+                String date = jo.getString(Constants.KEY_DATE);
+                boolean isMe;
+                isMe = myId == userid;
+                Message msg = new Message();
+                msg.setDate(date);
+                msg.setMe(isMe);
+                msg.setMyId(myId);
+                msg.setMessageText(message);
+
+                list.add(msg);
+                Log.d("Message", msg.getMessageText());
+            }
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
+
+    public List<Conversation> getConversations(JSONArray array){
+        List<Conversation> list = new ArrayList<>();
+        try {
+
+            for (int i=0; i<array.length(); i++){
+                JSONObject jo = array.getJSONObject(i);
+                /*"conversationID": 1,
+                        "user1": 3,
+                        "user2": 1,
+                        "messageID": 1,
+                        "userID": 3,
+                        "message": "jhsdbsjbj",
+                        "date": "2016-06-23T19:19:53.000Z"*/
+                int conversationid=jo.getInt(Constants.KEY_CONVERSATIONID);
+                int userid=jo.getInt("userID");
+                int messageid=jo.getInt(Constants.KEY_MESSAGEID);
+                String message = jo.getString(Constants.KEY_MESSAGE);
+                String date = jo.getString(Constants.KEY_DATE);
+                int receiverid;
+                if (jo.getInt("user1")==userid){
+                    receiverid = jo.getInt("user2");
+                }
+                else{
+                    receiverid = jo.getInt("user1");
+                }
+
+                list.add(new Conversation(userid, receiverid, message, conversationid));
+                Log.d("Conversation", list.get(i).getMessage());
+            }
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return list;
     }
 
     public List<Request> getRequests(JSONObject jsonObject){

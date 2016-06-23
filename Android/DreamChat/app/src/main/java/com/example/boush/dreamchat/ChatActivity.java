@@ -3,6 +3,7 @@ package com.example.boush.dreamchat;
 import android.app.ListActivity;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.Log;
@@ -10,7 +11,9 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -121,7 +124,8 @@ public class ChatActivity extends ListActivity {
         txtName = (TextView) findViewById(R.id.txtName);
         etxtSendMsg = (EditText) findViewById(R.id.etxtSendMsg);
 
-        messagesList = db.getHistory(conversationId);
+        runFetchMessages();
+//        messagesList = db.getHistory(conversationId);
 
         mAdapter = new MessageAdapter(this, messagesList,myId);
         setListAdapter(mAdapter);
@@ -180,7 +184,7 @@ public class ChatActivity extends ListActivity {
             mSocket.emit("send message", object);
 
             mAdapter.notifyDataSetChanged();
-            db.addMessage(msg, conversationId);
+//            db.addMessage(msg, conversationId);
         }
 
         etxtSendMsg.setText("");
@@ -221,5 +225,68 @@ public class ChatActivity extends ListActivity {
         messagesList.add(msg);
         db.addMessage(msg, conversationId);
         mAdapter.notifyDataSetChanged();
+    }
+
+    public void runFetchMessages(){
+        new FetchMessagesTask(new AsyncTaskCallback() {
+            @Override
+            public void onTaskCompleted(List result) {
+                //nastavenie listu a adaptera
+                Log.d("task", ((Message) result.get(1)).getMessageText());
+            }
+
+            @Override
+            public void onTaskCompleted(Contact result) {
+
+            }
+
+            @Override
+            public void onTaskCompleted(int result) {
+                if (result==401){
+                    Toast.makeText(context, "Error fetching messages - unauthorized access", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onTaskCompleted(String result) {
+
+            }
+        }).execute();
+    }
+
+    public class FetchMessagesTask extends AsyncTask<Void, Void, Void>{
+        private AsyncTaskCallback listener;
+        public FetchMessagesTask(AsyncTaskCallback listener){
+            this.listener=listener;
+        }
+
+        @Override
+        protected Void doInBackground(Void... params) {
+            Log.d("conversationid", String.valueOf(conversationId));
+            new Server().getMessages(1, context, new VolleyCallback() {
+                @Override
+                public void onSuccess(JSONObject result) {
+
+                }
+
+                @Override
+                public void onSuccess(JSONArray result) {
+                    Log.d("Messages result", result.toString());
+                    List<Message> messageL = new ParseJSON().getMessages(result, myId);
+                    listener.onTaskCompleted(messageL);
+                }
+
+                @Override
+                public void onSuccess(String result) {
+
+                }
+
+                @Override
+                public void onSuccess(int result) {
+                    listener.onTaskCompleted(result);
+                }
+            });
+            return null;
+        }
     }
 }

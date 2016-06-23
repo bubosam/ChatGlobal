@@ -17,7 +17,9 @@ public class Constants {
     public static final String KEY_NAME = "name";
     public static final String KEY_SURNAME = "surname";
     public static final String KEY_RESULTS = "results";
-
+    public static final String KEY_CONVERSATIONID = "conversationID";
+    public static final String KEY_MESSAGEID = "messageID";
+    public static final String KEY_DATE = "date";
 
     public static final String tag_json_obj = "json_obj_req";
 
@@ -28,4 +30,6 @@ public class Constants {
     public static final String reqAcceptUrl = "http://10.0.2.2:8090/API/requests/accept";
     public static final String contactsUrl = "http://10.0.2.2:8090/API/contacts";
     public static final String changePassUrl = "http://10.0.2.2:8090/API/users/password";
+    public static final String conversationsUrl = "http://10.0.2.2:8090/API/conversations";
+    public static final String messagesUrl = "http://10.0.2.2:8090/API/conversations/messages";
 }

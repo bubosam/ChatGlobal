@@ -39,7 +39,14 @@ public class Conversation {
     public Conversation() {
     }
 
-    public Conversation( int conversationId,int myId, int recieverId, String message,String firstName,String lastName) {
+    public Conversation(int myId, int recieverId, String message, int conversationId) {
+        this.myId = myId;
+        this.recieverId = recieverId;
+        this.message = message;
+        this.conversationId = conversationId;
+    }
+
+    public Conversation(int conversationId, int myId, int recieverId, String message, String firstName, String lastName) {
         this.myId = myId;
         this.recieverId = recieverId;
         this.message = message;

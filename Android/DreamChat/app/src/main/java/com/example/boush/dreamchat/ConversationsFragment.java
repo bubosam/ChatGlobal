@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.provider.ContactsContract;
@@ -67,6 +68,8 @@ public class ConversationsFragment extends Fragment {
 
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity().getApplicationContext());
         myId = prefs.getInt(Constants.KEY_USERID, 0);
+
+        runConversationTask();
 
         mAdapter = new LastMessageAdapter(messagesList);
         recyclerView.setHasFixedSize(true);
@@ -194,6 +197,68 @@ public class ConversationsFragment extends Fragment {
         @Override
         public void onRequestDisallowInterceptTouchEvent(boolean disallowIntercept) {
 
+        }
+    }
+
+    public void runConversationTask(){
+        new FetchConversationsTask(new AsyncTaskCallback() {
+            @Override
+            public void onTaskCompleted(List result) {
+                //nastavenie listu a adaptera
+            }
+
+            @Override
+            public void onTaskCompleted(Contact result) {
+
+            }
+
+            @Override
+            public void onTaskCompleted(int result) {
+                if (result==401){
+                    Toast.makeText(getContext(), "Error fetching conversations - unauthorized access", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onTaskCompleted(String result) {
+
+            }
+        }).execute();
+    }
+
+    public class FetchConversationsTask extends AsyncTask<Void, Void, Void>{
+
+        private AsyncTaskCallback listener;
+        public FetchConversationsTask(AsyncTaskCallback listener){
+            this.listener=listener;
+        }
+
+        @Override
+        protected Void doInBackground(Void... params) {
+            new Server().getConversations(getContext(), new VolleyCallback() {
+                @Override
+                public void onSuccess(JSONObject result) {
+
+                }
+
+                @Override
+                public void onSuccess(JSONArray result) {
+                    Log.d("JSONArray result", result.toString());
+                    List<Conversation> conversationL = new ParseJSON().getConversations(result);
+                    listener.onTaskCompleted(conversationL);
+                }
+
+                @Override
+                public void onSuccess(String result) {
+
+                }
+
+                @Override
+                public void onSuccess(int result) {
+                    listener.onTaskCompleted(result);
+                }
+            });
+            return null;
         }
     }
 }
