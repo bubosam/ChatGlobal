@@ -1,6 +1,8 @@
 package com.example.boush.dreamchat;
 
+import android.app.Activity;
 import android.app.ListActivity;
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -52,7 +54,7 @@ public class ChatActivity extends ListActivity {
     private MessageAdapter mAdapter;
     private Calendar c = Calendar.getInstance();
     private SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy HH:mm");
-
+    private Context context;
     private Database db;
 
     private Socket mSocket;
@@ -89,13 +91,13 @@ public class ChatActivity extends ListActivity {
         }
         setContentView(R.layout.activity_chat);
 
-        db = new Database(this);
+        db = new Database(ChatActivity.this);
         date = sdf.format(c.getTime());
 
         initChat();
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         myId = prefs.getInt(Constants.KEY_USERID, 0);
-
+        context= getApplicationContext();
 
         mSocket.on("message", onNewMessage); //listener
         mSocket.connect();
@@ -129,7 +131,7 @@ public class ChatActivity extends ListActivity {
         etxtSendMsg = (EditText) findViewById(R.id.etxtSendMsg);
 
         messagesList = db.getHistory(myId,recId);
-        Log.d("TAG", "initChat: "+messagesList);
+        Log.d("TAG", "HISTORY: "+messagesList);
 
         mAdapter = new MessageAdapter(this, messagesList);
         setListAdapter(mAdapter);

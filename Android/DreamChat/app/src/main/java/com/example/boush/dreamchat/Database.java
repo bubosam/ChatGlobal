@@ -30,6 +30,9 @@ public class Database extends SQLiteOpenHelper {
     private static final String KEY_MESSAGE = "message";
     private static final String KEY_ISME = "isme";
     private static final String KEY_DATE = "date";
+    private static final String KEY_CONVERSATION = "idConversation";
+    private static final String KEY_NAME = "name";
+    private static final String KEY_LASTNAME = "lastName";
 
     private SQLiteDatabase database;
 
@@ -41,20 +44,24 @@ public class Database extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         database = db;
         String sql = "CREATE TABLE IF NOT EXISTS " + TABLE_MESSAGES + " ( "
-                + KEY_MYID + " INTEGER, "+KEY_RECID+" INTEGER, "+KEY_MESSAGE+" TEXT, "+KEY_ISME+" TEXT, "+KEY_DATE+" TEXT)";
+    + KEY_CONVERSATION +" INTEGER, "+ KEY_MYID + " INTEGER, "+KEY_RECID+" INTEGER, "+KEY_MESSAGE+" TEXT, "+KEY_ISME+" TEXT, "+KEY_DATE+" TEXT, "+KEY_NAME+" TEXT,"+KEY_LASTNAME+" TEXT)";
         db.execSQL(sql);
     }
 
     public void addMessage(Message msg) {
 
         ContentValues values = new ContentValues();
+
         values.put(KEY_MYID, msg.getMyId());
         values.put(KEY_RECID, msg.getRecId());
         values.put(KEY_MESSAGE, msg.getMessageText());
         values.put(KEY_ISME,msg.isMe());
         values.put(KEY_DATE,msg.getDate());
+        values.put(KEY_NAME,msg.getFirstName());
+        values.put(KEY_LASTNAME,msg.getLastName());
 
         database.insert(TABLE_MESSAGES, null, values);
+        Log.d("TAG", "addMessage: "+values);
     }
 
     public List<Message> getHistory(int myId, int recId) {
@@ -73,6 +80,8 @@ public class Database extends SQLiteOpenHelper {
                 message.setMessageText(cursor.getString(2));
                 message.setMe(cursor.getInt(3) > 0);
                 message.setDate(cursor.getString(4));
+                message.setFirstName(cursor.getString(5));
+                message.setLastName(cursor.getString(6));
 
                 msgList.add(message);
             } while (cursor.moveToNext());
@@ -80,29 +89,27 @@ public class Database extends SQLiteOpenHelper {
         return msgList;
     }
 
-    public JSONArray getConversations(int myId){
-        JSONArray conversations = null;
-        String selectQuery = "SELECT * FROM "+TABLE_MESSAGES+" WHERE myID LIKE "+myId;
+    public ArrayList<Conversation> getConversations(int myId){
+        ArrayList<Conversation> conversations = null;
+        String selectQuery = "SELECT "+KEY_CONVERSATION+","+KEY_MYID+","+KEY_RECID+","+KEY_MESSAGE+","+KEY_NAME+","+KEY_LASTNAME+" FROM "+TABLE_MESSAGES+" WHERE myID LIKE "+myId;
         database = this.getReadableDatabase();
         Cursor cursor = database.rawQuery(selectQuery, null);
-        if(cursor.moveToFirst()){
-            do{
-                JSONObject rowObject = new JSONObject();
-                int totalColumn = cursor.getColumnCount();
-                for (int i = 0; i < totalColumn; i++) {
-                    if (cursor.getColumnName(i) != null) {
-                        try {
-                            rowObject.put(cursor.getColumnName(i),
-                                    cursor.getString(i));
-                        } catch (Exception e) {
-                            Log.d("TAG", e.getMessage());
-                        }
-                    }
-                }
-                conversations.put(rowObject);
-            } while (cursor.moveToNext());
+        cursor.moveToFirst();
+
+        while(cursor.isAfterLast()==false){
+            Conversation conversation= new Conversation(cursor.getInt(cursor.getColumnIndex(KEY_CONVERSATION)),
+                    cursor.getInt(cursor.getColumnIndex(KEY_MYID)),
+                    cursor.getInt(cursor.getColumnIndex(KEY_RECID)),
+                    cursor.getString(cursor.getColumnIndex(KEY_MESSAGE)),
+                    cursor.getString(cursor.getColumnIndex(KEY_NAME)),
+                    cursor.getString(cursor.getColumnIndex(KEY_LASTNAME))
+            );
+
+            conversations.add(conversation);
+            cursor.moveToNext();
+
         }
-        return conversations;
+        return  conversations;
     }
 
 
