@@ -150,11 +150,9 @@ io.sockets.on('connection', function(socket){
 
     socket.on('send message', function (data) {
         conversations.newMessage(data.user1, data.user2, data.message, function(success,id){
-          console.log('tu?'); 
-		  if(contains.call(connectedUsers,data.user2)){
-			console.log('huraaa');  
-            sockets[data.user2].emit('message', {sender: data.user1, msg: data.message});
-          }
+		        if(contains.call(connectedUsers,data.user2)){
+              sockets[data.user2].emit('message', {sender: data.user1, msg: data.message});
+            }
         });
 
         /*if (conversation_id in conversations) {
