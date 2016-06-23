@@ -1,21 +1,14 @@
 package com.example.boush.dreamchat;
 
-import android.app.Activity;
 import android.app.ListActivity;
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.text.Spannable;
-import android.text.SpannableStringBuilder;
-import android.text.style.ImageSpan;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import org.json.JSONException;
@@ -29,9 +22,7 @@ import java.net.URISyntaxException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class ChatActivity extends ListActivity {
     private String firstName;
@@ -131,7 +122,6 @@ public class ChatActivity extends ListActivity {
         etxtSendMsg = (EditText) findViewById(R.id.etxtSendMsg);
 
         messagesList = db.getHistory(myId,recId);
-        Log.d("TAG", "HISTORY: "+messagesList);
 
         mAdapter = new MessageAdapter(this, messagesList);
         setListAdapter(mAdapter);
@@ -175,6 +165,8 @@ public class ChatActivity extends ListActivity {
             msg.setRecId(recId);
             msg.setMyId(myId);
             msg.setDate(date);
+            msg.setFirstName(firstName);
+            msg.setLastName(lastName);
             messagesList.add(msg);
 
             JSONObject object = new JSONObject();
@@ -188,7 +180,7 @@ public class ChatActivity extends ListActivity {
             mSocket.emit("send message", object);
 
             mAdapter.notifyDataSetChanged();
-            db.addMessage(msg);
+            db.addMessage(msg, conversationId);
         }
 
         etxtSendMsg.setText("");
@@ -223,9 +215,11 @@ public class ChatActivity extends ListActivity {
         msg.setRecId(recId);
         msg.setMyId(myId);
         msg.setDate(date);
+        msg.setFirstName(firstName);
+        msg.setLastName(lastName);
 
         messagesList.add(msg);
-        db.addMessage(msg);
+        db.addMessage(msg, conversationId);
         mAdapter.notifyDataSetChanged();
     }
 }

@@ -42,6 +42,7 @@ import java.util.List;
 public class ConversationsFragment extends Fragment {
     private RecyclerView recyclerView;
     private List<Message> messagesList = new ArrayList<>();
+    private List<Conversation> array = new ArrayList<>();
     private LastMessageAdapter mAdapter;
 
     private Calendar c = Calendar.getInstance();
@@ -66,7 +67,6 @@ public class ConversationsFragment extends Fragment {
 
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity().getApplicationContext());
         myId = prefs.getInt(Constants.KEY_USERID, 0);
-        Log.d("TAG", "myId: "+myId);
 
         mAdapter = new LastMessageAdapter(messagesList);
         recyclerView.setHasFixedSize(true);
@@ -123,11 +123,9 @@ public class ConversationsFragment extends Fragment {
 
         }));
 
-        ArrayList<Conversation> array;
+
         try {
             array = db.getConversations(myId);
-
-            Log.d("TAG", "CONVERSATIONS IN FRAGMENT: "+array);
             for (int i = 0; i < array.size(); i++) {
                 conversationId = array.get(i).getConversationId();
                 myId = array.get(i).getMyId();

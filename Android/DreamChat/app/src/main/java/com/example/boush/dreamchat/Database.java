@@ -44,14 +44,15 @@ public class Database extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         database = db;
         String sql = "CREATE TABLE IF NOT EXISTS " + TABLE_MESSAGES + " ( "
-    + KEY_CONVERSATION +" INTEGER, "+ KEY_MYID + " INTEGER, "+KEY_RECID+" INTEGER, "+KEY_MESSAGE+" TEXT, "+KEY_ISME+" TEXT, "+KEY_DATE+" TEXT, "+KEY_NAME+" TEXT,"+KEY_LASTNAME+" TEXT)";
+    + KEY_CONVERSATION +" INTEGER, "+ KEY_MYID + " INTEGER, "+KEY_RECID+" INTEGER, "+KEY_MESSAGE+" TEXT, "+KEY_ISME+" TEXT, "+KEY_DATE+" TEXT, "+KEY_NAME+" TEXT, "+KEY_LASTNAME+" TEXT)";
         db.execSQL(sql);
     }
 
-    public void addMessage(Message msg) {
+    public void addMessage(Message msg, int conversationId) {
 
         ContentValues values = new ContentValues();
 
+        values.put(KEY_CONVERSATION, conversationId);
         values.put(KEY_MYID, msg.getMyId());
         values.put(KEY_RECID, msg.getRecId());
         values.put(KEY_MESSAGE, msg.getMessageText());
@@ -61,31 +62,32 @@ public class Database extends SQLiteOpenHelper {
         values.put(KEY_LASTNAME,msg.getLastName());
 
         database.insert(TABLE_MESSAGES, null, values);
-        Log.d("TAG", "addMessage: "+values);
     }
 
     public List<Message> getHistory(int myId, int recId) {
         List<Message> msgList = new ArrayList<Message>();
-
-        String selectQuery = "SELECT * FROM "+TABLE_MESSAGES+" WHERE myID LIKE "+myId+" AND recId LIKE "+recId;
+        String selectQuery = "SELECT * FROM "+TABLE_MESSAGES+" WHERE myId LIKE "+myId+" AND recId LIKE "+recId;
         database=this.getReadableDatabase();
         Cursor cursor = database.rawQuery(selectQuery, null);
+        cursor.moveToFirst();
+        int x = cursor.getCount();
+        Log.d("CursorCount","getConversations: "+x);
 
-        if (cursor.moveToFirst()) {
-            do {
+        while(cursor.isAfterLast()==false){
 
                 Message message = new Message();
-                message.setMyId(cursor.getInt(0));
-                message.setRecId(cursor.getInt(1));
-                message.setMessageText(cursor.getString(2));
-                message.setMe(cursor.getInt(3) > 0);
-                message.setDate(cursor.getString(4));
-                message.setFirstName(cursor.getString(5));
-                message.setLastName(cursor.getString(6));
+                message.setMyId(cursor.getInt(1));
+                Log.d("TAG", "getHistory: "+cursor.getColumnIndex(KEY_CONVERSATION));
+                message.setRecId(cursor.getInt(2));
+                message.setMessageText(cursor.getString(3));
+                message.setMe(cursor.getInt(4) > 0);
+                message.setDate(cursor.getString(5));
+                message.setFirstName(cursor.getString(6));
+                message.setLastName(cursor.getString(7));
 
                 msgList.add(message);
-            } while (cursor.moveToNext());
-        }
+                cursor.moveToNext();
+            }
         return msgList;
     }
 
