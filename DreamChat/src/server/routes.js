@@ -5,6 +5,7 @@ var register = require('./routes/register');
 var requests = require('./routes/requests');
 var test = require('./routes/test');
 var users = require('./routes/users');
+var contacts = require('./routes/contacts');
 
 const API = "/api";
 
@@ -14,6 +15,7 @@ router.use(API + '/login', login);
 router.use(API + '/register', register);
 router.use(API + '/requests', requests);
 router.use(API + '/users', users);
+router.use(API + '/contacts', contacts);
 // router.use('/', index);
 
 module.exports = router;
