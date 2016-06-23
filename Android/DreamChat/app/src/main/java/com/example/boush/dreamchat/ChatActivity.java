@@ -95,7 +95,6 @@ public class ChatActivity extends ListActivity {
         initChat();
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         myId = prefs.getInt(Constants.KEY_USERID, 0);
-        //myId = Integer.getInteger(Constants.KEY_USERID);
 
 
         mSocket.on("message", onNewMessage); //listener

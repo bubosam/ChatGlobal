@@ -7,6 +7,9 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -75,6 +78,31 @@ public class Database extends SQLiteOpenHelper {
             } while (cursor.moveToNext());
         }
         return msgList;
+    }
+
+    public JSONArray getConversations(int myId){
+        JSONArray conversations = null;
+        String selectQuery = "SELECT * FROM "+TABLE_MESSAGES+" WHERE myID LIKE "+myId;
+        database = this.getReadableDatabase();
+        Cursor cursor = database.rawQuery(selectQuery, null);
+        if(cursor.moveToFirst()){
+            do{
+                JSONObject rowObject = new JSONObject();
+                int totalColumn = cursor.getColumnCount();
+                for (int i = 0; i < totalColumn; i++) {
+                    if (cursor.getColumnName(i) != null) {
+                        try {
+                            rowObject.put(cursor.getColumnName(i),
+                                    cursor.getString(i));
+                        } catch (Exception e) {
+                            Log.d("TAG", e.getMessage());
+                        }
+                    }
+                }
+                conversations.put(rowObject);
+            } while (cursor.moveToNext());
+        }
+        return conversations;
     }
 
 
