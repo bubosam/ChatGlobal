@@ -1,6 +1,7 @@
 var express = require('express');
 var db = require('../API/DBconnect.js');
 var conv = require('../API/conversations.js');
+var authorization = require(appRoot + "/API/authorization");
 var router = express.Router();
 
 router.get('/', function (req, res) {
