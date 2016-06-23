@@ -3,9 +3,11 @@ package com.example.boush.dreamchat;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.provider.ContactsContract;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -45,6 +47,7 @@ public class ConversationsFragment extends Fragment {
     private Calendar c = Calendar.getInstance();
     private SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
 
+    private int myId;
     private int recId;
     private int conversationId;
     private Database db = new Database(getActivity());
@@ -61,7 +64,8 @@ public class ConversationsFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_conversations, container, false);
         recyclerView = (RecyclerView) view.findViewById(R.id.conversationsList);
 
-
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity().getApplicationContext());
+        myId = prefs.getInt(Constants.KEY_USERID, 0);
 
         mAdapter = new LastMessageAdapter(messagesList);
         recyclerView.setHasFixedSize(true);
@@ -124,13 +128,13 @@ public class ConversationsFragment extends Fragment {
 
     private void prepareMessages() {
 
-        String jsonStr = "[ {\"firstName\":\"John\", \"lastName\":\"Doe\", \"message\":\"Ahoj\", \"conversationId:\":\"1\"},\n" +
+        /*String jsonStr = "[ {\"firstName\":\"John\", \"lastName\":\"Doe\", \"message\":\"Ahoj\", \"conversationId:\":\"1\"},\n" +
                 "    {\"firstName\":\"Anna\", \"lastName\":\"Smith\", \"message\":\"Ahoj\", \"conversationId:\":\"2\"},\n" +
                 "    {\"firstName\":\"Peter\", \"lastName\":\"Jones\", \"message\":\"Ahoj\", \"conversationId:\":\"3\"}\n" +
-                "]}";
+                "]}";*/
         JSONArray jsonarray = null;
         try {
-            jsonarray = new JSONArray(jsonStr);
+            jsonarray = db.getConversations(myId);
             for (int i = 0; i < jsonarray.length(); i++) {
                 JSONObject jsonobject = jsonarray.getJSONObject(i);
                 String firstName = jsonobject.getString("firstName");
