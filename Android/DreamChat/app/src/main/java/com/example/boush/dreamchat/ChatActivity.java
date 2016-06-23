@@ -84,6 +84,9 @@ public class ChatActivity extends ListActivity {
                 }
             }
         }
+        else{
+            contact= savedInstanceState.getParcelable(Constants.KEY_CONTACT);
+        }
         setContentView(R.layout.activity_chat);
 
         db = new Database(this);
@@ -99,6 +102,27 @@ public class ChatActivity extends ListActivity {
         mSocket.connect();
         mSocket.emit("connect user", myId); //connect - userid
     }
+
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putParcelable(Constants.KEY_CONTACT,contact);
+        outState.putString(Constants.KEY_NAME,firstName);
+        outState.putString(Constants.KEY_SURNAME,lastName);
+        outState.putInt(Constants.KEY_RECEIVER,recId);
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        contact= savedInstanceState.getParcelable(Constants.KEY_CONTACT);
+        firstName = savedInstanceState.getString(Constants.KEY_NAME);
+        lastName = savedInstanceState.getString(Constants.KEY_SURNAME);
+        recId = savedInstanceState.getInt(Constants.KEY_RECEIVER);
+    }
+
+
 
     public void initChat(){
 
