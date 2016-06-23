@@ -6,6 +6,7 @@ var requests = require('./routes/requests');
 var test = require('./routes/test');
 var users = require('./routes/users');
 var contacts = require('./routes/contacts');
+var conversations = require('./routes/conversations');
 
 const API = "/api";
 
@@ -16,6 +17,7 @@ router.use(API + '/register', register);
 router.use(API + '/requests', requests);
 router.use(API + '/users', users);
 router.use(API + '/contacts', contacts);
+router.use(API + '/conversations', conversations);
 // router.use('/', index);
 
 module.exports = router;

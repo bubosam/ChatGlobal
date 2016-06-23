@@ -4,19 +4,15 @@ module.exports = {
   newMessage: function(user1, user2, message, callback){
     var code;
     var id;
-	console.log("SELECT * FROM conversations WHERE (user1="+user1+" AND user2="+user2+") OR (user1="+user2+" AND user2="+user1+")");
     db.query("SELECT * FROM conversations WHERE (user1="+user1+" AND user2="+user2+") OR (user1="+user2+" AND user2="+user1+")", function(result){
       if(result.length>0){
-		  
+
         id=result[0].conversationID;
-		console.log("INSERT INTO messages(conversationid,userid,message) VALUES("+id+","+user1+",'"+message+"')"); 
         db.nonQuery("INSERT INTO messages(conversationid,userid,message) VALUES("+id+","+user1+",'"+message+"')",function(success){
-          console.log('hsacacs'); 
-		  if (typeof callback === "function") {
-              callback(success,id);
-          }
+    		  if (typeof callback === "function") {
+                  callback(success,id);
+              }
         });
-		console.log('skuska1'); 
       }
       else{
         db.nonQuery("INSERT INTO conversations(user1,user2) VALUES("+user1+","+user2+")",function(success){
@@ -46,7 +42,7 @@ module.exports = {
     });
   },
 
-  get: function(userid){
+  get: function(userid, callback){
     db.query("SELECT * FROM conversations LEFT JOIN messages ON message.conversationid=conversations.conversationid "+
               "WHERE user1="+userid+" OR user2="+userid+" ORDER BY messageid DESC", function(results){
           if (typeof callback === "function") {
@@ -55,7 +51,7 @@ module.exports = {
     });
   },
 
-  getRecentMessages: function(conversationid, limit){
+  getRecentMessages: function(conversationid, limit, callback){
     db.query("SELECT * FROM messages WHERE conversationid="+conversationid+" ORDER BY messageID DESC LIMIT "+limit, function(results){
       if (typeof callback === "function") {
             callback(results);
@@ -63,7 +59,7 @@ module.exports = {
     });
   },
 
-  getMoreMessages: function(conversationid, limit, lastMessageId){
+  getMoreMessages: function(conversationid, limit, lastMessageId, callback){
     db.query("SELECT * FROM messages WHERE conversationid="+conversationid+" AND messageid<"+lastMessageId+" ORDER BY messageID DESC LIMIT "+limit, function(results){
       if (typeof callback === "function") {
             callback(results);

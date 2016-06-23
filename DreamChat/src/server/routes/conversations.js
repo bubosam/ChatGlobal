@@ -1,0 +1,38 @@
+var express = require('express');
+var db = require('../API/DBconnect.js');
+var conv = require('../API/conversations.js');
+var router = express.Router();
+
+router.get('/', function (req, res) {
+  authorization.authorize(req, function (access) {
+      if (access) {
+          var userid = req.headers.userid;
+        	conv.get(userid, function(results){
+              res.statusCode = 200;
+              res.json(results);
+          });
+      }
+      else{
+          res.statusCode = 401;
+          res.json(false);
+      }
+  });
+});
+
+router.get('/messages', function (req, res) {
+  authorization.authorize(req, function (access) {
+      if (access) {
+          var userid = req.headers.userid;
+        	conv.getRecentMessages(userid, 20, function(results){
+              res.statusCode = 200;
+              res.json(results);
+          });
+      }
+      else{
+          res.statusCode = 401;
+          res.json(false);
+      }
+  });
+});
+
+module.exports = router;
