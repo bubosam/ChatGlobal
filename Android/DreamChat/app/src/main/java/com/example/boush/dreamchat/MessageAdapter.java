@@ -1,7 +1,9 @@
 package com.example.boush.dreamchat;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.preference.PreferenceManager;
 import android.widget.BaseAdapter;
 import android.widget.LinearLayout.LayoutParams;
 import android.view.Gravity;
@@ -17,13 +19,13 @@ import java.util.List;
 public class MessageAdapter extends BaseAdapter {
     private Context mContext;
     private List<Message> mMessages;
+    private int myId;
 
-
-
-    public MessageAdapter(Context context, List<Message> messages) {
+    public MessageAdapter(Context context, List<Message> messages, int myId) {
         super();
         this.mContext = context;
         this.mMessages = messages;
+        this.myId = myId;
     }
     @Override
     public int getCount() {
@@ -52,7 +54,7 @@ public class MessageAdapter extends BaseAdapter {
 
         LayoutParams lp = (LayoutParams) holder.message.getLayoutParams();
 
-        if(message.isMe())
+        if(message.getRecId() != myId)
             {
                 holder.message.setBackgroundResource(R.drawable.in_message);
                 lp.gravity = Gravity.RIGHT;

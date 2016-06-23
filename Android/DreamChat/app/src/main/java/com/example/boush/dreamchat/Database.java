@@ -64,20 +64,17 @@ public class Database extends SQLiteOpenHelper {
         database.insert(TABLE_MESSAGES, null, values);
     }
 
-    public List<Message> getHistory(int myId, int recId) {
+    public List<Message> getHistory(int conversationId) {
         List<Message> msgList = new ArrayList<Message>();
-        String selectQuery = "SELECT * FROM "+TABLE_MESSAGES+" WHERE myId LIKE "+myId+" AND recId LIKE "+recId;
+        String selectQuery = "SELECT * FROM "+TABLE_MESSAGES+" WHERE idConversation LIKE "+conversationId;
         database=this.getReadableDatabase();
         Cursor cursor = database.rawQuery(selectQuery, null);
         cursor.moveToFirst();
-        int x = cursor.getCount();
-        Log.d("CursorCount","getConversations: "+x);
 
         while(cursor.isAfterLast()==false){
 
                 Message message = new Message();
                 message.setMyId(cursor.getInt(1));
-                Log.d("TAG", "getHistory: "+cursor.getColumnIndex(KEY_CONVERSATION));
                 message.setRecId(cursor.getInt(2));
                 message.setMessageText(cursor.getString(3));
                 message.setMe(cursor.getInt(4) > 0);
@@ -91,8 +88,8 @@ public class Database extends SQLiteOpenHelper {
         return msgList;
     }
 
-    public ArrayList<Conversation> getConversations(int myId){
-        ArrayList<Conversation> conversations = null;
+    public List<Conversation> getConversations(int myId){
+        List<Conversation> conversations = new ArrayList<>();
         String selectQuery = "SELECT "+KEY_CONVERSATION+","+KEY_MYID+","+KEY_RECID+","+KEY_MESSAGE+","+KEY_NAME+","+KEY_LASTNAME+" FROM "+TABLE_MESSAGES+" WHERE myID LIKE "+myId;
         database = this.getReadableDatabase();
         Cursor cursor = database.rawQuery(selectQuery, null);

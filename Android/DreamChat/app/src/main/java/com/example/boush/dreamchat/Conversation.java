@@ -7,7 +7,7 @@ public class Conversation {
     private int myId;
     private int recieverId;
     private String message;
-   private int conversationId;
+    private int conversationId;
     private String firstName;
     private String lastName;
 

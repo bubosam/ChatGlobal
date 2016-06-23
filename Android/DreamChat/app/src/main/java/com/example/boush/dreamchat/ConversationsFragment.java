@@ -128,7 +128,6 @@ public class ConversationsFragment extends Fragment {
             array = db.getConversations(myId);
             for (int i = 0; i < array.size(); i++) {
                 conversationId = array.get(i).getConversationId();
-                myId = array.get(i).getMyId();
                 recId = array.get(i).getRecieverId();
                 String message = array.get(i).getMessage();
                 String firstName = array.get(i).getFirstName();

@@ -121,9 +121,9 @@ public class ChatActivity extends ListActivity {
         txtName = (TextView) findViewById(R.id.txtName);
         etxtSendMsg = (EditText) findViewById(R.id.etxtSendMsg);
 
-        messagesList = db.getHistory(myId,recId);
+        messagesList = db.getHistory(conversationId);
 
-        mAdapter = new MessageAdapter(this, messagesList);
+        mAdapter = new MessageAdapter(this, messagesList,myId);
         setListAdapter(mAdapter);
 
 
