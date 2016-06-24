@@ -21,17 +21,20 @@ router.get('/', function (req, res) {
 });
 
 router.get('/messages', function (req, res) {
+console.log("fetch message request");
   authorization.authorize(req, function (access) {
       if (access) {
           var id = req.headers.conversationid;
         	conv.getRecentMessages(id, 20, function(results){
               res.statusCode = 200;
               res.json(results);
+              console.log("message request response send");
           });
       }
       else{
           res.statusCode = 401;
           res.json(false);
+          console.log("oh noes");
       }
   });
 });

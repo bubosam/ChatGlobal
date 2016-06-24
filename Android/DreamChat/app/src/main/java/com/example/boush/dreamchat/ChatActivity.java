@@ -124,6 +124,7 @@ public class ChatActivity extends ListActivity {
         txtName = (TextView) findViewById(R.id.txtName);
         etxtSendMsg = (EditText) findViewById(R.id.etxtSendMsg);
 
+        Log.d("ChatActivity", "Fetching messages");
         runFetchMessages();
 //        messagesList = db.getHistory(conversationId);
 
@@ -243,7 +244,7 @@ public class ChatActivity extends ListActivity {
             @Override
             public void onTaskCompleted(int result) {
                 if (result==401){
-                    Toast.makeText(context, "Error fetching messages - unauthorized access", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ChatActivity.this, "Error fetching messages - unauthorized access", Toast.LENGTH_SHORT).show();
                 }
             }
 
@@ -251,19 +252,20 @@ public class ChatActivity extends ListActivity {
             public void onTaskCompleted(String result) {
 
             }
-        }).execute();
+        }).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }
 
     public class FetchMessagesTask extends AsyncTask<Void, Void, Void>{
         private AsyncTaskCallback listener;
         public FetchMessagesTask(AsyncTaskCallback listener){
+            Log.d("FetchMessages", "Listener initialized");
             this.listener=listener;
         }
 
         @Override
         protected Void doInBackground(Void... params) {
             Log.d("conversationid", String.valueOf(conversationId));
-            new Server().getMessages(1, context, new VolleyCallback() {
+            new Server().getMessages(1, ChatActivity.this, new VolleyCallback() {
                 @Override
                 public void onSuccess(JSONObject result) {
 
