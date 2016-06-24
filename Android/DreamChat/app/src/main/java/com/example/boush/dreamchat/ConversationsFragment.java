@@ -85,15 +85,19 @@ public class ConversationsFragment extends Fragment {
             @Override
             public void onClick(View view, int position) {
                 Message message = messagesList.get(position);
+                Bundle bundle = new Bundle();
                 Intent intent = new Intent(getActivity(), ChatActivity.class);
-                intent.putExtra("firstName", message.getFirstName());
-                intent.putExtra("lastName", message.getLastName());
-                intent.putExtra("message",message.getMessageText());
-                intent.putExtra("date",message.getDate());
-                intent.putExtra("recId",message.getRecId());
-                intent.putExtra("conversationId",conversationId);
+                bundle.putString("firstName", message.getFirstName());
+                bundle.putString("lastName", message.getLastName());
+                bundle.putString("message",message.getMessageText());
+                bundle.putString("date",message.getDate());
+                bundle.putInt("recId",message.getRecId());
+                bundle.putInt("conversationId",conversationId);
+                intent.putExtras(bundle);
                 startActivity(intent);
             }
+
+
 
             @Override
             public void onLongClick(View view, final int position) {

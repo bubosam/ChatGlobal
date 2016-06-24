@@ -73,6 +73,7 @@ public class ChatActivity extends ListActivity {
                 else{
                     firstName=extras.getString("firstName");
                     lastName=extras.getString("lastName");
+                    //lastName="lastName";
                     messageText=extras.getString("message");
                     date=extras.getString("date");
                     recId = extras.getInt("recId");
@@ -83,6 +84,8 @@ public class ChatActivity extends ListActivity {
         else{
             contact= savedInstanceState.getParcelable(Constants.KEY_CONTACT);
         }
+
+
         setContentView(R.layout.activity_chat);
 
         db = new Database(ChatActivity.this);
@@ -179,9 +182,11 @@ public class ChatActivity extends ListActivity {
                 object.put("user1", myId); //sender id
                 object.put("user2", recId); //receiver id
                 object.put("message", messageText);
+
             } catch (JSONException e) {
                 e.printStackTrace();
             }
+            Log.d("Objectlll", myId+" "+recId+" "+messageText);
             mSocket.emit("send message", object);
 
             mAdapter.notifyDataSetChanged();

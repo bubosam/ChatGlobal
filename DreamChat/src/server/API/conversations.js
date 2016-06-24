@@ -43,8 +43,10 @@ module.exports = {
   },
 
   get: function(userid, callback){
-    db.query("SELECT * FROM conversations INNER JOIN (SELECT * FROM messages ORDER BY messageid DESC) msg ON msg.conversationid=conversations.conversationid"+
-             "WHERE user1="+userid+" OR user2="+userid+" GROUP BY conversations.conversationid ", function(results){
+  var query = "SELECT * FROM conversations INNER JOIN (SELECT * FROM messages ORDER BY messageid DESC) msg ON msg.conversationid=conversations.conversationid"+
+                           " WHERE user1="+userid+" OR user2="+userid+" GROUP BY conversations.conversationid";
+                           console.log(query);
+    db.query(query, function(results){
           if (typeof callback === "function") {
                 callback(results);
           }
