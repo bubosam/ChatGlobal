@@ -264,7 +264,8 @@ public class ConversationsFragment extends Fragment {
                 @Override
                 public void onSuccess(JSONArray result) {
                     Log.d("JSONArray result", result.toString());
-                    List<Conversation> conversationL = new ParseJSON().getConversations(result);
+
+                    List<Conversation> conversationL = new ParseJSON().getConversations(myId, result);
                     listener.onTaskCompleted(conversationL);
                 }
 

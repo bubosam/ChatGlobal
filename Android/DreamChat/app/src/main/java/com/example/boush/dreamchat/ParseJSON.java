@@ -71,38 +71,45 @@ public class ParseJSON {
         return list;
     }
 
-    public List<Conversation> getConversations(JSONArray array){
+    public List<Conversation> getConversations(int myId, JSONArray array){
         List<Conversation> list = new ArrayList<>();
         try {
 
             for (int i=0; i<array.length(); i++){
                 JSONObject jo = array.getJSONObject(i);
                 Log.d("tag", "getConversations: "+jo);
-                /*"conversationid": 1,
-                    "user1": 5,
-                    "user2": 3,
-                    "message": "Toto je sprava",
-                    "date": "2016-06-22T15:32:00.000Z",
-                    "userid": 3,
-                    "name": "Oskar",
-                    "surname": "Chmeľ",
-                    "nickname": "oskar"*/
+                /*""conversationid": 1,
+                    "user1": 3,
+                    "user2": 1,
+                    "message": "jhsdbsjbj",
+                    "date": "2016-06-23T19:19:53.000Z",
+                    "userid1": 3,
+                    "name1": "Oskar",
+                    "surname1": "Chmeľ",
+                    "userid2": 1,
+                    "name2": "jano",
+                    "surname2": "varecha"*/
                 int conversationid=jo.getInt("conversationid");
-                int userid=jo.getInt("userid1");
+                int userid1=jo.getInt("userid1");
+                int userid2=jo.getInt("userid2");
                 //int messageid=jo.getInt(Constants.KEY_MESSAGEID);
                 String message = jo.getString(Constants.KEY_MESSAGE);
                 String date = jo.getString(Constants.KEY_DATE);
                 String name = jo.getString("name2");
                 String surname = jo.getString("surname2");
                 int receiverid;
-                if (jo.getInt("user1")==userid){
-                    receiverid = jo.getInt("user2");
+                if (userid1==myId){
+                    receiverid = userid2;
+                    name=jo.getString("name2");
+                    surname=jo.getString("surname2");
                 }
                 else{
-                    receiverid = jo.getInt("user1");
+                    receiverid = userid1;
+                    name=jo.getString("name1");
+                    surname=jo.getString("surname1");
                 }
 
-                list.add(new Conversation(conversationid, userid, receiverid, message, name, surname));
+                list.add(new Conversation(conversationid, myId, receiverid, message, name, surname));
                 //list.add(new Conversation(userid, receiverid, message, conversationid));
                 Log.d("Conversation", list.get(i).getMessage());
             }
