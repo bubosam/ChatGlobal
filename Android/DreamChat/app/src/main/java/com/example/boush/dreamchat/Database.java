@@ -95,6 +95,7 @@ public class Database extends SQLiteOpenHelper {
         Cursor cursor = database.rawQuery(selectQuery, null);
         cursor.moveToFirst();
 
+
         while(cursor.isAfterLast()==false){
             Conversation conversation= new Conversation(cursor.getInt(cursor.getColumnIndex(KEY_CONVERSATION)),
                     cursor.getInt(cursor.getColumnIndex(KEY_MYID)),

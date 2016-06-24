@@ -54,7 +54,7 @@ public class MessageAdapter extends BaseAdapter {
 
         LayoutParams lp = (LayoutParams) holder.message.getLayoutParams();
 
-        if(message.getRecId() != myId)
+        if(message.isMe())
             {
                 holder.message.setBackgroundResource(R.drawable.in_message);
                 lp.gravity = Gravity.RIGHT;
