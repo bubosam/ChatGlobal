@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -13,9 +14,15 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.github.nkzawa.emitter.Emitter;
+import com.github.nkzawa.socketio.client.IO;
+import com.github.nkzawa.socketio.client.Socket;
+
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.net.URISyntaxException;
 import java.util.List;
 
 
@@ -45,6 +52,13 @@ public class ProfileActivity extends AppCompatActivity {
 
     private Contact contact;
 
+    private Socket mSocket;
+    {
+        try {
+            mSocket = IO.socket("http://10.0.2.2:8090");
+        } catch (URISyntaxException e) {}
+    }
+
     public ProfileActivity() {
         // Required empty public constructor
     }
@@ -72,6 +86,9 @@ public class ProfileActivity extends AppCompatActivity {
         nicknameStr = contact.getNickname();
         isFriend = contact.isFriend();
         isRequest = contact.isRequest();
+
+        mSocket.on("poke", onPoke); //listener
+        mSocket.connect();
 
 
         //Log.d("profil", String.valueOf(contact.getUserid()));
@@ -243,6 +260,7 @@ public class ProfileActivity extends AppCompatActivity {
                         @Override
                         public void onTaskCompleted(String result) {
                             Toast.makeText(getApplicationContext(), result, Toast.LENGTH_SHORT).show();
+                            mSocket.emit("new request", contact.getUserid()); //refresh - userid
                         }
                     }).execute();
                 }
@@ -250,6 +268,25 @@ public class ProfileActivity extends AppCompatActivity {
 
         }
 
+    }
+
+    private Emitter.Listener onPoke = new Emitter.Listener() {
+        @Override
+        public void call(final Object... args) {
+            ProfileActivity.this.runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    Log.d("Poke", "bol som pokenuty");
+                    Toast.makeText(getApplicationContext(), "You've got new request, please refresh your contactlist", Toast.LENGTH_LONG).show();
+                }
+            });
+        }
+    };
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mSocket.disconnect();
     }
 
     @Override

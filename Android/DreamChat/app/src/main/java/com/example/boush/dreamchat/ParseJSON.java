@@ -77,18 +77,22 @@ public class ParseJSON {
 
             for (int i=0; i<array.length(); i++){
                 JSONObject jo = array.getJSONObject(i);
-                /*"conversationID": 1,
-                        "user1": 3,
-                        "user2": 1,
-                        "messageID": 1,
-                        "userID": 3,
-                        "message": "jhsdbsjbj",
-                        "date": "2016-06-23T19:19:53.000Z"*/
-                int conversationid=jo.getInt(Constants.KEY_CONVERSATIONID);
-                int userid=jo.getInt("userID");
-                int messageid=jo.getInt(Constants.KEY_MESSAGEID);
+                /*"conversationid": 1,
+                    "user1": 5,
+                    "user2": 3,
+                    "message": "Toto je sprava",
+                    "date": "2016-06-22T15:32:00.000Z",
+                    "userid": 3,
+                    "name": "Oskar",
+                    "surname": "Chmeľ",
+                    "nickname": "oskar"*/
+                int conversationid=jo.getInt("conversationid");
+                int userid=jo.getInt("userid");
+                //int messageid=jo.getInt(Constants.KEY_MESSAGEID);
                 String message = jo.getString(Constants.KEY_MESSAGE);
                 String date = jo.getString(Constants.KEY_DATE);
+                String name = jo.getString("name");
+                String surname = jo.getString("surname");
                 int receiverid;
                 if (jo.getInt("user1")==userid){
                     receiverid = jo.getInt("user2");
@@ -97,7 +101,8 @@ public class ParseJSON {
                     receiverid = jo.getInt("user1");
                 }
 
-                list.add(new Conversation(userid, receiverid, message, conversationid));
+                list.add(new Conversation(conversationid, userid, receiverid, message, name, surname));
+                //list.add(new Conversation(userid, receiverid, message, conversationid));
                 Log.d("Conversation", list.get(i).getMessage());
             }
 
