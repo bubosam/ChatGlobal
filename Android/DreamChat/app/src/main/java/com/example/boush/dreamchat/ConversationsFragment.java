@@ -204,7 +204,23 @@ public class ConversationsFragment extends Fragment {
         new FetchConversationsTask(new AsyncTaskCallback() {
             @Override
             public void onTaskCompleted(List result) {
+
                 //nastavenie listu a adaptera
+                for (int i = 0; i < result.size(); i++) {
+
+                    conversationId = ((Conversation)result.get(i)).getConversationId();
+                    recId = ((Conversation)result.get(i)).getRecieverId();
+                    String message = ((Conversation)result.get(i)).getMessage();
+                    String firstName = ((Conversation)result.get(i)).getFirstName();
+                    String lastName = ((Conversation)result.get(i)).getLastName();
+
+                    Message msg = new Message();
+                    msg.setFirstName(firstName);
+                    msg.setLastName(lastName);
+                    msg.setMessageText(message);
+                    messagesList.add(msg);
+                    mAdapter.notifyDataSetChanged();
+                }
             }
 
             @Override
