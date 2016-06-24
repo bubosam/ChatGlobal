@@ -223,7 +223,7 @@ public class ConversationsFragment extends Fragment {
             public void onTaskCompleted(String result) {
 
             }
-        }).execute();
+        }).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }
 
     public class FetchConversationsTask extends AsyncTask<Void, Void, Void>{

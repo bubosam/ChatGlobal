@@ -966,6 +966,7 @@ public class Server {
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
                 HashMap<String, String> headers = new HashMap<String, String>();
+                Log.d("WHAT IS LOVE?", context == null ? "me null" : "dunno");
                 SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
                 String token = prefs.getString(Constants.KEY_TOKEN, null);
                 int userid = prefs.getInt(Constants.KEY_USERID, 0);
