@@ -129,7 +129,7 @@ public class ChatActivity extends ListActivity {
 
         Log.d("ChatActivity", "Fetching messages");
         runFetchMessages();
-//        messagesList = db.getHistory(conversationId);
+        messagesList = db.getHistory(conversationId);
 
         mAdapter = new MessageAdapter(this, messagesList,myId);
         setListAdapter(mAdapter);
@@ -190,7 +190,7 @@ public class ChatActivity extends ListActivity {
             mSocket.emit("send message", object);
 
             mAdapter.notifyDataSetChanged();
-//            db.addMessage(msg, conversationId);
+            db.addMessage(msg, conversationId);
         }
 
         etxtSendMsg.setText("");
@@ -238,6 +238,13 @@ public class ChatActivity extends ListActivity {
             @Override
             public void onTaskCompleted(List result) {
                 //nastavenie listu a adaptera
+                for (int i=0; i<result.size(); i++){
+                    Message msg = ((Message) result.get(i));
+                    messagesList.add(msg);
+                    db.addMessage(msg, conversationId);
+                    mAdapter.notifyDataSetChanged();
+                }
+
                 Log.d("task", ((Message) result.get(1)).getMessageText());
             }
 
