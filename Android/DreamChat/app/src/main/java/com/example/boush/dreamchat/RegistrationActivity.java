@@ -95,11 +95,10 @@ public class RegistrationActivity extends AppCompatActivity {
             // form field with an error.
             focusView.requestFocus();
         } else {
-            emailTxt=email.getText().toString();
-            passwordTxt=password.getText().toString();
             params = new ArrayList<NameValuePair>();
-            params.add(new BasicNameValuePair("email", emailTxt));
-            params.add(new BasicNameValuePair("password", passwordTxt));
+            params.add(new BasicNameValuePair("username",usernameStr));
+            params.add(new BasicNameValuePair("email", emailStr));
+            params.add(new BasicNameValuePair("password", passwordStr));
             ServerRequest sr = new ServerRequest();
             JSONObject json = sr.getJSON("http://10.0.2.2:1337/register", params);
             //JSONObject json = sr.getJSON("http://192.168.56.1:8080/register",params);
